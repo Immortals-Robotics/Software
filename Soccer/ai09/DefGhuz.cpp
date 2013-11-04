@@ -1,7 +1,7 @@
 #include "ai09.h"
 #include <math.h>
 
-void ai09::DefGhuz ( int robot_num , TVec2 * defendTarget , bool stop )
+TVec2 ai09::DefGhuz ( TVec2 * defendTarget )
 {
 	if ( !defendTarget )
 		defendTarget = &(ball.Position);
@@ -53,7 +53,7 @@ void ai09::DefGhuz ( int robot_num , TVec2 * defendTarget , bool stop )
 	target.X += cosDeg(tetta) * R;
 	target.Y += sinDeg(tetta) * R;
 	
-	cout << "	alpha: " << alpha << "	tetta: " << tetta << "		d: " << d << "	R: " << R << endl;
+	//cout << "	alpha: " << alpha << "	tetta: " << tetta << "		d: " << d << "	R: " << R << endl;
 	
 	if (side==1) {
 		ball.Position.X*=-1.0f;
@@ -63,7 +63,5 @@ void ai09::DefGhuz ( int robot_num , TVec2 * defendTarget , bool stop )
 		target.Y*=-1.0f;
 	}
 	
-	ERRTSetObstacles ( robot_num , stop , true , true , false );
-	OwnRobot[robot_num].face ( Vec2 ( (*defendTarget).X , (*defendTarget).Y ) );
-	ERRTNavigate2Point(robot_num, target, 0, 100, &VELOCITY_PROFILE_MAMOOLI);
+	return target;
 }

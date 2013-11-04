@@ -2,8 +2,8 @@
 
 void ai09::NewNormalPlay ( void )
 {
-	GK_Ghuz(gk, 1, 0);
-	DefGhuz(def,NULL, 0);
+	GKHi(gk, 1, 0);
+	DefHi(def,NULL, 0);
 	
 	CalcIsDefending();
 	

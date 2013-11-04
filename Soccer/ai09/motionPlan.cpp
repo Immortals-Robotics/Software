@@ -1,9 +1,10 @@
-#include "Robot.cpp"
+#include "Robot.h"
 #include "distance.h"
 #include <iostream>
 using namespace std;
 
 
+TVec2 vdes_ann;
 
 /*TVec2 max_spd = Vec2 ( 100.0f );
  TVec2 max_dec = Vec2 ( 8.5f );
@@ -161,7 +162,7 @@ TVec3 Robot::MotionPlan ( RobotState state , RobotState target , float speed , b
 	if ( fabs ( oldAns[state.vision_id].Y - LocalVel.Y ) > 40.0f )
 		oldAns[state.vision_id].Y = ( oldAns[state.vision_id].Y + LocalVel.Y ) / 2.0f;*/
 	
-	float KP = 0.1;
+	float KP = 0.10;
 	float Pdis = 0;
 	
 	//if ( accurate )
@@ -171,13 +172,13 @@ TVec3 Robot::MotionPlan ( RobotState state , RobotState target , float speed , b
 		ans.X = KP * max_dec.X * fabs( target.Position.X );
 	}
 	else {
-		ans.X = sqrt ( 2.0f * max_dec.X * fabs( target.Position.X ) );
+		ans.X = pow ( 0.6f * max_dec.X * fabs( target.Position.X ) , 0.6f );
 	}
 	ans.X *= sgn ( target.Position.X );
 	//ans.X += Vel_offset.X;
-	if ( fabs( target.Position.X ) < 3 )
+	if ( fabs( target.Position.X ) < 5 )
 		ans.X = 0.0f;
-	else if ( ans.X * oldAns[state.vision_id].X <= 0 )
+	if ( ans.X * oldAns[state.vision_id].X <= 0 )
 	{
 		float tmp = oldAns[state.vision_id].X + max_dec.X * sgn ( ans.X );
 		if ( ans.X == 0 )
@@ -229,16 +230,16 @@ TVec3 Robot::MotionPlan ( RobotState state , RobotState target , float speed , b
 		ans.Y = KP * max_dec.Y * fabs( target.Position.Y );
 	}
 	else {
-		ans.Y = sqrt ( 2.0f * max_dec.Y * fabs( target.Position.Y ) );
+		ans.Y = pow ( 0.6f * max_dec.Y * fabs( target.Position.Y ) , 0.6f );
 	}
 	//ans.Y = sqrt ( 2.0f * max_dec.Y * fabs( target.Position.Y ) );
 	ans.Y *= sgn ( target.Position.Y );
 	//ans.Y += Vel_offset.Y;
-	if ( fabs( target.Position.Y ) < 3 )
+	if ( fabs( target.Position.Y ) < 5 )
 	{
 		ans.Y = 0;//max(0,fabs(oldAns[state.vision_id].Y)-max_dec.Y)*sgn(ans.Y);
 	}
-	else if ( ans.Y * oldAns[state.vision_id].Y <= 0 )
+	if ( ans.Y * oldAns[state.vision_id].Y <= 0 )
 	{
 		//float tmp = oldAns[state.vision_id].Y + 20.0f * max_acc.Y * sgn ( ans.Y );
 		float tmp = oldAns[state.vision_id].Y + max_dec.Y * sgn ( ans.Y );
@@ -293,6 +294,8 @@ TVec3 Robot::MotionPlan ( RobotState state , RobotState target , float speed , b
 
 	}
 	
+	//ans.Y = target.Position.Y/20.0;
+	
 	//ans.Y = 0;
 	
 	//if ( state.vision_id == 8 )
@@ -300,6 +303,10 @@ TVec3 Robot::MotionPlan ( RobotState state , RobotState target , float speed , b
 	
 	/*float kh_mag = DIS ( Vec2 ( 0.0f ) , Vec2 ( ans.X,ans.Y ) );
 	 ans.Z *= ( 3000.0f-kh_mag ) / 1500.0f;*/
+	
+	if (!accurate) {
+		//ans = Vec3(vdes_ann.X,vdes_ann.Y, 0);
+	}
 	
 	oldAns[state.vision_id] = ans;
 	

@@ -16,7 +16,7 @@ message ballsDataMsg
 
 message robotDataMsg
 {
-  required uint32  seenState  =  1;
+  required uint32 seenState   =  1;
   optional uint32 robot_id    =  2;
   required float  x           =  3;
   required float  y           =  4;
@@ -43,10 +43,38 @@ message gameStateMsg
   optional bool    probBallOut    =10;
 }
 
-message AiGuiMsg
+message Parameter_Set
 {
-  required ballsDataMsg ballsData  = 1;
-  repeated robotDataMsg robotData  = 2;
-  optional gameStateMsg gameState  = 3;
-  optional AI_Debug     aidbgdata  = 4;
+  required string     name         = 1;
+  repeated Data_Node  parameter    = 2;
+}
+
+message Parameter_Book
+{
+  repeated Parameter_Set    set    = 1;
+}
+
+message Ai2GuiMsg
+{
+  required int32        timestamp  = 1;
+  required ballsDataMsg ballsData  = 2;
+  repeated robotDataMsg robotData  = 3;
+  optional gameStateMsg gameState  = 4;
+  optional AI_Debug     aidbgdata  = 5;
+  optional Parameter_Book params   = 6;
+}
+
+message Gui2AiMsg
+{
+  required int32        timestamp  = 1;
+  optional Parameter_Book params   = 2;
+  repeated Data_Node      data     = 3;
+}
+
+message Gui2GLMsg
+{
+  required int32        timestamp  = 1;
+  required Debug_Draw   draw_data  = 2;
+  optional ballsDataMsg ballsData  = 3;
+  repeated robotDataMsg robotData  = 4;
 }

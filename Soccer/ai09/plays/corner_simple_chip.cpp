@@ -5,8 +5,8 @@ void ai09::corner_simple_chip ( void )
 	//GK ( gk , 1 );
 	//OneDef ( def );
 	
-	GK_Ghuz(gk, 1, 0);
-	DefGhuz(def, NULL, false);
+	GKHi(gk, 1, 0);
+	DefHi(def, NULL, false);
 	
 	ERRTSetObstacles ( dmf , false , true , true , true );
 	OwnRobot[dmf].face(ball.Position);

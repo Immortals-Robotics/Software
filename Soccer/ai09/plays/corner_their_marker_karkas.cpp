@@ -5,8 +5,8 @@ void ai09::corner_their_marker_karkas ( void )
 	/*GK ( gk , 1 );
 	OneDef ( def );*/
 	
-	GK_Ghuz(gk);
-	DefGhuz(def);
+	GKHi(gk);
+	DefHi(def);
 	
 	Halt(lmf);
 	

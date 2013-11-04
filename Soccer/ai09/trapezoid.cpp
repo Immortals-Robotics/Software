@@ -118,8 +118,8 @@ TVec3 TrapezoidPlanner::Plan (  RobotState * _init , RobotState * _final )
 
 	oldAns = ans;
 
-	ans.X /= 30.0f;
-	ans.Y /= 30.0f;
+	ans.X /= 42.5f;
+	ans.Y /= 42.5f;
 
 	return ans;
 

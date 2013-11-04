@@ -4,8 +4,8 @@
 
 void ai09::kickoff_their_back_def ( void )
 {
-	GK_Ghuz ( gk , 1 );
-	DefGhuz ( def );
+	GKHi ( gk , 1 );
+	DefHi ( def );
 	
 	ERRTSetObstacles ( dmf , true , true , true , true );
 	OwnRobot[dmf].face(ball.Position);

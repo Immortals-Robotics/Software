@@ -540,22 +540,32 @@ class Role : public ::google::protobuf::Message {
   inline ::google::protobuf::RepeatedPtrField< ::Waypoint >*
       mutable_path();
   
+  // required int32 afterlife = 4;
+  inline bool has_afterlife() const;
+  inline void clear_afterlife();
+  static const int kAfterlifeFieldNumber = 4;
+  inline ::google::protobuf::int32 afterlife() const;
+  inline void set_afterlife(::google::protobuf::int32 value);
+  
   // @@protoc_insertion_point(class_scope:Role)
  private:
   inline void set_has_id();
   inline void clear_has_id();
   inline void set_has_name();
   inline void clear_has_name();
+  inline void set_has_afterlife();
+  inline void clear_has_afterlife();
   
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
   
   ::std::string* name_;
   static const ::std::string _default_name_;
-  ::google::protobuf::RepeatedPtrField< ::Waypoint > path_;
   ::google::protobuf::int32 id_;
+  ::google::protobuf::int32 afterlife_;
+  ::google::protobuf::RepeatedPtrField< ::Waypoint > path_;
   
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
   
   friend void  protobuf_AddDesc_strategy_2eproto();
   friend void protobuf_AssignDesc_strategy_2eproto();
@@ -669,6 +679,20 @@ class Strategy : public ::google::protobuf::Message {
   inline float maxx() const;
   inline void set_maxx(float value);
   
+  // required float minY = 6;
+  inline bool has_miny() const;
+  inline void clear_miny();
+  static const int kMinYFieldNumber = 6;
+  inline float miny() const;
+  inline void set_miny(float value);
+  
+  // required float maxY = 7;
+  inline bool has_maxy() const;
+  inline void clear_maxy();
+  static const int kMaxYFieldNumber = 7;
+  inline float maxy() const;
+  inline void set_maxy(float value);
+  
   // @@protoc_insertion_point(class_scope:Strategy)
  private:
   inline void set_has_name();
@@ -677,6 +701,10 @@ class Strategy : public ::google::protobuf::Message {
   inline void clear_has_minx();
   inline void set_has_maxx();
   inline void clear_has_maxx();
+  inline void set_has_miny();
+  inline void clear_has_miny();
+  inline void set_has_maxy();
+  inline void clear_has_maxy();
   
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
   
@@ -685,9 +713,11 @@ class Strategy : public ::google::protobuf::Message {
   ::google::protobuf::RepeatedPtrField< ::SyncData > sync_;
   float minx_;
   float maxx_;
+  float miny_;
+  float maxy_;
   
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(5 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(7 + 31) / 32];
   
   friend void  protobuf_AddDesc_strategy_2eproto();
   friend void protobuf_AssignDesc_strategy_2eproto();
@@ -1165,6 +1195,28 @@ Role::mutable_path() {
   return &path_;
 }
 
+// required int32 afterlife = 4;
+inline bool Role::has_afterlife() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void Role::set_has_afterlife() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void Role::clear_has_afterlife() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void Role::clear_afterlife() {
+  afterlife_ = 0;
+  clear_has_afterlife();
+}
+inline ::google::protobuf::int32 Role::afterlife() const {
+  return afterlife_;
+}
+inline void Role::set_afterlife(::google::protobuf::int32 value) {
+  set_has_afterlife();
+  afterlife_ = value;
+}
+
 // -------------------------------------------------------------------
 
 // Strategy
@@ -1319,6 +1371,50 @@ inline float Strategy::maxx() const {
 inline void Strategy::set_maxx(float value) {
   set_has_maxx();
   maxx_ = value;
+}
+
+// required float minY = 6;
+inline bool Strategy::has_miny() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void Strategy::set_has_miny() {
+  _has_bits_[0] |= 0x00000020u;
+}
+inline void Strategy::clear_has_miny() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+inline void Strategy::clear_miny() {
+  miny_ = 0;
+  clear_has_miny();
+}
+inline float Strategy::miny() const {
+  return miny_;
+}
+inline void Strategy::set_miny(float value) {
+  set_has_miny();
+  miny_ = value;
+}
+
+// required float maxY = 7;
+inline bool Strategy::has_maxy() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+inline void Strategy::set_has_maxy() {
+  _has_bits_[0] |= 0x00000040u;
+}
+inline void Strategy::clear_has_maxy() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+inline void Strategy::clear_maxy() {
+  maxy_ = 0;
+  clear_has_maxy();
+}
+inline float Strategy::maxy() const {
+  return maxy_;
+}
+inline void Strategy::set_maxy(float value) {
+  set_has_maxy();
+  maxy_ = value;
 }
 
 // -------------------------------------------------------------------

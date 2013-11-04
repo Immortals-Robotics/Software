@@ -60,7 +60,11 @@ void VisionModule::SendGUIData ( WorldState * state , AI_Debug & aidebug )
 		return;
 	try
 	{
-		AiGuiMsg GUIMsg;
+		Ai2GuiMsg GUIMsg;
+		
+		GUIMsg.set_timestamp(0);
+		
+		aidebug.set_frame_id(0);
 		
 		GUIMsg.mutable_aidbgdata()->CopyFrom(aidebug);
 		
@@ -79,7 +83,7 @@ void VisionModule::SendGUIData ( WorldState * state , AI_Debug & aidebug )
 			olaghekhar = 0;
 
 
-		for ( int i = 0 ; i < 12 ; i ++ )
+		/*for ( int i = 0 ; i < 12 ; i ++ )
 		{
 			robotPacket[0][i].Clear ( );
 			robotPacket[0][i].set_omega ( state -> OwnRobot[i].AngularVelocity );
@@ -92,7 +96,7 @@ void VisionModule::SendGUIData ( WorldState * state , AI_Debug & aidebug )
 			robotPacket[0][i].set_vy ( state -> OwnRobot[i].velocity.y );
 			robotPacket[0][i].set_x ( state -> OwnRobot[i].Position.X );
 			robotPacket[0][i].set_y ( state -> OwnRobot[i].Position.Y );
-			robotPacket[0][i].set_vmag ( state -> lastCMDS[i][olaghekhar].Y * 50.0f );
+			robotPacket[0][i].set_vmag ( state -> lastCMDS[i][(int)(state->lastCMDS[i][10].X)].Y * 45.0f );
 			robotPacket[0][i].set_own ( 1 );
 			//if (state -> OwnRobot[i].seenState!=CompletelyOut)
 			{
@@ -120,7 +124,7 @@ void VisionModule::SendGUIData ( WorldState * state , AI_Debug & aidebug )
 			{
 				tmprobot = GUIMsg.add_robotdata ( );
 				tmprobot -> CopyFrom ( robotPacket[1][i] );
-			}
+			}*/
 			
 			/*tmprobot = GUIMsg.add_robotdata ( );
 			tmprobot -> set_omega ( state -> OppRobot[i].AngularVelocity );
@@ -133,7 +137,7 @@ void VisionModule::SendGUIData ( WorldState * state , AI_Debug & aidebug )
 			tmprobot -> set_vy ( state -> OppRobot[i].velocity.y );
 			tmprobot -> set_x ( state -> OppRobot[i].Position.X );
 			tmprobot -> set_y ( state -> OppRobot[i].Position.Y );*/
-		}
+		//}
 
 		GUIMsg.mutable_gamestate()->set_goalblue ( state -> refereeState.goals_blue );
 		GUIMsg.mutable_gamestate()->set_goalyellow ( state -> refereeState.goals_yellow );

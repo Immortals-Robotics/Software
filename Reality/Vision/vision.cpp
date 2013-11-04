@@ -2,6 +2,10 @@
 
 #include "FilteredObject.h"
 
+#include <fstream>
+using namespace std;
+extern ofstream* nikRastKarde;
+
 VisionSetting * _visionSetting ( bool _color , std::string _UDP_Adress , short _LocalPort , std::string _GUI_Adress , short _GUIPort , bool _use_camera0 , bool _use_camera1 )
 {
 	VisionSetting * ans = new VisionSetting;
@@ -45,23 +49,30 @@ VisionModule::VisionModule ( VisionSetting * _setting ) : connected ( false )
 	lastRawBall.set_x ( 0.0f );
 	lastRawBall.set_y ( 0.0f );
 
-	ball_kalman.initialize ( "ballFilterFast.txt" , "ballFilterSlow.txt" );
+	ball_kalman.initialize ( "../../ballFilterFast.txt" , "../../ballFilterSlow.txt" );
 	
 	for ( int i = 0 ; i < MAX_ROBOTS; i++ )
 	{
-		robot_kalman[0][i].initialize ( "ballFilterFast.txt" , "ballFilterSlow.txt" );
-		robot_kalman[1][i].initialize ( "ballFilterFast.txt" , "ballFilterSlow.txt" );
+		robot_kalman[0][i].initialize ( "../../ballFilterFast.txt" , "../../ballFilterSlow.txt" );
+		robot_kalman[1][i].initialize ( "../../ballFilterFast.txt" , "../../ballFilterSlow.txt" );
 		rawAngles[0][i] = 0.0f;
 		rawAngles[1][i] = 0.0f;
 	}
 	
-	InitANN();
+	//InitANN();
 	
 	ball_not_seen = MAX_BALL_NOT_SEEN + 1;
 	for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
 	{
 		robot_not_seen[0][i] = MAX_ROBOT_NOT_SEEN + 1;
 		robot_not_seen[1][i] = MAX_ROBOT_NOT_SEEN + 1;
+	}
+}
+VisionModule::~VisionModule()
+{
+	if ( nikRastKarde )
+	{
+		nikRastKarde->close();
 	}
 }
 

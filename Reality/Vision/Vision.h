@@ -31,12 +31,12 @@
 #define POWED_DIS(a,b,c,d) (((a-c)*(a-c))+((b-d)*(b-d)))
 #endif
 
-#define PREDICT_STEPS 8.0f
+#define PREDICT_STEPS 5.0f
 
 #define MAX_BALLS 10
-#define MAX_BALL_NOT_SEEN 10
+#define MAX_BALL_NOT_SEEN 40
 
-#define MAX_ROBOT_NOT_SEEN 20
+#define MAX_ROBOT_NOT_SEEN 600
 
 #define MERGE_DISTANCE 5000
 
@@ -60,6 +60,7 @@ class VisionModule
 	public:
 
 		VisionModule ( VisionSetting * );
+		~VisionModule();
 
 		VisionSetting * GetSetting ( void );
 

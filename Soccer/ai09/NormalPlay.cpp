@@ -30,8 +30,8 @@ void ai09::NormalPlay ( void )
 		//side=-side;
 		//GK ( gk , 1 );
 		//OneDef ( def );
-		GK_Ghuz(gk);
-		DefGhuz(def);
+		GKHi(gk);
+		DefHi(def);
 		//Halt(lmf);
 		//side=-side;
 		
@@ -70,8 +70,8 @@ void ai09::NormalPlay ( void )
 		//side=-side;
 		//GK ( gk , 1 );
 		//OneDef ( def );
-		GK_Ghuz(gk);
-		DefGhuz(def);
+		GKHi(gk);
+		DefHi(def);
 		Halt(dmf);
 		//Halt(rmf);
 		//side=-side;

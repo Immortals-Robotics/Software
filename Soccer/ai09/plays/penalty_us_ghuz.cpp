@@ -1,9 +1,15 @@
 #include "ai09.h"
 
-void ai09::penalty_us_ghuz ( bool canKickBall )
+static float t_nml;
+
+void ai09::penalty_us_ghuz ( void )
 {
-	GK_Ghuz(gk);
-	DefGhuz(def);	
+	bool canKickBall = bool(currentPlayParam);
+	if (!canKickBall) {
+		t_nml = timer.time();
+	}
+	GKHi(gk);
+	DefHi(def);	
 	
 	/*side=-side;
 	{
@@ -21,17 +27,18 @@ void ai09::penalty_us_ghuz ( bool canKickBall )
 	ERRTSetObstacles ( dmf );
 	ERRTNavigate2Point ( dmf , Vec2 ( 0 , 0 ) );
 	
-	OwnRobot[lmf].face ( Vec2 ( -side*2995 , 0 ) );
-	ERRTSetObstacles ( lmf );
-	ERRTNavigate2Point ( lmf , Vec2 ( -side*1000 , -500 ) );
+	OwnRobot[mid1].face ( Vec2 ( -side*2995 , 0 ) );
+	ERRTSetObstacles ( mid1 );
+	ERRTNavigate2Point ( mid1 , Vec2 ( -side*1000 , -500 ) );
 	
-	OwnRobot[rmf].face ( Vec2 ( -side*2995 , 0 ) );
-	ERRTSetObstacles ( rmf );
-	ERRTNavigate2Point ( rmf , Vec2 ( -side*1000 , 500 ) );
+	OwnRobot[mid2].face ( Vec2 ( -side*2995 , 0 ) );
+	ERRTSetObstacles ( mid2 );
+	ERRTNavigate2Point ( mid2 , Vec2 ( -side*1000 , 500 ) );
 	
-	if ( canKickBall )
+	if ( ( canKickBall ) && ( timer.time() > 1.0 ) )
 	{
-		PenaltyUs(attack, NormalizeAngle( penaltyAngle), 15 );
+		PenaltyUs(attack, NormalizeAngle( penaltyAngle), 80 );
+		//backPass(attack, NormalizeAngle( penaltyAngle),t_nml);
 	}
 	else
 	{

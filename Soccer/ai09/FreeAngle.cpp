@@ -188,9 +188,15 @@ TVec2 ai09::calculateOpenAngleToGoal(TVec2 p1,int robot_num)
     max = t1Angel + max*step;
     max = normalizeAngleR(max);
 	
-	cout << "	Salam Olaghe aziz :	" << maxFree << endl;
+	//cout << "	Salam Olaghe aziz :	" << maxFree << endl;
+	
 	if ( maxFree == 0 )
 		return Vec2(midGoalAngel*180.0f/3.1415f , 0 );
 	return Vec2( max*180.0f/3.1415f , (maxFree*180.0f/3.1415f)*step );
+	
+	//freeAngleFilter[robot_num].AddData(finalAns.X);
+	//finalAns.X = freeAngleFilter[robot_num].GetCurrent();
+	
+	//return finalAns;
     
 }

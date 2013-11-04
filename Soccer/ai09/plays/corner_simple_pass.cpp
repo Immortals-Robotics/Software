@@ -1,7 +1,8 @@
 #include "ai09.h"
 
-void ai09::corner_simple_pass ( bool cmu )
+void ai09::corner_simple_pass ( void )
 {
+	bool cmu = bool(currentPlayParam);
 	GK ( gk , 1 );
 	OneDef ( def );
 	//Halt(dmf);
@@ -58,7 +59,7 @@ void ai09::corner_simple_pass ( bool cmu )
 	
 	
 	
-	if ( ( fabs ( NormalizeAngle ( ball.velocity.direction - AngleWith ( ball.Position , Vec2 ( OwnRobot[rmf].State.Position.X + BAR * cosDeg ( OwnRobot[rmf].State.Angle ) , OwnRobot[rmf].State.Position.Y + BAR * sinDeg ( OwnRobot[rmf].State.Angle ) ) ) ) ) < 65 ) && ( ball.velocity.magnitude > 100 ) )//&&(abs(ball.vel_angle-90)>0.01)&&(abs(ball.vel_angle+90)>0.01)&&(abs(ball.vel_angle-180)>0.01)&&(abs(ball.vel_angle+180)>0.01))
+	if ( oneTouchDetector[rmf].IsArriving(70) )
 	{
 		WaitForPass ( rmf );
 		hys = 30;

@@ -1,7 +1,8 @@
 #include "ai09.h"
 
-void ai09::penalty_their_gool ( bool canKickBall )
+void ai09::penalty_their_gool ( void )
 {
+	bool canKickBall = bool(currentPlayParam);
 	canKickBall = true;
 	int index = findCruncherOpp(-1, -1, true);
 	

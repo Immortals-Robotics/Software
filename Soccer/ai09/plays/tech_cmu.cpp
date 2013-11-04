@@ -11,16 +11,16 @@ void ai09::tech_cmu ( void )
 	{
 		state = 1;
 
-		for ( int i = 0 ; i < 5 ; i ++ )
+		for ( int i = 0 ; i < 6 ; i ++ )
 		{
 			if ( dis ( OwnRobot[i].State.Position.X , OwnRobot[i].State.Position.Y , 1200.0f - 250.0f * i , tside*1200.0f ) > 20 )
 				state = 0;
 		}
 	}
-	else if ( state >= 6 )
+	else if ( state >= 7 )
 	{
-		//tside = -tside;
-		//state = 0;
+		tside = -tside;
+		state = 0;
 	}
 	else
 	{
@@ -28,16 +28,19 @@ void ai09::tech_cmu ( void )
 			state ++;
 	}
 
-	for ( int i = state ; i < 5 ; i ++ )
+	for ( int i = state ; i < 6 ; i ++ )
 	{
 		ERRTSetObstacles ( i , true , false , true , true );
 		OwnRobot[i].target.Angle = tside*90.0f;
+		//OwnRobot[i].face(ball.Position);
+		//OwnRobot[i].target.Angle += 180.0f;
+
 		ERRTNavigate2Point ( i   , Vec2 (  1200.0f - i * 250.0f , tside*1200.0f ) , 0 , 100 );
 	}
-	for ( int i = 0 ; i < min(5,state) ; i ++ )
+	for ( int i = 0 ; i < min(6,state) ; i ++ )
 	{
 		ERRTSetObstacles ( i , true , false , true , true );
-		OwnRobot[i].target.Angle = -tside*120.0f;
+		OwnRobot[i].target.Angle = -tside*60.0f;
 		ERRTNavigate2Point ( i   , Vec2 (  1200.0f - i * 250.0f , tside*1450.0f ) , 0 , 100 );
 	}
 	//std::cout<<state<<std::endl<<side<<std::endl;

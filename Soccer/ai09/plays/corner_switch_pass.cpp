@@ -62,15 +62,9 @@ void ai09::corner_switch_pass ( void )
 		}
 	}
 	
-	if ( ( fabs ( NormalizeAngle ( ball.velocity.direction - AngleWith ( ball.Position , Vec2 ( OwnRobot[rmf].State.Position.X + BAR * cosDeg ( OwnRobot[rmf].State.Angle ) , OwnRobot[rmf].State.Position.Y + BAR * sinDeg ( OwnRobot[rmf].State.Angle ) ) ) ) ) < 65 ) && ( ball.velocity.magnitude > 100 ) )//&&(abs(ball.vel_angle-90)>0.01)&&(abs(ball.vel_angle+90)>0.01)&&(abs(ball.vel_angle-180)>0.01)&&(abs(ball.vel_angle+180)>0.01))
+	if ( oneTouchDetector[rmf].IsArriving(70) )
 	{
 		WaitForPass ( rmf );
-		hys = 30;
-	}
-	else if (( hys > 0 )&& ( ball.velocity.magnitude > 50 ))// &&(abs(ball.vel_angle-90)>0.01)&&(abs(ball.vel_angle+90)>0.01)&&(abs(ball.vel_angle-180)>0.01)&&(abs(ball.vel_angle+180)>0.01))
-	{
-		WaitForPass ( rmf );
-		hys --;
 	}
 	else
 	{

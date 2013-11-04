@@ -30,3 +30,5 @@ _ReSharper*/
 *.opensdf
 *.sdf
 build/
+._*
+.DS_Store

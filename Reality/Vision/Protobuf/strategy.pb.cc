@@ -101,10 +101,11 @@ void protobuf_AssignDesc_strategy_2eproto() {
   Waypoint_WayType_descriptor_ = Waypoint_descriptor_->enum_type(0);
   Waypoint_VelProfile_descriptor_ = Waypoint_descriptor_->enum_type(1);
   Role_descriptor_ = file->message_type(3);
-  static const int Role_offsets_[3] = {
+  static const int Role_offsets_[4] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Role, id_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Role, name_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Role, path_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Role, afterlife_),
   };
   Role_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -118,12 +119,14 @@ void protobuf_AssignDesc_strategy_2eproto() {
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(Role));
   Strategy_descriptor_ = file->message_type(4);
-  static const int Strategy_offsets_[5] = {
+  static const int Strategy_offsets_[7] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Strategy, name_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Strategy, role_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Strategy, sync_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Strategy, minx_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Strategy, maxx_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Strategy, miny_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Strategy, maxy_),
   };
   Strategy_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -211,13 +214,14 @@ void protobuf_AddDesc_strategy_2eproto() {
     "ypoint.VelProfile:\007MAMOOLI\022\026\n\ttolerance\030"
     "\007 \001(\002:\003100\022\014\n\004time\030\010 \001(\002\"\034\n\007WayType\022\007\n\003P"
     "OS\020\000\022\010\n\004TIME\020\001\"1\n\nVelProfile\022\t\n\005AROOM\020\000\022"
-    "\013\n\007MAMOOLI\020\001\022\013\n\007KHARAKI\020\002\">\n\004Role\022\n\n\002id\030"
+    "\013\n\007MAMOOLI\020\001\022\013\n\007KHARAKI\020\002\"Q\n\004Role\022\n\n\002id\030"
     "\001 \002(\005\022\021\n\004name\030\002 \001(\t:\003NAN\022\027\n\004path\030\003 \003(\0132\t"
-    ".Waypoint\"b\n\010Strategy\022\014\n\004name\030\001 \002(\t\022\023\n\004r"
-    "ole\030\002 \003(\0132\005.Role\022\027\n\004sync\030\003 \003(\0132\t.SyncDat"
-    "a\022\014\n\004minX\030\004 \002(\002\022\014\n\004maxX\030\005 \002(\002\"7\n\010PlayBoo"
-    "k\022\033\n\010strategy\030\001 \003(\0132\t.Strategy\022\016\n\006weight"
-    "\030\002 \003(\002", 606);
+    ".Waypoint\022\021\n\tafterlife\030\004 \002(\005\"~\n\010Strategy"
+    "\022\014\n\004name\030\001 \002(\t\022\023\n\004role\030\002 \003(\0132\005.Role\022\027\n\004s"
+    "ync\030\003 \003(\0132\t.SyncData\022\014\n\004minX\030\004 \002(\002\022\014\n\004ma"
+    "xX\030\005 \002(\002\022\014\n\004minY\030\006 \002(\002\022\014\n\004maxY\030\007 \002(\002\"7\n\010"
+    "PlayBook\022\033\n\010strategy\030\001 \003(\0132\t.Strategy\022\016\n"
+    "\006weight\030\002 \003(\002", 653);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "strategy.proto", &protobuf_RegisterTypes);
   SyncPoint::default_instance_ = new SyncPoint();
@@ -1235,6 +1239,7 @@ const ::std::string Role::_default_name_("NAN");
 const int Role::kIdFieldNumber;
 const int Role::kNameFieldNumber;
 const int Role::kPathFieldNumber;
+const int Role::kAfterlifeFieldNumber;
 #endif  // !_MSC_VER
 
 Role::Role()
@@ -1255,6 +1260,7 @@ void Role::SharedCtor() {
   _cached_size_ = 0;
   id_ = 0;
   name_ = const_cast< ::std::string*>(&_default_name_);
+  afterlife_ = 0;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -1298,6 +1304,7 @@ void Role::Clear() {
         name_->assign(_default_name_);
       }
     }
+    afterlife_ = 0;
   }
   path_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
@@ -1353,6 +1360,22 @@ bool Role::MergePartialFromCodedStream(
           goto handle_uninterpreted;
         }
         if (input->ExpectTag(26)) goto parse_path;
+        if (input->ExpectTag(32)) goto parse_afterlife;
+        break;
+      }
+      
+      // required int32 afterlife = 4;
+      case 4: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_afterlife:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &afterlife_)));
+          set_has_afterlife();
+        } else {
+          goto handle_uninterpreted;
+        }
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -1395,6 +1418,11 @@ void Role::SerializeWithCachedSizes(
       3, this->path(i), output);
   }
   
+  // required int32 afterlife = 4;
+  if (has_afterlife()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->afterlife(), output);
+  }
+  
   if (!unknown_fields().empty()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
@@ -1425,6 +1453,11 @@ void Role::SerializeWithCachedSizes(
         3, this->path(i), target);
   }
   
+  // required int32 afterlife = 4;
+  if (has_afterlife()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->afterlife(), target);
+  }
+  
   if (!unknown_fields().empty()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
@@ -1448,6 +1481,13 @@ int Role::ByteSize() const {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::StringSize(
           this->name());
+    }
+    
+    // required int32 afterlife = 4;
+    if (has_afterlife()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->afterlife());
     }
     
   }
@@ -1492,6 +1532,9 @@ void Role::MergeFrom(const Role& from) {
     if (from.has_name()) {
       set_name(from.name());
     }
+    if (from.has_afterlife()) {
+      set_afterlife(from.afterlife());
+    }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
@@ -1509,7 +1552,7 @@ void Role::CopyFrom(const Role& from) {
 }
 
 bool Role::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
+  if ((_has_bits_[0] & 0x00000009) != 0x00000009) return false;
   
   for (int i = 0; i < path_size(); i++) {
     if (!this->path(i).IsInitialized()) return false;
@@ -1522,6 +1565,7 @@ void Role::Swap(Role* other) {
     std::swap(id_, other->id_);
     std::swap(name_, other->name_);
     path_.Swap(&other->path_);
+    std::swap(afterlife_, other->afterlife_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
@@ -1545,6 +1589,8 @@ const int Strategy::kRoleFieldNumber;
 const int Strategy::kSyncFieldNumber;
 const int Strategy::kMinXFieldNumber;
 const int Strategy::kMaxXFieldNumber;
+const int Strategy::kMinYFieldNumber;
+const int Strategy::kMaxYFieldNumber;
 #endif  // !_MSC_VER
 
 Strategy::Strategy()
@@ -1566,6 +1612,8 @@ void Strategy::SharedCtor() {
   name_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
   minx_ = 0;
   maxx_ = 0;
+  miny_ = 0;
+  maxy_ = 0;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -1610,6 +1658,8 @@ void Strategy::Clear() {
     }
     minx_ = 0;
     maxx_ = 0;
+    miny_ = 0;
+    maxy_ = 0;
   }
   role_.Clear();
   sync_.Clear();
@@ -1697,6 +1747,38 @@ bool Strategy::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
+        if (input->ExpectTag(53)) goto parse_minY;
+        break;
+      }
+      
+      // required float minY = 6;
+      case 6: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+         parse_minY:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &miny_)));
+          set_has_miny();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(61)) goto parse_maxY;
+        break;
+      }
+      
+      // required float maxY = 7;
+      case 7: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+         parse_maxY:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &maxy_)));
+          set_has_maxy();
+        } else {
+          goto handle_uninterpreted;
+        }
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -1750,6 +1832,16 @@ void Strategy::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteFloat(5, this->maxx(), output);
   }
   
+  // required float minY = 6;
+  if (has_miny()) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(6, this->miny(), output);
+  }
+  
+  // required float maxY = 7;
+  if (has_maxy()) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(7, this->maxy(), output);
+  }
+  
   if (!unknown_fields().empty()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
@@ -1792,6 +1884,16 @@ void Strategy::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(5, this->maxx(), target);
   }
   
+  // required float minY = 6;
+  if (has_miny()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(6, this->miny(), target);
+  }
+  
+  // required float maxY = 7;
+  if (has_maxy()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(7, this->maxy(), target);
+  }
+  
   if (!unknown_fields().empty()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
@@ -1817,6 +1919,16 @@ int Strategy::ByteSize() const {
     
     // required float maxX = 5;
     if (has_maxx()) {
+      total_size += 1 + 4;
+    }
+    
+    // required float minY = 6;
+    if (has_miny()) {
+      total_size += 1 + 4;
+    }
+    
+    // required float maxY = 7;
+    if (has_maxy()) {
       total_size += 1 + 4;
     }
     
@@ -1874,6 +1986,12 @@ void Strategy::MergeFrom(const Strategy& from) {
     if (from.has_maxx()) {
       set_maxx(from.maxx());
     }
+    if (from.has_miny()) {
+      set_miny(from.miny());
+    }
+    if (from.has_maxy()) {
+      set_maxy(from.maxy());
+    }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
@@ -1891,7 +2009,7 @@ void Strategy::CopyFrom(const Strategy& from) {
 }
 
 bool Strategy::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000019) != 0x00000019) return false;
+  if ((_has_bits_[0] & 0x00000079) != 0x00000079) return false;
   
   for (int i = 0; i < role_size(); i++) {
     if (!this->role(i).IsInitialized()) return false;
@@ -1909,6 +2027,8 @@ void Strategy::Swap(Strategy* other) {
     sync_.Swap(&other->sync_);
     std::swap(minx_, other->minx_);
     std::swap(maxx_, other->maxx_);
+    std::swap(miny_, other->miny_);
+    std::swap(maxy_, other->maxy_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);

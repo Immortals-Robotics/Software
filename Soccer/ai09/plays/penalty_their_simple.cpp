@@ -23,10 +23,10 @@ void ai09::penalty_their_simple ( void )
 	ERRTNavigate2Point ( def , Vec2 ( side*2000 , 500 ) );
 	ERRTSetObstacles ( dmf , true , true , true , true );
 	ERRTNavigate2Point ( dmf , Vec2 ( side*2000 , -500 ) );
-	ERRTSetObstacles ( lmf , true , true , true , true );
-	ERRTNavigate2Point ( lmf, Vec2 ( side*2000 , -800 ) );
-	ERRTSetObstacles ( rmf , true , true , true , true );
-	ERRTNavigate2Point ( rmf, Vec2 ( side*2000 , 800 ) );
+	ERRTSetObstacles ( mid1 , true , true , true , true );
+	ERRTNavigate2Point ( mid1, Vec2 ( side*2000 , -800 ) );
+	ERRTSetObstacles ( mid2 , true , true , true , true );
+	ERRTNavigate2Point ( mid2, Vec2 ( side*2000 , 800 ) );
 	ERRTSetObstacles ( attack , true , true , true , true );
 	ERRTNavigate2Point ( attack , Vec2 ( side*2000 , 0 ) );
 }

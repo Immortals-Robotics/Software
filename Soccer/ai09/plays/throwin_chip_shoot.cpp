@@ -2,39 +2,50 @@
 
 void ai09::throwin_chip_shoot ( void )
 {
-	swap ( rmf , attack );
+	//swap ( mid2 , attack );
 	//swap(attack, gk);
 	
-	GK_Ghuz(gk);
-	DefGhuz(def);
+	GKHi(gk);
+	DefHi(def);
 	
-	ERRTSetObstacles ( dmf , true , true , true , true );
-	OwnRobot[dmf].face(ball.Position);
-	ERRTNavigate2Point ( dmf , Vec2(side*1500, 0) ,0 , 70,&VELOCITY_PROFILE_MAMOOLI);
+	/*ERRTSetObstacles ( mid2 , true , true , true , true );
+	OwnRobot[mid2].face(ball.Position);
+	ERRTNavigate2Point ( mid2 , Vec2(side*500, -sgn(ball.Position.Y)*1500) ,0 , 70,&VELOCITY_PROFILE_MAMOOLI);
 	
-	ERRTSetObstacles ( lmf , true , true , true , true );
-	OwnRobot[lmf].face(ball.Position);
-	ERRTNavigate2Point ( lmf , Vec2(-side*2300, -sgn(ball.Position.Y)*1500) ,0 , 70,&VELOCITY_PROFILE_MAMOOLI);
+	ERRTSetObstacles ( mid1 , true , true , true , true );
+	OwnRobot[mid1].face(ball.Position);
+	ERRTNavigate2Point ( mid1 , Vec2(-side*500, -sgn(ball.Position.Y)*1800) ,0 , 70,&VELOCITY_PROFILE_MAMOOLI);*/
+	
+	ERRTSetObstacles ( mid2 , true , true , true , true );
+	OwnRobot[mid2].face(ball.Position);
+	ERRTNavigate2Point ( mid2 , Vec2(side*500, sgn(ball.Position.Y)*100) ,0 , 70,&VELOCITY_PROFILE_MAMOOLI);
+	
+	ERRTSetObstacles ( mid1 , true , true , true , true );
+	OwnRobot[mid1].face(ball.Position);
+	ERRTNavigate2Point ( mid1 , Vec2(side*500, sgn(ball.Position.Y)*400) ,0 , 70,&VELOCITY_PROFILE_MAMOOLI);
 	
 	
 	
-	if (timer.time()>2 ) {
-		tech_circle(attack,AngleWith ( Vec2 ( -side*2995 , 0 ) , ball.Position ) ,0,6,0,1);
+	if (timer.time()>4 ) {
+		//tech_circle(dmf,AngleWith ( Vec2 ( -side*2995 , 0 ) , ball.Position ) ,0,30,0,1);
+		circle_ball(dmf, AngleWith ( Vec2 ( -side*2995 , 0 ) , ball.Position ), 0, 180, 1.0f);
 	}
 	else
 	{
-		tech_circle(attack,AngleWith ( Vec2 ( -side*2995 , 0 ) , ball.Position ) ,0,0,0,1);
+		//tech_circle(dmf,AngleWith ( Vec2 ( -side*2995 , 0 ) , ball.Position ) ,0,0,0,1);
+		circle_ball(dmf, AngleWith ( Vec2 ( -side*2995 , 0 ) , ball.Position ), 0, 0, 1.0f);
 	}
 	
-	OwnRobot[rmf].face ( Vec2 ( -side*2995 , 0 ) );
-	ERRTSetObstacles ( rmf , 0,1,1 );
+	OwnRobot[attack].face ( Vec2 ( -side*2995 , 0 ) );
+	ERRTSetObstacles ( attack , 0,1,1 );
+	AddCircle(ball.Position.X, ball.Position.Y, 32);
 	if ( randomParam < 0.3 )
-		ERRTNavigate2Point ( rmf , PointOnConnectingLine ( ball.Position , Vec2 ( -side*2995 , 0 ) , 300+700*reached ) );
+		ERRTNavigate2Point ( attack , PointOnConnectingLine ( ball.Position , Vec2 ( -side*2995 , 0 ) , 350+700*reached ) );
 	else if ( randomParam < 0.6 )
-		ERRTNavigate2Point ( rmf , PointOnConnectingLine ( ball.Position , Vec2 ( -side*2995 , -sgn(ball.Position.X)*2000 ) , 300+700*reached ) );
+		ERRTNavigate2Point ( attack , PointOnConnectingLine ( ball.Position , Vec2 ( -side*2995 , -sgn(ball.Position.X)*2000 ) , 350+700*reached ) );
 	else
-		ERRTNavigate2Point ( rmf , PointOnConnectingLine ( ball.Position , Vec2 ( -side*2995 , sgn(ball.Position.X)*2000 ) , 300+700*reached ) );
+		ERRTNavigate2Point ( attack , PointOnConnectingLine ( ball.Position , Vec2 ( -side*2995 , sgn(ball.Position.X)*2000 ) , 350+700*reached ) );
 	
 	//swap(attack, gk);
-	swap ( rmf , attack );
+	//swap ( mid2 , attack );
 }

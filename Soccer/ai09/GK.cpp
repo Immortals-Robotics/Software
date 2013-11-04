@@ -24,12 +24,12 @@ void ai09::GK ( int robot_num , int defence_num , bool stop )
 
 	if ((fabs(ballInter.getY())<450)&&(ball.velocity.magnitude>1000)&&(fabs(ball.velocity.direction)>90))
 	{
-		WaitForPass ( robot_num );
+		GK_shirje(robot_num);
 		my_hys = 30;
 	}
 	else if ( my_hys > 0 )
 	{
-		WaitForPass ( robot_num );
+		GK_shirje(robot_num);
 		my_hys --;
 	}
 	

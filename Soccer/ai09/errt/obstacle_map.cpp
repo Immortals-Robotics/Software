@@ -63,6 +63,11 @@ float ObsMap::NearestDistance ( float _x , float _y )
 
 void ObsMap::resetMap ( void )
 {
+	for ( int i = 0 ; i < obsNum ; i ++ )
+    {
+		delete obstacle[i];
+	}
+
 	free ( obstacle );
 
 	obstacle = new BaseObstacle * [maxObs];

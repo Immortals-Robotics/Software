@@ -2,62 +2,59 @@
 
 void ai09::NormalPlayAtt ( void )
 {
-	if (oneTouchDetector[dmf].IsArriving(70)) {
-		WaitForPass ( dmf );
-	}
-	else {
-		ERRTSetObstacles ( dmf , false , true , true , true );
-		OwnRobot[dmf].face(ball.Position);
-		ERRTNavigate2Point ( dmf , PointOnConnectingLine(ball.Position, Vec2(side*3025, 0), 1500) ,0 , 100,&VELOCITY_PROFILE_MAMOOLI);
-	}
+	ManageAttRoles ( );
 	
+	debugDraw=true;
+	recievePass(dmf,PointOnConnectingLine(ball.Position, Vec2(side*3025, 0), 2500));
+	debugDraw=false;
 	
-	if ( ( ball.Position.X * side < -1500 ) && ( fabs ( ball.Position.Y ) > 1400 ) )
+	if (oneTouchType[attack]==allaf) {
+		ERRTSetObstacles ( attack , false , true , true , true );
+		OwnRobot[attack].face(Vec2(-side*3025, 0));
+		//OwnRobot[robot_num].target.Angle=-90;
+		ERRTNavigate2Point ( attack , allafPos[attack] ,0 , 100,&VELOCITY_PROFILE_MAMOOLI);
+		if (timer.time()>2.5) {
+			oneTouchType[attack] = oneTouch;
+		}
+	}
+	else if ( ( ball.Position.X * side < -1300 ) && ( fabs ( ball.Position.Y ) > 1400 ) )
 	{
 		float passAngle = AngleWith ( Vec2 ( -side*1700 , -sgn ( ball.Position.Y ) * 1700 ) , ball.Position );
-		tech_circle(attack, passAngle, 7, 0, 1, 1, 0, 1);
-		
-		if (oneTouchDetector[lmf].IsArriving(70)) {
-			WaitForPass ( lmf );
-		}
-		else {
-			OwnRobot[lmf].face ( Vec2 ( -side*3033 , 0 ) );
-			ERRTSetObstacles ( lmf );
-			ERRTNavigate2Point ( lmf , Vec2 ( -side*(1250-sgn(ball.Position.Y)*750) , 1700 ) );
-		}
-		
-		if (oneTouchDetector[rmf].IsArriving(70)) {
-			//WaitForPass ( rmf );
-			WaitForOmghi(rmf);
-		}
-		else {
-			OwnRobot[rmf].face ( Vec2 ( -side*3033 , 0 ) );
-			ERRTSetObstacles ( rmf );
-			ERRTNavigate2Point ( rmf , Vec2 ( -side*(1250-sgn(ball.Position.Y)*750) , -1700 ) );
-		}
+		tech_circle(attack, passAngle, 0, 89, 1, 1, 0, 1);
 	}
 	else {
 		float shootAngle = NormalizeAngle( 180+calculateOpenAngleToGoal(ball.Position, attack).X);
-		tech_circle(attack, shootAngle, 15, 0, 1, 0, 0, 1);
-		
-		if (oneTouchDetector[lmf].IsArriving(70)) {
-			WaitForPass ( lmf );
+		float shoot_pow = 100;
+		if (DIS(OwnRobot[attack].State.Position,ball.Position) > 400 ) {
+			shoot_pow = 1;
 		}
-		else {
-			OwnRobot[lmf].face ( Vec2 ( -side*3033 , 0 ) );
-			ERRTSetObstacles ( lmf );
-			ERRTNavigate2Point ( lmf , Vec2 ( -side*(1250-sgn(ball.Position.Y)*750) , 1700 ) );
+		if (goal_blocked(ball.Position, 200, 90)) {
+			shoot_pow = 1;
 		}
 		
-		if (oneTouchDetector[rmf].IsArriving(70)) {
-			//WaitForPass ( rmf );
-			WaitForOmghi(rmf);
+		if (attackFuckingAngle()) {
+			shootAngle = AngleWith(ball.Position, Vec2(side*3025, 0));
+			shoot_pow = 1;
 		}
-		else {
-			OwnRobot[rmf].face ( Vec2 ( -side*3033 , 0 ) );
-			ERRTSetObstacles ( rmf );
-			ERRTNavigate2Point ( rmf , Vec2 ( -side*(1250-sgn(ball.Position.Y)*750) , -1700 ) );
-		}
+		
+		debugDraw = true;
+		tech_circle(attack, shootAngle, shoot_pow, 0, 1, 0, 0, 1);
+		//circle_ball(attack, 90, 80, 0, 1.0f);
+		debugDraw = false;
+	}
+
+	if (ball.Position.Y>600) {
+		recievePass(mid1, Vec2 ( -side*250 , 0 ));
+	}
+	else {
+		recievePass(mid1, Vec2 ( -side*(2250) , 1500 ));
 	}
 	
+	if (ball.Position.Y<-600) {
+		recievePass(mid2, Vec2 ( -side*250 , 0 ));
+	}
+	else {
+		recievePass(mid2, Vec2 ( -side*(2250) ,-1500 ));
+	}
+
 }

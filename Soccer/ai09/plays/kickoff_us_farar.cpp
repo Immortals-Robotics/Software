@@ -1,9 +1,10 @@
 #include "ai09.h"
 
-void ai09::kickoff_us_farar ( bool canKickBall )
+void ai09::kickoff_us_farar ( void )
 {
-	GK_Ghuz(gk, 1, 0);
-	DefGhuz(def);
+	bool canKickBall = bool(currentPlayParam);
+	GKHi(gk, 1, 0);
+	DefHi(def);
 
 	ERRTSetObstacles ( dmf , true , true , true , true );
 	OwnRobot[dmf].face(ball.Position);

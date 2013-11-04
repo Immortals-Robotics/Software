@@ -2,13 +2,13 @@
 
 void ai09::kickoff_their_one_wall ( void )
 {
-	swap(dmf, lmf);
-	GK_Ghuz ( gk , 1 );
-	DefGhuz ( def );
+	//swap(dmf, lmf);
+	GKHi ( gk , 1 );
+	DefHi ( def );
 	
 	ERRTSetObstacles ( dmf , true , true , true , true );
 	OwnRobot[dmf].face(ball.Position);
-	ERRTNavigate2Point ( dmf , PointOnConnectingLine(ball.Position, Vec2(side*3025, 0), DIS(ball.Position, Vec2(side*3025, 0))/3.0f) ,0 , 40,&VELOCITY_PROFILE_MAMOOLI);
+	ERRTNavigate2Point ( dmf , PointOnConnectingLine(ball.Position, Vec2(side*3025, 0), DIS(ball.Position, Vec2(side*3025, 0))/2.0f) ,0 , 40,&VELOCITY_PROFILE_MAMOOLI);
 		
 	int indexP = -1;
 	int indexN = -1;
@@ -30,30 +30,34 @@ void ai09::kickoff_their_one_wall ( void )
 	{
 		if ( side == -1 )
 		{
-			ERRTSetObstacles ( rmf , true , true , true , false );
-			OwnRobot[rmf].face(Vec2(-side*2995,0));
-			ERRTNavigate2Point ( rmf , PointOnConnectingLine ( OppRobot[indexN].Position , Vec2(side*2995,0) , (fabs(OppRobot[indexN].Position.X)+10)*1.4 ) );
+			ERRTSetObstacles ( mid1 , true , true , true , false );
+			OwnRobot[mid1].face(Vec2(-side*2995,0));
+			ERRTNavigate2Point ( mid1 , PointOnConnectingLine ( OppRobot[indexN].Position , Vec2(side*2995,0) , (fabs(OppRobot[indexN].Position.X)+14)*1.5 ) );
+			markMap[&mid1] = indexN;
 		}
 		else
 		{
-			ERRTSetObstacles ( lmf , true , true , true , false );
-			OwnRobot[lmf].face(Vec2(-side*2995,0));
-			ERRTNavigate2Point ( lmf , PointOnConnectingLine ( OppRobot[indexN].Position , Vec2(side*2995,0) , (fabs(OppRobot[indexN].Position.X)+10)*1.4 ) );
+			ERRTSetObstacles ( mid2 , true , true , true , false );
+			OwnRobot[mid2].face(Vec2(-side*2995,0));
+			ERRTNavigate2Point ( mid2 , PointOnConnectingLine ( OppRobot[indexN].Position , Vec2(side*2995,0) , (fabs(OppRobot[indexN].Position.X)+14)*1.5 ) );
+			markMap[&mid2] = indexN;
 		}
 	}
 	else
 	{
 		if ( side == -1 )
 		{
-			ERRTSetObstacles ( rmf , true , true , true , true );
-			OwnRobot[rmf].face(Vec2(ball.Position.X,ball.Position.Y));
-			ERRTNavigate2Point ( rmf , CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(20+AngleWith(ball.Position , Vec2(side*2995,0))),790) ,0 , 100);
+			ERRTSetObstacles ( mid1 , true , true , true , true );
+			OwnRobot[mid1].face(Vec2(ball.Position.X,ball.Position.Y));
+			ERRTNavigate2Point ( mid1 , CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(20+AngleWith(ball.Position , Vec2(side*2995,0))),790) ,0 , 100);
+			markMap[&mid1] = -1;
 		}
 		else
 		{
-			ERRTSetObstacles ( lmf , true , true , true , true );
-			OwnRobot[lmf].face(Vec2(ball.Position.X,ball.Position.Y));
-			ERRTNavigate2Point ( lmf , CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(-20+AngleWith(ball.Position , Vec2(side*2995,0))),790) ,0 , 100);
+			ERRTSetObstacles ( mid2 , true , true , true , true );
+			OwnRobot[mid2].face(Vec2(ball.Position.X,ball.Position.Y));
+			ERRTNavigate2Point ( mid2 , CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(-20+AngleWith(ball.Position , Vec2(side*2995,0))),790) ,0 , 100);
+			markMap[&mid2] = -1;
 		}
 		
 	}
@@ -62,35 +66,39 @@ void ai09::kickoff_their_one_wall ( void )
 	{
 		if ( side == 1 )
 		{
-			ERRTSetObstacles ( rmf , true , true , true , false );
-			OwnRobot[rmf].face(Vec2(-side*2995,0));
-			ERRTNavigate2Point ( rmf , PointOnConnectingLine ( OppRobot[indexP].Position , Vec2(side*2995,0) , (fabs(OppRobot[indexP].Position.X)+10)*1.4 ) );
+			ERRTSetObstacles ( mid1 , true , true , true , false );
+			OwnRobot[mid1].face(Vec2(-side*2995,0));
+			ERRTNavigate2Point ( mid1 , PointOnConnectingLine ( OppRobot[indexP].Position , Vec2(side*2995,0) , (fabs(OppRobot[indexP].Position.X)+14)*1.5 ) );
+			markMap[&mid1] = indexP;
 		}
 		else
 		{
-			ERRTSetObstacles ( lmf , true , true , true , false );
-			OwnRobot[lmf].face(Vec2(-side*2995,0));
-			ERRTNavigate2Point ( lmf , PointOnConnectingLine ( OppRobot[indexP].Position , Vec2(side*2995,0) , (fabs(OppRobot[indexP].Position.X)+10)*1.4 ) );
+			ERRTSetObstacles ( mid2 , true , true , true , false );
+			OwnRobot[mid2].face(Vec2(-side*2995,0));
+			ERRTNavigate2Point ( mid2 , PointOnConnectingLine ( OppRobot[indexP].Position , Vec2(side*2995,0) , (fabs(OppRobot[indexP].Position.X)+14)*1.5 ) );
+			markMap[&mid2] = indexP;
 		}
 	}
 	else
 	{
 		if ( side == 1 )
 		{
-			ERRTSetObstacles ( rmf , true , true , true , true );
-			OwnRobot[rmf].face(Vec2(ball.Position.X,ball.Position.Y));
-			ERRTNavigate2Point ( rmf , CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(20+AngleWith(ball.Position , Vec2(side*2995,0))),790) ,0 , 100);
+			ERRTSetObstacles ( mid1 , true , true , true , true );
+			OwnRobot[mid1].face(Vec2(ball.Position.X,ball.Position.Y));
+			ERRTNavigate2Point ( mid1 , CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(20+AngleWith(ball.Position , Vec2(side*2995,0))),790) ,0 , 100);
+			markMap[&mid1] = -1;
 		}
 		else
 		{
-			ERRTSetObstacles ( lmf , true , true , true , true );
-			OwnRobot[lmf].face(Vec2(ball.Position.X,ball.Position.Y));
-			ERRTNavigate2Point ( lmf , CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(-20+AngleWith(ball.Position , Vec2(side*2995,0))),790) ,0 , 100);
+			ERRTSetObstacles ( mid2 , true , true , true , true );
+			OwnRobot[mid2].face(Vec2(ball.Position.X,ball.Position.Y));
+			ERRTNavigate2Point ( mid2 , CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(-20+AngleWith(ball.Position , Vec2(side*2995,0))),790) ,0 , 100);
+			markMap[&mid2] = -1;
 		}
 		
 	}
 	
 	DefenceWall(attack,true);
 	
-	swap(dmf, lmf);
+	//swap(dmf, lmf);
 }

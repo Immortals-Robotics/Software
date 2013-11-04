@@ -280,7 +280,7 @@ TVec2 Planner::Plan ( void )
 
         SetWayPoints ( );
 
-        if ( ( ! IsInObstacle ( init_state ) ) && ( GetWayPointNum() > 2 ) )
+        //if ( ( ! IsInObstacle ( init_state ) ) && ( GetWayPointNum() > 2 ) )
 			optimize_tree ( );
 
         TVec2 ans;

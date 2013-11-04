@@ -1,9 +1,10 @@
 #include "ai09.h"
 
-void ai09::kickoff_us_pass ( bool canKickBall )
+void ai09::kickoff_us_pass ( void )
 {
-	GK_Ghuz(gk, 1, 0);
-	DefGhuz(def);
+	bool canKickBall = bool(currentPlayParam);
+	GKHi(gk, 1, 0);
+	DefHi(def);
 	
 	ERRTSetObstacles ( dmf , true , true , true , true );
 	OwnRobot[dmf].face(ball.Position);
@@ -13,7 +14,7 @@ void ai09::kickoff_us_pass ( bool canKickBall )
 	int oneTouchSide = 1;
 	if ( canKickBall )
 	{
-		if (( ( DIS ( ball.Position , OwnRobot[attack].State.Position ) < 155 ) && ( OwnRobot[attack].State.velocity.magnitude < 100 ) )|| ( reached ) )
+		/*if (( ( DIS ( ball.Position , OwnRobot[attack].State.Position ) < 155 ) && ( OwnRobot[attack].State.velocity.magnitude < 100 ) )|| ( reached ) )
 		{
 			ERRTSetObstacles ( attack );
 			tech_circle(attack,AngleWith ( Vec2 ( -side*80 , oneTouchSide * 1700 ) , ball.Position ) ,4,0,0,1);
@@ -23,7 +24,9 @@ void ai09::kickoff_us_pass ( bool canKickBall )
 		{
 			ERRTSetObstacles ( attack );
 			tech_circle(attack,AngleWith ( Vec2 ( -side*80 , oneTouchSide * 1700 ) , ball.Position ) ,0,0,0,1);
-		}
+		}*/
+		circle_ball(attack, AngleWith ( OwnRobot[(randomParam<0.5)?rmf:lmf].State.Position , ball.Position ), 20, 0, 1.0f);
+		
 	}
 	else
 	{

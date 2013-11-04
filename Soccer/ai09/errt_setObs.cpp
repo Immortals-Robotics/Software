@@ -3,6 +3,7 @@
 
 void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own , bool opp , bool dribble , bool bigPen )
 {
+	
 	robot_num = min(5,max(0,robot_num));
 	clear_map ( );
 	if ( own )
@@ -38,7 +39,7 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 
 	if ( field )
 	{
-		AddCircle ( side*3020 , -170 , 90 );
+		AddCircle ( side*3020 , -170 , 95 );
 		
 		/*Debug_Circle * dbgCircle = AIDebug.add_circle();
 		dbgCircle -> set_x(side*3020);
@@ -49,9 +50,9 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 		col -> set_g(0);
 		col -> set_b(0);*/
 		
-		AddCircle ( side*3020 , 180 , 90 );
+		AddCircle ( side*3020 , 180 , 95 );
 
-		AddRectangle ( side*3110 , -170 , 99 , 36 );
+		AddRectangle ( side*3110 , -170 , 104 , 36 );
 		
 		/*Debug_Rect * newDebugRect =  AIDebug.add_rect();
 		newDebugRect -> set_x(side*3110);

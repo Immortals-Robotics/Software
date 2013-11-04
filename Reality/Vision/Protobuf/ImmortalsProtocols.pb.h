@@ -35,7 +35,11 @@ void protobuf_ShutdownFile_ImmortalsProtocols_2eproto();
 class ballsDataMsg;
 class robotDataMsg;
 class gameStateMsg;
-class AiGuiMsg;
+class Parameter_Set;
+class Parameter_Book;
+class Ai2GuiMsg;
+class Gui2AiMsg;
+class Gui2GLMsg;
 
 // ===================================================================
 
@@ -566,14 +570,14 @@ class gameStateMsg : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class AiGuiMsg : public ::google::protobuf::Message {
+class Parameter_Set : public ::google::protobuf::Message {
  public:
-  AiGuiMsg();
-  virtual ~AiGuiMsg();
+  Parameter_Set();
+  virtual ~Parameter_Set();
   
-  AiGuiMsg(const AiGuiMsg& from);
+  Parameter_Set(const Parameter_Set& from);
   
-  inline AiGuiMsg& operator=(const AiGuiMsg& from) {
+  inline Parameter_Set& operator=(const Parameter_Set& from) {
     CopyFrom(from);
     return *this;
   }
@@ -587,17 +591,17 @@ class AiGuiMsg : public ::google::protobuf::Message {
   }
   
   static const ::google::protobuf::Descriptor* descriptor();
-  static const AiGuiMsg& default_instance();
+  static const Parameter_Set& default_instance();
   
-  void Swap(AiGuiMsg* other);
+  void Swap(Parameter_Set* other);
   
   // implements Message ----------------------------------------------
   
-  AiGuiMsg* New() const;
+  Parameter_Set* New() const;
   void CopyFrom(const ::google::protobuf::Message& from);
   void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const AiGuiMsg& from);
-  void MergeFrom(const AiGuiMsg& from);
+  void CopyFrom(const Parameter_Set& from);
+  void MergeFrom(const Parameter_Set& from);
   void Clear();
   bool IsInitialized() const;
   
@@ -620,18 +624,209 @@ class AiGuiMsg : public ::google::protobuf::Message {
   
   // accessors -------------------------------------------------------
   
-  // required .ballsDataMsg ballsData = 1;
+  // required string name = 1;
+  inline bool has_name() const;
+  inline void clear_name();
+  static const int kNameFieldNumber = 1;
+  inline const ::std::string& name() const;
+  inline void set_name(const ::std::string& value);
+  inline void set_name(const char* value);
+  inline void set_name(const char* value, size_t size);
+  inline ::std::string* mutable_name();
+  inline ::std::string* release_name();
+  
+  // repeated .Data_Node parameter = 2;
+  inline int parameter_size() const;
+  inline void clear_parameter();
+  static const int kParameterFieldNumber = 2;
+  inline const ::Data_Node& parameter(int index) const;
+  inline ::Data_Node* mutable_parameter(int index);
+  inline ::Data_Node* add_parameter();
+  inline const ::google::protobuf::RepeatedPtrField< ::Data_Node >&
+      parameter() const;
+  inline ::google::protobuf::RepeatedPtrField< ::Data_Node >*
+      mutable_parameter();
+  
+  // @@protoc_insertion_point(class_scope:Parameter_Set)
+ private:
+  inline void set_has_name();
+  inline void clear_has_name();
+  
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+  
+  ::std::string* name_;
+  ::google::protobuf::RepeatedPtrField< ::Data_Node > parameter_;
+  
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+  
+  friend void  protobuf_AddDesc_ImmortalsProtocols_2eproto();
+  friend void protobuf_AssignDesc_ImmortalsProtocols_2eproto();
+  friend void protobuf_ShutdownFile_ImmortalsProtocols_2eproto();
+  
+  void InitAsDefaultInstance();
+  static Parameter_Set* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class Parameter_Book : public ::google::protobuf::Message {
+ public:
+  Parameter_Book();
+  virtual ~Parameter_Book();
+  
+  Parameter_Book(const Parameter_Book& from);
+  
+  inline Parameter_Book& operator=(const Parameter_Book& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+  
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+  
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const Parameter_Book& default_instance();
+  
+  void Swap(Parameter_Book* other);
+  
+  // implements Message ----------------------------------------------
+  
+  Parameter_Book* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const Parameter_Book& from);
+  void MergeFrom(const Parameter_Book& from);
+  void Clear();
+  bool IsInitialized() const;
+  
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  
+  ::google::protobuf::Metadata GetMetadata() const;
+  
+  // nested types ----------------------------------------------------
+  
+  // accessors -------------------------------------------------------
+  
+  // repeated .Parameter_Set set = 1;
+  inline int set_size() const;
+  inline void clear_set();
+  static const int kSetFieldNumber = 1;
+  inline const ::Parameter_Set& set(int index) const;
+  inline ::Parameter_Set* mutable_set(int index);
+  inline ::Parameter_Set* add_set();
+  inline const ::google::protobuf::RepeatedPtrField< ::Parameter_Set >&
+      set() const;
+  inline ::google::protobuf::RepeatedPtrField< ::Parameter_Set >*
+      mutable_set();
+  
+  // @@protoc_insertion_point(class_scope:Parameter_Book)
+ private:
+  
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+  
+  ::google::protobuf::RepeatedPtrField< ::Parameter_Set > set_;
+  
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+  
+  friend void  protobuf_AddDesc_ImmortalsProtocols_2eproto();
+  friend void protobuf_AssignDesc_ImmortalsProtocols_2eproto();
+  friend void protobuf_ShutdownFile_ImmortalsProtocols_2eproto();
+  
+  void InitAsDefaultInstance();
+  static Parameter_Book* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class Ai2GuiMsg : public ::google::protobuf::Message {
+ public:
+  Ai2GuiMsg();
+  virtual ~Ai2GuiMsg();
+  
+  Ai2GuiMsg(const Ai2GuiMsg& from);
+  
+  inline Ai2GuiMsg& operator=(const Ai2GuiMsg& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+  
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+  
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const Ai2GuiMsg& default_instance();
+  
+  void Swap(Ai2GuiMsg* other);
+  
+  // implements Message ----------------------------------------------
+  
+  Ai2GuiMsg* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const Ai2GuiMsg& from);
+  void MergeFrom(const Ai2GuiMsg& from);
+  void Clear();
+  bool IsInitialized() const;
+  
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  
+  ::google::protobuf::Metadata GetMetadata() const;
+  
+  // nested types ----------------------------------------------------
+  
+  // accessors -------------------------------------------------------
+  
+  // required int32 timestamp = 1;
+  inline bool has_timestamp() const;
+  inline void clear_timestamp();
+  static const int kTimestampFieldNumber = 1;
+  inline ::google::protobuf::int32 timestamp() const;
+  inline void set_timestamp(::google::protobuf::int32 value);
+  
+  // required .ballsDataMsg ballsData = 2;
   inline bool has_ballsdata() const;
   inline void clear_ballsdata();
-  static const int kBallsDataFieldNumber = 1;
+  static const int kBallsDataFieldNumber = 2;
   inline const ::ballsDataMsg& ballsdata() const;
   inline ::ballsDataMsg* mutable_ballsdata();
   inline ::ballsDataMsg* release_ballsdata();
   
-  // repeated .robotDataMsg robotData = 2;
+  // repeated .robotDataMsg robotData = 3;
   inline int robotdata_size() const;
   inline void clear_robotdata();
-  static const int kRobotDataFieldNumber = 2;
+  static const int kRobotDataFieldNumber = 3;
   inline const ::robotDataMsg& robotdata(int index) const;
   inline ::robotDataMsg* mutable_robotdata(int index);
   inline ::robotDataMsg* add_robotdata();
@@ -640,30 +835,42 @@ class AiGuiMsg : public ::google::protobuf::Message {
   inline ::google::protobuf::RepeatedPtrField< ::robotDataMsg >*
       mutable_robotdata();
   
-  // optional .gameStateMsg gameState = 3;
+  // optional .gameStateMsg gameState = 4;
   inline bool has_gamestate() const;
   inline void clear_gamestate();
-  static const int kGameStateFieldNumber = 3;
+  static const int kGameStateFieldNumber = 4;
   inline const ::gameStateMsg& gamestate() const;
   inline ::gameStateMsg* mutable_gamestate();
   inline ::gameStateMsg* release_gamestate();
   
-  // optional .AI_Debug aidbgdata = 4;
+  // optional .AI_Debug aidbgdata = 5;
   inline bool has_aidbgdata() const;
   inline void clear_aidbgdata();
-  static const int kAidbgdataFieldNumber = 4;
+  static const int kAidbgdataFieldNumber = 5;
   inline const ::AI_Debug& aidbgdata() const;
   inline ::AI_Debug* mutable_aidbgdata();
   inline ::AI_Debug* release_aidbgdata();
   
-  // @@protoc_insertion_point(class_scope:AiGuiMsg)
+  // optional .Parameter_Book params = 6;
+  inline bool has_params() const;
+  inline void clear_params();
+  static const int kParamsFieldNumber = 6;
+  inline const ::Parameter_Book& params() const;
+  inline ::Parameter_Book* mutable_params();
+  inline ::Parameter_Book* release_params();
+  
+  // @@protoc_insertion_point(class_scope:Ai2GuiMsg)
  private:
+  inline void set_has_timestamp();
+  inline void clear_has_timestamp();
   inline void set_has_ballsdata();
   inline void clear_has_ballsdata();
   inline void set_has_gamestate();
   inline void clear_has_gamestate();
   inline void set_has_aidbgdata();
   inline void clear_has_aidbgdata();
+  inline void set_has_params();
+  inline void clear_has_params();
   
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
   
@@ -671,6 +878,231 @@ class AiGuiMsg : public ::google::protobuf::Message {
   ::google::protobuf::RepeatedPtrField< ::robotDataMsg > robotdata_;
   ::gameStateMsg* gamestate_;
   ::AI_Debug* aidbgdata_;
+  ::Parameter_Book* params_;
+  ::google::protobuf::int32 timestamp_;
+  
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(6 + 31) / 32];
+  
+  friend void  protobuf_AddDesc_ImmortalsProtocols_2eproto();
+  friend void protobuf_AssignDesc_ImmortalsProtocols_2eproto();
+  friend void protobuf_ShutdownFile_ImmortalsProtocols_2eproto();
+  
+  void InitAsDefaultInstance();
+  static Ai2GuiMsg* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class Gui2AiMsg : public ::google::protobuf::Message {
+ public:
+  Gui2AiMsg();
+  virtual ~Gui2AiMsg();
+  
+  Gui2AiMsg(const Gui2AiMsg& from);
+  
+  inline Gui2AiMsg& operator=(const Gui2AiMsg& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+  
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+  
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const Gui2AiMsg& default_instance();
+  
+  void Swap(Gui2AiMsg* other);
+  
+  // implements Message ----------------------------------------------
+  
+  Gui2AiMsg* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const Gui2AiMsg& from);
+  void MergeFrom(const Gui2AiMsg& from);
+  void Clear();
+  bool IsInitialized() const;
+  
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  
+  ::google::protobuf::Metadata GetMetadata() const;
+  
+  // nested types ----------------------------------------------------
+  
+  // accessors -------------------------------------------------------
+  
+  // required int32 timestamp = 1;
+  inline bool has_timestamp() const;
+  inline void clear_timestamp();
+  static const int kTimestampFieldNumber = 1;
+  inline ::google::protobuf::int32 timestamp() const;
+  inline void set_timestamp(::google::protobuf::int32 value);
+  
+  // optional .Parameter_Book params = 2;
+  inline bool has_params() const;
+  inline void clear_params();
+  static const int kParamsFieldNumber = 2;
+  inline const ::Parameter_Book& params() const;
+  inline ::Parameter_Book* mutable_params();
+  inline ::Parameter_Book* release_params();
+  
+  // repeated .Data_Node data = 3;
+  inline int data_size() const;
+  inline void clear_data();
+  static const int kDataFieldNumber = 3;
+  inline const ::Data_Node& data(int index) const;
+  inline ::Data_Node* mutable_data(int index);
+  inline ::Data_Node* add_data();
+  inline const ::google::protobuf::RepeatedPtrField< ::Data_Node >&
+      data() const;
+  inline ::google::protobuf::RepeatedPtrField< ::Data_Node >*
+      mutable_data();
+  
+  // @@protoc_insertion_point(class_scope:Gui2AiMsg)
+ private:
+  inline void set_has_timestamp();
+  inline void clear_has_timestamp();
+  inline void set_has_params();
+  inline void clear_has_params();
+  
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+  
+  ::Parameter_Book* params_;
+  ::google::protobuf::RepeatedPtrField< ::Data_Node > data_;
+  ::google::protobuf::int32 timestamp_;
+  
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
+  
+  friend void  protobuf_AddDesc_ImmortalsProtocols_2eproto();
+  friend void protobuf_AssignDesc_ImmortalsProtocols_2eproto();
+  friend void protobuf_ShutdownFile_ImmortalsProtocols_2eproto();
+  
+  void InitAsDefaultInstance();
+  static Gui2AiMsg* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class Gui2GLMsg : public ::google::protobuf::Message {
+ public:
+  Gui2GLMsg();
+  virtual ~Gui2GLMsg();
+  
+  Gui2GLMsg(const Gui2GLMsg& from);
+  
+  inline Gui2GLMsg& operator=(const Gui2GLMsg& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+  
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+  
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const Gui2GLMsg& default_instance();
+  
+  void Swap(Gui2GLMsg* other);
+  
+  // implements Message ----------------------------------------------
+  
+  Gui2GLMsg* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const Gui2GLMsg& from);
+  void MergeFrom(const Gui2GLMsg& from);
+  void Clear();
+  bool IsInitialized() const;
+  
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  
+  ::google::protobuf::Metadata GetMetadata() const;
+  
+  // nested types ----------------------------------------------------
+  
+  // accessors -------------------------------------------------------
+  
+  // required int32 timestamp = 1;
+  inline bool has_timestamp() const;
+  inline void clear_timestamp();
+  static const int kTimestampFieldNumber = 1;
+  inline ::google::protobuf::int32 timestamp() const;
+  inline void set_timestamp(::google::protobuf::int32 value);
+  
+  // required .Debug_Draw draw_data = 2;
+  inline bool has_draw_data() const;
+  inline void clear_draw_data();
+  static const int kDrawDataFieldNumber = 2;
+  inline const ::Debug_Draw& draw_data() const;
+  inline ::Debug_Draw* mutable_draw_data();
+  inline ::Debug_Draw* release_draw_data();
+  
+  // optional .ballsDataMsg ballsData = 3;
+  inline bool has_ballsdata() const;
+  inline void clear_ballsdata();
+  static const int kBallsDataFieldNumber = 3;
+  inline const ::ballsDataMsg& ballsdata() const;
+  inline ::ballsDataMsg* mutable_ballsdata();
+  inline ::ballsDataMsg* release_ballsdata();
+  
+  // repeated .robotDataMsg robotData = 4;
+  inline int robotdata_size() const;
+  inline void clear_robotdata();
+  static const int kRobotDataFieldNumber = 4;
+  inline const ::robotDataMsg& robotdata(int index) const;
+  inline ::robotDataMsg* mutable_robotdata(int index);
+  inline ::robotDataMsg* add_robotdata();
+  inline const ::google::protobuf::RepeatedPtrField< ::robotDataMsg >&
+      robotdata() const;
+  inline ::google::protobuf::RepeatedPtrField< ::robotDataMsg >*
+      mutable_robotdata();
+  
+  // @@protoc_insertion_point(class_scope:Gui2GLMsg)
+ private:
+  inline void set_has_timestamp();
+  inline void clear_has_timestamp();
+  inline void set_has_draw_data();
+  inline void clear_has_draw_data();
+  inline void set_has_ballsdata();
+  inline void clear_has_ballsdata();
+  
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+  
+  ::Debug_Draw* draw_data_;
+  ::ballsDataMsg* ballsdata_;
+  ::google::protobuf::RepeatedPtrField< ::robotDataMsg > robotdata_;
+  ::google::protobuf::int32 timestamp_;
   
   mutable int _cached_size_;
   ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
@@ -680,7 +1112,7 @@ class AiGuiMsg : public ::google::protobuf::Message {
   friend void protobuf_ShutdownFile_ImmortalsProtocols_2eproto();
   
   void InitAsDefaultInstance();
-  static AiGuiMsg* default_instance_;
+  static Gui2GLMsg* default_instance_;
 };
 // ===================================================================
 
@@ -1434,118 +1866,474 @@ inline void gameStateMsg::set_probballout(bool value) {
 
 // -------------------------------------------------------------------
 
-// AiGuiMsg
+// Parameter_Set
 
-// required .ballsDataMsg ballsData = 1;
-inline bool AiGuiMsg::has_ballsdata() const {
+// required string name = 1;
+inline bool Parameter_Set::has_name() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void AiGuiMsg::set_has_ballsdata() {
+inline void Parameter_Set::set_has_name() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void AiGuiMsg::clear_has_ballsdata() {
+inline void Parameter_Set::clear_has_name() {
   _has_bits_[0] &= ~0x00000001u;
 }
-inline void AiGuiMsg::clear_ballsdata() {
+inline void Parameter_Set::clear_name() {
+  if (name_ != &::google::protobuf::internal::kEmptyString) {
+    name_->clear();
+  }
+  clear_has_name();
+}
+inline const ::std::string& Parameter_Set::name() const {
+  return *name_;
+}
+inline void Parameter_Set::set_name(const ::std::string& value) {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::kEmptyString) {
+    name_ = new ::std::string;
+  }
+  name_->assign(value);
+}
+inline void Parameter_Set::set_name(const char* value) {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::kEmptyString) {
+    name_ = new ::std::string;
+  }
+  name_->assign(value);
+}
+inline void Parameter_Set::set_name(const char* value, size_t size) {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::kEmptyString) {
+    name_ = new ::std::string;
+  }
+  name_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* Parameter_Set::mutable_name() {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::kEmptyString) {
+    name_ = new ::std::string;
+  }
+  return name_;
+}
+inline ::std::string* Parameter_Set::release_name() {
+  clear_has_name();
+  if (name_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = name_;
+    name_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+
+// repeated .Data_Node parameter = 2;
+inline int Parameter_Set::parameter_size() const {
+  return parameter_.size();
+}
+inline void Parameter_Set::clear_parameter() {
+  parameter_.Clear();
+}
+inline const ::Data_Node& Parameter_Set::parameter(int index) const {
+  return parameter_.Get(index);
+}
+inline ::Data_Node* Parameter_Set::mutable_parameter(int index) {
+  return parameter_.Mutable(index);
+}
+inline ::Data_Node* Parameter_Set::add_parameter() {
+  return parameter_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::Data_Node >&
+Parameter_Set::parameter() const {
+  return parameter_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::Data_Node >*
+Parameter_Set::mutable_parameter() {
+  return &parameter_;
+}
+
+// -------------------------------------------------------------------
+
+// Parameter_Book
+
+// repeated .Parameter_Set set = 1;
+inline int Parameter_Book::set_size() const {
+  return set_.size();
+}
+inline void Parameter_Book::clear_set() {
+  set_.Clear();
+}
+inline const ::Parameter_Set& Parameter_Book::set(int index) const {
+  return set_.Get(index);
+}
+inline ::Parameter_Set* Parameter_Book::mutable_set(int index) {
+  return set_.Mutable(index);
+}
+inline ::Parameter_Set* Parameter_Book::add_set() {
+  return set_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::Parameter_Set >&
+Parameter_Book::set() const {
+  return set_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::Parameter_Set >*
+Parameter_Book::mutable_set() {
+  return &set_;
+}
+
+// -------------------------------------------------------------------
+
+// Ai2GuiMsg
+
+// required int32 timestamp = 1;
+inline bool Ai2GuiMsg::has_timestamp() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void Ai2GuiMsg::set_has_timestamp() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void Ai2GuiMsg::clear_has_timestamp() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void Ai2GuiMsg::clear_timestamp() {
+  timestamp_ = 0;
+  clear_has_timestamp();
+}
+inline ::google::protobuf::int32 Ai2GuiMsg::timestamp() const {
+  return timestamp_;
+}
+inline void Ai2GuiMsg::set_timestamp(::google::protobuf::int32 value) {
+  set_has_timestamp();
+  timestamp_ = value;
+}
+
+// required .ballsDataMsg ballsData = 2;
+inline bool Ai2GuiMsg::has_ballsdata() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void Ai2GuiMsg::set_has_ballsdata() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void Ai2GuiMsg::clear_has_ballsdata() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void Ai2GuiMsg::clear_ballsdata() {
   if (ballsdata_ != NULL) ballsdata_->::ballsDataMsg::Clear();
   clear_has_ballsdata();
 }
-inline const ::ballsDataMsg& AiGuiMsg::ballsdata() const {
+inline const ::ballsDataMsg& Ai2GuiMsg::ballsdata() const {
   return ballsdata_ != NULL ? *ballsdata_ : *default_instance_->ballsdata_;
 }
-inline ::ballsDataMsg* AiGuiMsg::mutable_ballsdata() {
+inline ::ballsDataMsg* Ai2GuiMsg::mutable_ballsdata() {
   set_has_ballsdata();
   if (ballsdata_ == NULL) ballsdata_ = new ::ballsDataMsg;
   return ballsdata_;
 }
-inline ::ballsDataMsg* AiGuiMsg::release_ballsdata() {
+inline ::ballsDataMsg* Ai2GuiMsg::release_ballsdata() {
   clear_has_ballsdata();
   ::ballsDataMsg* temp = ballsdata_;
   ballsdata_ = NULL;
   return temp;
 }
 
-// repeated .robotDataMsg robotData = 2;
-inline int AiGuiMsg::robotdata_size() const {
+// repeated .robotDataMsg robotData = 3;
+inline int Ai2GuiMsg::robotdata_size() const {
   return robotdata_.size();
 }
-inline void AiGuiMsg::clear_robotdata() {
+inline void Ai2GuiMsg::clear_robotdata() {
   robotdata_.Clear();
 }
-inline const ::robotDataMsg& AiGuiMsg::robotdata(int index) const {
+inline const ::robotDataMsg& Ai2GuiMsg::robotdata(int index) const {
   return robotdata_.Get(index);
 }
-inline ::robotDataMsg* AiGuiMsg::mutable_robotdata(int index) {
+inline ::robotDataMsg* Ai2GuiMsg::mutable_robotdata(int index) {
   return robotdata_.Mutable(index);
 }
-inline ::robotDataMsg* AiGuiMsg::add_robotdata() {
+inline ::robotDataMsg* Ai2GuiMsg::add_robotdata() {
   return robotdata_.Add();
 }
 inline const ::google::protobuf::RepeatedPtrField< ::robotDataMsg >&
-AiGuiMsg::robotdata() const {
+Ai2GuiMsg::robotdata() const {
   return robotdata_;
 }
 inline ::google::protobuf::RepeatedPtrField< ::robotDataMsg >*
-AiGuiMsg::mutable_robotdata() {
+Ai2GuiMsg::mutable_robotdata() {
   return &robotdata_;
 }
 
-// optional .gameStateMsg gameState = 3;
-inline bool AiGuiMsg::has_gamestate() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+// optional .gameStateMsg gameState = 4;
+inline bool Ai2GuiMsg::has_gamestate() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
 }
-inline void AiGuiMsg::set_has_gamestate() {
-  _has_bits_[0] |= 0x00000004u;
+inline void Ai2GuiMsg::set_has_gamestate() {
+  _has_bits_[0] |= 0x00000008u;
 }
-inline void AiGuiMsg::clear_has_gamestate() {
-  _has_bits_[0] &= ~0x00000004u;
+inline void Ai2GuiMsg::clear_has_gamestate() {
+  _has_bits_[0] &= ~0x00000008u;
 }
-inline void AiGuiMsg::clear_gamestate() {
+inline void Ai2GuiMsg::clear_gamestate() {
   if (gamestate_ != NULL) gamestate_->::gameStateMsg::Clear();
   clear_has_gamestate();
 }
-inline const ::gameStateMsg& AiGuiMsg::gamestate() const {
+inline const ::gameStateMsg& Ai2GuiMsg::gamestate() const {
   return gamestate_ != NULL ? *gamestate_ : *default_instance_->gamestate_;
 }
-inline ::gameStateMsg* AiGuiMsg::mutable_gamestate() {
+inline ::gameStateMsg* Ai2GuiMsg::mutable_gamestate() {
   set_has_gamestate();
   if (gamestate_ == NULL) gamestate_ = new ::gameStateMsg;
   return gamestate_;
 }
-inline ::gameStateMsg* AiGuiMsg::release_gamestate() {
+inline ::gameStateMsg* Ai2GuiMsg::release_gamestate() {
   clear_has_gamestate();
   ::gameStateMsg* temp = gamestate_;
   gamestate_ = NULL;
   return temp;
 }
 
-// optional .AI_Debug aidbgdata = 4;
-inline bool AiGuiMsg::has_aidbgdata() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
+// optional .AI_Debug aidbgdata = 5;
+inline bool Ai2GuiMsg::has_aidbgdata() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
 }
-inline void AiGuiMsg::set_has_aidbgdata() {
-  _has_bits_[0] |= 0x00000008u;
+inline void Ai2GuiMsg::set_has_aidbgdata() {
+  _has_bits_[0] |= 0x00000010u;
 }
-inline void AiGuiMsg::clear_has_aidbgdata() {
-  _has_bits_[0] &= ~0x00000008u;
+inline void Ai2GuiMsg::clear_has_aidbgdata() {
+  _has_bits_[0] &= ~0x00000010u;
 }
-inline void AiGuiMsg::clear_aidbgdata() {
+inline void Ai2GuiMsg::clear_aidbgdata() {
   if (aidbgdata_ != NULL) aidbgdata_->::AI_Debug::Clear();
   clear_has_aidbgdata();
 }
-inline const ::AI_Debug& AiGuiMsg::aidbgdata() const {
+inline const ::AI_Debug& Ai2GuiMsg::aidbgdata() const {
   return aidbgdata_ != NULL ? *aidbgdata_ : *default_instance_->aidbgdata_;
 }
-inline ::AI_Debug* AiGuiMsg::mutable_aidbgdata() {
+inline ::AI_Debug* Ai2GuiMsg::mutable_aidbgdata() {
   set_has_aidbgdata();
   if (aidbgdata_ == NULL) aidbgdata_ = new ::AI_Debug;
   return aidbgdata_;
 }
-inline ::AI_Debug* AiGuiMsg::release_aidbgdata() {
+inline ::AI_Debug* Ai2GuiMsg::release_aidbgdata() {
   clear_has_aidbgdata();
   ::AI_Debug* temp = aidbgdata_;
   aidbgdata_ = NULL;
   return temp;
+}
+
+// optional .Parameter_Book params = 6;
+inline bool Ai2GuiMsg::has_params() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void Ai2GuiMsg::set_has_params() {
+  _has_bits_[0] |= 0x00000020u;
+}
+inline void Ai2GuiMsg::clear_has_params() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+inline void Ai2GuiMsg::clear_params() {
+  if (params_ != NULL) params_->::Parameter_Book::Clear();
+  clear_has_params();
+}
+inline const ::Parameter_Book& Ai2GuiMsg::params() const {
+  return params_ != NULL ? *params_ : *default_instance_->params_;
+}
+inline ::Parameter_Book* Ai2GuiMsg::mutable_params() {
+  set_has_params();
+  if (params_ == NULL) params_ = new ::Parameter_Book;
+  return params_;
+}
+inline ::Parameter_Book* Ai2GuiMsg::release_params() {
+  clear_has_params();
+  ::Parameter_Book* temp = params_;
+  params_ = NULL;
+  return temp;
+}
+
+// -------------------------------------------------------------------
+
+// Gui2AiMsg
+
+// required int32 timestamp = 1;
+inline bool Gui2AiMsg::has_timestamp() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void Gui2AiMsg::set_has_timestamp() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void Gui2AiMsg::clear_has_timestamp() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void Gui2AiMsg::clear_timestamp() {
+  timestamp_ = 0;
+  clear_has_timestamp();
+}
+inline ::google::protobuf::int32 Gui2AiMsg::timestamp() const {
+  return timestamp_;
+}
+inline void Gui2AiMsg::set_timestamp(::google::protobuf::int32 value) {
+  set_has_timestamp();
+  timestamp_ = value;
+}
+
+// optional .Parameter_Book params = 2;
+inline bool Gui2AiMsg::has_params() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void Gui2AiMsg::set_has_params() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void Gui2AiMsg::clear_has_params() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void Gui2AiMsg::clear_params() {
+  if (params_ != NULL) params_->::Parameter_Book::Clear();
+  clear_has_params();
+}
+inline const ::Parameter_Book& Gui2AiMsg::params() const {
+  return params_ != NULL ? *params_ : *default_instance_->params_;
+}
+inline ::Parameter_Book* Gui2AiMsg::mutable_params() {
+  set_has_params();
+  if (params_ == NULL) params_ = new ::Parameter_Book;
+  return params_;
+}
+inline ::Parameter_Book* Gui2AiMsg::release_params() {
+  clear_has_params();
+  ::Parameter_Book* temp = params_;
+  params_ = NULL;
+  return temp;
+}
+
+// repeated .Data_Node data = 3;
+inline int Gui2AiMsg::data_size() const {
+  return data_.size();
+}
+inline void Gui2AiMsg::clear_data() {
+  data_.Clear();
+}
+inline const ::Data_Node& Gui2AiMsg::data(int index) const {
+  return data_.Get(index);
+}
+inline ::Data_Node* Gui2AiMsg::mutable_data(int index) {
+  return data_.Mutable(index);
+}
+inline ::Data_Node* Gui2AiMsg::add_data() {
+  return data_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::Data_Node >&
+Gui2AiMsg::data() const {
+  return data_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::Data_Node >*
+Gui2AiMsg::mutable_data() {
+  return &data_;
+}
+
+// -------------------------------------------------------------------
+
+// Gui2GLMsg
+
+// required int32 timestamp = 1;
+inline bool Gui2GLMsg::has_timestamp() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void Gui2GLMsg::set_has_timestamp() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void Gui2GLMsg::clear_has_timestamp() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void Gui2GLMsg::clear_timestamp() {
+  timestamp_ = 0;
+  clear_has_timestamp();
+}
+inline ::google::protobuf::int32 Gui2GLMsg::timestamp() const {
+  return timestamp_;
+}
+inline void Gui2GLMsg::set_timestamp(::google::protobuf::int32 value) {
+  set_has_timestamp();
+  timestamp_ = value;
+}
+
+// required .Debug_Draw draw_data = 2;
+inline bool Gui2GLMsg::has_draw_data() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void Gui2GLMsg::set_has_draw_data() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void Gui2GLMsg::clear_has_draw_data() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void Gui2GLMsg::clear_draw_data() {
+  if (draw_data_ != NULL) draw_data_->::Debug_Draw::Clear();
+  clear_has_draw_data();
+}
+inline const ::Debug_Draw& Gui2GLMsg::draw_data() const {
+  return draw_data_ != NULL ? *draw_data_ : *default_instance_->draw_data_;
+}
+inline ::Debug_Draw* Gui2GLMsg::mutable_draw_data() {
+  set_has_draw_data();
+  if (draw_data_ == NULL) draw_data_ = new ::Debug_Draw;
+  return draw_data_;
+}
+inline ::Debug_Draw* Gui2GLMsg::release_draw_data() {
+  clear_has_draw_data();
+  ::Debug_Draw* temp = draw_data_;
+  draw_data_ = NULL;
+  return temp;
+}
+
+// optional .ballsDataMsg ballsData = 3;
+inline bool Gui2GLMsg::has_ballsdata() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void Gui2GLMsg::set_has_ballsdata() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void Gui2GLMsg::clear_has_ballsdata() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void Gui2GLMsg::clear_ballsdata() {
+  if (ballsdata_ != NULL) ballsdata_->::ballsDataMsg::Clear();
+  clear_has_ballsdata();
+}
+inline const ::ballsDataMsg& Gui2GLMsg::ballsdata() const {
+  return ballsdata_ != NULL ? *ballsdata_ : *default_instance_->ballsdata_;
+}
+inline ::ballsDataMsg* Gui2GLMsg::mutable_ballsdata() {
+  set_has_ballsdata();
+  if (ballsdata_ == NULL) ballsdata_ = new ::ballsDataMsg;
+  return ballsdata_;
+}
+inline ::ballsDataMsg* Gui2GLMsg::release_ballsdata() {
+  clear_has_ballsdata();
+  ::ballsDataMsg* temp = ballsdata_;
+  ballsdata_ = NULL;
+  return temp;
+}
+
+// repeated .robotDataMsg robotData = 4;
+inline int Gui2GLMsg::robotdata_size() const {
+  return robotdata_.size();
+}
+inline void Gui2GLMsg::clear_robotdata() {
+  robotdata_.Clear();
+}
+inline const ::robotDataMsg& Gui2GLMsg::robotdata(int index) const {
+  return robotdata_.Get(index);
+}
+inline ::robotDataMsg* Gui2GLMsg::mutable_robotdata(int index) {
+  return robotdata_.Mutable(index);
+}
+inline ::robotDataMsg* Gui2GLMsg::add_robotdata() {
+  return robotdata_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::robotDataMsg >&
+Gui2GLMsg::robotdata() const {
+  return robotdata_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::robotDataMsg >*
+Gui2GLMsg::mutable_robotdata() {
+  return &robotdata_;
 }
 
 

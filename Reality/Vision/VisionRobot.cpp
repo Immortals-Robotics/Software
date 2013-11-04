@@ -10,6 +10,8 @@ const float OPPONENT_ERROR_VELOCITY_SQUARED = 200000.0f;
 
 #include <fstream>
 ofstream outfile ( "outf.txt" );
+ofstream delay_data ( "delay.txt" );
+unsigned int fr_num = 0;
 
 void VisionModule::ProcessRobots ( WorldState * state )
 {
@@ -36,17 +38,17 @@ void VisionModule::ProcessRobots ( WorldState * state )
 	FilterRobots ( robots_num , ! ( setting -> color ) );
 	
 	//We're almost done, only Prediction remains undone!
-		//RunANN(state);
-		
-	//PredictWithANN(state);
-	//TrainANN(0.05f);
-	
-	
 	predictRobotsForward ( state );
-
-	//RunANN(state);	
+	//RunANN(state);
+	//PredictWithANN(state);
+	//TrainANN(0.1f);
+	//RunANN(state);
+		
 	//Now we send Robots States to the AI!
 	SendStates ( state );
+	
+	//int cmdIndex = state->lastCMDS[6][10].X;
+	//delay_data << fr_num++ << "	" << state->OwnRobot[6].Position.X << "	" << state->OwnRobot[6].Position.Y << "	" << state->lastCMDS[6][cmdIndex].X << "	" << state->lastCMDS[6][cmdIndex].Y << endl;
 	
 }
 int VisionModule::ExtractBlueRobots ( void )
@@ -174,12 +176,10 @@ void VisionModule::FilterRobots ( int num , bool own )
 			//robotState[own][i].velocity.direction = 0.0f;
 			//robotState[own][i].velocity.magnitude = 0.0f;
 			
-			robotState[own][i].Position.X += robotState[own][i].velocity.x / 61.0;
-			robotState[own][i].Position.Y += robotState[own][i].velocity.y / 61.0;
+			//robotState[own][i].Position.X += robotState[own][i].velocity.x / 61.0;
+			//robotState[own][i].Position.Y += robotState[own][i].velocity.y / 61.0;
 			
-			if ( ( own == 0 ) && (i == 6) ) {
-				cout << robotState[own][i].velocity.x << endl;
-			}
+			//}
 		}
 		
 		else
@@ -220,11 +220,11 @@ void VisionModule::FilterRobots ( int num , bool own )
 			robotState[own][i].velocity.magnitude = sqrt ( ( robotState[own][i].velocity.x * robotState[own][i].velocity.x ) + ( robotState[own][i].velocity.y * robotState[own][i].velocity.y ) );
 		}
 	}
-}
+} 
 
 void VisionModule::predictRobotsForward( WorldState * state )
 {  
-	for ( int own = 0 ; own < 2 ; own ++ )
+	for ( int own = 1 ; own < 2 ; own ++ )
 	{
 		for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
 		{
@@ -256,17 +256,32 @@ void VisionModule::predictRobotsForward( WorldState * state )
 			 robotState[own][i].velocity.x *= (float)(1000.0);
 			 robotState[own][i].velocity.y *= (float)(1000.0);*/
 			
+			robotState[own][i].Position.X = robotState[own][i].Position.X + robotState[own][i].velocity.x / ( PREDICT_STEPS * 2.0f );
+			
+			// Predict the robot to go forward
+			robotState[own][i].Position.Y = robotState[own][i].Position.Y + robotState[own][i].velocity.y / ( PREDICT_STEPS * 2.0f );
+			
+			// Predict the robot to go forward
+			robotState[own][i].Angle = robotState[own][i].Angle + robotState[own][i].AngularVelocity / ( PREDICT_STEPS * 4.0f );
+
+			
 		}
 	}
 	
 	for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
 	{
-		for ( int j = 0 ; j < 10 ; j ++ )
-		{
-			robotState[0][i].Position.X = robotState[0][i].Position.X + state -> lastCMDS[i][j].X / 1.2f;
-			robotState[0][i].Position.Y = robotState[0][i].Position.Y + state -> lastCMDS[i][j].Y / 1.2f;
-			//if (( i == 3 ) )
-			//	robotState[0][i].Angle = robotState[0][i].Angle - state -> lastCMDS[i][j].Z * 0.04f;
+		if (robotState[0][i].seenState != Seen) {
+			robotState[0][i].Position.X = robotState[0][i].Position.X + state -> lastCMDS[i][(int)state->lastCMDS[i][10].X].X / 1.2f;
+			robotState[0][i].Position.Y = robotState[0][i].Position.Y + state -> lastCMDS[i][(int)state->lastCMDS[i][10].X].Y / 1.2f;
+		}
+		else {
+			for ( int j = 0 ; j < 10 ; j ++ )
+			{
+				robotState[0][i].Position.X = robotState[0][i].Position.X + state -> lastCMDS[i][j].X / 1.4f;
+				robotState[0][i].Position.Y = robotState[0][i].Position.Y + state -> lastCMDS[i][j].Y / 1.4f;
+				//if (( i == 3 ) )
+				//	robotState[0][i].Angle = robotState[0][i].Angle - state -> lastCMDS[i][j].Z * 0.04f;
+			}
 		}
 		if ( robotState[0][i].Angle > 180 )
 			robotState[0][i].Angle -= 360.0f;

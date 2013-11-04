@@ -35,8 +35,36 @@ class Debug_Point;
 class Debug_Line;
 class Debug_Rect;
 class Debug_Circle;
+class Data_Node;
+class Debug_Draw;
+class Function_Data;
 class AI_Debug;
 
+enum Data_Type {
+  imm_bool = 0,
+  imm_short = 1,
+  imm_int = 2,
+  imm_float = 3,
+  imm_double = 4,
+  imm_vec2 = 5,
+  imm_vec3 = 6,
+  imm_str = 7
+};
+bool Data_Type_IsValid(int value);
+const Data_Type Data_Type_MIN = imm_bool;
+const Data_Type Data_Type_MAX = imm_str;
+const int Data_Type_ARRAYSIZE = Data_Type_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* Data_Type_descriptor();
+inline const ::std::string& Data_Type_Name(Data_Type value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    Data_Type_descriptor(), value);
+}
+inline bool Data_Type_Parse(
+    const ::std::string& name, Data_Type* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<Data_Type>(
+    Data_Type_descriptor(), name, value);
+}
 // ===================================================================
 
 class color : public ::google::protobuf::Message {
@@ -603,14 +631,14 @@ class Debug_Circle : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class AI_Debug : public ::google::protobuf::Message {
+class Data_Node : public ::google::protobuf::Message {
  public:
-  AI_Debug();
-  virtual ~AI_Debug();
+  Data_Node();
+  virtual ~Data_Node();
   
-  AI_Debug(const AI_Debug& from);
+  Data_Node(const Data_Node& from);
   
-  inline AI_Debug& operator=(const AI_Debug& from) {
+  inline Data_Node& operator=(const Data_Node& from) {
     CopyFrom(from);
     return *this;
   }
@@ -624,17 +652,141 @@ class AI_Debug : public ::google::protobuf::Message {
   }
   
   static const ::google::protobuf::Descriptor* descriptor();
-  static const AI_Debug& default_instance();
+  static const Data_Node& default_instance();
   
-  void Swap(AI_Debug* other);
+  void Swap(Data_Node* other);
   
   // implements Message ----------------------------------------------
   
-  AI_Debug* New() const;
+  Data_Node* New() const;
   void CopyFrom(const ::google::protobuf::Message& from);
   void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const AI_Debug& from);
-  void MergeFrom(const AI_Debug& from);
+  void CopyFrom(const Data_Node& from);
+  void MergeFrom(const Data_Node& from);
+  void Clear();
+  bool IsInitialized() const;
+  
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  
+  ::google::protobuf::Metadata GetMetadata() const;
+  
+  // nested types ----------------------------------------------------
+  
+  // accessors -------------------------------------------------------
+  
+  // required string name = 1;
+  inline bool has_name() const;
+  inline void clear_name();
+  static const int kNameFieldNumber = 1;
+  inline const ::std::string& name() const;
+  inline void set_name(const ::std::string& value);
+  inline void set_name(const char* value);
+  inline void set_name(const char* value, size_t size);
+  inline ::std::string* mutable_name();
+  inline ::std::string* release_name();
+  
+  // required .Data_Type type = 2;
+  inline bool has_type() const;
+  inline void clear_type();
+  static const int kTypeFieldNumber = 2;
+  inline Data_Type type() const;
+  inline void set_type(Data_Type value);
+  
+  // required string data = 3;
+  inline bool has_data() const;
+  inline void clear_data();
+  static const int kDataFieldNumber = 3;
+  inline const ::std::string& data() const;
+  inline void set_data(const ::std::string& value);
+  inline void set_data(const char* value);
+  inline void set_data(const char* value, size_t size);
+  inline ::std::string* mutable_data();
+  inline ::std::string* release_data();
+  
+  // optional string hint = 4;
+  inline bool has_hint() const;
+  inline void clear_hint();
+  static const int kHintFieldNumber = 4;
+  inline const ::std::string& hint() const;
+  inline void set_hint(const ::std::string& value);
+  inline void set_hint(const char* value);
+  inline void set_hint(const char* value, size_t size);
+  inline ::std::string* mutable_hint();
+  inline ::std::string* release_hint();
+  
+  // @@protoc_insertion_point(class_scope:Data_Node)
+ private:
+  inline void set_has_name();
+  inline void clear_has_name();
+  inline void set_has_type();
+  inline void clear_has_type();
+  inline void set_has_data();
+  inline void clear_has_data();
+  inline void set_has_hint();
+  inline void clear_has_hint();
+  
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+  
+  ::std::string* name_;
+  ::std::string* data_;
+  ::std::string* hint_;
+  int type_;
+  
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
+  
+  friend void  protobuf_AddDesc_aidebug_2eproto();
+  friend void protobuf_AssignDesc_aidebug_2eproto();
+  friend void protobuf_ShutdownFile_aidebug_2eproto();
+  
+  void InitAsDefaultInstance();
+  static Data_Node* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class Debug_Draw : public ::google::protobuf::Message {
+ public:
+  Debug_Draw();
+  virtual ~Debug_Draw();
+  
+  Debug_Draw(const Debug_Draw& from);
+  
+  inline Debug_Draw& operator=(const Debug_Draw& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+  
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+  
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const Debug_Draw& default_instance();
+  
+  void Swap(Debug_Draw* other);
+  
+  // implements Message ----------------------------------------------
+  
+  Debug_Draw* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const Debug_Draw& from);
+  void MergeFrom(const Debug_Draw& from);
   void Clear();
   bool IsInitialized() const;
   
@@ -705,7 +857,7 @@ class AI_Debug : public ::google::protobuf::Message {
   inline ::google::protobuf::RepeatedPtrField< ::Debug_Circle >*
       mutable_circle();
   
-  // @@protoc_insertion_point(class_scope:AI_Debug)
+  // @@protoc_insertion_point(class_scope:Debug_Draw)
  private:
   
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
@@ -717,6 +869,318 @@ class AI_Debug : public ::google::protobuf::Message {
   
   mutable int _cached_size_;
   ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
+  
+  friend void  protobuf_AddDesc_aidebug_2eproto();
+  friend void protobuf_AssignDesc_aidebug_2eproto();
+  friend void protobuf_ShutdownFile_aidebug_2eproto();
+  
+  void InitAsDefaultInstance();
+  static Debug_Draw* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class Function_Data : public ::google::protobuf::Message {
+ public:
+  Function_Data();
+  virtual ~Function_Data();
+  
+  Function_Data(const Function_Data& from);
+  
+  inline Function_Data& operator=(const Function_Data& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+  
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+  
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const Function_Data& default_instance();
+  
+  void Swap(Function_Data* other);
+  
+  // implements Message ----------------------------------------------
+  
+  Function_Data* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const Function_Data& from);
+  void MergeFrom(const Function_Data& from);
+  void Clear();
+  bool IsInitialized() const;
+  
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  
+  ::google::protobuf::Metadata GetMetadata() const;
+  
+  // nested types ----------------------------------------------------
+  
+  // accessors -------------------------------------------------------
+  
+  // required string name = 1;
+  inline bool has_name() const;
+  inline void clear_name();
+  static const int kNameFieldNumber = 1;
+  inline const ::std::string& name() const;
+  inline void set_name(const ::std::string& value);
+  inline void set_name(const char* value);
+  inline void set_name(const char* value, size_t size);
+  inline ::std::string* mutable_name();
+  inline ::std::string* release_name();
+  
+  // optional string category = 2 [default = "Uncategorised"];
+  inline bool has_category() const;
+  inline void clear_category();
+  static const int kCategoryFieldNumber = 2;
+  inline const ::std::string& category() const;
+  inline void set_category(const ::std::string& value);
+  inline void set_category(const char* value);
+  inline void set_category(const char* value, size_t size);
+  inline ::std::string* mutable_category();
+  inline ::std::string* release_category();
+  
+  // optional string hint = 3;
+  inline bool has_hint() const;
+  inline void clear_hint();
+  static const int kHintFieldNumber = 3;
+  inline const ::std::string& hint() const;
+  inline void set_hint(const ::std::string& value);
+  inline void set_hint(const char* value);
+  inline void set_hint(const char* value, size_t size);
+  inline ::std::string* mutable_hint();
+  inline ::std::string* release_hint();
+  
+  // repeated .Data_Node In_Data = 4;
+  inline int in_data_size() const;
+  inline void clear_in_data();
+  static const int kInDataFieldNumber = 4;
+  inline const ::Data_Node& in_data(int index) const;
+  inline ::Data_Node* mutable_in_data(int index);
+  inline ::Data_Node* add_in_data();
+  inline const ::google::protobuf::RepeatedPtrField< ::Data_Node >&
+      in_data() const;
+  inline ::google::protobuf::RepeatedPtrField< ::Data_Node >*
+      mutable_in_data();
+  
+  // repeated .Data_Node Out_Data = 5;
+  inline int out_data_size() const;
+  inline void clear_out_data();
+  static const int kOutDataFieldNumber = 5;
+  inline const ::Data_Node& out_data(int index) const;
+  inline ::Data_Node* mutable_out_data(int index);
+  inline ::Data_Node* add_out_data();
+  inline const ::google::protobuf::RepeatedPtrField< ::Data_Node >&
+      out_data() const;
+  inline ::google::protobuf::RepeatedPtrField< ::Data_Node >*
+      mutable_out_data();
+  
+  // repeated .Data_Node Internal_Var = 6;
+  inline int internal_var_size() const;
+  inline void clear_internal_var();
+  static const int kInternalVarFieldNumber = 6;
+  inline const ::Data_Node& internal_var(int index) const;
+  inline ::Data_Node* mutable_internal_var(int index);
+  inline ::Data_Node* add_internal_var();
+  inline const ::google::protobuf::RepeatedPtrField< ::Data_Node >&
+      internal_var() const;
+  inline ::google::protobuf::RepeatedPtrField< ::Data_Node >*
+      mutable_internal_var();
+  
+  // required .Debug_Draw draw_data = 7;
+  inline bool has_draw_data() const;
+  inline void clear_draw_data();
+  static const int kDrawDataFieldNumber = 7;
+  inline const ::Debug_Draw& draw_data() const;
+  inline ::Debug_Draw* mutable_draw_data();
+  inline ::Debug_Draw* release_draw_data();
+  
+  // @@protoc_insertion_point(class_scope:Function_Data)
+ private:
+  inline void set_has_name();
+  inline void clear_has_name();
+  inline void set_has_category();
+  inline void clear_has_category();
+  inline void set_has_hint();
+  inline void clear_has_hint();
+  inline void set_has_draw_data();
+  inline void clear_has_draw_data();
+  
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+  
+  ::std::string* name_;
+  ::std::string* category_;
+  static const ::std::string _default_category_;
+  ::std::string* hint_;
+  ::google::protobuf::RepeatedPtrField< ::Data_Node > in_data_;
+  ::google::protobuf::RepeatedPtrField< ::Data_Node > out_data_;
+  ::google::protobuf::RepeatedPtrField< ::Data_Node > internal_var_;
+  ::Debug_Draw* draw_data_;
+  
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(7 + 31) / 32];
+  
+  friend void  protobuf_AddDesc_aidebug_2eproto();
+  friend void protobuf_AssignDesc_aidebug_2eproto();
+  friend void protobuf_ShutdownFile_aidebug_2eproto();
+  
+  void InitAsDefaultInstance();
+  static Function_Data* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class AI_Debug : public ::google::protobuf::Message {
+ public:
+  AI_Debug();
+  virtual ~AI_Debug();
+  
+  AI_Debug(const AI_Debug& from);
+  
+  inline AI_Debug& operator=(const AI_Debug& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+  
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+  
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const AI_Debug& default_instance();
+  
+  void Swap(AI_Debug* other);
+  
+  // implements Message ----------------------------------------------
+  
+  AI_Debug* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const AI_Debug& from);
+  void MergeFrom(const AI_Debug& from);
+  void Clear();
+  bool IsInitialized() const;
+  
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  
+  ::google::protobuf::Metadata GetMetadata() const;
+  
+  // nested types ----------------------------------------------------
+  
+  // accessors -------------------------------------------------------
+  
+  // required uint32 frame_id = 1;
+  inline bool has_frame_id() const;
+  inline void clear_frame_id();
+  static const int kFrameIdFieldNumber = 1;
+  inline ::google::protobuf::uint32 frame_id() const;
+  inline void set_frame_id(::google::protobuf::uint32 value);
+  
+  // repeated .Function_Data func = 2;
+  inline int func_size() const;
+  inline void clear_func();
+  static const int kFuncFieldNumber = 2;
+  inline const ::Function_Data& func(int index) const;
+  inline ::Function_Data* mutable_func(int index);
+  inline ::Function_Data* add_func();
+  inline const ::google::protobuf::RepeatedPtrField< ::Function_Data >&
+      func() const;
+  inline ::google::protobuf::RepeatedPtrField< ::Function_Data >*
+      mutable_func();
+  
+  // repeated .Debug_Point point = 3;
+  inline int point_size() const;
+  inline void clear_point();
+  static const int kPointFieldNumber = 3;
+  inline const ::Debug_Point& point(int index) const;
+  inline ::Debug_Point* mutable_point(int index);
+  inline ::Debug_Point* add_point();
+  inline const ::google::protobuf::RepeatedPtrField< ::Debug_Point >&
+      point() const;
+  inline ::google::protobuf::RepeatedPtrField< ::Debug_Point >*
+      mutable_point();
+  
+  // repeated .Debug_Line line = 4;
+  inline int line_size() const;
+  inline void clear_line();
+  static const int kLineFieldNumber = 4;
+  inline const ::Debug_Line& line(int index) const;
+  inline ::Debug_Line* mutable_line(int index);
+  inline ::Debug_Line* add_line();
+  inline const ::google::protobuf::RepeatedPtrField< ::Debug_Line >&
+      line() const;
+  inline ::google::protobuf::RepeatedPtrField< ::Debug_Line >*
+      mutable_line();
+  
+  // repeated .Debug_Rect rect = 5;
+  inline int rect_size() const;
+  inline void clear_rect();
+  static const int kRectFieldNumber = 5;
+  inline const ::Debug_Rect& rect(int index) const;
+  inline ::Debug_Rect* mutable_rect(int index);
+  inline ::Debug_Rect* add_rect();
+  inline const ::google::protobuf::RepeatedPtrField< ::Debug_Rect >&
+      rect() const;
+  inline ::google::protobuf::RepeatedPtrField< ::Debug_Rect >*
+      mutable_rect();
+  
+  // repeated .Debug_Circle circle = 6;
+  inline int circle_size() const;
+  inline void clear_circle();
+  static const int kCircleFieldNumber = 6;
+  inline const ::Debug_Circle& circle(int index) const;
+  inline ::Debug_Circle* mutable_circle(int index);
+  inline ::Debug_Circle* add_circle();
+  inline const ::google::protobuf::RepeatedPtrField< ::Debug_Circle >&
+      circle() const;
+  inline ::google::protobuf::RepeatedPtrField< ::Debug_Circle >*
+      mutable_circle();
+  
+  // @@protoc_insertion_point(class_scope:AI_Debug)
+ private:
+  inline void set_has_frame_id();
+  inline void clear_has_frame_id();
+  
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+  
+  ::google::protobuf::RepeatedPtrField< ::Function_Data > func_;
+  ::google::protobuf::RepeatedPtrField< ::Debug_Point > point_;
+  ::google::protobuf::RepeatedPtrField< ::Debug_Line > line_;
+  ::google::protobuf::RepeatedPtrField< ::Debug_Rect > rect_;
+  ::google::protobuf::RepeatedPtrField< ::Debug_Circle > circle_;
+  ::google::protobuf::uint32 frame_id_;
+  
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(6 + 31) / 32];
   
   friend void  protobuf_AddDesc_aidebug_2eproto();
   friend void protobuf_AssignDesc_aidebug_2eproto();
@@ -1218,9 +1682,643 @@ inline ::color* Debug_Circle::release_col() {
 
 // -------------------------------------------------------------------
 
-// AI_Debug
+// Data_Node
+
+// required string name = 1;
+inline bool Data_Node::has_name() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void Data_Node::set_has_name() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void Data_Node::clear_has_name() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void Data_Node::clear_name() {
+  if (name_ != &::google::protobuf::internal::kEmptyString) {
+    name_->clear();
+  }
+  clear_has_name();
+}
+inline const ::std::string& Data_Node::name() const {
+  return *name_;
+}
+inline void Data_Node::set_name(const ::std::string& value) {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::kEmptyString) {
+    name_ = new ::std::string;
+  }
+  name_->assign(value);
+}
+inline void Data_Node::set_name(const char* value) {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::kEmptyString) {
+    name_ = new ::std::string;
+  }
+  name_->assign(value);
+}
+inline void Data_Node::set_name(const char* value, size_t size) {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::kEmptyString) {
+    name_ = new ::std::string;
+  }
+  name_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* Data_Node::mutable_name() {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::kEmptyString) {
+    name_ = new ::std::string;
+  }
+  return name_;
+}
+inline ::std::string* Data_Node::release_name() {
+  clear_has_name();
+  if (name_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = name_;
+    name_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+
+// required .Data_Type type = 2;
+inline bool Data_Node::has_type() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void Data_Node::set_has_type() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void Data_Node::clear_has_type() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void Data_Node::clear_type() {
+  type_ = 0;
+  clear_has_type();
+}
+inline Data_Type Data_Node::type() const {
+  return static_cast< Data_Type >(type_);
+}
+inline void Data_Node::set_type(Data_Type value) {
+  GOOGLE_DCHECK(Data_Type_IsValid(value));
+  set_has_type();
+  type_ = value;
+}
+
+// required string data = 3;
+inline bool Data_Node::has_data() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void Data_Node::set_has_data() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void Data_Node::clear_has_data() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void Data_Node::clear_data() {
+  if (data_ != &::google::protobuf::internal::kEmptyString) {
+    data_->clear();
+  }
+  clear_has_data();
+}
+inline const ::std::string& Data_Node::data() const {
+  return *data_;
+}
+inline void Data_Node::set_data(const ::std::string& value) {
+  set_has_data();
+  if (data_ == &::google::protobuf::internal::kEmptyString) {
+    data_ = new ::std::string;
+  }
+  data_->assign(value);
+}
+inline void Data_Node::set_data(const char* value) {
+  set_has_data();
+  if (data_ == &::google::protobuf::internal::kEmptyString) {
+    data_ = new ::std::string;
+  }
+  data_->assign(value);
+}
+inline void Data_Node::set_data(const char* value, size_t size) {
+  set_has_data();
+  if (data_ == &::google::protobuf::internal::kEmptyString) {
+    data_ = new ::std::string;
+  }
+  data_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* Data_Node::mutable_data() {
+  set_has_data();
+  if (data_ == &::google::protobuf::internal::kEmptyString) {
+    data_ = new ::std::string;
+  }
+  return data_;
+}
+inline ::std::string* Data_Node::release_data() {
+  clear_has_data();
+  if (data_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = data_;
+    data_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+
+// optional string hint = 4;
+inline bool Data_Node::has_hint() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void Data_Node::set_has_hint() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void Data_Node::clear_has_hint() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void Data_Node::clear_hint() {
+  if (hint_ != &::google::protobuf::internal::kEmptyString) {
+    hint_->clear();
+  }
+  clear_has_hint();
+}
+inline const ::std::string& Data_Node::hint() const {
+  return *hint_;
+}
+inline void Data_Node::set_hint(const ::std::string& value) {
+  set_has_hint();
+  if (hint_ == &::google::protobuf::internal::kEmptyString) {
+    hint_ = new ::std::string;
+  }
+  hint_->assign(value);
+}
+inline void Data_Node::set_hint(const char* value) {
+  set_has_hint();
+  if (hint_ == &::google::protobuf::internal::kEmptyString) {
+    hint_ = new ::std::string;
+  }
+  hint_->assign(value);
+}
+inline void Data_Node::set_hint(const char* value, size_t size) {
+  set_has_hint();
+  if (hint_ == &::google::protobuf::internal::kEmptyString) {
+    hint_ = new ::std::string;
+  }
+  hint_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* Data_Node::mutable_hint() {
+  set_has_hint();
+  if (hint_ == &::google::protobuf::internal::kEmptyString) {
+    hint_ = new ::std::string;
+  }
+  return hint_;
+}
+inline ::std::string* Data_Node::release_hint() {
+  clear_has_hint();
+  if (hint_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = hint_;
+    hint_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+
+// -------------------------------------------------------------------
+
+// Debug_Draw
 
 // repeated .Debug_Point point = 1;
+inline int Debug_Draw::point_size() const {
+  return point_.size();
+}
+inline void Debug_Draw::clear_point() {
+  point_.Clear();
+}
+inline const ::Debug_Point& Debug_Draw::point(int index) const {
+  return point_.Get(index);
+}
+inline ::Debug_Point* Debug_Draw::mutable_point(int index) {
+  return point_.Mutable(index);
+}
+inline ::Debug_Point* Debug_Draw::add_point() {
+  return point_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::Debug_Point >&
+Debug_Draw::point() const {
+  return point_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::Debug_Point >*
+Debug_Draw::mutable_point() {
+  return &point_;
+}
+
+// repeated .Debug_Line line = 2;
+inline int Debug_Draw::line_size() const {
+  return line_.size();
+}
+inline void Debug_Draw::clear_line() {
+  line_.Clear();
+}
+inline const ::Debug_Line& Debug_Draw::line(int index) const {
+  return line_.Get(index);
+}
+inline ::Debug_Line* Debug_Draw::mutable_line(int index) {
+  return line_.Mutable(index);
+}
+inline ::Debug_Line* Debug_Draw::add_line() {
+  return line_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::Debug_Line >&
+Debug_Draw::line() const {
+  return line_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::Debug_Line >*
+Debug_Draw::mutable_line() {
+  return &line_;
+}
+
+// repeated .Debug_Rect rect = 3;
+inline int Debug_Draw::rect_size() const {
+  return rect_.size();
+}
+inline void Debug_Draw::clear_rect() {
+  rect_.Clear();
+}
+inline const ::Debug_Rect& Debug_Draw::rect(int index) const {
+  return rect_.Get(index);
+}
+inline ::Debug_Rect* Debug_Draw::mutable_rect(int index) {
+  return rect_.Mutable(index);
+}
+inline ::Debug_Rect* Debug_Draw::add_rect() {
+  return rect_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::Debug_Rect >&
+Debug_Draw::rect() const {
+  return rect_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::Debug_Rect >*
+Debug_Draw::mutable_rect() {
+  return &rect_;
+}
+
+// repeated .Debug_Circle circle = 4;
+inline int Debug_Draw::circle_size() const {
+  return circle_.size();
+}
+inline void Debug_Draw::clear_circle() {
+  circle_.Clear();
+}
+inline const ::Debug_Circle& Debug_Draw::circle(int index) const {
+  return circle_.Get(index);
+}
+inline ::Debug_Circle* Debug_Draw::mutable_circle(int index) {
+  return circle_.Mutable(index);
+}
+inline ::Debug_Circle* Debug_Draw::add_circle() {
+  return circle_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::Debug_Circle >&
+Debug_Draw::circle() const {
+  return circle_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::Debug_Circle >*
+Debug_Draw::mutable_circle() {
+  return &circle_;
+}
+
+// -------------------------------------------------------------------
+
+// Function_Data
+
+// required string name = 1;
+inline bool Function_Data::has_name() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void Function_Data::set_has_name() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void Function_Data::clear_has_name() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void Function_Data::clear_name() {
+  if (name_ != &::google::protobuf::internal::kEmptyString) {
+    name_->clear();
+  }
+  clear_has_name();
+}
+inline const ::std::string& Function_Data::name() const {
+  return *name_;
+}
+inline void Function_Data::set_name(const ::std::string& value) {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::kEmptyString) {
+    name_ = new ::std::string;
+  }
+  name_->assign(value);
+}
+inline void Function_Data::set_name(const char* value) {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::kEmptyString) {
+    name_ = new ::std::string;
+  }
+  name_->assign(value);
+}
+inline void Function_Data::set_name(const char* value, size_t size) {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::kEmptyString) {
+    name_ = new ::std::string;
+  }
+  name_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* Function_Data::mutable_name() {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::kEmptyString) {
+    name_ = new ::std::string;
+  }
+  return name_;
+}
+inline ::std::string* Function_Data::release_name() {
+  clear_has_name();
+  if (name_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = name_;
+    name_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+
+// optional string category = 2 [default = "Uncategorised"];
+inline bool Function_Data::has_category() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void Function_Data::set_has_category() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void Function_Data::clear_has_category() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void Function_Data::clear_category() {
+  if (category_ != &_default_category_) {
+    category_->assign(_default_category_);
+  }
+  clear_has_category();
+}
+inline const ::std::string& Function_Data::category() const {
+  return *category_;
+}
+inline void Function_Data::set_category(const ::std::string& value) {
+  set_has_category();
+  if (category_ == &_default_category_) {
+    category_ = new ::std::string;
+  }
+  category_->assign(value);
+}
+inline void Function_Data::set_category(const char* value) {
+  set_has_category();
+  if (category_ == &_default_category_) {
+    category_ = new ::std::string;
+  }
+  category_->assign(value);
+}
+inline void Function_Data::set_category(const char* value, size_t size) {
+  set_has_category();
+  if (category_ == &_default_category_) {
+    category_ = new ::std::string;
+  }
+  category_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* Function_Data::mutable_category() {
+  set_has_category();
+  if (category_ == &_default_category_) {
+    category_ = new ::std::string(_default_category_);
+  }
+  return category_;
+}
+inline ::std::string* Function_Data::release_category() {
+  clear_has_category();
+  if (category_ == &_default_category_) {
+    return NULL;
+  } else {
+    ::std::string* temp = category_;
+    category_ = const_cast< ::std::string*>(&_default_category_);
+    return temp;
+  }
+}
+
+// optional string hint = 3;
+inline bool Function_Data::has_hint() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void Function_Data::set_has_hint() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void Function_Data::clear_has_hint() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void Function_Data::clear_hint() {
+  if (hint_ != &::google::protobuf::internal::kEmptyString) {
+    hint_->clear();
+  }
+  clear_has_hint();
+}
+inline const ::std::string& Function_Data::hint() const {
+  return *hint_;
+}
+inline void Function_Data::set_hint(const ::std::string& value) {
+  set_has_hint();
+  if (hint_ == &::google::protobuf::internal::kEmptyString) {
+    hint_ = new ::std::string;
+  }
+  hint_->assign(value);
+}
+inline void Function_Data::set_hint(const char* value) {
+  set_has_hint();
+  if (hint_ == &::google::protobuf::internal::kEmptyString) {
+    hint_ = new ::std::string;
+  }
+  hint_->assign(value);
+}
+inline void Function_Data::set_hint(const char* value, size_t size) {
+  set_has_hint();
+  if (hint_ == &::google::protobuf::internal::kEmptyString) {
+    hint_ = new ::std::string;
+  }
+  hint_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* Function_Data::mutable_hint() {
+  set_has_hint();
+  if (hint_ == &::google::protobuf::internal::kEmptyString) {
+    hint_ = new ::std::string;
+  }
+  return hint_;
+}
+inline ::std::string* Function_Data::release_hint() {
+  clear_has_hint();
+  if (hint_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = hint_;
+    hint_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+
+// repeated .Data_Node In_Data = 4;
+inline int Function_Data::in_data_size() const {
+  return in_data_.size();
+}
+inline void Function_Data::clear_in_data() {
+  in_data_.Clear();
+}
+inline const ::Data_Node& Function_Data::in_data(int index) const {
+  return in_data_.Get(index);
+}
+inline ::Data_Node* Function_Data::mutable_in_data(int index) {
+  return in_data_.Mutable(index);
+}
+inline ::Data_Node* Function_Data::add_in_data() {
+  return in_data_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::Data_Node >&
+Function_Data::in_data() const {
+  return in_data_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::Data_Node >*
+Function_Data::mutable_in_data() {
+  return &in_data_;
+}
+
+// repeated .Data_Node Out_Data = 5;
+inline int Function_Data::out_data_size() const {
+  return out_data_.size();
+}
+inline void Function_Data::clear_out_data() {
+  out_data_.Clear();
+}
+inline const ::Data_Node& Function_Data::out_data(int index) const {
+  return out_data_.Get(index);
+}
+inline ::Data_Node* Function_Data::mutable_out_data(int index) {
+  return out_data_.Mutable(index);
+}
+inline ::Data_Node* Function_Data::add_out_data() {
+  return out_data_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::Data_Node >&
+Function_Data::out_data() const {
+  return out_data_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::Data_Node >*
+Function_Data::mutable_out_data() {
+  return &out_data_;
+}
+
+// repeated .Data_Node Internal_Var = 6;
+inline int Function_Data::internal_var_size() const {
+  return internal_var_.size();
+}
+inline void Function_Data::clear_internal_var() {
+  internal_var_.Clear();
+}
+inline const ::Data_Node& Function_Data::internal_var(int index) const {
+  return internal_var_.Get(index);
+}
+inline ::Data_Node* Function_Data::mutable_internal_var(int index) {
+  return internal_var_.Mutable(index);
+}
+inline ::Data_Node* Function_Data::add_internal_var() {
+  return internal_var_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::Data_Node >&
+Function_Data::internal_var() const {
+  return internal_var_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::Data_Node >*
+Function_Data::mutable_internal_var() {
+  return &internal_var_;
+}
+
+// required .Debug_Draw draw_data = 7;
+inline bool Function_Data::has_draw_data() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+inline void Function_Data::set_has_draw_data() {
+  _has_bits_[0] |= 0x00000040u;
+}
+inline void Function_Data::clear_has_draw_data() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+inline void Function_Data::clear_draw_data() {
+  if (draw_data_ != NULL) draw_data_->::Debug_Draw::Clear();
+  clear_has_draw_data();
+}
+inline const ::Debug_Draw& Function_Data::draw_data() const {
+  return draw_data_ != NULL ? *draw_data_ : *default_instance_->draw_data_;
+}
+inline ::Debug_Draw* Function_Data::mutable_draw_data() {
+  set_has_draw_data();
+  if (draw_data_ == NULL) draw_data_ = new ::Debug_Draw;
+  return draw_data_;
+}
+inline ::Debug_Draw* Function_Data::release_draw_data() {
+  clear_has_draw_data();
+  ::Debug_Draw* temp = draw_data_;
+  draw_data_ = NULL;
+  return temp;
+}
+
+// -------------------------------------------------------------------
+
+// AI_Debug
+
+// required uint32 frame_id = 1;
+inline bool AI_Debug::has_frame_id() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void AI_Debug::set_has_frame_id() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void AI_Debug::clear_has_frame_id() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void AI_Debug::clear_frame_id() {
+  frame_id_ = 0u;
+  clear_has_frame_id();
+}
+inline ::google::protobuf::uint32 AI_Debug::frame_id() const {
+  return frame_id_;
+}
+inline void AI_Debug::set_frame_id(::google::protobuf::uint32 value) {
+  set_has_frame_id();
+  frame_id_ = value;
+}
+
+// repeated .Function_Data func = 2;
+inline int AI_Debug::func_size() const {
+  return func_.size();
+}
+inline void AI_Debug::clear_func() {
+  func_.Clear();
+}
+inline const ::Function_Data& AI_Debug::func(int index) const {
+  return func_.Get(index);
+}
+inline ::Function_Data* AI_Debug::mutable_func(int index) {
+  return func_.Mutable(index);
+}
+inline ::Function_Data* AI_Debug::add_func() {
+  return func_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::Function_Data >&
+AI_Debug::func() const {
+  return func_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::Function_Data >*
+AI_Debug::mutable_func() {
+  return &func_;
+}
+
+// repeated .Debug_Point point = 3;
 inline int AI_Debug::point_size() const {
   return point_.size();
 }
@@ -1245,7 +2343,7 @@ AI_Debug::mutable_point() {
   return &point_;
 }
 
-// repeated .Debug_Line line = 2;
+// repeated .Debug_Line line = 4;
 inline int AI_Debug::line_size() const {
   return line_.size();
 }
@@ -1270,7 +2368,7 @@ AI_Debug::mutable_line() {
   return &line_;
 }
 
-// repeated .Debug_Rect rect = 3;
+// repeated .Debug_Rect rect = 5;
 inline int AI_Debug::rect_size() const {
   return rect_.size();
 }
@@ -1295,7 +2393,7 @@ AI_Debug::mutable_rect() {
   return &rect_;
 }
 
-// repeated .Debug_Circle circle = 4;
+// repeated .Debug_Circle circle = 6;
 inline int AI_Debug::circle_size() const {
   return circle_.size();
 }
@@ -1327,6 +2425,10 @@ AI_Debug::mutable_circle() {
 namespace google {
 namespace protobuf {
 
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< Data_Type>() {
+  return Data_Type_descriptor();
+}
 
 }  // namespace google
 }  // namespace protobuf

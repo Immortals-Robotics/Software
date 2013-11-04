@@ -15,7 +15,7 @@ void ai09::DefenceWall ( int robot_num , bool kickOff )
 	int index = findKickerOpp ( -1 );
 	if ( index == -1 )
 	{
-		target = CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(AngleWith(ball.Position , Vec2(side*2995,0))),590);
+		target = CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(AngleWith(ball.Position , Vec2(side*2995,0))),730);
 	}
 	else
 	{
@@ -34,7 +34,7 @@ void ai09::DefenceWall ( int robot_num , bool kickOff )
 	
 	if ( isOut )
 	{
-		target = CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(AngleWith(ball.Position , Vec2(side*2995,0))),590);
+		target = CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(AngleWith(ball.Position , Vec2(side*2995,0))),730);
 	}
 	
 	OwnRobot[attack].face ( ball.Position );

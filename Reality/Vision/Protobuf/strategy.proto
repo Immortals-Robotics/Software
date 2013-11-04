@@ -38,6 +38,7 @@ message Role
   required int32      id         =  1;
   optional string     name       =  2[default = "NAN"];
   repeated Waypoint   path       =  3;
+  required int32      afterlife  =  4;
 }
 
 message Strategy
@@ -47,6 +48,9 @@ message Strategy
   repeated SyncData   sync      =  3;
   required float	  minX      =  4;
   required float      maxX      =  5;
+  required float	  minY      =  6;
+  required float      maxY      =  7;
+
 }
 
 message PlayBook
