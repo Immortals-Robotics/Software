@@ -1,0 +1,743 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8DD76F6A0486A84900D96B5E /* RoboCup11.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C6859E8B029090EE04C91782 /* RoboCup11.1 */; };
+		A51B53DB13B5496C0073486E /* distance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B53D113B5496C0073486E /* distance.cpp */; };
+		A51B53DD13B5496C0073486E /* MATHS_REGRESSION_PARABOLIC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B53D613B5496C0073486E /* MATHS_REGRESSION_PARABOLIC.cpp */; };
+		A51B53DE13B5496C0073486E /* Vector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B53D913B5496C0073486E /* Vector.cpp */; };
+		A51B540313B549A30073486E /* PracticalSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B53E013B549A30073486E /* PracticalSocket.cpp */; };
+		A51B540413B549A30073486E /* referee.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B53E613B549A30073486E /* referee.cpp */; };
+		A51B540613B549A30073486E /* FilteredObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B53ED13B549A30073486E /* FilteredObject.cpp */; };
+		A51B540B13B549A30073486E /* vision.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B53FC13B549A30073486E /* vision.cpp */; };
+		A51B540C13B549A30073486E /* VisionBall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B53FE13B549A30073486E /* VisionBall.cpp */; };
+		A51B540D13B549A30073486E /* VisionComminucation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B53FF13B549A30073486E /* VisionComminucation.cpp */; };
+		A51B540E13B549A30073486E /* VisionRobot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B540013B549A30073486E /* VisionRobot.cpp */; };
+		A51B544013B549BD0073486E /* errt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B541513B549BD0073486E /* errt.cpp */; };
+		A51B544113B549BD0073486E /* line.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B541713B549BD0073486E /* line.cpp */; };
+		A51B544313B549BD0073486E /* obstacle_circle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B541B13B549BD0073486E /* obstacle_circle.cpp */; };
+		A51B544413B549BD0073486E /* obstacle_map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B541C13B549BD0073486E /* obstacle_map.cpp */; };
+		A51B544513B549BD0073486E /* obstacle_rectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B541E13B549BD0073486E /* obstacle_rectangle.cpp */; };
+		A51B544613B549BD0073486E /* tree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B541F13B549BD0073486E /* tree.cpp */; };
+		A51B544713B549BD0073486E /* errt_setObs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B542213B549BD0073486E /* errt_setObs.cpp */; };
+		A51B544813B549BD0073486E /* evaluate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B542313B549BD0073486E /* evaluate.cpp */; };
+		A51B544913B549BD0073486E /* FreeAngle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B542413B549BD0073486E /* FreeAngle.cpp */; };
+		A51B544A13B549BD0073486E /* Geom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B542513B549BD0073486E /* Geom.cpp */; };
+		A51B544B13B549BD0073486E /* GK.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B542713B549BD0073486E /* GK.cpp */; };
+		A51B544C13B549BD0073486E /* halt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B542813B549BD0073486E /* halt.cpp */; };
+		A51B544D13B549BD0073486E /* helpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B542913B549BD0073486E /* helpers.cpp */; };
+		A51B544E13B549BD0073486E /* motionPlan.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B542B13B549BD0073486E /* motionPlan.cpp */; };
+		A51B544F13B549BD0073486E /* navigation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B542C13B549BD0073486E /* navigation.cpp */; };
+		A51B545013B549BD0073486E /* NormalPlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B542D13B549BD0073486E /* NormalPlay.cpp */; };
+		A51B545113B549BD0073486E /* OneDef.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B542F13B549BD0073486E /* OneDef.cpp */; };
+		A51B545213B549BD0073486E /* pass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B543013B549BD0073486E /* pass.cpp */; };
+		A51B545313B549BD0073486E /* penalty.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B543113B549BD0073486E /* penalty.cpp */; };
+		A51B545413B549BD0073486E /* stop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B543413B549BD0073486E /* stop.cpp */; };
+		A51B545513B549BD0073486E /* tech_challenge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B543513B549BD0073486E /* tech_challenge.cpp */; };
+		A51B545613B549BD0073486E /* tech_circle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B543613B549BD0073486E /* tech_circle.cpp */; };
+		A51B545713B549BD0073486E /* tech_cmu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B543713B549BD0073486E /* tech_cmu.cpp */; };
+		A51B545813B549BD0073486E /* tech_mexico.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B543813B549BD0073486E /* tech_mexico.cpp */; };
+		A51B545913B549BD0073486E /* Robot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B543913B549BD0073486E /* Robot.cpp */; };
+		A51B545A13B549BD0073486E /* trapezoid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B543A13B549BD0073486E /* trapezoid.cpp */; };
+		A51B545B13B549BD0073486E /* TwoDef.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B543D13B549BD0073486E /* TwoDef.cpp */; };
+		A54C624613C5B02F00E85800 /* corner_simple_chip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A54C624513C5B02F00E85800 /* corner_simple_chip.cpp */; };
+		A54C627213C5C94D00E85800 /* kickoff_their_back_def.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A54C627113C5C94D00E85800 /* kickoff_their_back_def.cpp */; };
+		A54C63E113C7165300E85800 /* corner_their_def_karkas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A54C63E013C7165300E85800 /* corner_their_def_karkas.cpp */; };
+		A54C63E313C716D000E85800 /* corner_their_def_ajor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A54C63E213C716D000E85800 /* corner_their_def_ajor.cpp */; };
+		A54C64C413C8256A00E85800 /* corner_their_khafan.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A54C64C313C8256A00E85800 /* corner_their_khafan.cpp */; };
+		A54C64EB13C8342800E85800 /* throwin_their_khafan.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A54C64EA13C8342800E85800 /* throwin_their_khafan.cpp */; };
+		A54C661913C98D5800E85800 /* stop_ajor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A54C661813C98D5800E85800 /* stop_ajor.cpp */; };
+		A54C664B13C9929900E85800 /* kickoff_us_farar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A54C664A13C9929900E85800 /* kickoff_us_farar.cpp */; };
+		A5805D1B1474CC4D00FE0D1B /* internalProcessData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5805D1A1474CC4D00FE0D1B /* internalProcessData.cpp */; };
+		A5805D361474CE5D00FE0D1B /* ai09_process.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5805D351474CE5D00FE0D1B /* ai09_process.cpp */; };
+		A5805D3C1474CEED00FE0D1B /* internalFinalize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5805D3B1474CEED00FE0D1B /* internalFinalize.cpp */; };
+		A5D6F18613BD103A00977D97 /* backPass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5D6F18513BD103A00977D97 /* backPass.cpp */; };
+		A5DD6C1613BC5BAB0081B3E7 /* findCruncherOpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5DD6C1513BC5BAB0081B3E7 /* findCruncherOpp.cpp */; };
+		A5DD6C5213BC68E80081B3E7 /* timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5DD6C5113BC68E80081B3E7 /* timer.cpp */; };
+		A5DE252B1503C9150048044B /* TurnShoot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5DE252A1503C9150048044B /* TurnShoot.cpp */; };
+		A5DF0C1113C39AEF00AB2F63 /* aidebug.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = A5DF0C0F13C39AEF00AB2F63 /* aidebug.pb.cc */; };
+		A5DF0D8813C4B01100AB2F63 /* obstacle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5DF0D8713C4B01100AB2F63 /* obstacle.cpp */; };
+		A5DF0EC913C512CA00AB2F63 /* corner_simple_pass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5DF0EC813C512CA00AB2F63 /* corner_simple_pass.cpp */; };
+		A5DF0ED713C523A800AB2F63 /* corner_switch_pass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5DF0ED613C523A800AB2F63 /* corner_switch_pass.cpp */; };
+		A5DF0EDB13C524D400AB2F63 /* kickoff_us_chip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5DF0EDA13C524D400AB2F63 /* kickoff_us_chip.cpp */; };
+		A5DF0EE913C5268800AB2F63 /* kickoff_us_pass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5DF0EE813C5268800AB2F63 /* kickoff_us_pass.cpp */; };
+		A5DF0EED13C5274800AB2F63 /* ai09.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5DF0EEC13C5274800AB2F63 /* ai09.cpp */; };
+		A5DF0EFB13C52A1100AB2F63 /* throwin_chip_shoot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5DF0EFA13C52A1100AB2F63 /* throwin_chip_shoot.cpp */; };
+		A5DF0F0813C52D2100AB2F63 /* kickoff_their_one_wall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5DF0F0713C52D2100AB2F63 /* kickoff_their_one_wall.cpp */; };
+		A5DF0F0C13C52DC400AB2F63 /* penalty_their_simple.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5DF0F0B13C52DC400AB2F63 /* penalty_their_simple.cpp */; };
+		A5DF0F1513C52F0200AB2F63 /* corner_their_marker_ajor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5DF0F1413C52F0200AB2F63 /* corner_their_marker_ajor.cpp */; };
+		A5DF0F1E13C530D100AB2F63 /* defenceWall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5DF0F1D13C530D100AB2F63 /* defenceWall.cpp */; };
+		A5DF0F2213C5328B00AB2F63 /* corner_their_marker_karkas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5DF0F2113C5328B00AB2F63 /* corner_their_marker_karkas.cpp */; };
+		A5DF0F2413C5345900AB2F63 /* findKickerOpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5DF0F2313C5345900AB2F63 /* findKickerOpp.cpp */; };
+		A5E2C7E513B5D96A004A4110 /* ImmortalsProtocols.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = A5E2C7DD13B5D96A004A4110 /* ImmortalsProtocols.pb.cc */; };
+		A5E2C7E613B5D96A004A4110 /* messages_robocup_ssl_detection.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = A5E2C7DF13B5D96A004A4110 /* messages_robocup_ssl_detection.pb.cc */; };
+		A5E2C7E713B5D96A004A4110 /* messages_robocup_ssl_geometry.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = A5E2C7E113B5D96A004A4110 /* messages_robocup_ssl_geometry.pb.cc */; };
+		A5E2C7E813B5D96A004A4110 /* messages_robocup_ssl_wrapper.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = A5E2C7E313B5D96A004A4110 /* messages_robocup_ssl_wrapper.pb.cc */; };
+		A5F3D2E513BA26DA00FD1A94 /* kbhit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5F3D2E413BA26DA00FD1A94 /* kbhit.cpp */; };
+		A5F3D33C13BA2C4600FD1A94 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5F3D33B13BA2C4600FD1A94 /* main.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8DD76F690486A84900D96B5E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				8DD76F6A0486A84900D96B5E /* RoboCup11.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		8DD76F6C0486A84900D96B5E /* RoboCup11 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = RoboCup11; sourceTree = BUILT_PRODUCTS_DIR; };
+		A51B53D113B5496C0073486E /* distance.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = distance.cpp; sourceTree = "<group>"; };
+		A51B53D213B5496C0073486E /* distance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = distance.h; sourceTree = "<group>"; };
+		A51B53D313B5496C0073486E /* GameSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameSetting.h; sourceTree = "<group>"; };
+		A51B53D613B5496C0073486E /* MATHS_REGRESSION_PARABOLIC.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MATHS_REGRESSION_PARABOLIC.cpp; sourceTree = "<group>"; };
+		A51B53D713B5496C0073486E /* MATHS_REGRESSION_PARABOLIC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MATHS_REGRESSION_PARABOLIC.h; sourceTree = "<group>"; };
+		A51B53D813B5496C0073486E /* MedianFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MedianFilter.h; sourceTree = "<group>"; };
+		A51B53D913B5496C0073486E /* Vector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Vector.cpp; sourceTree = "<group>"; };
+		A51B53DA13B5496C0073486E /* Vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector.h; sourceTree = "<group>"; };
+		A51B53E013B549A30073486E /* PracticalSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PracticalSocket.cpp; sourceTree = "<group>"; };
+		A51B53E113B549A30073486E /* PracticalSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PracticalSocket.h; sourceTree = "<group>"; };
+		A51B53E413B549A30073486E /* commands.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = commands.h; sourceTree = "<group>"; };
+		A51B53E513B549A30073486E /* game_state.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = game_state.h; sourceTree = "<group>"; };
+		A51B53E613B549A30073486E /* referee.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = referee.cpp; sourceTree = "<group>"; };
+		A51B53E713B549A30073486E /* referee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = referee.h; sourceTree = "<group>"; };
+		A51B53ED13B549A30073486E /* FilteredObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FilteredObject.cpp; sourceTree = "<group>"; };
+		A51B53EE13B549A30073486E /* FilteredObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilteredObject.h; sourceTree = "<group>"; };
+		A51B53FC13B549A30073486E /* vision.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vision.cpp; sourceTree = "<group>"; };
+		A51B53FD13B549A30073486E /* Vision.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vision.h; sourceTree = "<group>"; };
+		A51B53FE13B549A30073486E /* VisionBall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VisionBall.cpp; sourceTree = "<group>"; };
+		A51B53FF13B549A30073486E /* VisionComminucation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VisionComminucation.cpp; sourceTree = "<group>"; };
+		A51B540013B549A30073486E /* VisionRobot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VisionRobot.cpp; sourceTree = "<group>"; };
+		A51B540113B549A30073486E /* VisionSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisionSetting.h; sourceTree = "<group>"; };
+		A51B540213B549A30073486E /* WorldState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorldState.h; sourceTree = "<group>"; };
+		A51B541313B549BD0073486E /* ai09.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ai09.h; sourceTree = "<group>"; };
+		A51B541513B549BD0073486E /* errt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = errt.cpp; sourceTree = "<group>"; };
+		A51B541613B549BD0073486E /* errt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = errt.h; sourceTree = "<group>"; };
+		A51B541713B549BD0073486E /* line.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = line.cpp; sourceTree = "<group>"; };
+		A51B541813B549BD0073486E /* line.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = line.h; sourceTree = "<group>"; };
+		A51B541A13B549BD0073486E /* obstacle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = obstacle.h; sourceTree = "<group>"; };
+		A51B541B13B549BD0073486E /* obstacle_circle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = obstacle_circle.cpp; sourceTree = "<group>"; };
+		A51B541C13B549BD0073486E /* obstacle_map.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = obstacle_map.cpp; sourceTree = "<group>"; };
+		A51B541D13B549BD0073486E /* obstacle_new.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = obstacle_new.h; sourceTree = "<group>"; };
+		A51B541E13B549BD0073486E /* obstacle_rectangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = obstacle_rectangle.cpp; sourceTree = "<group>"; };
+		A51B541F13B549BD0073486E /* tree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tree.cpp; sourceTree = "<group>"; };
+		A51B542013B549BD0073486E /* tree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tree.h; sourceTree = "<group>"; };
+		A51B542213B549BD0073486E /* errt_setObs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = errt_setObs.cpp; path = Soccer/ai09/errt_setObs.cpp; sourceTree = SOURCE_ROOT; };
+		A51B542313B549BD0073486E /* evaluate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = evaluate.cpp; sourceTree = "<group>"; };
+		A51B542413B549BD0073486E /* FreeAngle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FreeAngle.cpp; sourceTree = "<group>"; };
+		A51B542513B549BD0073486E /* Geom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Geom.cpp; sourceTree = "<group>"; };
+		A51B542613B549BD0073486E /* Geom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Geom.h; sourceTree = "<group>"; };
+		A51B542713B549BD0073486E /* GK.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GK.cpp; sourceTree = "<group>"; };
+		A51B542813B549BD0073486E /* halt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = halt.cpp; sourceTree = "<group>"; };
+		A51B542913B549BD0073486E /* helpers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = helpers.cpp; sourceTree = "<group>"; };
+		A51B542A13B549BD0073486E /* helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = helpers.h; sourceTree = "<group>"; };
+		A51B542B13B549BD0073486E /* motionPlan.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = motionPlan.cpp; sourceTree = "<group>"; };
+		A51B542C13B549BD0073486E /* navigation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = navigation.cpp; sourceTree = "<group>"; };
+		A51B542D13B549BD0073486E /* NormalPlay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NormalPlay.cpp; sourceTree = "<group>"; };
+		A51B542F13B549BD0073486E /* OneDef.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OneDef.cpp; sourceTree = "<group>"; };
+		A51B543013B549BD0073486E /* pass.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pass.cpp; sourceTree = "<group>"; };
+		A51B543113B549BD0073486E /* penalty.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = penalty.cpp; sourceTree = "<group>"; };
+		A51B543213B549BD0073486E /* planner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = planner.h; sourceTree = "<group>"; };
+		A51B543413B549BD0073486E /* stop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stop.cpp; sourceTree = "<group>"; };
+		A51B543513B549BD0073486E /* tech_challenge.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tech_challenge.cpp; sourceTree = "<group>"; };
+		A51B543613B549BD0073486E /* tech_circle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tech_circle.cpp; sourceTree = "<group>"; };
+		A51B543713B549BD0073486E /* tech_cmu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tech_cmu.cpp; sourceTree = "<group>"; };
+		A51B543813B549BD0073486E /* tech_mexico.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tech_mexico.cpp; sourceTree = "<group>"; };
+		A51B543913B549BD0073486E /* Robot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Robot.cpp; sourceTree = "<group>"; };
+		A51B543A13B549BD0073486E /* trapezoid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = trapezoid.cpp; sourceTree = "<group>"; };
+		A51B543B13B549BD0073486E /* trapezoid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = trapezoid.h; sourceTree = "<group>"; };
+		A51B543D13B549BD0073486E /* TwoDef.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TwoDef.cpp; sourceTree = "<group>"; };
+		A51B543E13B549BD0073486E /* aiBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aiBase.h; sourceTree = "<group>"; };
+		A5240D961474D1C3009966C0 /* Robot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Robot.h; sourceTree = "<group>"; };
+		A54C624513C5B02F00E85800 /* corner_simple_chip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = corner_simple_chip.cpp; sourceTree = "<group>"; };
+		A54C627113C5C94D00E85800 /* kickoff_their_back_def.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = kickoff_their_back_def.cpp; sourceTree = "<group>"; };
+		A54C63E013C7165300E85800 /* corner_their_def_karkas.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = corner_their_def_karkas.cpp; sourceTree = "<group>"; };
+		A54C63E213C716D000E85800 /* corner_their_def_ajor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = corner_their_def_ajor.cpp; sourceTree = "<group>"; };
+		A54C64C313C8256A00E85800 /* corner_their_khafan.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = corner_their_khafan.cpp; sourceTree = "<group>"; };
+		A54C64EA13C8342800E85800 /* throwin_their_khafan.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = throwin_their_khafan.cpp; sourceTree = "<group>"; };
+		A54C661813C98D5800E85800 /* stop_ajor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stop_ajor.cpp; sourceTree = "<group>"; };
+		A54C664A13C9929900E85800 /* kickoff_us_farar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = kickoff_us_farar.cpp; sourceTree = "<group>"; };
+		A5805D1A1474CC4D00FE0D1B /* internalProcessData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = internalProcessData.cpp; sourceTree = "<group>"; };
+		A5805D351474CE5D00FE0D1B /* ai09_process.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ai09_process.cpp; sourceTree = "<group>"; };
+		A5805D3B1474CEED00FE0D1B /* internalFinalize.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = internalFinalize.cpp; sourceTree = "<group>"; };
+		A5D6F18513BD103A00977D97 /* backPass.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = backPass.cpp; sourceTree = "<group>"; };
+		A5DD6B9413BB93200081B3E7 /* timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = timer.h; sourceTree = "<group>"; };
+		A5DD6C1513BC5BAB0081B3E7 /* findCruncherOpp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = findCruncherOpp.cpp; sourceTree = "<group>"; };
+		A5DD6C5113BC68E80081B3E7 /* timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = timer.cpp; sourceTree = "<group>"; };
+		A5DE252A1503C9150048044B /* TurnShoot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TurnShoot.cpp; sourceTree = "<group>"; };
+		A5DF0C0F13C39AEF00AB2F63 /* aidebug.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = aidebug.pb.cc; sourceTree = "<group>"; };
+		A5DF0C1013C39AEF00AB2F63 /* aidebug.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aidebug.pb.h; sourceTree = "<group>"; };
+		A5DF0C1B13C39C9C00AB2F63 /* aidebug.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = aidebug.proto; sourceTree = "<group>"; };
+		A5DF0D8713C4B01100AB2F63 /* obstacle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = obstacle.cpp; sourceTree = "<group>"; };
+		A5DF0EC813C512CA00AB2F63 /* corner_simple_pass.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = corner_simple_pass.cpp; sourceTree = "<group>"; };
+		A5DF0ED613C523A800AB2F63 /* corner_switch_pass.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = corner_switch_pass.cpp; sourceTree = "<group>"; };
+		A5DF0EDA13C524D400AB2F63 /* kickoff_us_chip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = kickoff_us_chip.cpp; sourceTree = "<group>"; };
+		A5DF0EE813C5268800AB2F63 /* kickoff_us_pass.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = kickoff_us_pass.cpp; sourceTree = "<group>"; };
+		A5DF0EEC13C5274800AB2F63 /* ai09.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ai09.cpp; sourceTree = "<group>"; };
+		A5DF0EFA13C52A1100AB2F63 /* throwin_chip_shoot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = throwin_chip_shoot.cpp; sourceTree = "<group>"; };
+		A5DF0F0713C52D2100AB2F63 /* kickoff_their_one_wall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = kickoff_their_one_wall.cpp; sourceTree = "<group>"; };
+		A5DF0F0B13C52DC400AB2F63 /* penalty_their_simple.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = penalty_their_simple.cpp; sourceTree = "<group>"; };
+		A5DF0F1413C52F0200AB2F63 /* corner_their_marker_ajor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = corner_their_marker_ajor.cpp; sourceTree = "<group>"; };
+		A5DF0F1D13C530D100AB2F63 /* defenceWall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = defenceWall.cpp; sourceTree = "<group>"; };
+		A5DF0F2113C5328B00AB2F63 /* corner_their_marker_karkas.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = corner_their_marker_karkas.cpp; sourceTree = "<group>"; };
+		A5DF0F2313C5345900AB2F63 /* findKickerOpp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = findKickerOpp.cpp; sourceTree = "<group>"; };
+		A5DFE59B13C344FA003479AC /* VelocityProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VelocityProfile.h; sourceTree = "<group>"; };
+		A5E2C7C713B5D49A004A4110 /* ImmortalsProtocols.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ImmortalsProtocols.proto; sourceTree = "<group>"; };
+		A5E2C7C813B5D49A004A4110 /* messages_robocup_ssl_detection.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = messages_robocup_ssl_detection.proto; sourceTree = "<group>"; };
+		A5E2C7C913B5D49A004A4110 /* messages_robocup_ssl_geometry.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = messages_robocup_ssl_geometry.proto; sourceTree = "<group>"; };
+		A5E2C7CA13B5D49A004A4110 /* messages_robocup_ssl_wrapper.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = messages_robocup_ssl_wrapper.proto; sourceTree = "<group>"; };
+		A5E2C7DD13B5D96A004A4110 /* ImmortalsProtocols.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImmortalsProtocols.pb.cc; sourceTree = "<group>"; };
+		A5E2C7DE13B5D96A004A4110 /* ImmortalsProtocols.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImmortalsProtocols.pb.h; sourceTree = "<group>"; };
+		A5E2C7DF13B5D96A004A4110 /* messages_robocup_ssl_detection.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = messages_robocup_ssl_detection.pb.cc; sourceTree = "<group>"; };
+		A5E2C7E013B5D96A004A4110 /* messages_robocup_ssl_detection.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = messages_robocup_ssl_detection.pb.h; sourceTree = "<group>"; };
+		A5E2C7E113B5D96A004A4110 /* messages_robocup_ssl_geometry.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = messages_robocup_ssl_geometry.pb.cc; sourceTree = "<group>"; };
+		A5E2C7E213B5D96A004A4110 /* messages_robocup_ssl_geometry.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = messages_robocup_ssl_geometry.pb.h; sourceTree = "<group>"; };
+		A5E2C7E313B5D96A004A4110 /* messages_robocup_ssl_wrapper.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = messages_robocup_ssl_wrapper.pb.cc; sourceTree = "<group>"; };
+		A5E2C7E413B5D96A004A4110 /* messages_robocup_ssl_wrapper.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = messages_robocup_ssl_wrapper.pb.h; sourceTree = "<group>"; };
+		A5ED397713B9F1B4004E4F81 /* protobuf.pc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = protobuf.pc; path = usr/lib/pkgconfig/protobuf.pc; sourceTree = DEVELOPER_DIR; };
+		A5F3D2E313BA26DA00FD1A94 /* kbhit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kbhit.h; sourceTree = "<group>"; };
+		A5F3D2E413BA26DA00FD1A94 /* kbhit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = kbhit.cpp; sourceTree = "<group>"; };
+		A5F3D33B13BA2C4600FD1A94 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		C6859E8B029090EE04C91782 /* RoboCup11.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = RoboCup11.1; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8DD76F660486A84900D96B5E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		08FB7794FE84155DC02AAC07 /* RoboCup11 */ = {
+			isa = PBXGroup;
+			children = (
+				08FB7795FE84155DC02AAC07 /* Source */,
+				C6859E8C029090F304C91782 /* Documentation */,
+				1AB674ADFE9D54B511CA2CBB /* Products */,
+			);
+			name = RoboCup11;
+			sourceTree = "<group>";
+		};
+		08FB7795FE84155DC02AAC07 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				A5F3D33B13BA2C4600FD1A94 /* main.cpp */,
+				A51B540F13B549BD0073486E /* Soccer */,
+				A51B53DF13B549A30073486E /* Network */,
+				A51B53E213B549A30073486E /* Reality */,
+				A51B53D013B5496C0073486E /* Common */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		1AB674ADFE9D54B511CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A5ED397713B9F1B4004E4F81 /* protobuf.pc */,
+				8DD76F6C0486A84900D96B5E /* RoboCup11 */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A51B53D013B5496C0073486E /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				A5DD6B9413BB93200081B3E7 /* timer.h */,
+				A51B53D113B5496C0073486E /* distance.cpp */,
+				A51B53D213B5496C0073486E /* distance.h */,
+				A51B53D313B5496C0073486E /* GameSetting.h */,
+				A51B53D613B5496C0073486E /* MATHS_REGRESSION_PARABOLIC.cpp */,
+				A51B53D713B5496C0073486E /* MATHS_REGRESSION_PARABOLIC.h */,
+				A51B53D813B5496C0073486E /* MedianFilter.h */,
+				A51B53D913B5496C0073486E /* Vector.cpp */,
+				A51B53DA13B5496C0073486E /* Vector.h */,
+				A5F3D2E313BA26DA00FD1A94 /* kbhit.h */,
+				A5F3D2E413BA26DA00FD1A94 /* kbhit.cpp */,
+				A5DD6C5113BC68E80081B3E7 /* timer.cpp */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		A51B53DF13B549A30073486E /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				A51B53E013B549A30073486E /* PracticalSocket.cpp */,
+				A51B53E113B549A30073486E /* PracticalSocket.h */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		A51B53E213B549A30073486E /* Reality */ = {
+			isa = PBXGroup;
+			children = (
+				A51B53E313B549A30073486E /* Referee */,
+				A51B53E813B549A30073486E /* Serial */,
+				A51B53EB13B549A30073486E /* Vision */,
+			);
+			path = Reality;
+			sourceTree = "<group>";
+		};
+		A51B53E313B549A30073486E /* Referee */ = {
+			isa = PBXGroup;
+			children = (
+				A51B53E413B549A30073486E /* commands.h */,
+				A51B53E513B549A30073486E /* game_state.h */,
+				A51B53E613B549A30073486E /* referee.cpp */,
+				A51B53E713B549A30073486E /* referee.h */,
+			);
+			path = Referee;
+			sourceTree = "<group>";
+		};
+		A51B53E813B549A30073486E /* Serial */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Serial;
+			sourceTree = "<group>";
+		};
+		A51B53EB13B549A30073486E /* Vision */ = {
+			isa = PBXGroup;
+			children = (
+				A5E2C7C613B5D49A004A4110 /* Protobuf */,
+				A51B53EC13B549A30073486E /* Kalman */,
+				A51B53FC13B549A30073486E /* vision.cpp */,
+				A51B53FD13B549A30073486E /* Vision.h */,
+				A51B53FE13B549A30073486E /* VisionBall.cpp */,
+				A51B53FF13B549A30073486E /* VisionComminucation.cpp */,
+				A51B540013B549A30073486E /* VisionRobot.cpp */,
+				A51B540113B549A30073486E /* VisionSetting.h */,
+				A51B540213B549A30073486E /* WorldState.h */,
+			);
+			path = Vision;
+			sourceTree = "<group>";
+		};
+		A51B53EC13B549A30073486E /* Kalman */ = {
+			isa = PBXGroup;
+			children = (
+				A51B53ED13B549A30073486E /* FilteredObject.cpp */,
+				A51B53EE13B549A30073486E /* FilteredObject.h */,
+			);
+			path = Kalman;
+			sourceTree = "<group>";
+		};
+		A51B540F13B549BD0073486E /* Soccer */ = {
+			isa = PBXGroup;
+			children = (
+				A5DD6BBA13BB97280081B3E7 /* ai11 */,
+				A51B541013B549BD0073486E /* ai09 */,
+				A51B543E13B549BD0073486E /* aiBase.h */,
+			);
+			path = Soccer;
+			sourceTree = "<group>";
+		};
+		A51B541013B549BD0073486E /* ai09 */ = {
+			isa = PBXGroup;
+			children = (
+				A5805D4F1474D11200FE0D1B /* dataProcessing */,
+				A5805D4E1474D09A00FE0D1B /* nvigation */,
+				A5805D4D1474D06600FE0D1B /* core */,
+				A5805D4C1474D04200FE0D1B /* helpers */,
+				A5805D411474CFAA00FE0D1B /* skills */,
+				A51B541413B549BD0073486E /* errt */,
+				A51B543313B549BD0073486E /* plays */,
+			);
+			path = ai09;
+			sourceTree = "<group>";
+		};
+		A51B541413B549BD0073486E /* errt */ = {
+			isa = PBXGroup;
+			children = (
+				A51B542213B549BD0073486E /* errt_setObs.cpp */,
+				A5DF0D8713C4B01100AB2F63 /* obstacle.cpp */,
+				A51B541513B549BD0073486E /* errt.cpp */,
+				A51B541613B549BD0073486E /* errt.h */,
+				A51B541713B549BD0073486E /* line.cpp */,
+				A51B541813B549BD0073486E /* line.h */,
+				A51B541A13B549BD0073486E /* obstacle.h */,
+				A51B541B13B549BD0073486E /* obstacle_circle.cpp */,
+				A51B541C13B549BD0073486E /* obstacle_map.cpp */,
+				A51B541D13B549BD0073486E /* obstacle_new.h */,
+				A51B541E13B549BD0073486E /* obstacle_rectangle.cpp */,
+				A51B541F13B549BD0073486E /* tree.cpp */,
+				A51B542013B549BD0073486E /* tree.h */,
+			);
+			path = errt;
+			sourceTree = "<group>";
+		};
+		A51B543313B549BD0073486E /* plays */ = {
+			isa = PBXGroup;
+			children = (
+				A51B543413B549BD0073486E /* stop.cpp */,
+				A51B543513B549BD0073486E /* tech_challenge.cpp */,
+				A51B543613B549BD0073486E /* tech_circle.cpp */,
+				A51B543713B549BD0073486E /* tech_cmu.cpp */,
+				A51B543813B549BD0073486E /* tech_mexico.cpp */,
+				A5DF0EC813C512CA00AB2F63 /* corner_simple_pass.cpp */,
+				A54C624513C5B02F00E85800 /* corner_simple_chip.cpp */,
+				A5DF0ED613C523A800AB2F63 /* corner_switch_pass.cpp */,
+				A5DF0EDA13C524D400AB2F63 /* kickoff_us_chip.cpp */,
+				A5DF0EE813C5268800AB2F63 /* kickoff_us_pass.cpp */,
+				A54C664A13C9929900E85800 /* kickoff_us_farar.cpp */,
+				A5DF0EFA13C52A1100AB2F63 /* throwin_chip_shoot.cpp */,
+				A5DF0F0713C52D2100AB2F63 /* kickoff_their_one_wall.cpp */,
+				A54C627113C5C94D00E85800 /* kickoff_their_back_def.cpp */,
+				A5DF0F0B13C52DC400AB2F63 /* penalty_their_simple.cpp */,
+				A5DF0F1413C52F0200AB2F63 /* corner_their_marker_ajor.cpp */,
+				A5DF0F2113C5328B00AB2F63 /* corner_their_marker_karkas.cpp */,
+				A54C63E013C7165300E85800 /* corner_their_def_karkas.cpp */,
+				A54C63E213C716D000E85800 /* corner_their_def_ajor.cpp */,
+				A54C64C313C8256A00E85800 /* corner_their_khafan.cpp */,
+				A54C64EA13C8342800E85800 /* throwin_their_khafan.cpp */,
+				A54C661813C98D5800E85800 /* stop_ajor.cpp */,
+			);
+			path = plays;
+			sourceTree = "<group>";
+		};
+		A5805D411474CFAA00FE0D1B /* skills */ = {
+			isa = PBXGroup;
+			children = (
+				A51B543D13B549BD0073486E /* TwoDef.cpp */,
+				A5D6F18513BD103A00977D97 /* backPass.cpp */,
+				A5DF0F1D13C530D100AB2F63 /* defenceWall.cpp */,
+				A51B542713B549BD0073486E /* GK.cpp */,
+				A51B542813B549BD0073486E /* halt.cpp */,
+				A51B542D13B549BD0073486E /* NormalPlay.cpp */,
+				A51B542F13B549BD0073486E /* OneDef.cpp */,
+				A51B543013B549BD0073486E /* pass.cpp */,
+				A51B543113B549BD0073486E /* penalty.cpp */,
+				A5DE252A1503C9150048044B /* TurnShoot.cpp */,
+			);
+			name = skills;
+			sourceTree = "<group>";
+		};
+		A5805D4C1474D04200FE0D1B /* helpers */ = {
+			isa = PBXGroup;
+			children = (
+				A51B542513B549BD0073486E /* Geom.cpp */,
+				A51B542613B549BD0073486E /* Geom.h */,
+				A51B542913B549BD0073486E /* helpers.cpp */,
+				A51B542A13B549BD0073486E /* helpers.h */,
+			);
+			name = helpers;
+			sourceTree = "<group>";
+		};
+		A5805D4D1474D06600FE0D1B /* core */ = {
+			isa = PBXGroup;
+			children = (
+				A51B543913B549BD0073486E /* Robot.cpp */,
+				A5240D961474D1C3009966C0 /* Robot.h */,
+				A5DF0EEC13C5274800AB2F63 /* ai09.cpp */,
+				A51B541313B549BD0073486E /* ai09.h */,
+				A5805D1A1474CC4D00FE0D1B /* internalProcessData.cpp */,
+				A5805D351474CE5D00FE0D1B /* ai09_process.cpp */,
+				A5805D3B1474CEED00FE0D1B /* internalFinalize.cpp */,
+			);
+			name = core;
+			sourceTree = "<group>";
+		};
+		A5805D4E1474D09A00FE0D1B /* nvigation */ = {
+			isa = PBXGroup;
+			children = (
+				A51B543213B549BD0073486E /* planner.h */,
+				A51B542B13B549BD0073486E /* motionPlan.cpp */,
+				A51B542C13B549BD0073486E /* navigation.cpp */,
+				A51B543A13B549BD0073486E /* trapezoid.cpp */,
+				A51B543B13B549BD0073486E /* trapezoid.h */,
+				A5DFE59B13C344FA003479AC /* VelocityProfile.h */,
+			);
+			name = nvigation;
+			sourceTree = "<group>";
+		};
+		A5805D4F1474D11200FE0D1B /* dataProcessing */ = {
+			isa = PBXGroup;
+			children = (
+				A51B542313B549BD0073486E /* evaluate.cpp */,
+				A51B542413B549BD0073486E /* FreeAngle.cpp */,
+				A5DD6C1513BC5BAB0081B3E7 /* findCruncherOpp.cpp */,
+				A5DF0F2313C5345900AB2F63 /* findKickerOpp.cpp */,
+			);
+			name = dataProcessing;
+			sourceTree = "<group>";
+		};
+		A5DD6BBA13BB97280081B3E7 /* ai11 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = ai11;
+			sourceTree = "<group>";
+		};
+		A5E2C7C613B5D49A004A4110 /* Protobuf */ = {
+			isa = PBXGroup;
+			children = (
+				A5DF0C1B13C39C9C00AB2F63 /* aidebug.proto */,
+				A5DF0C0F13C39AEF00AB2F63 /* aidebug.pb.cc */,
+				A5DF0C1013C39AEF00AB2F63 /* aidebug.pb.h */,
+				A5E2C7DD13B5D96A004A4110 /* ImmortalsProtocols.pb.cc */,
+				A5E2C7DE13B5D96A004A4110 /* ImmortalsProtocols.pb.h */,
+				A5E2C7DF13B5D96A004A4110 /* messages_robocup_ssl_detection.pb.cc */,
+				A5E2C7E013B5D96A004A4110 /* messages_robocup_ssl_detection.pb.h */,
+				A5E2C7E113B5D96A004A4110 /* messages_robocup_ssl_geometry.pb.cc */,
+				A5E2C7E213B5D96A004A4110 /* messages_robocup_ssl_geometry.pb.h */,
+				A5E2C7E313B5D96A004A4110 /* messages_robocup_ssl_wrapper.pb.cc */,
+				A5E2C7E413B5D96A004A4110 /* messages_robocup_ssl_wrapper.pb.h */,
+				A5E2C7C713B5D49A004A4110 /* ImmortalsProtocols.proto */,
+				A5E2C7C813B5D49A004A4110 /* messages_robocup_ssl_detection.proto */,
+				A5E2C7C913B5D49A004A4110 /* messages_robocup_ssl_geometry.proto */,
+				A5E2C7CA13B5D49A004A4110 /* messages_robocup_ssl_wrapper.proto */,
+			);
+			path = Protobuf;
+			sourceTree = "<group>";
+		};
+		C6859E8C029090F304C91782 /* Documentation */ = {
+			isa = PBXGroup;
+			children = (
+				C6859E8B029090EE04C91782 /* RoboCup11.1 */,
+			);
+			name = Documentation;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8DD76F620486A84900D96B5E /* RoboCup11 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB923108733DC60010E9CD /* Build configuration list for PBXNativeTarget "RoboCup11" */;
+			buildPhases = (
+				8DD76F640486A84900D96B5E /* Sources */,
+				8DD76F660486A84900D96B5E /* Frameworks */,
+				8DD76F690486A84900D96B5E /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RoboCup11;
+			productInstallPath = "$(HOME)/bin";
+			productName = RoboCup11;
+			productReference = 8DD76F6C0486A84900D96B5E /* RoboCup11 */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		08FB7793FE84155DC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB923508733DC60010E9CD /* Build configuration list for PBXProject "RoboCup11" */;
+			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 08FB7794FE84155DC02AAC07 /* RoboCup11 */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8DD76F620486A84900D96B5E /* RoboCup11 */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8DD76F640486A84900D96B5E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A51B53DB13B5496C0073486E /* distance.cpp in Sources */,
+				A51B53DD13B5496C0073486E /* MATHS_REGRESSION_PARABOLIC.cpp in Sources */,
+				A51B53DE13B5496C0073486E /* Vector.cpp in Sources */,
+				A51B540313B549A30073486E /* PracticalSocket.cpp in Sources */,
+				A51B540413B549A30073486E /* referee.cpp in Sources */,
+				A51B540613B549A30073486E /* FilteredObject.cpp in Sources */,
+				A51B540B13B549A30073486E /* vision.cpp in Sources */,
+				A51B540C13B549A30073486E /* VisionBall.cpp in Sources */,
+				A51B540D13B549A30073486E /* VisionComminucation.cpp in Sources */,
+				A51B540E13B549A30073486E /* VisionRobot.cpp in Sources */,
+				A51B544013B549BD0073486E /* errt.cpp in Sources */,
+				A51B544113B549BD0073486E /* line.cpp in Sources */,
+				A51B544313B549BD0073486E /* obstacle_circle.cpp in Sources */,
+				A51B544413B549BD0073486E /* obstacle_map.cpp in Sources */,
+				A51B544513B549BD0073486E /* obstacle_rectangle.cpp in Sources */,
+				A51B544613B549BD0073486E /* tree.cpp in Sources */,
+				A51B544713B549BD0073486E /* errt_setObs.cpp in Sources */,
+				A51B544813B549BD0073486E /* evaluate.cpp in Sources */,
+				A51B544913B549BD0073486E /* FreeAngle.cpp in Sources */,
+				A51B544A13B549BD0073486E /* Geom.cpp in Sources */,
+				A51B544B13B549BD0073486E /* GK.cpp in Sources */,
+				A51B544C13B549BD0073486E /* halt.cpp in Sources */,
+				A51B544D13B549BD0073486E /* helpers.cpp in Sources */,
+				A51B544E13B549BD0073486E /* motionPlan.cpp in Sources */,
+				A51B544F13B549BD0073486E /* navigation.cpp in Sources */,
+				A51B545013B549BD0073486E /* NormalPlay.cpp in Sources */,
+				A51B545113B549BD0073486E /* OneDef.cpp in Sources */,
+				A51B545213B549BD0073486E /* pass.cpp in Sources */,
+				A51B545313B549BD0073486E /* penalty.cpp in Sources */,
+				A51B545413B549BD0073486E /* stop.cpp in Sources */,
+				A51B545513B549BD0073486E /* tech_challenge.cpp in Sources */,
+				A51B545613B549BD0073486E /* tech_circle.cpp in Sources */,
+				A51B545713B549BD0073486E /* tech_cmu.cpp in Sources */,
+				A51B545813B549BD0073486E /* tech_mexico.cpp in Sources */,
+				A51B545913B549BD0073486E /* Robot.cpp in Sources */,
+				A51B545A13B549BD0073486E /* trapezoid.cpp in Sources */,
+				A51B545B13B549BD0073486E /* TwoDef.cpp in Sources */,
+				A5E2C7E513B5D96A004A4110 /* ImmortalsProtocols.pb.cc in Sources */,
+				A5E2C7E613B5D96A004A4110 /* messages_robocup_ssl_detection.pb.cc in Sources */,
+				A5E2C7E713B5D96A004A4110 /* messages_robocup_ssl_geometry.pb.cc in Sources */,
+				A5E2C7E813B5D96A004A4110 /* messages_robocup_ssl_wrapper.pb.cc in Sources */,
+				A5F3D2E513BA26DA00FD1A94 /* kbhit.cpp in Sources */,
+				A5F3D33C13BA2C4600FD1A94 /* main.cpp in Sources */,
+				A5DD6C1613BC5BAB0081B3E7 /* findCruncherOpp.cpp in Sources */,
+				A5DD6C5213BC68E80081B3E7 /* timer.cpp in Sources */,
+				A5D6F18613BD103A00977D97 /* backPass.cpp in Sources */,
+				A5DF0C1113C39AEF00AB2F63 /* aidebug.pb.cc in Sources */,
+				A5DF0D8813C4B01100AB2F63 /* obstacle.cpp in Sources */,
+				A5DF0EC913C512CA00AB2F63 /* corner_simple_pass.cpp in Sources */,
+				A5DF0ED713C523A800AB2F63 /* corner_switch_pass.cpp in Sources */,
+				A5DF0EDB13C524D400AB2F63 /* kickoff_us_chip.cpp in Sources */,
+				A5DF0EE913C5268800AB2F63 /* kickoff_us_pass.cpp in Sources */,
+				A5DF0EED13C5274800AB2F63 /* ai09.cpp in Sources */,
+				A5DF0EFB13C52A1100AB2F63 /* throwin_chip_shoot.cpp in Sources */,
+				A5DF0F0813C52D2100AB2F63 /* kickoff_their_one_wall.cpp in Sources */,
+				A5DF0F0C13C52DC400AB2F63 /* penalty_their_simple.cpp in Sources */,
+				A5DF0F1513C52F0200AB2F63 /* corner_their_marker_ajor.cpp in Sources */,
+				A5DF0F1E13C530D100AB2F63 /* defenceWall.cpp in Sources */,
+				A5DF0F2213C5328B00AB2F63 /* corner_their_marker_karkas.cpp in Sources */,
+				A5DF0F2413C5345900AB2F63 /* findKickerOpp.cpp in Sources */,
+				A54C624613C5B02F00E85800 /* corner_simple_chip.cpp in Sources */,
+				A54C627213C5C94D00E85800 /* kickoff_their_back_def.cpp in Sources */,
+				A54C63E113C7165300E85800 /* corner_their_def_karkas.cpp in Sources */,
+				A54C63E313C716D000E85800 /* corner_their_def_ajor.cpp in Sources */,
+				A54C64C413C8256A00E85800 /* corner_their_khafan.cpp in Sources */,
+				A54C64EB13C8342800E85800 /* throwin_their_khafan.cpp in Sources */,
+				A54C661913C98D5800E85800 /* stop_ajor.cpp in Sources */,
+				A54C664B13C9929900E85800 /* kickoff_us_farar.cpp in Sources */,
+				A5805D1B1474CC4D00FE0D1B /* internalProcessData.cpp in Sources */,
+				A5805D361474CE5D00FE0D1B /* ai09_process.cpp in Sources */,
+				A5805D3C1474CEED00FE0D1B /* internalFinalize.cpp in Sources */,
+				A5DE252B1503C9150048044B /* TurnShoot.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB923208733DC60010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = /usr/local/bin;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(DEVELOPER_DIR)/usr/lib\"",
+				);
+				PRODUCT_NAME = RoboCup11;
+			};
+			name = Debug;
+		};
+		1DEB923308733DC60010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/bin;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(DEVELOPER_DIR)/usr/lib\"",
+				);
+				PRODUCT_NAME = RoboCup11;
+			};
+			name = Release;
+		};
+		1DEB923608733DC60010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+			};
+			name = Debug;
+		};
+		1DEB923708733DC60010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ENABLE_OPENMP_SUPPORT = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_SSE3_EXTENSIONS = YES;
+				GCC_ENABLE_SSE41_EXTENSIONS = YES;
+				GCC_ENABLE_SSE42_EXTENSIONS = YES;
+				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "/usr/include//**";
+				LIBRARY_SEARCH_PATHS = /usr/lib;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-lncurses",
+					"-lprotobuf-lite",
+					"-lprotobuf",
+					"-lprotoc",
+					"-lz",
+					"-D_THREAD_SAFE",
+				);
+				PREBINDING = NO;
+				PRELINK_LIBS = "";
+				SDKROOT = macosx10.6;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB923108733DC60010E9CD /* Build configuration list for PBXNativeTarget "RoboCup11" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB923208733DC60010E9CD /* Debug */,
+				1DEB923308733DC60010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB923508733DC60010E9CD /* Build configuration list for PBXProject "RoboCup11" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB923608733DC60010E9CD /* Debug */,
+				1DEB923708733DC60010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 08FB7793FE84155DC02AAC07 /* Project object */;
+}

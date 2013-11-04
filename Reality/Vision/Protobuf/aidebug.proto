@@ -1,0 +1,52 @@
+message color
+{
+  required float  r			  =  1;
+  required float  g			  =  2;
+  required float  b			  =  3;
+
+}
+
+message Debug_Point
+{
+  required float  x           =  1;
+  required float  y           =  2;
+  optional color  col         =  3;
+
+}
+
+message Debug_Line
+{
+  required float  x1          =  1;
+  required float  y1          =  2;
+  required float  x2          =  3;
+  required float  y2          =  4;
+  optional color  col         =  5;
+}
+
+message Debug_Rect
+{
+  required float  x          =  1;
+  required float  y          =  2;
+  required float  w          =  3;
+  required float  h          =  4;
+  optional color  col        =  5;
+
+}
+
+message Debug_Circle
+{
+  required float  x          =  1;
+  required float  y          =  2;
+  required float  r          =  3;
+  optional color  col        =  4;
+
+}
+
+message AI_Debug
+{
+  repeated Debug_Point  point  = 1;
+  repeated Debug_Line   line   = 2;
+  repeated Debug_Rect   rect   = 3;
+  repeated Debug_Circle circle = 4;
+
+}
