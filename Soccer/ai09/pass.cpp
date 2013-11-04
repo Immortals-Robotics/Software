@@ -1,6 +1,6 @@
 #include "ai09.h"
 
-void ai09::WaitForPass ( int robot_num , bool chip , TVec2* target )
+void ai09::WaitForPass ( int robot_num , bool chip )
 {
 	Line ball_line = Line::makeLineFromPositionAndAngle ( VecPosition ( ball.Position.X , ball.Position.Y ) , ball.velocity.direction );
 
@@ -10,23 +10,17 @@ void ai09::WaitForPass ( int robot_num , bool chip , TVec2* target )
 	//if ( BAR < 86 )		BAR = 86;
 	//if ( BAR > 600 )	BAR = 600;
 
-	if (target==NULL) {
-		OwnRobot[robot_num].target.Angle = calculateOneTouchAngle ( robot_num , Vec2 (ans.getX() - BAR * cosDeg ( OwnRobot[robot_num].State.Angle ) , ans.getY() - BAR * sinDeg ( OwnRobot[robot_num].State.Angle ) ) );
-	}
-	else {
-		OwnRobot[robot_num].target.Angle = AngleWith(OwnRobot[robot_num].State.Position, *target);
-	}
-
+	OwnRobot[robot_num].target.Angle = calculateOneTouchAngle ( robot_num , Vec2 (ans.getX() - BAR * cosDeg ( OwnRobot[robot_num].State.Angle ) , ans.getY() - BAR * sinDeg ( OwnRobot[robot_num].State.Angle ) ) );
 	//OwnRobot[robot_num].face ( ball.Position );
 	//OwnRobot[robot_num].face ( Vec2 ( -side*3025 , 0 ) );
-	ERRTSetObstacles ( robot_num ,0,1,1,0,0,0);
+	ERRTSetObstacles ( robot_num ,0,0,0,0,0);
 	ERRTNavigate2Point ( robot_num , Vec2 (ans.getX() - BAR * cosDeg ( OwnRobot[robot_num].State.Angle ) , ans.getY() - BAR * sinDeg ( OwnRobot[robot_num].State.Angle ) ),0,100,&VELOCITY_PROFILE_MAMOOLI );
 	//if ( DIS ( OwnRobot[robot_num].State.Position , ball.Position ) < 20 )
 	if (chip) {
-		OwnRobot[robot_num].Chip( 30 );
+		OwnRobot[robot_num].Chip( 15 );
 	}
 	else
-		OwnRobot[robot_num].Shoot( 50 );
+		OwnRobot[robot_num].Shoot( 15 );
 	//OwnRobot[robot_num].Dribble( 15 );
 }
 

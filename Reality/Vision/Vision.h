@@ -34,7 +34,7 @@
 #define PREDICT_STEPS 8.0f
 
 #define MAX_BALLS 10
-#define MAX_BALL_NOT_SEEN 60
+#define MAX_BALL_NOT_SEEN 10
 
 #define MAX_ROBOT_NOT_SEEN 20
 
@@ -60,7 +60,6 @@ class VisionModule
 	public:
 
 		VisionModule ( VisionSetting * );
-		~VisionModule();
 
 		VisionSetting * GetSetting ( void );
 

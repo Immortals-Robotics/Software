@@ -43,7 +43,7 @@ void ai09::WaitForOmghi ( int robot_num )
 		ERRTNavigate2Point ( robot_num , Vec2 (ans.getX() - BAR * cosDeg ( OwnRobot[robot_num].State.Angle ) , ans.getY() - BAR * sinDeg ( OwnRobot[robot_num].State.Angle ) ) );
 	
 	//if ( fabs ( NormalizeAngle ( OwnRobot[robot_num].State.Angle - AngleWith ( OwnRobot[robot_num].State.Position , Vec2 ( -side*3025 , 0 ) ) ) ) < 20 ) 
-	OwnRobot[robot_num].Shoot( 50 );
+	OwnRobot[robot_num].Shoot( 15 );
 	//else
 	//OwnRobot[robot_num].Shoot( 0 );
 	

@@ -36,12 +36,15 @@ void VisionModule::ProcessRobots ( WorldState * state )
 	FilterRobots ( robots_num , ! ( setting -> color ) );
 	
 	//We're almost done, only Prediction remains undone!
-	//predictRobotsForward ( state );
-	//RunANN(state);
+		//RunANN(state);
+		
 	//PredictWithANN(state);
 	//TrainANN(0.05f);
-	RunANN(state);
-		
+	
+	
+	predictRobotsForward ( state );
+
+	//RunANN(state);	
 	//Now we send Robots States to the AI!
 	SendStates ( state );
 	
@@ -171,10 +174,12 @@ void VisionModule::FilterRobots ( int num , bool own )
 			//robotState[own][i].velocity.direction = 0.0f;
 			//robotState[own][i].velocity.magnitude = 0.0f;
 			
-			//robotState[own][i].Position.X += robotState[own][i].velocity.x / 61.0;
-			//robotState[own][i].Position.Y += robotState[own][i].velocity.y / 61.0;
+			robotState[own][i].Position.X += robotState[own][i].velocity.x / 61.0;
+			robotState[own][i].Position.Y += robotState[own][i].velocity.y / 61.0;
 			
-			//}
+			if ( ( own == 0 ) && (i == 6) ) {
+				cout << robotState[own][i].velocity.x << endl;
+			}
 		}
 		
 		else
@@ -219,7 +224,7 @@ void VisionModule::FilterRobots ( int num , bool own )
 
 void VisionModule::predictRobotsForward( WorldState * state )
 {  
-	for ( int own = 1 ; own < 2 ; own ++ )
+	for ( int own = 0 ; own < 2 ; own ++ )
 	{
 		for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
 		{
@@ -250,15 +255,6 @@ void VisionModule::predictRobotsForward( WorldState * state )
 			 robotState[own][i].Position.Y *= (float)(1000.0);
 			 robotState[own][i].velocity.x *= (float)(1000.0);
 			 robotState[own][i].velocity.y *= (float)(1000.0);*/
-			
-			robotState[own][i].Position.X = robotState[own][i].Position.X + robotState[own][i].velocity.x / ( PREDICT_STEPS * 2.0f );
-			
-			// Predict the robot to go forward
-			robotState[own][i].Position.Y = robotState[own][i].Position.Y + robotState[own][i].velocity.y / ( PREDICT_STEPS * 2.0f );
-			
-			// Predict the robot to go forward
-			robotState[own][i].Angle = robotState[own][i].Angle + robotState[own][i].AngularVelocity / ( PREDICT_STEPS * 4.0f );
-
 			
 		}
 	}

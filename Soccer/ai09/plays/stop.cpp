@@ -2,16 +2,8 @@
 #include <iostream>
 using namespace std;
 
-#include <vector>
-
-void ai09::Stop ( void )
+void ai09::Stop ( int gk , int def , int dmf , int lmf , int rmf , int attack )
 {
-	if (timer.time()<0.5) {
-		if ( side * OwnRobot[rmf].State.Position.Y < side * OwnRobot[lmf].State.Position.Y )
-		{ 
-			swap(rmf, lmf);
-		}
-	}
 	GK_Ghuz( gk , 1 , true );
 	DefGhuz(def,NULL, true);
 	
@@ -34,8 +26,8 @@ void ai09::Stop ( void )
 	OwnRobot[rmf].face(Vec2(ball.Position.X,ball.Position.Y));
 	ERRTNavigate2Point ( rmf , CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(20+AngleWith(ball.Position , Vec2(side*3025,0))),590) ,0 , 40,&VELOCITY_PROFILE_AROOM);
 
-	ERRTSetObstacles ( cmf , true , true , true , true );
-	OwnRobot[cmf].face(Vec2(ball.Position.X,ball.Position.Y));
-	ERRTNavigate2Point ( cmf , CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(AngleWith(ball.Position , Vec2(side*3025,0))),580) ,0 , 40,&VELOCITY_PROFILE_AROOM);
+	ERRTSetObstacles ( attack , true , true , true , true );
+	OwnRobot[attack].face(Vec2(ball.Position.X,ball.Position.Y));
+	ERRTNavigate2Point ( attack , CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(AngleWith(ball.Position , Vec2(side*3025,0))),580) ,0 , 40,&VELOCITY_PROFILE_AROOM);
 	//side=-side;
 }

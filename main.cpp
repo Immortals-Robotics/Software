@@ -1,5 +1,4 @@
 #include <iostream>
-#include <fstream>
 #include <omp.h>
 #include <unistd.h>
 #include <string.h>
@@ -86,10 +85,10 @@ void initWorldState ( WorldState * state )
 }
 
 int main ( )
-{	
+{
 	GameSetting * setting = new GameSetting ( );
 	setting -> visionSetting = _visionSetting ( COLOR_BLUE , "224.5.23.2" , 10002 , "224.5.66.6" , 10009 ,1,1);
-	setting -> side = Left;
+	setting -> side = Right;
 	
 	WorldState * state = new WorldState ( );
 	initWorldState ( state );
@@ -114,18 +113,32 @@ int main ( )
 	}
 	
 	UDPSocket commUDP;
-	char robot_cmds[80];
-	char zeros[80];
+	char robot_cmds[60];
+	char zeros[60];
 	
-	for ( int i = 0 ; i < 80 ; i ++ )
+	for ( int i = 0 ; i < 60 ; i ++ )
 	{
 		zeros[i] = 0;
 		robot_cmds[i]=0;
 	}
 	
-	robot_cmds[66] = 25;
+	/*Serial serial;
+	string serialPort = "/dev/tty.PL2303-000013FD";
+	int serialBaudRate = 38400;
+	cout << " Opening serial port " << serialPort << " with baudrate = " << serialBaudRate << endl;
+	serial.Open ( serialPort.c_str() , 38400 );*/
 	
-	bool started = false;
+	/*string serialPort = "/dev/tty.PL2303-000013FD";
+	int serialBaudRate = 38400;
+	io_service io;
+	cout << " Opening serial port " << serialPort << "with baudrate = " << serialBaudRate << endl;
+	serial_port boostSerial( io, serialPort.c_str() );
+	if ( !boostSerial.is_open() )
+		cout << "	ridi be serial haji!" << endl;
+	else
+		boostSerial.set_option( serial_port_base::baud_rate( serialBaudRate ) );
+	
+	boostSerial.cancel();*/
 	
 	aiBase * aii;
 	aii = new ai09 ( );
@@ -154,7 +167,7 @@ int main ( )
 	bool exited = false;
 	omp_lock_t lock;
 	omp_init_lock(&lock);
-	omp_set_num_threads(3);
+	omp_set_num_threads(2);
 #pragma omp parallel private(tid) shared(exited)
 	{
 		tid = omp_get_thread_num();
@@ -166,23 +179,66 @@ int main ( )
 				
 				omp_set_lock ( &lock );
 				vision.ProcessVision ( state );
-				if ( started )
-				{
-					commUDP.sendTo ( robot_cmds    , 77 , "224.5.92.5" , 10003 );
-				}
+				//sleep(1);
+				/*if ( state->ball.velocity.magnitude > 7000 )
+					cout << state->ball.velocity.magnitude << endl;*/
+				
+				//robot_cmds[8] = 'a';
+				//robot_cmds[9] = 'a';
+				/*for (int i = 1; i < 8 ; i++) {
+					if (robot_cmds[i]==0) {
+						robot_cmds[i] = 1;
+					}
+					//robot_cmds[i] = max(1,robot_cmds[i]);
+				}*/
+				//commUDP.sendTo ( robot_cmds    , 10 , "224.5.92.5" , 10003 );
+				/*commUDP.sendTo ( robot_cmds+8  , 10 , "224.5.92.5" , 10003 );
+				commUDP.sendTo ( robot_cmds+16 , 10 , "224.5.92.5" , 10003 );
+				commUDP.sendTo ( robot_cmds+24 , 10 , "224.5.92.5" , 10003 );
+				commUDP.sendTo ( robot_cmds+32 , 10 , "224.5.92.5" , 10003 );
+				commUDP.sendTo ( robot_cmds+40 , 10 , "224.5.92.5" , 10003 );*/
+				//commUDP.sendTo ( "aa" , 2 , "224.5.92.5" , 10003 );
+				/*robot_cmds[0] = 0;
+				robot_cmds[1] = 6;
+				robot_cmds[2] = 1;
+				robot_cmds[3] = 1;
+				robot_cmds[4] = 1;
+				robot_cmds[5] = 1;
+				robot_cmds[6] = 1;
+				robot_cmds[7] = 1;*/
+				//commUDP.sendTo ( robot_cmds , 10 , "192.168.1.208" , 10003 );
+				//robot_cmds[0]=0;
+				//robot_cmds[8]='a';
+				//robot_cmds[9]='a';
+				commUDP.sendTo ( robot_cmds    , 10 , "192.168.1.208" , 10003 );
+				//commUDP.sendTo ( robot_cmds+8  , 10 , "192.168.1.208" , 10003 );
+//				commUDP.sendTo ( robot_cmds+16 , 10 , "192.168.1.208" , 10003 );
+//				commUDP.sendTo ( robot_cmds+24 , 10 , "192.168.1.208" , 10003 );
+//				commUDP.sendTo ( robot_cmds+32 , 10 , "192.168.1.208" , 10003 );
+//				commUDP.sendTo ( robot_cmds+40 , 10 , "192.168.1.208" , 10003 );
+				//commUDP.sendTo ( "OverLord!" , 10 , "192.168.1.208" , 10003 );
+				//commUDP.sendTo ( "OverLord!" , 10 , "192.168.1.208" , 10003 );
+				//commUDP.sendTo ( "sverLord!" , 10 , "192.168.1.208" , 10003 );
+				//commUDP.sendTo ( "BodBodBodaaaaaaaaaagh :P" , 24 , "192.168.1.208" , 10003 );
+				//serial.Write(robot_cmds, 50);
+				timer.start();
 				aii -> Process( state , setting , robot_cmds );
 				//cout << timer.time() * 1000.0 << endl;
+				for ( int i = 0 ; i < 40 ; i ++ )
+				{
+					/*if ( robot_cmds[i] == 127 )
+					 robot_cmds[i] = 128;
+					 else if ( robot_cmds[i] == 126 )
+					 robot_cmds[i] = 125;*/
+				}
 				
 				vision.SendGUIData ( state , aii -> AIDebug );
 				omp_unset_lock ( &lock );
 				
-				cout << 1.0/timer.interval() << endl;
-				
-				started = true;
+				//cout << timer.interval() * 1000.0 << endl;
 			}
 			exited = true;
-			commUDP.sendTo ( zeros , 10 , "localhost" , 60001 );
-			commUDP.sendTo ( zeros , 1 , "localhost" , 60006 );
+			commUDP.sendTo ( zeros , 10 , "localhost" , 10001 );
 		}
 		if ( tid == 1 )
 		{
@@ -198,52 +254,9 @@ int main ( )
 				}
 			}
 		}
-		if ( tid == 2 )
-		{
-			UDPSocket* strategyUDP = new UDPSocket(60006);
-			strategyUDP -> joinGroup("224.5.23.3");
-			const int strategyBufferMaxSize = 100000;
-			char strategyBuffer[strategyBufferMaxSize];
-			while ( ( !exited ) && (! kbhit()) && ( ImmortalsIsTheBest ) )	//Hope it lasts Forever...
-			{
-				string strategySrcAdd;
-				unsigned short strategySrcPort;
-				int strategySize = strategyUDP->recvFrom(strategyBuffer, strategyBufferMaxSize, strategySrcAdd, strategySrcPort);
-				if ( strategySize > 11 )
-				{
-					cout << "Recieved \"strategy.ims\" with size: " << float(strategySize)/1000.0f << " KB, from " << strategySrcAdd << " on port " << strategySrcPort << "." << endl;
-					ofstream strategyFile ( "strategy.ims" , ios::out|ios::binary);
-					strategyFile.write(strategyBuffer, strategySize);
-					strategyFile.close();
-				}
-				else if ( strategySize == 11 )
-				{
-					cout << "Recieved PID configs with size: " << float(strategySize) << " B, from " << strategySrcAdd << " on port " << strategySrcPort << "." << endl;
-					strategyBuffer[0] = robot_cmds[0];
-					strategyBuffer[1] = 2;
-					
-					for (int i = 0; i < 11; i ++) {
-						cout << (int)((unsigned char)strategyBuffer[i]) << endl;
-					}
-					commUDP.sendTo ( strategyBuffer , 11 , "224.5.92.5" , 10003 );
-				}
-				
-				else if ( strategySize == 10 )
-				{
-					cout << "Recieved robot feedback with size: " << float(strategySize) << " B, from " << strategySrcAdd << " on port " << strategySrcPort << "." << endl;
-					/*for (int i = 0 ; i < 10 ; i ++) {
-						cout << (int)strategyBuffer[i] << "	";
-					}
-					cout << endl;*/
-				}
-
-				else {
-					cout << "Invalid \"strategy.ims\" recieved with size: " << strategySize << " ." << endl;
-				}
-
-			}
-		}
 	}
+	
+	//serial.Close();
 	
 	changemode(0);
 	

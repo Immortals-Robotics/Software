@@ -6,6 +6,9 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 	
 	internalProcessData(worldState, setting);
 	
+	//cout << "	" << OwnRobot[attack].lastCMDs[0].X << "	";
+	//cout << "	" << OwnRobot[attack].State.velocity.magnitude << "	";
+	
 	if ( 0 )//ball.seenState == CompletelyOut )
 	{
 		//tech_challenge();
@@ -25,7 +28,8 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 
 		if ( worldState ->refereeState.State->get() == GameState::GAME_OFF )
 		{
-			Stop ( );
+			//tech_mexico();
+			Stop ( gk , def , dmf , lmf , rmf , attack );
 			/*OwnRobot[attack].target.Angle = 90;OwnRobot[attack].State.Angle + 160;
 			 Navigate2Point ( attack , Vec2 ( 1500 , -1700 ) , 0 , 100 );
 			 OwnRobot[rmf].target.Angle = 0;OwnRobot[rmf].State.Angle + 160;
@@ -41,26 +45,22 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 		}
 		else if ( worldState ->refereeState.State->ourKickoff ( ) )
 		{
-			//tech_mexico();
-			//tech_challenge();
+			tech_mexico();
 			//if ( randomParam < 0.5 )
 				//kickoff_us_farar( worldState ->refereeState.State->canKickBall() );
 			//kickoff_us_zamini( worldState ->refereeState.State->canKickBall() );
 			//else
-			kickoff_us_chip( worldState ->refereeState.State->canKickBall() );
+			//kickoff_us_chip( worldState ->refereeState.State->canKickBall() );
 			//kickoff_us_farar( worldState ->refereeState.State->canKickBall() );
 		}
 		else if ( ( worldState ->refereeState.State->ourDirectKick ( ) ) || ( worldState ->refereeState.State->ourIndirectKick ( ) ) )
 		{
-			throwin_chip_shoot();
-			//strategy_maker(playBook->strategy(playBook->strategy_size()-1));
-			//strategy_maker(playBook->strategy(7));
 			//tech_challenge();
 			/*if ( ( ball.Position.X * side < -2500 ) )
 			{
 				//if ( randomParam < 0.5 )
-					strategy_maker(playBook->strategy(9));
-				//	corner_simple_chip();
+				//	strategy_maker(playBook->strategy(6));
+					corner_simple_chip();
 				//else
 					//corner_switch_pass();
 				//strategy_maker(playBook->strategy(playBook->strategy_size()-1-(int)(randomParam*7.0)));
@@ -74,19 +74,8 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 				//strategy_maker(playBook->strategy(playBook->strategy_size()-1));
 				strategy_maker(playBook->strategy(8));//playBook->strategy_size()-1-(int)(randomParam*9.0)));
 				//corner_simple_pass(true);
-			}
-			else {
-				throwin_chip_shoot();
 			}*/
-
-			/*if ( ( ball.Position.X * side > 0 ) )
-			{
-				throwin_chip_shoot();
-			}
-			else {
-				//strategy_maker(playBook->strategy(7));
-				corner_simple_pass(true);
-			}
+			strategy_maker(playBook->strategy(5));
 			/*else if ( ball.Position.X * side > 2000 )
 			{
 				//throwin_chip_shoot();
@@ -135,13 +124,13 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 		
 		else if ( worldState ->refereeState.State->theirFreeKick() )
 		{
-			/*if ( ball.Position.X * side < 0 )
+			if ( ball.Position.X * side < 0 )
 			{
 				//corner_their_marker_ajor();
 				//corner_their_khafan();
 				corner_their_marker_karkas();
 			}
-			else*/
+			else
 			{
 				//throwin_their_khafan();
 				//corner_their_khafan();
@@ -167,20 +156,20 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 		}
 		else
 		{
-			Stop ( );
+			Stop ( gk , def , dmf , lmf , rmf , attack );
 		}
 	}
 	else
 	{
-		//Stop ( );
-		HaltAll();
+		//Stop ( gk , def , dmf , lmf , rmf , attack );
+		//HaltAll();
 		//OwnRobot[4].sendPID ( 0 , 0 , 500 , 1425 );
-		//tech_mexico();
+		tech_mexico();
 	}
 	
-	for ( int i = 0 ; i < 6 ; i ++ )
+	for ( int i = 0 ; i < 5 ; i ++ )
 	{
-		if ( ( OwnRobot[i].State.seenState == CompletelyOut ) || ( !navigated[i] ) )
+		if ( OwnRobot[i].State.seenState == CompletelyOut )
 		{
 			Halt ( i );
 		}

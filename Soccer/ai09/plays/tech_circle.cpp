@@ -145,7 +145,7 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 		if ( gameRestart )
 		{
 			r = 200.0f;
-			tetta =25.0f;
+			tetta =20.0f;
 		}
 		else
 		{
@@ -154,7 +154,7 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 		}
 	}
 
-	//dribbler=0;
+	dribbler=0;
 	if ( dribbler )
 	{
 		if ( DIS ( OwnRobot[robot_num].State.Position , ball.Position ) < 190 )

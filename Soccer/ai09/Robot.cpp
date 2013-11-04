@@ -79,7 +79,7 @@ class Robot
 	}
 	
 	void Shoot(int pow){
-		chip = pow;
+		chip = pow*3;
 	}
 	void Chip(int pow){
 		shoot = pow;
@@ -116,15 +116,14 @@ class Robot
 	
 	void MoveByMotion(TVec3 motion)
 	{
-		//motion.X=0;
 		lastCMDs[CMDindex] = motion;
 		lastCMDs[10].X = CMDindex;
 		lastCMDs[10].Y = PREDICT_CMDS;
-
+		
 		CMDindex ++;
 		if ( CMDindex > PREDICT_CMDS - 1 )
 			CMDindex = 0;
-				
+		
 		//std::cout << serial_id << "	:	" << CMDindex << std::endl;
 		
 		float trans_rad = ( 90.0f - State.Angle ) * ( 3.1415f / 180.0f );
@@ -188,8 +187,8 @@ class Robot
 		else
 		{
 			//shoot = chip = 0;
-			data[5] = shoot;
-			data[6] = chip;
+			data[5] = shoot + 1 ;
+			data[6] = chip + 1;
 			if ( shoot > 0 || chip > 0 )
 				data[7] = 24;	//8:gyro, 16:force, 24:god help us all!
 			else

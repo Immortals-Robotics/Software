@@ -86,14 +86,14 @@ void ai09::strategy_maker ( const Strategy& strategy )
 			int shoot = 0;
 			int chip = 0;
 			if (strategy.role(i).path(step[i]).type() == 0 ) {
-				shoot = strategy.role(i).path(step[i]).tolerance();
+				shoot = 5;
 			}
 			else {
-				chip = strategy.role(i).path(step[i]).tolerance();
+				chip = 45;
 			}
 
 			float dt = ( timer.time()-lastAdv[i] );
-			float waitTime = 0.3f;
+			float waitTime = 0.6f;
 			if (step[i]==strategy.role(i).path_size()-1) {
 				/*if (dt<waitTime) {
 					tech_circle(*stm2AInum[i], AngleWith(Vec2(strategy.role(i).path(step[i]).x()*xSgn, strategy.role(i).path(step[i]).y()*ySgn),ball.Position), 0, 0, 0, 1, 0, 1);
@@ -102,15 +102,13 @@ void ai09::strategy_maker ( const Strategy& strategy )
 					tech_circle(*stm2AInum[i], AngleWith(Vec2(strategy.role(i).path(step[i]).x()*xSgn, strategy.role(i).path(step[i]).y()*ySgn),ball.Position), 0, 0, 0, 1, 1, 1);
 				}
 				else{
-					tech_circle(*stm2AInum[i], AngleWith(Vec2(strategy.role(i).path(step[i]).x()*xSgn, strategy.role(i).path(step[i]).y()*ySgn),ball.Position), shoot, chip, 0, 1, 0, 0);
+					tech_circle(*stm2AInum[i], AngleWith(Vec2(strategy.role(i).path(step[i]).x()*xSgn, strategy.role(i).path(step[i]).y()*ySgn),ball.Position), shoot, chip, 0, 1, 1, 1);
 				}*/
-				float passAngle = AngleWith(Vec2(strategy.role(i).path(step[i]).x()*xSgn, strategy.role(i).path(step[i]).y()*ySgn),ball.Position);
-				tech_circle(*stm2AInum[i], passAngle, shoot, chip, 1, 1, 0, 0);
+				tech_circle(*stm2AInum[i], AngleWith(Vec2(strategy.role(i).path(step[i]).x()*xSgn, strategy.role(i).path(step[i]).y()*ySgn),ball.Position), shoot, chip, 0, 1, 0, 0);
 			}
 			else {
 				tech_circle(*stm2AInum[i], AngleWith(Vec2(strategy.role(i).path(step[i]).x()*xSgn, strategy.role(i).path(step[i]).y()*ySgn),ball.Position), 0, 0, 0, 1, 0, 0);
 			}
-			
 		}
 		
 		else {

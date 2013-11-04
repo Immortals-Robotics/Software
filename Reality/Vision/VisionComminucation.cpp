@@ -92,7 +92,7 @@ void VisionModule::SendGUIData ( WorldState * state , AI_Debug & aidebug )
 			robotPacket[0][i].set_vy ( state -> OwnRobot[i].velocity.y );
 			robotPacket[0][i].set_x ( state -> OwnRobot[i].Position.X );
 			robotPacket[0][i].set_y ( state -> OwnRobot[i].Position.Y );
-			robotPacket[0][i].set_vmag ( state -> lastCMDS[i][(int)(state->lastCMDS[i][10].X)].Y * 45.0f );
+			robotPacket[0][i].set_vmag ( state -> lastCMDS[i][olaghekhar].Y * 50.0f );
 			robotPacket[0][i].set_own ( 1 );
 			//if (state -> OwnRobot[i].seenState!=CompletelyOut)
 			{

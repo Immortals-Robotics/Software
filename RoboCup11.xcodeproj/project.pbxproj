@@ -49,7 +49,7 @@
 		A51B545613B549BD0073486E /* tech_circle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B543613B549BD0073486E /* tech_circle.cpp */; };
 		A51B545713B549BD0073486E /* tech_cmu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B543713B549BD0073486E /* tech_cmu.cpp */; };
 		A51B545813B549BD0073486E /* tech_mexico.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B543813B549BD0073486E /* tech_mexico.cpp */; };
-		A51B545913B549BD0073486E /* Robgot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B543913B549BD0073486E /* Robgot.cpp */; };
+		A51B545913B549BD0073486E /* Robot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B543913B549BD0073486E /* Robot.cpp */; };
 		A51B545A13B549BD0073486E /* trapezoid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B543A13B549BD0073486E /* trapezoid.cpp */; };
 		A51B545B13B549BD0073486E /* TwoDef.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B543D13B549BD0073486E /* TwoDef.cpp */; };
 		A54C624613C5B02F00E85800 /* corner_simple_chip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A54C624513C5B02F00E85800 /* corner_simple_chip.cpp */; };
@@ -97,7 +97,6 @@
 		A5EFF715156639D90002C1BA /* ANN.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5EFF711156639D90002C1BA /* ANN.cpp */; };
 		A5EFF716156639D90002C1BA /* Neuron.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5EFF713156639D90002C1BA /* Neuron.cpp */; };
 		A5EFF718156639F00002C1BA /* visionPrediction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5EFF717156639F00002C1BA /* visionPrediction.cpp */; };
-		A5F2F2331578FF3800D5F6F9 /* manageAttRoles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5F2F2321578FF3800D5F6F9 /* manageAttRoles.cpp */; };
 		A5F3D2E513BA26DA00FD1A94 /* kbhit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5F3D2E413BA26DA00FD1A94 /* kbhit.cpp */; };
 		A5F3D33C13BA2C4600FD1A94 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5F3D33B13BA2C4600FD1A94 /* main.cpp */; };
 		F7E41AAC151E0107002DC8A5 /* serial.cc in Sources */ = {isa = PBXBuildFile; fileRef = F7E41AAA151E0107002DC8A5 /* serial.cc */; };
@@ -181,11 +180,11 @@
 		A51B543613B549BD0073486E /* tech_circle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tech_circle.cpp; path = plays/tech_circle.cpp; sourceTree = "<group>"; };
 		A51B543713B549BD0073486E /* tech_cmu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tech_cmu.cpp; sourceTree = "<group>"; };
 		A51B543813B549BD0073486E /* tech_mexico.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tech_mexico.cpp; sourceTree = "<group>"; };
-		A51B543913B549BD0073486E /* Robgot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Robgot.cpp; sourceTree = "<group>"; };
+		A51B543913B549BD0073486E /* Robot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Robot.cpp; sourceTree = "<group>"; };
 		A51B543A13B549BD0073486E /* trapezoid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = trapezoid.cpp; sourceTree = "<group>"; };
 		A51B543B13B549BD0073486E /* trapezoid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = trapezoid.h; sourceTree = "<group>"; };
 		A51B543D13B549BD0073486E /* TwoDef.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TwoDef.cpp; sourceTree = "<group>"; };
-		A51B543E13B549BD0073486E /* aiBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aiBase.h; sourceTree = "<group>"; };
+		A51B543E13B549BD0073486E /* aiBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = aiBase.h; path = ../aiBase.h; sourceTree = "<group>"; };
 		A54C624513C5B02F00E85800 /* corner_simple_chip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = corner_simple_chip.cpp; sourceTree = "<group>"; };
 		A54C627113C5C94D00E85800 /* kickoff_their_back_def.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = kickoff_their_back_def.cpp; sourceTree = "<group>"; };
 		A54C63E013C7165300E85800 /* corner_their_def_karkas.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = corner_their_def_karkas.cpp; sourceTree = "<group>"; };
@@ -250,8 +249,6 @@
 		A5EFF713156639D90002C1BA /* Neuron.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Neuron.cpp; path = ANN/Neuron.cpp; sourceTree = "<group>"; };
 		A5EFF714156639D90002C1BA /* Neuron.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Neuron.h; path = ANN/Neuron.h; sourceTree = "<group>"; };
 		A5EFF717156639F00002C1BA /* visionPrediction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = visionPrediction.cpp; sourceTree = "<group>"; };
-		A5F2F2321578FF3800D5F6F9 /* manageAttRoles.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = manageAttRoles.cpp; sourceTree = "<group>"; };
-		A5F2F2B1157A513500D5F6F9 /* Robot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Robot.h; sourceTree = "<group>"; };
 		A5F3D2E313BA26DA00FD1A94 /* kbhit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kbhit.h; sourceTree = "<group>"; };
 		A5F3D2E413BA26DA00FD1A94 /* kbhit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = kbhit.cpp; sourceTree = "<group>"; };
 		A5F3D33B13BA2C4600FD1A94 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
@@ -392,7 +389,6 @@
 			children = (
 				A5DD6BBA13BB97280081B3E7 /* ai11 */,
 				A51B541013B549BD0073486E /* ai09 */,
-				A51B543E13B549BD0073486E /* aiBase.h */,
 			);
 			path = Soccer;
 			sourceTree = "<group>";
@@ -400,6 +396,7 @@
 		A51B541013B549BD0073486E /* ai09 */ = {
 			isa = PBXGroup;
 			children = (
+				A51B543E13B549BD0073486E /* aiBase.h */,
 				A5805D4F1474D11200FE0D1B /* dataProcessing */,
 				A5805D4E1474D09A00FE0D1B /* nvigation */,
 				A5805D4D1474D06600FE0D1B /* core */,
@@ -507,14 +504,12 @@
 		A5805D4D1474D06600FE0D1B /* core */ = {
 			isa = PBXGroup;
 			children = (
-				A5F2F2B1157A513500D5F6F9 /* Robot.h */,
-				A51B543913B549BD0073486E /* Robgot.cpp */,
+				A51B543913B549BD0073486E /* Robot.cpp */,
 				A5DF0EEC13C5274800AB2F63 /* ai09.cpp */,
 				A51B541313B549BD0073486E /* ai09.h */,
 				A5805D1A1474CC4D00FE0D1B /* internalProcessData.cpp */,
 				A5805D351474CE5D00FE0D1B /* ai09_process.cpp */,
 				A5805D3B1474CEED00FE0D1B /* internalFinalize.cpp */,
-				A5F2F2321578FF3800D5F6F9 /* manageAttRoles.cpp */,
 			);
 			name = core;
 			sourceTree = "<group>";
@@ -679,7 +674,7 @@
 				A51B545613B549BD0073486E /* tech_circle.cpp in Sources */,
 				A51B545713B549BD0073486E /* tech_cmu.cpp in Sources */,
 				A51B545813B549BD0073486E /* tech_mexico.cpp in Sources */,
-				A51B545913B549BD0073486E /* Robgot.cpp in Sources */,
+				A51B545913B549BD0073486E /* Robot.cpp in Sources */,
 				A51B545A13B549BD0073486E /* trapezoid.cpp in Sources */,
 				A51B545B13B549BD0073486E /* TwoDef.cpp in Sources */,
 				A5E2C7E513B5D96A004A4110 /* ImmortalsProtocols.pb.cc in Sources */,
@@ -737,7 +732,6 @@
 				A5EFF716156639D90002C1BA /* Neuron.cpp in Sources */,
 				A5EFF718156639F00002C1BA /* visionPrediction.cpp in Sources */,
 				A5DDEFD1156BEE06008F804E /* dribblr.cpp in Sources */,
-				A5F2F2331578FF3800D5F6F9 /* manageAttRoles.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,5 +1,5 @@
 #include "vision.h"
-#define MAX_BALL_2FRAMES_DISTANCE 90000.0f
+#define MAX_BALL_2FRAMES_DISTANCE 62500.0f
 
 void VisionModule::ProcessBalls ( WorldState * state )
 {

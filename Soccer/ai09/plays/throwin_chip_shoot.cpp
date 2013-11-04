@@ -19,7 +19,7 @@ void ai09::throwin_chip_shoot ( void )
 	
 	
 	if (timer.time()>2 ) {
-		tech_circle(attack,AngleWith ( Vec2 ( -side*2995 , 0 ) , ball.Position ) ,0,30,0,1);
+		tech_circle(attack,AngleWith ( Vec2 ( -side*2995 , 0 ) , ball.Position ) ,0,6,0,1);
 	}
 	else
 	{

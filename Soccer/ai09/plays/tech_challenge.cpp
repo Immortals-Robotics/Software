@@ -1,19 +1,17 @@
 #include "ai09.h"
-#include <vector>
 
 #include "helpers.h"
 
-//vector<TVec2> wayp;
 TVec2 wayp[6] = { 
-	Vec2(2700,0) ,
-	Vec2(2700,1700) ,
-	Vec2(2700,0) ,
-	Vec2(2700,-1700) ,
-	Vec2(-1400,1100) ,
-	Vec2(-1800,0) 
+	Vec2(-2200,-1100) ,
+	Vec2(2200,-1100) ,
+	Vec2(2800,0) ,
+	Vec2(2200,1100) ,
+	Vec2(-2200,1100) ,
+	Vec2(-2800,0) 
 };
 
-int curr[6] = {0,1,2,3,0,1};
+int curr[5] = {0,0,0,0,0};
 
 void ai09::tech_challenge ( void )
 {
@@ -45,21 +43,11 @@ void ai09::tech_challenge ( void )
 	 //OwnRobot[rn].target.velocity.y = wayp[(curr+1)%4].Y-wayp[curr].Y;
 	 ERRTNavigate2Point ( rn , wayp[curr] ,0 , 100);*/
 	
-	bool adv = true;
-	for ( int i = 0 ; i < 4 ; i ++ )
+	for ( int i = 0 ; i < 5 ; i ++ )
 	{
-		if ( dis ( wayp[curr[i]].X , wayp[curr[i]].Y , OwnRobot[i].State.Position.X , OwnRobot[i].State.Position.Y ) > 50 )
-			adv	= false;
-	}
-	
-	for ( int i = 0 ; i < 6 ; i ++ )
-	{
-		if ( adv )
-		{
+		if ( dis ( wayp[curr[i]].X , wayp[curr[i]].Y , OwnRobot[i].State.Position.X , OwnRobot[i].State.Position.Y ) < 50 )
 			curr[i] ++;
-			curr[i] = curr[i] % 4;
-		}
-
+		curr[i] = curr[i] % 6;
 		ERRTSetObstacles ( i , false , false , true , true );
 		OwnRobot[i].target.Angle = 90.0f - 90*sgn(wayp[curr[i]].Y);
 		//OwnRobot[i].face ( wayp[curr[i]] );

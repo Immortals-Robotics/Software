@@ -1,4 +1,4 @@
-#include "Robot.h"
+#include "Robot.cpp"
 #include "distance.h"
 #include <iostream>
 using namespace std;
@@ -177,7 +177,7 @@ TVec3 Robot::MotionPlan ( RobotState state , RobotState target , float speed , b
 	//ans.X += Vel_offset.X;
 	if ( fabs( target.Position.X ) < 3 )
 		ans.X = 0.0f;
-	if ( ans.X * oldAns[state.vision_id].X <= 0 )
+	else if ( ans.X * oldAns[state.vision_id].X <= 0 )
 	{
 		float tmp = oldAns[state.vision_id].X + max_dec.X * sgn ( ans.X );
 		if ( ans.X == 0 )
@@ -238,7 +238,7 @@ TVec3 Robot::MotionPlan ( RobotState state , RobotState target , float speed , b
 	{
 		ans.Y = 0;//max(0,fabs(oldAns[state.vision_id].Y)-max_dec.Y)*sgn(ans.Y);
 	}
-	if ( ans.Y * oldAns[state.vision_id].Y <= 0 )
+	else if ( ans.Y * oldAns[state.vision_id].Y <= 0 )
 	{
 		//float tmp = oldAns[state.vision_id].Y + 20.0f * max_acc.Y * sgn ( ans.Y );
 		float tmp = oldAns[state.vision_id].Y + max_dec.Y * sgn ( ans.Y );

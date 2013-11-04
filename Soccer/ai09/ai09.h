@@ -1,7 +1,7 @@
 #pragma once
 
 #include "aiBase.h"
-#include "Robot.h"
+#include "Robot.cpp"
 #include "errt.h"
 #include "OneTouchDetector.h"
 #include "timer.h"
@@ -30,15 +30,11 @@ class ai09 : public aiBase
 	float randomParam;
 	
 	int rmf;
+	int attack;
 	int gk;
 	int def;
 	int dmf;
 	int lmf;
-	int cmf;
-	
-	int attack;
-	int mid1;
-	int mid2;
 	
 	int* stm2AInum[6];
 	
@@ -67,7 +63,6 @@ class ai09 : public aiBase
 		int OwnRobotNum , OppRobotNum;
 		Planner planner[6];
 		OneTouchDetector oneTouchDetector[6];
-		bool navigated[6];
 		int side;
 	
 		VelocityProfile VELOCITY_PROFILE_AROOM;
@@ -78,13 +73,12 @@ class ai09 : public aiBase
 		TVec2 PointOnConnectingLine(TVec2 FirstPoint,TVec2 SecondPoint,float distance);
 		void ERRTSetObstacles ( int robot_num , bool bll = false , bool field = true , bool own = true , bool opp = false , bool dribble = false , bool bigPen = false );
 
-		void Stop ( );
+		void Stop ( int gk , int def , int dmf , int lmf , int rmf , int attack );
 		void stop_ajor ( );
 		void NormalPlay ( void );
 		void NewNormalPlay ( void );
 		void NormalPlayDef ( void );
 		void NormalPlayAtt ( void );
-		void ManageAttRoles ( void );
 		void CalcIsDefending ( void );
 		void MarkManager ( void );
 		void Mark2Goal ( int robot_num , int opp , float dist = 220.0f );
@@ -142,7 +136,7 @@ class ai09 : public aiBase
 		bool circleReachedBehindBall;	
 		void tech_circle ( int robot_num , float angle , int kick = 0 , int chip = 0 , bool needRRT = true , bool gameRestart = false , bool kiss = false , bool dribbler = false );
 		
-		void WaitForPass ( int robot_num , bool chip = false , TVec2* target = NULL );
+		void WaitForPass ( int robot_num , bool chip = false );
 		void WaitForOmghi ( int robot_num );
 
 		float calculateOneTouchAngle ( int robot_num , TVec2 oneTouchPosition );

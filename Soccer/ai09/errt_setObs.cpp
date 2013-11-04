@@ -13,7 +13,7 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 			{
 				//obstacle[obs_num].circle.setCenter ( VecPosition ( OwnRobot[i].Position.X , OwnRobot[i].Position.Y ) );
 				//obstacle[obs_num].circle.setRadius ( 400 );
-				AddCircle ( OwnRobot[i].State.Position.X , OwnRobot[i].State.Position.Y , 10 + (!dribble)*8 );
+				AddCircle ( OwnRobot[i].State.Position.X , OwnRobot[i].State.Position.Y , 9 + (!dribble)*8 );
 			}
 		}
 	}
@@ -24,7 +24,7 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 		{
 			if ( OppRobot[i].seenState != CompletelyOut )
 			{
-				AddCircle ( OppRobot[i].Position.X , OppRobot[i].Position.Y , 10 + (!dribble)*8 );
+				AddCircle ( OppRobot[i].Position.X , OppRobot[i].Position.Y , 9 + (!dribble)*8 );
 			}
 			//obstacle[obs_num].circle.setCenter ( VecPosition ( OppRobot[i].Position.X , OppRobot[i].Position.Y ) );
 			//obstacle[obs_num].circle.setRadius ( 400 );

@@ -24,7 +24,7 @@ void ai09::GK_Ghuz ( int robot_num , int defence_num , bool stop )
 	
 	else
 	{
-		OwnRobot[robot_num].Chip(50);
+		OwnRobot[robot_num].Chip(15);
 		
 		my_hys = 0;
 		
@@ -33,7 +33,7 @@ void ai09::GK_Ghuz ( int robot_num , int defence_num , bool stop )
 		{
 			ERRTSetObstacles ( robot_num , 0 , 0 , 1 , 0 , 0 );
 			//tech_circle(robot_num,sgn(ball.Position.Y)*side*60 ,0,15,false);
-			tech_circle(robot_num,AngleWith ( ball.Position , Vec2 ( side * 3133 , 0 ) ) ,0,50,false,0,0,0);
+			tech_circle(robot_num,AngleWith ( ball.Position , Vec2 ( side * 3133 , 0 ) ) ,0,9,false,0,0,0);
 		}
 		else
 		{

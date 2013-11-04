@@ -6,7 +6,6 @@ void ai09::NewNormalPlay ( void )
 	DefGhuz(def,NULL, 0);
 	
 	CalcIsDefending();
-	isDefending = false;
 	
 	if (isDefending) {
 		NormalPlayDef();

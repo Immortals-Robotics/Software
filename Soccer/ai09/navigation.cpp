@@ -9,8 +9,6 @@ void ai09::Navigate2Point ( int robot_num , TVec2 dest , bool accurate , int spe
 		velocityProfile = &this->VELOCITY_PROFILE_MAMOOLI;
 	
 	OwnRobot[robot_num].Move ( accurate , speed , velocityProfile );
-	
-	navigated[robot_num] = true;
 }
 
 void ai09::ERRTNavigate2Point ( int robot_num , TVec2 dest , bool accurate , int speed , VelocityProfile * velocityProfile )

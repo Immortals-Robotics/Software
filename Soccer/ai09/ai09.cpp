@@ -25,7 +25,7 @@ ai09::ai09 ( )
 	VisionSerialTrans[3] = 3;
 	VisionSerialTrans[4] = 4;
 	VisionSerialTrans[5] = 5;
-	VisionSerialTrans[6] = 6;
+	VisionSerialTrans[6] = 9;
 	VisionSerialTrans[7] = 7;
 	VisionSerialTrans[8] = 8;
 	VisionSerialTrans[9] = 9;
@@ -45,27 +45,23 @@ ai09::ai09 ( )
 	
 	BAR=89;
 	
-	beta = 0.15f;	//Damping factor
-	gamma = 0.5f;	//Reflect factor
+	beta = 0.0f;	//Damping factor
+	gamma = 0.2f;	//Reflect factor
 	shootK = 8000.0f;
 	
 	lastReferee = GameState::GAME_OFF;
 	
 	openAngleHys = 0;
 	
-	lmf = 3;
-	cmf = 0;
-	gk = 2;
-	def = 5;
-	dmf = 4;
-	rmf = 1;
-	
-	attack = cmf;
-	mid1 = rmf;
-	mid2 = lmf;
+	lmf = 1;
+	attack = 0;
+	gk = 3;
+	def = 4;
+	dmf = 2;
+	rmf = 5;
 	
 	markMap[dmf] = -1;
-	markMap[lmf] = -1;
+	//markMap[lmf] = -1;
 	markMap[rmf] = -1;
 	
 	stm2AInum[0] = &gk;
@@ -73,7 +69,7 @@ ai09::ai09 ( )
 	stm2AInum[2] = &dmf;
 	stm2AInum[3] = &lmf;
 	stm2AInum[4] = &rmf;
-	stm2AInum[5] = &cmf;
+	stm2AInum[5] = &attack;
 	
 	for (int i = 0 ; i < 6 ; i ++ ) {
 		oneTouchDetector[i].bState = &ball;
@@ -85,12 +81,12 @@ ai09::ai09 ( )
 		OwnRobot[i].set_vision_id(i+1);
 		//OwnRobot[i].set_serial_id(VisionSerialTrans[i]);
 	}
-	OwnRobot[gk].set_vision_id(12);
-	OwnRobot[def].set_vision_id(11);
+	OwnRobot[gk].set_vision_id(1);
+	OwnRobot[def].set_vision_id(2);
 	OwnRobot[dmf].set_vision_id(0);
-	OwnRobot[lmf].set_vision_id(3);
-	OwnRobot[rmf].set_vision_id(2);
-	OwnRobot[cmf].set_vision_id(4);
+	OwnRobot[lmf].set_vision_id(5);
+	OwnRobot[rmf].set_vision_id(3);
+	OwnRobot[attack].set_vision_id(6);
 	
 	
 	lastBallDirection = 0;
@@ -99,13 +95,13 @@ ai09::ai09 ( )
 	PredictedBall = Vec2 ( 0 );
 	
 	VELOCITY_PROFILE_AROOM.max_spd = Vec2 ( 30.0f );
-	VELOCITY_PROFILE_AROOM.max_dec = Vec2 ( 1.0f );
-	VELOCITY_PROFILE_AROOM.max_acc = Vec2 ( 1.2f );
+	VELOCITY_PROFILE_AROOM.max_dec = Vec2 ( 1.3f );
+	VELOCITY_PROFILE_AROOM.max_acc = Vec2 ( 1.6f );
 	VELOCITY_PROFILE_AROOM.max_w_acc = 40.0f;
 	VELOCITY_PROFILE_AROOM.max_w_dec = 140.0f;
 	
-	VELOCITY_PROFILE_MAMOOLI.max_spd = Vec2 ( 60.0f );
-	VELOCITY_PROFILE_MAMOOLI.max_dec = Vec2 ( 1.5f );
+	VELOCITY_PROFILE_MAMOOLI.max_spd = Vec2 ( 50.0f );
+	VELOCITY_PROFILE_MAMOOLI.max_dec = Vec2 ( 1.8f );
 	VELOCITY_PROFILE_MAMOOLI.max_acc = Vec2 ( 1.5f );
 	VELOCITY_PROFILE_MAMOOLI.max_w_acc = 40.0f;
 	VELOCITY_PROFILE_MAMOOLI.max_w_dec = 140.0f;

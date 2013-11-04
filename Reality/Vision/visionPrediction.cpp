@@ -58,6 +58,7 @@ void VisionModule::RunANN (WorldState * currentState)
 	
 	double input[42];
 	fann_type * output;
+	double trainData[2];
 	
 	currentStateIndex++;
 	if(currentStateIndex >= 15)
@@ -74,29 +75,61 @@ void VisionModule::RunANN (WorldState * currentState)
 		return;		
 	}
 	
-	for (int rbt = 0 ; rbt < MAX_ROBOTS ; rbt++) 
+#if ANN_DEBUG
+	cout<<"ANN Output : "<< robotState[0][8].Position.X <<"    "<<robotState[0][8].Position.Y<<endl;
+	cout<<"ANN Mid T  : "<< states[currentStateIndex][8].Position.X  <<"    "<<states[currentStateIndex][8].Position.Y <<endl;
+	cout<<"ANN Train  : "<< states[currentStateIndex][6].Position.X  <<"    "<<states[currentStateIndex][6].Position.Y <<endl;
+#endif
+	
+	int currentX = states[getPreIndex(currentStateIndex,0)][6].Position.X;
+	int currentY = states[getPreIndex(currentStateIndex,0)][6].Position.Y;
+	int currentW = states[getPreIndex(currentStateIndex,0)][6].Angle;
+	//int currentCMD = states[getPreIndex(currentStateIndex,6)].lastCMDS[6][10].X;
+	//int maxCMDIndex = states[getPreIndex(currentStateIndex,6)].lastCMDS[6][10].Y;
+	
+#if ANN_DEBUG
+	cout<<"Command Lists : ";
+#endif
+	
+	for(int i=0;i<6;i++)
 	{
-		int currentX = states[getPreIndex(currentStateIndex,0)][rbt].Position.X;
-		int currentY = states[getPreIndex(currentStateIndex,0)][rbt].Position.Y;
-		int currentW = states[getPreIndex(currentStateIndex,0)][rbt].Angle;				
-	
-		for(int i=0;i<6;i++)
-		{
-			input[7*i + 0] = (states[getPreIndex(currentStateIndex,i+1)][rbt].Position.X - currentX)/500.0f;
-			input[7*i + 1] = (states[getPreIndex(currentStateIndex,i+1)][rbt].Position.Y - currentY)/500.0f;		
-			input[7*i + 2] = sinDeg(states[getPreIndex(currentStateIndex,i+1)][rbt].Angle - currentW);
-			input[7*i + 3] = cosDeg(states[getPreIndex(currentStateIndex,i+1)][rbt].Angle - currentW);		
-			int cmdIndex   = wstates[getPreIndex(currentStateIndex,i+1)].lastCMDS[rbt][10].X;
-			input[7*i + 4] = wstates[getPreIndex(currentStateIndex,i+1)].lastCMDS[rbt][cmdIndex].X / 100.0f;
-			input[7*i + 5] = wstates[getPreIndex(currentStateIndex,i+1)].lastCMDS[rbt][cmdIndex].Y / 100.0f;
-			input[7*i + 6] = wstates[getPreIndex(currentStateIndex,i+1)].lastCMDS[rbt][cmdIndex].Z / 100.0f;		
-		}	
-		output = fann_run(ann,input);
-		
-		robotState[0][rbt].Position.X = states[getPreIndex(currentStateIndex,0)][rbt].Position.X + output[0]*500;
-		robotState[0][rbt].Position.Y = states[getPreIndex(currentStateIndex,0)][rbt].Position.Y + output[1]*500;
-	
+		input[7*i + 0] = (states[getPreIndex(currentStateIndex,i)][6].Position.X - currentX)/500.0f;
+		input[7*i + 1] = (states[getPreIndex(currentStateIndex,i)][6].Position.Y - currentY)/500.0f;		
+		input[7*i + 2] = sinDeg(states[getPreIndex(currentStateIndex,i)][6].Angle - currentW);
+		input[7*i + 3] = cosDeg(states[getPreIndex(currentStateIndex,i)][6].Angle - currentW);		
+		int cmdIndex   = wstates[getPreIndex(currentStateIndex,i)].lastCMDS[6][10].X;
+		input[7*i + 4] = wstates[getPreIndex(currentStateIndex,i)].lastCMDS[6][cmdIndex].X / 100.0f;
+#if ANN_DEBUG
+		cout<<states[getPreIndex(currentStateIndex,i)].lastCMDS[6][cmdIndex].X/10.0f<<"   ";
+#endif
+		input[7*i + 5] = wstates[getPreIndex(currentStateIndex,i)].lastCMDS[6][cmdIndex].Y / 100.0f;
+		input[7*i + 6] = wstates[getPreIndex(currentStateIndex,i)].lastCMDS[6][cmdIndex].Z / 100.0f;
+		/*
+		 input[7*i + 4] = states[currentStateIndex].lastCMDS[6][getPreCMDIndex(currentCMD,i+6,maxCMDIndex)].X / 100.0f;
+		 input[7*i + 5] = states[currentStateIndex].lastCMDS[6][getPreCMDIndex(currentCMD,i+6,maxCMDIndex)].Y / 100.0f;
+		 input[7*i + 6] = states[currentStateIndex].lastCMDS[6][getPreCMDIndex(currentCMD,i+6,maxCMDIndex)].Z / 180.0f;*/
 	}
+#if ANN_DEBUG
+	cout<<endl;
+#endif
+	
+	output = fann_run(ann,input);
+	
+	//robotState[0][6].Position.X = currentX + output[0]*500;
+	//robotState[0][6].Position.Y = currentY +output[1]*500;
+	//robotState[0][8].Angle = 0.5 * 3.14;//currentW + output[2]*180;
+	//robotState[0][8].seenState = Seen;
+	
+	robotState[0][6].Position.X = states[getPreIndex(currentStateIndex,0)][6].Position.X + output[0]*500;
+	robotState[0][6].Position.Y = states[getPreIndex(currentStateIndex,0)][6].Position.Y + output[1]*500;
+	
+	robotState[0][8].Position.X = robotState[0][6].Position.X;
+	robotState[0][8].Position.Y = robotState[0][6].Position.Y;
+	
+	robotState[0][9].Position.X = states[getPreIndex(currentStateIndex,2)][6].Position.X;
+	robotState[0][9].Position.Y = states[getPreIndex(currentStateIndex,2)][6].Position.Y;
+	robotState[0][9].Angle = 0.5*3.14;//states[getPreIndex(currentStateIndex,0)][6].Angle;
+	robotState[0][9].seenState = Seen;
 }
 
 void VisionModule::PredictWithANN (WorldState * currentState)
@@ -130,28 +163,36 @@ void VisionModule::TrainANN ( float f)
 	double input[42];
 	fann_type * output;
 	double trainData[2];
-	int rbt=4;
 	
-	#if ANN_DEBUG
-		cout<<"ANN Output : "<< robotState[0][8].Position.X <<"    "<<robotState[0][8].Position.Y<<endl;
-		cout<<"ANN Mid T  : "<< states[currentStateIndex][8].Position.X  <<"    "<<states[currentStateIndex][8].Position.Y <<endl;
-		cout<<"ANN Train  : "<< states[currentStateIndex][6].Position.X  <<"    "<<states[currentStateIndex][6].Position.Y <<endl;
-	#endif
+#if ANN_DEBUG
+	cout<<"ANN Output : "<< robotState[0][8].Position.X <<"    "<<robotState[0][8].Position.Y<<endl;
+	cout<<"ANN Mid T  : "<< states[currentStateIndex][8].Position.X  <<"    "<<states[currentStateIndex][8].Position.Y <<endl;
+	cout<<"ANN Train  : "<< states[currentStateIndex][6].Position.X  <<"    "<<states[currentStateIndex][6].Position.Y <<endl;
+#endif
 	
-	int currentX = states[getPreIndex(currentStateIndex,7)][rbt].Position.X;
-	int currentY = states[getPreIndex(currentStateIndex,7)][rbt].Position.Y;
-	int currentW = states[getPreIndex(currentStateIndex,7)][rbt].Angle;
-
+	int currentX = states[getPreIndex(currentStateIndex,6)][6].Position.X;
+	int currentY = states[getPreIndex(currentStateIndex,6)][6].Position.Y;
+	int currentW = states[getPreIndex(currentStateIndex,6)][6].Angle;
+	//int currentCMD = states[getPreIndex(currentStateIndex,6)].lastCMDS[6][10].X;
+	//int maxCMDIndex = states[getPreIndex(currentStateIndex,6)].lastCMDS[6][10].Y;
+	
+#if ANN_DEBUG
+	cout<<"Command Lists : ";
+#endif
+	
 	for(int i=0;i<6;i++)
 	{
-		input[7*i + 0] = (states[getPreIndex(currentStateIndex,i+8)][rbt].Position.X - currentX)/500.0f;
-		input[7*i + 1] = (states[getPreIndex(currentStateIndex,i+8)][rbt].Position.Y - currentY)/500.0f;		
-		input[7*i + 2] = sinDeg(states[getPreIndex(currentStateIndex,i+8)][rbt].Angle - currentW);
-		input[7*i + 3] = cosDeg(states[getPreIndex(currentStateIndex,i+8)][rbt].Angle - currentW);		
-		int cmdIndex   = wstates[getPreIndex(currentStateIndex,i+8)].lastCMDS[rbt][10].X;
-		input[7*i + 4] = wstates[getPreIndex(currentStateIndex,i+8)].lastCMDS[rbt][cmdIndex].X / 100.0f;
-		input[7*i + 5] = wstates[getPreIndex(currentStateIndex,i+8)].lastCMDS[rbt][cmdIndex].Y / 100.0f;
-		input[7*i + 6] = wstates[getPreIndex(currentStateIndex,i+8)].lastCMDS[rbt][cmdIndex].Z / 100.0f;
+		input[7*i + 0] = (states[getPreIndex(currentStateIndex,i+8)][6].Position.X - currentX)/500.0f;
+		input[7*i + 1] = (states[getPreIndex(currentStateIndex,i+8)][6].Position.Y - currentY)/500.0f;		
+		input[7*i + 2] = sinDeg(states[getPreIndex(currentStateIndex,i+8)][6].Angle - currentW);
+		input[7*i + 3] = cosDeg(states[getPreIndex(currentStateIndex,i+8)][6].Angle - currentW);		
+		int cmdIndex   = wstates[getPreIndex(currentStateIndex,i+8)].lastCMDS[6][10].X;
+		input[7*i + 4] = wstates[getPreIndex(currentStateIndex,i+8)].lastCMDS[6][cmdIndex].X / 100.0f;
+#if ANN_DEBUG
+		cout<<states[getPreIndex(currentStateIndex,i+6)].lastCMDS[6][cmdIndex].X/10.0f<<"   ";
+#endif
+		input[7*i + 5] = wstates[getPreIndex(currentStateIndex,i+8)].lastCMDS[6][cmdIndex].Y / 100.0f;
+		input[7*i + 6] = wstates[getPreIndex(currentStateIndex,i+8)].lastCMDS[6][cmdIndex].Z / 100.0f;
 		
 		*nikRastKarde << input[7*i+0];
 		*nikRastKarde << "  ";
@@ -167,27 +208,30 @@ void VisionModule::TrainANN ( float f)
 		*nikRastKarde << "  ";
 		*nikRastKarde << input[7*i+6];
 		*nikRastKarde << "  ";
-		
+		/*
+		 input[7*i + 4] = states[currentStateIndex].lastCMDS[6][getPreCMDIndex(currentCMD,i+6,maxCMDIndex)].X / 100.0f;
+		 input[7*i + 5] = states[currentStateIndex].lastCMDS[6][getPreCMDIndex(currentCMD,i+6,maxCMDIndex)].Y / 100.0f;
+		 input[7*i + 6] = states[currentStateIndex].lastCMDS[6][getPreCMDIndex(currentCMD,i+6,maxCMDIndex)].Z / 180.0f;*/
 	}
 	*nikRastKarde << endl;
-	#if ANN_DEBUG
-		cout<<endl;
-	#endif
+#if ANN_DEBUG
+	cout<<endl;
+#endif
 	
 	output = fann_run(ann,input);
 	
-	/*robotState[0][8].Position.X = currentX + output[0]*500;
+	robotState[0][8].Position.X = currentX + output[0]*500;
 	robotState[0][8].Position.Y = currentY +output[1]*500;
 	robotState[0][8].Angle = 0.5 * 3.14;//currentW + output[2]*180;
 	robotState[0][8].seenState = Seen;
 	
-	robotState[0][9].Position.X = states[currentStateIndex][2].Position.X;
-	robotState[0][9].Position.Y = states[currentStateIndex][2].Position.Y;
+	robotState[0][9].Position.X = states[currentStateIndex][6].Position.X;
+	robotState[0][9].Position.Y = states[currentStateIndex][6].Position.Y;
 	robotState[0][9].Angle = 0.5 * 3.14;//currentW + output[2]*180;
-	robotState[0][9].seenState = Seen;*/
+	robotState[0][9].seenState = Seen;
 	
-	trainData[0] = ( states[currentStateIndex][rbt].Position.X - currentX) / 500.0f;
-	trainData[1] = ( states[currentStateIndex][rbt].Position.Y - currentY)/ 500.0f;
+	trainData[0] = ( states[currentStateIndex][6].Position.X - currentX) / 500.0f;
+	trainData[1] = ( states[currentStateIndex][6].Position.Y - currentY)/ 500.0f;
 	
 	cout<<"Ouputs :  "<<output[0]<<"    "<<output[1]<<endl;
 	cout<<"Train  :  "<<trainData[0]<<"    "<<trainData[1]<<endl;
@@ -197,7 +241,7 @@ void VisionModule::TrainANN ( float f)
 	//trainData[2] = ( states[currentStateIndex].OwnRobot[6].Angle - currentW) / 180.0f; 
 	
 	
-	if (robotState[0][rbt].seenState==Seen) {
+	if (robotState[0][6].seenState==Seen) {
 		fann_train(ann,input,trainData);
 		
 		
