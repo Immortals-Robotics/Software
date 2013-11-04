@@ -6,7 +6,7 @@ void ai09::PenaltyUs ( int robot_num , float angle , int kick , int chip )
 {
 	TVec2 PredictedBall = ball.Position;
 
-	float r = 160.0f;
+	float r = 180.0f;
 
 	float tetta = 25.0f;
 
@@ -31,7 +31,7 @@ void ai09::PenaltyUs ( int robot_num , float angle , int kick , int chip )
 			ERRTNavigate2Point ( robot_num , CircleAroundPoint ( PredictedBall , angle , min ( r , fabs(hehe)*320.0f/tetta ) ) );
 		else
 		{
-			OwnRobot[robot_num].target.Angle = 90+side*90;
+			//OwnRobot[robot_num].target.Angle = 90+side*90;
 			ERRTNavigate2Point ( robot_num , CircleAroundPoint ( PredictedBall , angle+hehe*0.0f , r/1.5f ) ,0, 100 , &VELOCITY_PROFILE_AROOM );
 		}
 	}

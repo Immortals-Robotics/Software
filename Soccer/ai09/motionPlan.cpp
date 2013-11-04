@@ -28,9 +28,9 @@ TVec3 Robot::MotionPlan ( RobotState state , RobotState target , float speed , b
 	if ( oldRobot )
 	{
 		max_spd = Vec2 ( 100.0f );
-		max_dec = Vec2 ( 10.2f );
-		max_acc = Vec2 ( 5.6f );
-		max_w_acc = 20.0f;
+		max_dec = Vec2 ( 5.2f );
+		max_acc = Vec2 ( 2.6f );
+		max_w_acc = 15.0f;
 		max_w_dec = 200.0f;
 	}
 	
@@ -113,12 +113,12 @@ TVec3 Robot::MotionPlan ( RobotState state , RobotState target , float speed , b
 	
 	float target_dis = DIS ( Vec2 ( 0.0f ) , target.Position );
 	tmp_max_speed.X = max_spd.X * fabs(target.Position.X) / target_dis;
-	max_acc.X *= fabs(target.Position.X) / target_dis;
-	max_dec.X *= fabs(target.Position.X) / target_dis;
+	//max_acc.X *= fabs(target.Position.X) / target_dis;
+	//max_dec.X *= fabs(target.Position.X) / target_dis;
 	
 	tmp_max_speed.Y = max_spd.Y * fabs(target.Position.Y) / target_dis;
-	max_acc.Y *= fabs(target.Position.Y) / target_dis;
-	max_dec.Y *= fabs(target.Position.Y) / target_dis;
+	//max_acc.Y *= fabs(target.Position.Y) / target_dis;
+	//max_dec.Y *= fabs(target.Position.Y) / target_dis;
 	
 	float tmp_vel_mag = DIS ( Vec2(0.0f) , tmp_max_speed );
 	
@@ -153,23 +153,31 @@ TVec3 Robot::MotionPlan ( RobotState state , RobotState target , float speed , b
 	 LocalVel.Y = sin(trans_rad)*state.velocity.x + cos(trans_rad)*state.velocity.y;*/
 	LocalVel = Vec2 ( state.velocity.x , state.velocity.y );
 	
-	LocalVel.X = ( LocalVel.X ) / 30.0f;
-	LocalVel.Y = ( LocalVel.Y ) / 30.0f;
+	LocalVel.X = ( LocalVel.X ) / 45.0f;
+	LocalVel.Y = ( LocalVel.Y ) / 45.0f;
 	
-	if ( fabs ( oldAns[state.vision_id].X - LocalVel.X ) > 40.0f )
+	/*if ( fabs ( oldAns[state.vision_id].X - LocalVel.X ) > 40.0f )
 		oldAns[state.vision_id].X = ( oldAns[state.vision_id].X + LocalVel.X ) / 2.0f;
 	if ( fabs ( oldAns[state.vision_id].Y - LocalVel.Y ) > 40.0f )
-		oldAns[state.vision_id].Y = ( oldAns[state.vision_id].Y + LocalVel.Y ) / 2.0f;
+		oldAns[state.vision_id].Y = ( oldAns[state.vision_id].Y + LocalVel.Y ) / 2.0f;*/
+	
+	float KP = 0.1;
+	float Pdis = 0;
 	
 	//if ( accurate )
 	ans.X = speed;
 	//else
-	ans.X = sqrt ( 2.0f * max_dec.X * fabs( target.Position.X ) );
+	if (fabs( target.Position.X ) < Pdis) {
+		ans.X = KP * max_dec.X * fabs( target.Position.X );
+	}
+	else {
+		ans.X = sqrt ( 2.0f * max_dec.X * fabs( target.Position.X ) );
+	}
 	ans.X *= sgn ( target.Position.X );
 	//ans.X += Vel_offset.X;
 	if ( fabs( target.Position.X ) < 3 )
 		ans.X = 0.0f;
-	else if ( ans.X * oldAns[state.vision_id].X <= 0 )
+	if ( ans.X * oldAns[state.vision_id].X <= 0 )
 	{
 		float tmp = oldAns[state.vision_id].X + max_dec.X * sgn ( ans.X );
 		if ( ans.X == 0 )
@@ -179,7 +187,7 @@ TVec3 Robot::MotionPlan ( RobotState state , RobotState target , float speed , b
 		
 		if ( tmp * ans.X > 0 )
 		{
-			tmp = max_acc.X * sgn ( ans.X );
+			tmp = min(max_acc.X,fabs(tmp)) * sgn ( ans.X );
 			if ( fabs ( tmp ) > fabs ( ans.X ) )
 				tmp = ans.X;
 		}
@@ -199,9 +207,17 @@ TVec3 Robot::MotionPlan ( RobotState state , RobotState target , float speed , b
 		{	
 			ans.X = ( fabs ( oldAns[state.vision_id].X ) + max_acc.X ) * sgn ( ans.X );
 		}
+		else if ( fabs ( ans.X ) < fabs ( oldAns[state.vision_id].X ) - max_dec.X )
+		{
+			ans.X = ( fabs ( oldAns[state.vision_id].X ) - max_dec.X ) * sgn ( ans.X );
+		}
 		if ( fabs ( ans.X ) > tmp_max_speed.X )
 		{
-			ans.X = tmp_max_speed.X * sgn ( ans.X );
+			if ( sgn(ans.X) == 0 )
+				ans.X = max(fabs(oldAns[state.vision_id].X)-max_dec.X,fabs(tmp_max_speed.X))*sgn(oldAns[state.vision_id].X);
+			else
+				ans.X = max(fabs(oldAns[state.vision_id].X)-max_dec.X,fabs(tmp_max_speed.X))*sgn(ans.X);
+			//ans.X = tmp_max_speed.X * sgn ( ans.X );
 		}
 	}
 	
@@ -209,12 +225,20 @@ TVec3 Robot::MotionPlan ( RobotState state , RobotState target , float speed , b
 	//if ( accurate )
 	ans.Y = speed;
 	//else
-	ans.Y = sqrt ( 2.0f * max_dec.Y * fabs( target.Position.Y ) );
+	if (fabs( target.Position.Y ) < Pdis) {
+		ans.Y = KP * max_dec.Y * fabs( target.Position.Y );
+	}
+	else {
+		ans.Y = sqrt ( 2.0f * max_dec.Y * fabs( target.Position.Y ) );
+	}
+	//ans.Y = sqrt ( 2.0f * max_dec.Y * fabs( target.Position.Y ) );
 	ans.Y *= sgn ( target.Position.Y );
 	//ans.Y += Vel_offset.Y;
 	if ( fabs( target.Position.Y ) < 3 )
-		ans.Y = 0.0f;
-	else if ( ans.Y * oldAns[state.vision_id].Y <= 0 )
+	{
+		ans.Y = 0;//max(0,fabs(oldAns[state.vision_id].Y)-max_dec.Y)*sgn(ans.Y);
+	}
+	if ( ans.Y * oldAns[state.vision_id].Y <= 0 )
 	{
 		//float tmp = oldAns[state.vision_id].Y + 20.0f * max_acc.Y * sgn ( ans.Y );
 		float tmp = oldAns[state.vision_id].Y + max_dec.Y * sgn ( ans.Y );
@@ -222,7 +246,7 @@ TVec3 Robot::MotionPlan ( RobotState state , RobotState target , float speed , b
 			tmp = oldAns[state.vision_id].Y - max_dec.Y * sgn ( oldAns[state.vision_id].Y );
 		if ( tmp * ans.Y > 0 )
 		{
-			tmp = max_acc.Y * sgn ( ans.Y );
+			tmp = min(max_acc.Y,fabs(tmp)) * sgn ( ans.Y );
 			if ( fabs ( tmp ) > fabs ( ans.Y ) )
 				tmp = ans.Y;
 		}
@@ -242,10 +266,31 @@ TVec3 Robot::MotionPlan ( RobotState state , RobotState target , float speed , b
 		{
 			ans.Y = ( fabs ( oldAns[state.vision_id].Y ) + max_acc.Y ) * sgn ( ans.Y );
 		}
+		else if ( fabs ( ans.Y ) < fabs ( oldAns[state.vision_id].Y ) - max_dec.Y )
+		{
+			ans.Y = ( fabs ( oldAns[state.vision_id].Y ) - max_dec.Y ) * sgn ( ans.Y );
+		}
 		if ( fabs ( ans.Y ) > tmp_max_speed.Y )
 		{
-			ans.Y = tmp_max_speed.Y * sgn ( ans.Y );
+			if ( sgn(ans.Y) == 0 )
+				ans.Y = max(fabs(oldAns[state.vision_id].Y)-max_dec.Y,fabs(tmp_max_speed.Y))*sgn(oldAns[state.vision_id].Y);
+			else
+				ans.Y = max(fabs(oldAns[state.vision_id].Y)-max_dec.Y,fabs(tmp_max_speed.Y))*sgn(ans.Y);
+
+			//ans.Y = tmp_max_speed.Y * sgn ( ans.Y );
 		}
+		
+				
+		if ( fabs(ans.Y) > fabs(oldAns[state.vision_id].Y) )
+			if ( fabs(ans.Y-oldAns[state.vision_id].Y) > max_acc.Y*1.1 )
+				cout << "	gaz nade	" << max_acc.Y << "		<	" << fabs(ans.Y-oldAns[state.vision_id].Y);
+		
+		if ( fabs(ans.Y) < fabs(oldAns[state.vision_id].Y) )
+			if ( fabs(ans.Y-oldAns[state.vision_id].Y) > max_dec.Y*1.1 )
+				cout << "	tormoz nakon	" << max_dec.Y << "		<	" << fabs(ans.Y-oldAns[state.vision_id].Y);
+		
+		cout << endl;
+
 	}
 	
 	//ans.Y = 0;
@@ -257,6 +302,9 @@ TVec3 Robot::MotionPlan ( RobotState state , RobotState target , float speed , b
 	 ans.Z *= ( 3000.0f-kh_mag ) / 1500.0f;*/
 	
 	oldAns[state.vision_id] = ans;
+	
+	//if ( state.vision_id == 6 )
+	//	cout << "	" << ans.X << "	";
 	
 	return ans;
 }

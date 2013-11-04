@@ -2,22 +2,27 @@
 
 void ai09::kickoff_us_pass ( bool canKickBall )
 {
-	GK ( gk , 2 );
-	TwoDef ( def1 , def2 );
+	GK_Ghuz(gk, 1, 0);
+	DefGhuz(def);
+	
+	ERRTSetObstacles ( dmf , true , true , true , true );
+	OwnRobot[dmf].face(ball.Position);
+	ERRTNavigate2Point ( dmf , PointOnConnectingLine(ball.Position, Vec2(side*3025, 0), DIS(ball.Position, Vec2(side*3025, 0))/3.0f) ,0 , 40,&VELOCITY_PROFILE_MAMOOLI);
+	
 	
 	int oneTouchSide = 1;
 	if ( canKickBall )
 	{
-		if (( ( DIS ( ball.Position , OwnRobot[attack].State.Position ) < 250 ) && ( OwnRobot[attack].State.velocity.magnitude < 100 ) )|| ( reached ) )
+		if (( ( DIS ( ball.Position , OwnRobot[attack].State.Position ) < 155 ) && ( OwnRobot[attack].State.velocity.magnitude < 100 ) )|| ( reached ) )
 		{
 			ERRTSetObstacles ( attack );
-			tech_circle(attack,AngleWith ( Vec2 ( side*80 , oneTouchSide * 1700 ) , ball.Position ) ,2,0);
+			tech_circle(attack,AngleWith ( Vec2 ( -side*80 , oneTouchSide * 1700 ) , ball.Position ) ,4,0,0,1);
 			reached = true;
 		}
 		else
 		{
 			ERRTSetObstacles ( attack );
-			tech_circle(attack,AngleWith ( Vec2 ( side*80 , oneTouchSide * 1700 ) , ball.Position ) ,0,0);
+			tech_circle(attack,AngleWith ( Vec2 ( -side*80 , oneTouchSide * 1700 ) , ball.Position ) ,0,0,0,1);
 		}
 	}
 	else
@@ -26,23 +31,24 @@ void ai09::kickoff_us_pass ( bool canKickBall )
 		tech_circle(attack,90-sgn(side)*90 ,0);
 	}
 	
-	
-	if ( ( fabs ( NormalizeAngle ( ball.velocity.direction - AngleWith ( ball.Position , Vec2 ( OwnRobot[passgir].State.Position.X + BAR * cosDeg ( OwnRobot[passgir].State.Angle ) , OwnRobot[passgir].State.Position.Y + BAR * sinDeg ( OwnRobot[passgir].State.Angle ) ) ) ) ) < 65 ) && ( ball.velocity.magnitude > 100 ) )//&&(abs(ball.vel_angle-90)>0.01)&&(abs(ball.vel_angle+90)>0.01)&&(abs(ball.vel_angle-180)>0.01)&&(abs(ball.vel_angle+180)>0.01))
-	{
-		WaitForPass ( passgir );
-		hys = 30;
+	if (oneTouchDetector[rmf].IsArriving(70)) {
+		WaitForPass ( rmf );
 	}
-	else if (( hys > 0 )&& ( ball.velocity.magnitude > 50 ))// &&(abs(ball.vel_angle-90)>0.01)&&(abs(ball.vel_angle+90)>0.01)&&(abs(ball.vel_angle-180)>0.01)&&(abs(ball.vel_angle+180)>0.01))
-	{
-		WaitForPass ( passgir );
-		hys --;
-	}
-	
 	else
 	{
-		hys = 0;
-		OwnRobot[passgir].face ( Vec2 ( -side*2995 , 0 ) );
-		ERRTSetObstacles ( passgir , true );
-		ERRTNavigate2Point ( passgir , Vec2 ( side*150 , oneTouchSide * 1700 ) );
+		OwnRobot[rmf].face ( Vec2 ( -side*2995 , 0 ) );
+		ERRTSetObstacles ( rmf , true );
+		ERRTNavigate2Point ( rmf , Vec2 ( side*150 , oneTouchSide * 1700 ) );
 	}
+	
+	if (oneTouchDetector[lmf].IsArriving(70)) {
+		WaitForPass ( lmf );
+	}
+	else
+	{
+		OwnRobot[lmf].face ( Vec2 ( -side*2995 , 0 ) );
+		ERRTSetObstacles ( lmf , true );
+		ERRTNavigate2Point ( lmf , Vec2 ( side*150 , -oneTouchSide * 1700 ) );
+	}
+	
 }

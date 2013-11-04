@@ -1,6 +1,6 @@
 #include "ai09.h"
 
-int ai09::findCruncherOpp ( int mask1 , int mask2 )
+int ai09::findCruncherOpp ( int mask1 , int mask2 , bool acceptNearBall )
 {
 	float mdis = 7000;
 	int index = -1;
@@ -13,7 +13,10 @@ int ai09::findCruncherOpp ( int mask1 , int mask2 )
 		if ( ( fabs ( OppRobot[i].Position.X ) > 3025 ) ||
 			( fabs ( OppRobot[i].Position.Y ) > 2025 ) )
 			continue;
-		if ( ( DIS ( Vec2 ( side*3025 , 0 ) , OppRobot[i].Position ) < mdis ) && (( DIS ( ball.Position , OppRobot[i].Position ) > 500 )) )
+		if ((!acceptNearBall)&&(( DIS ( ball.Position , OppRobot[i].Position ) < 500 ))) {
+			continue;
+		}
+		if ( ( DIS ( Vec2 ( side*3025 , 0 ) , OppRobot[i].Position ) < mdis ) )
 		{
 			mdis = DIS ( Vec2 ( side*3025 , 0 ) , OppRobot[i].Position );
 			index = i;

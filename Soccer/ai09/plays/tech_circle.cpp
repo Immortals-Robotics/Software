@@ -3,7 +3,8 @@
 #include "helpers.h"
 
 int lockAngleCounter = 0;
-
+int elendil = 0;
+TVec2 Pelendil;
 TVec2 ai09::predictBallForwardAI( float timeAhead )
 {
 	BallState _ball = ball;
@@ -59,7 +60,7 @@ TVec2 ai09::predictBallForwardAI( float timeAhead )
 }
 
 
-void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , bool needRRT , bool gameRestart )
+void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , bool needRRT , bool gameRestart , bool kiss , bool dribbler )
 {
 	if (1)// ( fabs(NormalizeAngle(lastBallDirection-ball.velocity.direction) ) > 5 ) || ( fabs(lastBallMagnitude-ball.velocity.magnitude) > 80 ) || ( ball.velocity.magnitude < 100 ) || ( DIS(ball.Position, PredictedBall) < 150) )
 	{
@@ -127,29 +128,38 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 	col -> set_r(0);
 	col -> set_g(255);
 	col -> set_b(255);
+	//cout << "circle dadam";
 
 
 	
-	float r = 160.0f;
+	float r = 150.0f;
+	
+	if (kiss) {
+		r = 75.0f;
+	}
 
-	float tetta = 30.0f;
+	float tetta = 10.0f;
 
 	if ( ( kick > 0 ) || ( chip > 0 ) )
 	{
 		if ( gameRestart )
 		{
 			r = 200.0f;
-			tetta =15.0f;
+			tetta =25.0f;
 		}
 		else
 		{
 			r = 400.0f;
-			tetta = 62.0f;
+			tetta = 52.0f;
 		}
 	}
 
-	if ( DIS ( OwnRobot[robot_num].State.Position , ball.Position ) < 190 )
-		OwnRobot[robot_num].Dribble ( 15 );
+	//dribbler=0;
+	if ( dribbler )
+	{
+		if ( DIS ( OwnRobot[robot_num].State.Position , ball.Position ) < 190 )
+			OwnRobot[robot_num].Dribble ( 15 );
+	}
 
 	if ( gameRestart )
 		OwnRobot[robot_num].face ( PredictedBall );
@@ -158,12 +168,13 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 
 	float hehe = AngleWith ( PredictedBall , OwnRobot[robot_num].State.Position );
 	hehe = NormalizeAngle ( angle - hehe );
+	
 
 	if ( needRRT )
 		ERRTSetObstacles ( robot_num );
 	else
 		clear_map ( );
-
+	
 	if ( ( fabs ( hehe ) < tetta ) )//|| ( circleReachedBehindBall ) )
 	{
 		//hehe = angle;
@@ -172,9 +183,12 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 		{
 			if ( circleReachedBehindBall )
 			{
+				//cout << "								reached	";
 				TVec2 targetPoint;
 				if ( !gameRestart )
+				{
 					targetPoint = CircleAroundPoint ( PredictedBall , angle , min ( (r/1.6) , fabs(hehe)*320.0f/(tetta*1.2) ) );
+				}
 				else
 					targetPoint = CircleAroundPoint ( PredictedBall , angle , min ( r , fabs(hehe)*320.0f/(tetta) ) );
 
@@ -182,10 +196,39 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 				//Circle newCircle ( VecPosition ( OwnRobot[robot_num].State.Position.X , OwnRobot[robot_num].State.Position.Y ) , DIS(targetPoint, OwnRobot.State.Position) * 2 );
 				if ( !gameRestart )
 				{
-					targetPoint = Vec2(3*targetPoint.X-OwnRobot[robot_num].State.Position.X, 3*targetPoint.Y-OwnRobot[robot_num].State.Position.Y);
-					targetPoint.X /= 2;
-					targetPoint.Y /= 2;
-					ERRTNavigate2Point ( robot_num , targetPoint,0,100,&VELOCITY_PROFILE_KHARAKI );
+					cout << "elendil: " << elendil;
+					float hehe2 = AngleWith ( PredictedBall , OwnRobot[robot_num].State.Position );
+					hehe2 = NormalizeAngle ( angle - hehe2 );
+					bool el = ((hehe2<5)&&(DIS(ball.Position,OwnRobot[robot_num].State.Position)<100));
+					if (0)// el || ( elendil > 0 ) )
+					{
+						
+						targetPoint.X-=150.0*cosDeg(angle);
+						targetPoint.Y-=150.0*sinDeg(angle);
+						//targetPoint = Vec2(3*targetPoint.X-2*OwnRobot[robot_num].State.Position.X, 3*targetPoint.Y-2*OwnRobot[robot_num].State.Position.Y);
+						targetPoint.X /= 1;
+						targetPoint.Y /= 1;
+						
+						//if (elendil<=0)
+						{
+							Pelendil=targetPoint;
+						}
+						
+						elendil--;
+						if (el) {
+							elendil = 30;
+						}
+						ERRTNavigate2Point ( robot_num , Pelendil,0,100,&VELOCITY_PROFILE_KHARAKI );
+					}
+					else
+					{
+						targetPoint = Vec2(3*targetPoint.X-OwnRobot[robot_num].State.Position.X, 3*targetPoint.Y-OwnRobot[robot_num].State.Position.Y);
+						targetPoint.X /= 2;
+						targetPoint.Y /= 2;
+						ERRTNavigate2Point ( robot_num , targetPoint,0,100,&VELOCITY_PROFILE_KHARAKI );
+
+					}
+					//Halt(robot_num);
 				}
 				
 				else {
@@ -251,15 +294,9 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 		//if ( lockAngleCounter > 1 )
 		{
 			//if ( chip )
-			if ( chip > 1000 )
-				OwnRobot[robot_num].ChipP(chip-1000);
-			else
-				OwnRobot[robot_num].Chip(chip);
+			OwnRobot[robot_num].Chip(chip);
 			//else
-			if ( kick > 1000 )
-				OwnRobot[robot_num].ShootP(kick-1000);
-			else
-				OwnRobot[robot_num].Shoot(kick);
+			OwnRobot[robot_num].Shoot(kick);
 		}
 	}
 }

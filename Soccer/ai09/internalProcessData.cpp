@@ -4,9 +4,8 @@ void ai09::internalProcessData ( WorldState * worldState , GameSetting * setting
 {
 	this->ball = worldState -> ball;
 	
-	for ( int i = 0 ; i < 5 ; i ++ )
+	for ( int i = 0 ; i < 6 ; i ++ )
 	{
-		//if ( i == 3 )	continue;
 		this->OwnRobot[i].State = worldState -> OwnRobot[OwnRobot[i].vision_id];
 		
 		if ( !worldState ->refereeState.State || worldState ->refereeState.State->get() == GameState::GAME_OFF )
@@ -18,7 +17,7 @@ void ai09::internalProcessData ( WorldState * worldState , GameSetting * setting
 					if ( worldState -> OwnRobot[j].seenState == Seen )
 					{
 						bool suitable = true;
-						for ( int k = 0 ; k < 5 ; k ++ )
+						for ( int k = 0 ; k < 6 ; k ++ )
 						{
 							if ( OwnRobot[k].vision_id == j )
 							{
@@ -45,10 +44,20 @@ void ai09::internalProcessData ( WorldState * worldState , GameSetting * setting
 		cout << OwnRobot[i].vision_id << "	";
 		
 		this->OwnRobot[i].set_serial_id(VisionSerialTrans[OwnRobot[i].vision_id]);
+		//this->OwnRobot[i].oldRobot = true;
 		//if ( ( i != gk ) && ( i != def1 ) )
 		this->OwnRobot[i].oldRobot = false;
-		this->OwnRobot[gk].oldRobot = true;
-		//this->OwnRobot[def1].oldRobot = true;
+		
+		this->navigated[i] = false;
+		//if ((OwnRobot[i].vision_id==7)||(OwnRobot[i].vision_id==4)||(OwnRobot[i].vision_id==0)) {
+		//	this->OwnRobot[i].oldRobot = true;
+		//}
+		//if (OwnRobot[i].vision_id==10) {
+		//	this->OwnRobot[i].oldRobot = true;
+		//}
+		//this->OwnRobot[def].oldRobot = true;
+		//if(i==passgir)
+		//	this->OwnRobot[i].oldRobot = true;
 		
 	}
 	cout << endl;

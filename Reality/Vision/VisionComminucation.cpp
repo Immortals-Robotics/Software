@@ -53,7 +53,7 @@ bool VisionModule::isConnected ( void )
 {
 	return connected;
 }
-
+int olaghekhar=0;
 void VisionModule::SendGUIData ( WorldState * state , AI_Debug & aidebug )
 {
 	if ( state == NULL )
@@ -73,6 +73,11 @@ void VisionModule::SendGUIData ( WorldState * state , AI_Debug & aidebug )
 		GUIMsg.mutable_ballsdata() -> set_y ( state -> ball.Position.Y );
 
 		robotDataMsg * tmprobot;
+		
+		olaghekhar++;
+		if ( olaghekhar > 6 )
+			olaghekhar = 0;
+
 
 		for ( int i = 0 ; i < 12 ; i ++ )
 		{
@@ -87,9 +92,9 @@ void VisionModule::SendGUIData ( WorldState * state , AI_Debug & aidebug )
 			robotPacket[0][i].set_vy ( state -> OwnRobot[i].velocity.y );
 			robotPacket[0][i].set_x ( state -> OwnRobot[i].Position.X );
 			robotPacket[0][i].set_y ( state -> OwnRobot[i].Position.Y );
-			robotPacket[0][i].set_vmag ( state -> lastCMDS[i][0].X * 30.0f );
+			robotPacket[0][i].set_vmag ( state -> lastCMDS[i][(int)(state->lastCMDS[i][10].X)].Y * 45.0f );
 			robotPacket[0][i].set_own ( 1 );
-			if (state -> OwnRobot[i].seenState!=CompletelyOut)
+			//if (state -> OwnRobot[i].seenState!=CompletelyOut)
 			{
 				tmprobot = GUIMsg.add_robotdata ( );
 				tmprobot -> CopyFrom ( robotPacket[0][i] );

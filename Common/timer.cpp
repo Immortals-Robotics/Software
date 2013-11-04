@@ -17,7 +17,8 @@
 
 void Timer::start()  {gettimeofday(&tv1,NULL);}
 void Timer::end()    {gettimeofday(&tv2,NULL);}
-double Timer::time() {return((tv2.tv_sec - tv1.tv_sec) +
+double Timer::time() {end();
+	return((tv2.tv_sec - tv1.tv_sec) +
 						  (tv2.tv_usec - tv1.tv_usec) / 1.0E6);}
 double Timer::interval(){
 	double t;

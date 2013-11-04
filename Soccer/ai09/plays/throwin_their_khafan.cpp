@@ -3,8 +3,10 @@
 void ai09::throwin_their_khafan ( void )
 {
 	GK(gk, 1);
-	OneDef(def1);
-	DefenceWall(attack, 30);
+	OneDef(def);
+	DefenceWall(attack);
+	
+	Halt(lmf);
 	
 	int attackerDoor , attackerNazdik;
 	attackerNazdik = findCruncherOpp(-1);
@@ -15,12 +17,12 @@ void ai09::throwin_their_khafan ( void )
 	else
 	{
 		GK(gk, 1);
-		OneDef(def1);
-		DefenceWall(attack, 30);
+		OneDef(def);
+		DefenceWall(attack);
 		
-		OneDef(def2, &OppRobot[attackerNazdik].Position);
+		OneDef(dmf, &OppRobot[attackerNazdik].Position);
 		
-		ERRTSetObstacles ( passgir , 1 );
-		ERRTNavigate2Point ( passgir , PointOnConnectingLine ( OppRobot[attackerDoor].Position , Vec2 ( side*2995 , 0 ) , 520.0f ) );
+		ERRTSetObstacles ( rmf , 1 );
+		ERRTNavigate2Point ( rmf , PointOnConnectingLine ( OppRobot[attackerDoor].Position , Vec2 ( side*2995 , 0 ) , 520.0f ) );
 	}
 }

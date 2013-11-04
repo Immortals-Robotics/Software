@@ -3,11 +3,13 @@
 void ai09::corner_their_def_karkas ( void )
 {	
 	GK ( gk , 1 );
-	TwoDef(def1, def2);
+	TwoDef(def, dmf);
 	
-	ERRTSetObstacles ( passgir , true , true , true , true );
-	OwnRobot[passgir].face ( Vec2 ( -side*2995,0 ) );
-	ERRTNavigate2Point ( passgir , PointOnConnectingLine ( Vec2 ( side*2995 , 0 ) , ball.Position , 1350 ) );
+	Halt(lmf);
 	
-	DefenceWall(attack, 10);	
+	ERRTSetObstacles ( rmf , true , true , true , true );
+	OwnRobot[rmf].face ( Vec2 ( -side*2995,0 ) );
+	ERRTNavigate2Point ( rmf , PointOnConnectingLine ( Vec2 ( side*2995 , 0 ) , ball.Position , 1350 ) );
+	
+	DefenceWall(attack);	
 }

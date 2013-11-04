@@ -1,20 +1,43 @@
 #include "ai09.h"
 
-void ai09::DefenceWall ( int robot_num , float tolerace )
+void ai09::DefenceWall ( int robot_num , bool kickOff )
 {
+	float x = -side*ball.Position.X;
+	x = max ( -3200.0f , min ( 3200.0f , x ) );
+	float tetta = -0.000003f*x*x + 0.0016f*x + 90.0f;
+	if (kickOff) {
+		tetta = 14.0f;
+	}
+	
+	TVec2 target;
+	
+	cout << "	wall limit: " << tetta << endl;
 	int index = findKickerOpp ( -1 );
 	if ( index == -1 )
 	{
-		ERRTSetObstacles ( attack , true , true , true , false );
-		OwnRobot[attack].face(Vec2(ball.Position.X,ball.Position.Y));
-		ERRTNavigate2Point ( attack , CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(AngleWith(ball.Position , Vec2(side*2995,0))),590) ,0 , 100);
+		target = CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(AngleWith(ball.Position , Vec2(side*2995,0))),590);
 	}
 	else
 	{
-		OwnRobot[attack].face ( ball.Position );
-		ERRTSetObstacles ( attack , 1 );
-		ERRTNavigate2Point ( attack , PointOnConnectingLine ( OppRobot[index].Position , ball.Position , 590+DIS ( ball.Position , OppRobot[index].Position ) ) );
+		target = PointOnConnectingLine ( OppRobot[index].Position , ball.Position , 590+DIS ( ball.Position , OppRobot[index].Position ) );
 	}
 	
-	cout << "	" << 200.0 * cosDeg(OppRobot[index].Angle) << "	";
+	cout << index << endl;
+	
+	float ballAngle = AngleWith(ball.Position, target);
+	float firstLeg = AngleWith(ball.Position, Vec2(side*3025.0f, sgn(ball.Position.Y)*(350.0f)));
+	float secLeg = firstLeg - tetta * sgn(ball.Position.Y)*side;
+	
+	cout << "	ball: " << ballAngle << "	f: " << firstLeg << "	s: " << secLeg << endl;
+	
+	bool isOut = fabs((fabs(NormalizeAngle(ballAngle-firstLeg))+fabs(NormalizeAngle(ballAngle-secLeg))) - tetta ) > 1.0f;
+	
+	if ( isOut )
+	{
+		target = CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(AngleWith(ball.Position , Vec2(side*2995,0))),590);
+	}
+	
+	OwnRobot[attack].face ( ball.Position );
+	ERRTSetObstacles ( attack , true , true , true , false );
+	ERRTNavigate2Point ( attack , target );
 }

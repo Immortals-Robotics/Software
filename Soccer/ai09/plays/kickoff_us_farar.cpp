@@ -2,24 +2,54 @@
 
 void ai09::kickoff_us_farar ( bool canKickBall )
 {
-	GK(gk, 2);
-	TwoDef(def1, def2);
+	GK_Ghuz(gk, 1, 0);
+	DefGhuz(def);
+
+	ERRTSetObstacles ( dmf , true , true , true , true );
+	OwnRobot[dmf].face(ball.Position);
+	ERRTNavigate2Point ( dmf , PointOnConnectingLine(ball.Position, Vec2(side*3025, 0), DIS(ball.Position, Vec2(side*3025, 0))/3.0f) ,0 , 40,&VELOCITY_PROFILE_MAMOOLI);
+	
+	float waitTime = 0.7f;
 	
 	if ( canKickBall )
 	{
-		tech_circle(attack,AngleWith ( Vec2 ( -side*2995,0 ) , ball.Position ), 0,15,0,1);
-		
-		OwnRobot[passgir].face ( Vec2 ( -side*2995 , 0 ) );
-		ERRTSetObstacles(passgir, 0, 1, 1, 1);
-		ERRTNavigate2Point ( passgir , Vec2 ( -side*1500 , 0 ) );
+		OwnRobot[attack].face ( Vec2 ( -side*2995 , 0 ) );
+		OwnRobot[lmf].face ( Vec2 ( -side*2995 , 0 ) );
+
+		if ( timer.time() < waitTime )
+		{
+			ERRTSetObstacles(attack, 0, 1, 1, 1);
+			ERRTNavigate2Point ( attack , Vec2 ( side*100 , 1600 ) );
+			ERRTSetObstacles(lmf, 1, 1, 1, 1);
+			ERRTNavigate2Point ( lmf , Vec2 ( side*100 , -1600 ) );
+			tech_circle(rmf,AngleWith ( Vec2 ( -side*2995,2000 ) , ball.Position ), 0,0,0,1,0,1);
+		}
+		else if ( timer.time() < waitTime * 2.0f )
+		{
+			ERRTSetObstacles(attack, 0, 1, 1, 1);
+			ERRTNavigate2Point ( attack , Vec2 ( side*100 , 600 ) );
+			ERRTSetObstacles(lmf, 1, 1, 1, 1);
+			ERRTNavigate2Point ( lmf , Vec2 ( side*100 , -600 ) );
+			tech_circle(rmf,AngleWith ( Vec2 ( -side*2995,2000 ) , ball.Position ), 0,0,0,1,1,1);
+		}
+		else {
+			ERRTSetObstacles(attack, 0, 1, 1, 1);
+			ERRTNavigate2Point ( attack , Vec2 ( side*100 , 600 ) );
+			ERRTSetObstacles(lmf, 1, 1, 1, 1);
+			ERRTNavigate2Point ( lmf , Vec2 ( side*100 , -600 ) );
+			tech_circle(rmf,AngleWith ( Vec2 ( -side*2995,2000 ) , ball.Position ), 0,8,0,1,1,1);
+		}
 	}
 	else
 	{
-		tech_circle(attack,AngleWith ( Vec2 ( -side*2995,0 ) , ball.Position ));
+		tech_circle(rmf,AngleWith ( Vec2 ( -side*2995,2000 ) , ball.Position ));
 
-		OwnRobot[passgir].face ( Vec2 ( -side*2995 , 0 ) );
-		ERRTSetObstacles(passgir, 0, 1, 1, 1);
-		AddCircle(ball.Position.X, ball.Position.Y, 15);
-		ERRTNavigate2Point ( passgir , Vec2 ( side*100 , -250 ) );		
+		OwnRobot[attack].face ( Vec2 ( -side*2995 , 0 ) );
+		ERRTSetObstacles(attack, 1, 1, 1, 1);
+		ERRTNavigate2Point ( attack , Vec2 ( side*100 , 1600 ) );		
+		
+		OwnRobot[lmf].face ( Vec2 ( -side*2995 , 0 ) );
+		ERRTSetObstacles(lmf, 1, 1, 1, 1);
+		ERRTNavigate2Point ( lmf , Vec2 ( side*100 , -1600 ) );		
 	}
 }

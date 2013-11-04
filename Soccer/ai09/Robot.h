@@ -5,22 +5,26 @@
 #include "VelocityProfile.h"
 #include <math.h>
 #include <iostream>
+#include "timer.h"
 
 #define PREDICT_CMDS 7
 
 class Robot
 {
+	Timer angleSendTimer;
+	
 	public :
 	bool oldRobot;
 	RobotState State;
 	RobotState target;
 	int shoot , chip , Break , dribbler;
 	int Motor[4];
-	unsigned char data[10];
+	unsigned char data[11];
 	int serial_id,vision_id;
 	bool control_mode;
+	bool halted;
 	
-	TVec3 lastCMDs[10];
+	TVec3 lastCMDs[11];
 	int CMDindex;
 	
 	TrapezoidPlanner trapezoid;
@@ -41,10 +45,8 @@ class Robot
 	float dis(float x1,float y1,float x2,float y2);
 	
 	void Shoot(int pow);
-	void ShootP(int pow);
 	
 	void Chip(int pow);
-	void ChipP(int pow);
 	
 	void Dribble(int pow);
 	
@@ -57,4 +59,5 @@ class Robot
 	void MoveByMotion(TVec3 motion);
 	
 	void makeSendingDataReady ( void );
+	
 };

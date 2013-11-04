@@ -2,6 +2,10 @@
 
 #include "FilteredObject.h"
 
+#include <fstream>
+using namespace std;
+extern ofstream* nikRastKarde;
+
 VisionSetting * _visionSetting ( bool _color , std::string _UDP_Adress , short _LocalPort , std::string _GUI_Adress , short _GUIPort , bool _use_camera0 , bool _use_camera1 )
 {
 	VisionSetting * ans = new VisionSetting;
@@ -55,11 +59,20 @@ VisionModule::VisionModule ( VisionSetting * _setting ) : connected ( false )
 		rawAngles[1][i] = 0.0f;
 	}
 	
+	InitANN();
+	
 	ball_not_seen = MAX_BALL_NOT_SEEN + 1;
 	for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
 	{
 		robot_not_seen[0][i] = MAX_ROBOT_NOT_SEEN + 1;
 		robot_not_seen[1][i] = MAX_ROBOT_NOT_SEEN + 1;
+	}
+}
+VisionModule::~VisionModule()
+{
+	if ( nikRastKarde )
+	{
+		nikRastKarde->close();
 	}
 }
 

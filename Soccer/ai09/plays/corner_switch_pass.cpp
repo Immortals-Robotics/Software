@@ -19,14 +19,14 @@ void ai09::corner_switch_pass ( void )
 	if (reached)//( ( DIS ( ball.Position , OwnRobot[attack].State.Position ) < 250 ) && ( OwnRobot[attack].State.velocity.magnitude < 100 ) )|| ( reached ) )
 	{
 		GK(gk, 1);
-		/*OneDef(def1);
+		OneDef(def);
+		//Halt(dmf);
+		Halt(lmf);
 		
-		OwnRobot[def2].face(Vec2(-side*3025, 0));
-		ERRTSetObstacles(def2, 1, 1, 1, 1,0);
-		ERRTNavigate2Point(def2, Vec2(side*800, sgn(ball.Position.Y)*1400), 0, 100);*/
-		TwoDef(def1, def2);
+		OwnRobot[dmf].face(Vec2(-side*3025, 0));
+		ERRTSetObstacles(dmf, 1, 1, 1, 1,0);
+		ERRTNavigate2Point(dmf, Vec2(side*800, sgn(ball.Position.Y)*1400), 0, 100);
 		
-		timer.end();
 		if ( timer.time() < 3.5 )
 		{
 			ERRTSetObstacles ( attack );
@@ -35,54 +35,55 @@ void ai09::corner_switch_pass ( void )
 		else
 		{
 			ERRTSetObstacles ( attack );
-			tech_circle(attack,AngleWith ( goolZanak2 , ball.Position ) ,2,0,0,1);
+			tech_circle(attack,AngleWith ( goolZanak2 , ball.Position ) ,6,0,0,1);
 		}
 		
 		//reached = true;
 	}
 	else
 	{
-		GK ( gk , 2 );
-		TwoDef ( def1 , def2 );
+		GK ( gk , 1 );
+		OneDef ( def );
+		
+		Halt(dmf);
+		Halt(lmf);
 		
 		ERRTSetObstacles ( attack );
 		tech_circle(attack,90-side*90 ,0,0);
 
-		timer.end();
 		if ( timer.time() > 1.5 )
 		{
 			//if ( !reached )
 			//swap(attack, passgir);
-			int hehet = OwnRobot[passgir].vision_id;
-			OwnRobot[passgir].set_vision_id(OwnRobot[def2].vision_id);
-			OwnRobot[def2].set_vision_id(hehet);
+			int hehet = OwnRobot[rmf].vision_id;
+			OwnRobot[rmf].set_vision_id(OwnRobot[dmf].vision_id);
+			OwnRobot[dmf].set_vision_id(hehet);
 			reached = true;
 		}
 	}
 	
-	if ( ( fabs ( NormalizeAngle ( ball.velocity.direction - AngleWith ( ball.Position , Vec2 ( OwnRobot[passgir].State.Position.X + BAR * cosDeg ( OwnRobot[passgir].State.Angle ) , OwnRobot[passgir].State.Position.Y + BAR * sinDeg ( OwnRobot[passgir].State.Angle ) ) ) ) ) < 65 ) && ( ball.velocity.magnitude > 100 ) )//&&(abs(ball.vel_angle-90)>0.01)&&(abs(ball.vel_angle+90)>0.01)&&(abs(ball.vel_angle-180)>0.01)&&(abs(ball.vel_angle+180)>0.01))
+	if ( ( fabs ( NormalizeAngle ( ball.velocity.direction - AngleWith ( ball.Position , Vec2 ( OwnRobot[rmf].State.Position.X + BAR * cosDeg ( OwnRobot[rmf].State.Angle ) , OwnRobot[rmf].State.Position.Y + BAR * sinDeg ( OwnRobot[rmf].State.Angle ) ) ) ) ) < 65 ) && ( ball.velocity.magnitude > 100 ) )//&&(abs(ball.vel_angle-90)>0.01)&&(abs(ball.vel_angle+90)>0.01)&&(abs(ball.vel_angle-180)>0.01)&&(abs(ball.vel_angle+180)>0.01))
 	{
-		WaitForPass ( passgir );
+		WaitForPass ( rmf );
 		hys = 30;
 	}
 	else if (( hys > 0 )&& ( ball.velocity.magnitude > 50 ))// &&(abs(ball.vel_angle-90)>0.01)&&(abs(ball.vel_angle+90)>0.01)&&(abs(ball.vel_angle-180)>0.01)&&(abs(ball.vel_angle+180)>0.01))
 	{
-		WaitForPass ( passgir );
+		WaitForPass ( rmf );
 		hys --;
 	}
 	else
 	{
 		hys = 0;
-		OwnRobot[passgir].face ( Vec2 ( -side*2995 , 0 ) );
-		ERRTSetObstacles ( passgir );
-		timer.end();
+		OwnRobot[rmf].face ( Vec2 ( -side*2995 , 0 ) );
+		ERRTSetObstacles ( rmf );
 		if ( timer.time() < 1.5 )
 		{
-			ERRTNavigate2Point ( passgir , goolZanak1 );
+			ERRTNavigate2Point ( rmf , goolZanak1 );
 		}
 		else 
 		{
-			ERRTNavigate2Point ( passgir , goolZanak2 );
+			ERRTNavigate2Point ( rmf , goolZanak2 );
 		}
 		
 	}

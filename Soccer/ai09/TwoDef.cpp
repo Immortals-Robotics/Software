@@ -5,6 +5,7 @@ int attackingDefHys = 0;
 
 void ai09::TwoDef ( int robot_num1 , int robot_num2 , TVec2 * defendTarget )
 {
+
 	if ( !defendTarget )
 		defendTarget = &(ball.Position);
 	VecPosition* p1 = new VecPosition ( );

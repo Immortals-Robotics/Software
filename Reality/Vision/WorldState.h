@@ -92,7 +92,7 @@ struct WorldState
 	RobotState OwnRobot[MAX_ROBOTS];
 	RobotState OppRobot[MAX_ROBOTS];
 
-	TVec3 lastCMDS[MAX_ROBOTS][10];
+	TVec3 lastCMDS[MAX_ROBOTS][11];
 
 	RefereeState refereeState;
 };

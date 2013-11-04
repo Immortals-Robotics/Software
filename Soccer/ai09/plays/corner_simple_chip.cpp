@@ -2,8 +2,17 @@
 
 void ai09::corner_simple_chip ( void )
 {
-	GK ( gk , 2 );
-	TwoDef ( def1 , def2 );
+	//GK ( gk , 1 );
+	//OneDef ( def );
+	
+	GK_Ghuz(gk, 1, 0);
+	DefGhuz(def, NULL, false);
+	
+	ERRTSetObstacles ( dmf , false , true , true , true );
+	OwnRobot[dmf].face(ball.Position);
+	ERRTNavigate2Point ( dmf , PointOnConnectingLine(ball.Position, Vec2(side*3025, 0), 1500) ,0 , 100,&VELOCITY_PROFILE_MAMOOLI);
+	
+	Halt(lmf);
 	
 	TVec2 jagir;
 	if ( reached )
@@ -11,25 +20,34 @@ void ai09::corner_simple_chip ( void )
 	else
 		jagir = Vec2(-side*1400, -sgn(ball.Position.Y )* 900 );
 	
+	//swap(attack, passgir);
+	
 	if ( ( ( DIS ( ball.Position , OwnRobot[attack].State.Position ) < 250 ) && ( OwnRobot[attack].State.velocity.magnitude < 100 ) )|| ( reached ) )
 	{
-		float waitTime = 0.1;
+		float waitTime = 2.0;
 		if ( ball.Position.X * side > -2000 )
-			waitTime = 0.3;
+			waitTime = 2.5;
 		timer.end();
 		if ( timer.time() < waitTime )
 		{
 			ERRTSetObstacles ( attack );
-			tech_circle(attack,90-side*90 ,0,0);
+			tech_circle(attack,90-side*90 ,0,0,0,1,0,0);
 			
+		}
+		else if ( timer.time() < waitTime*2 )
+		{
+			ERRTSetObstacles ( attack );
+			tech_circle(attack,AngleWith ( Vec2 ( ball.Position.X,-2000 ) , ball.Position ) ,0,0,0,1,0,0);
+		}
+		else if ( timer.time() < waitTime*2 )
+		{
+			ERRTSetObstacles ( attack );
+			tech_circle(attack,AngleWith ( Vec2 ( ball.Position.X,-2000 ) , ball.Position ) ,0,0,0,1,0,0);
 		}
 		else
 		{
 			ERRTSetObstacles ( attack );
-			if ( ball.Position.X * side > -2000 )
-				tech_circle(attack,AngleWith ( Vec2 ( -side*2500 , -sgn ( ball.Position.Y ) * 1500 ) , ball.Position ) ,0,1012,0,1);
-			else
-				tech_circle(attack,AngleWith ( Vec2 ( jagir.X - side * 600 , jagir.Y ) , ball.Position ) ,0,1009,0,1);
+			tech_circle(attack,AngleWith ( Vec2 ( ball.Position.X,-2000 ) , ball.Position ) ,0,5,0,1,0,0);
 		}
 		reached = true;
 	}
@@ -39,39 +57,25 @@ void ai09::corner_simple_chip ( void )
 		tech_circle(attack,90-side*90 ,0,0);
 	}
 	
-	if ( ( fabs ( NormalizeAngle ( ball.velocity.direction - AngleWith ( ball.Position , Vec2 ( OwnRobot[passgir].State.Position.X + BAR * cosDeg ( OwnRobot[passgir].State.Angle ) , OwnRobot[passgir].State.Position.Y + BAR * sinDeg ( OwnRobot[passgir].State.Angle ) ) ) ) ) < 65 ) && ( ball.velocity.magnitude > 100 ) )//&&(abs(ball.vel_angle-90)>0.01)&&(abs(ball.vel_angle+90)>0.01)&&(abs(ball.vel_angle-180)>0.01)&&(abs(ball.vel_angle+180)>0.01))
-	{
-		WaitForPass ( passgir );
-		hys = 30;
+	////////
+	
+	if (oneTouchDetector[rmf].IsArriving(70)) {
+		WaitForPass ( rmf );
 	}
-	else if (( hys > 0 )&& ( ball.velocity.magnitude > 50 ))// &&(abs(ball.vel_angle-90)>0.01)&&(abs(ball.vel_angle+90)>0.01)&&(abs(ball.vel_angle-180)>0.01)&&(abs(ball.vel_angle+180)>0.01))
-	{
-		WaitForPass ( passgir );
-		hys --;
-	}
-	else
-	{
-		hys = 0;
-		OwnRobot[passgir].face ( Vec2 ( -side*2995 , 0 ) );
-		ERRTSetObstacles ( passgir );
-		timer.end();
-		if ( timer.time() < 1.35 )
-		{//if ( ball.Position.X * side > -2000 )
-			ERRTNavigate2Point ( passgir , Vec2 ( -side*1500 , -sgn(ball.Position.Y )* 1500 ) );
-		//else
-		//	ERRTNavigate2Point ( passgir , jagir );										
+	else {
+		OwnRobot[rmf].face ( Vec2 ( -side*2995 , 0 ) );
+		ERRTSetObstacles(rmf, 1, 1, 1, 0, 0, 1);
+		if ( timer.time() < 1.5 )
+		{if ( ball.Position.X * side > -2000 )
+			ERRTNavigate2Point ( rmf , Vec2 ( -side*2500 , -sgn(ball.Position.Y )* 1500 ) );
+		else
+			ERRTNavigate2Point ( rmf , jagir );										
 		}
 		else {
 			if ( ball.Position.X * side > -2000 )
-				ERRTNavigate2Point ( passgir , Vec2 ( -side*2500 , -sgn(ball.Position.Y )* 1500 ) );
+				ERRTNavigate2Point ( rmf , Vec2 ( -side*2500 , -sgn(ball.Position.Y )* 1500 ) );
 			else
-				ERRTNavigate2Point ( passgir , jagir );					
+				ERRTNavigate2Point ( rmf , jagir );					
 		}
-		
 	}
-	
-	cout << "	" << OwnRobot[attack].State.Angle << "	";
-	
-	//OwnRobot[def2].face ( Vec2 ( -side*2995 , 0 ) );
-	//Navigate2Point ( def2 , Vec2 ( -side*1500 , 0 ) );
 }

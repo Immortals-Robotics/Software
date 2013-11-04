@@ -19,7 +19,7 @@ ai09::ai09 ( )
 	//for ( int i = 0 ; i < 5 ; i ++ )
 	//	OwnRobot[i].serial_id = i + 1;
 	
-	VisionSerialTrans[0] = 15;
+	VisionSerialTrans[0] = 0;
 	VisionSerialTrans[1] = 1;
 	VisionSerialTrans[2] = 2;
 	VisionSerialTrans[3] = 3;
@@ -43,32 +43,54 @@ ai09::ai09 ( )
 	
 	isDefending = false;
 	
-	BAR=0;
+	BAR=89;
 	
-	beta = 0.1f;
-	gamma = 0.5f;
-	shootK = 8300.0f;
+	beta = 0.15f;	//Damping factor
+	gamma = 0.5f;	//Reflect factor
+	shootK = 8000.0f;
 	
 	lastReferee = GameState::GAME_OFF;
 	
 	openAngleHys = 0;
 	
-	passgir = 1;
-	attack = 0;
-	gk = 3;
-	def1 = 4;
-	def2 = 2;
+	lmf = 3;
+	cmf = 0;
+	gk = 2;
+	def = 5;
+	dmf = 4;
+	rmf = 1;
 	
-	for (int i = 0 ; i < 5 ; i ++ )
+	attack = cmf;
+	mid1 = rmf;
+	mid2 = lmf;
+	
+	markMap[dmf] = -1;
+	markMap[lmf] = -1;
+	markMap[rmf] = -1;
+	
+	stm2AInum[0] = &gk;
+	stm2AInum[1] = &def;
+	stm2AInum[2] = &dmf;
+	stm2AInum[3] = &lmf;
+	stm2AInum[4] = &rmf;
+	stm2AInum[5] = &cmf;
+	
+	for (int i = 0 ; i < 6 ; i ++ ) {
+		oneTouchDetector[i].bState = &ball;
+		oneTouchDetector[i].rState = &OwnRobot[i].State;
+	}
+	
+	for (int i = 0 ; i < 6 ; i ++ )
 	{
 		OwnRobot[i].set_vision_id(i+1);
 		//OwnRobot[i].set_serial_id(VisionSerialTrans[i]);
 	}
-	OwnRobot[gk].set_vision_id(6);
-	OwnRobot[def1].set_vision_id(4);
-	OwnRobot[def2].set_vision_id(2);
-	OwnRobot[passgir].set_vision_id(0);
-	OwnRobot[attack].set_vision_id(3);
+	OwnRobot[gk].set_vision_id(12);
+	OwnRobot[def].set_vision_id(11);
+	OwnRobot[dmf].set_vision_id(0);
+	OwnRobot[lmf].set_vision_id(3);
+	OwnRobot[rmf].set_vision_id(2);
+	OwnRobot[cmf].set_vision_id(4);
 	
 	
 	lastBallDirection = 0;
@@ -76,26 +98,50 @@ ai09::ai09 ( )
 	circleReachedBehindBall = false;
 	PredictedBall = Vec2 ( 0 );
 	
-	VELOCITY_PROFILE_AROOM.max_spd = Vec2 ( 50.0f );
-	VELOCITY_PROFILE_AROOM.max_dec = Vec2 ( 1.3f );
-	VELOCITY_PROFILE_AROOM.max_acc = Vec2 ( 1.6f );
+	VELOCITY_PROFILE_AROOM.max_spd = Vec2 ( 30.0f );
+	VELOCITY_PROFILE_AROOM.max_dec = Vec2 ( 1.0f );
+	VELOCITY_PROFILE_AROOM.max_acc = Vec2 ( 1.2f );
 	VELOCITY_PROFILE_AROOM.max_w_acc = 40.0f;
 	VELOCITY_PROFILE_AROOM.max_w_dec = 140.0f;
 	
-	VELOCITY_PROFILE_MAMOOLI.max_spd = Vec2 ( 100.0f );
-	VELOCITY_PROFILE_MAMOOLI.max_dec = Vec2 ( 2.3f );
-	VELOCITY_PROFILE_MAMOOLI.max_acc = Vec2 ( 1.9f );
+	VELOCITY_PROFILE_MAMOOLI.max_spd = Vec2 ( 60.0f );
+	VELOCITY_PROFILE_MAMOOLI.max_dec = Vec2 ( 1.5f );
+	VELOCITY_PROFILE_MAMOOLI.max_acc = Vec2 ( 1.5f );
 	VELOCITY_PROFILE_MAMOOLI.max_w_acc = 40.0f;
 	VELOCITY_PROFILE_MAMOOLI.max_w_dec = 140.0f;
 
 	
-	VELOCITY_PROFILE_KHARAKI.max_spd = Vec2 ( 100.0f );
-	VELOCITY_PROFILE_KHARAKI.max_dec = Vec2 ( 4.3f );
-	VELOCITY_PROFILE_KHARAKI.max_acc = Vec2 ( 3.6f );
+	VELOCITY_PROFILE_KHARAKI.max_spd = Vec2 ( 60.0f );
+	VELOCITY_PROFILE_KHARAKI.max_dec = Vec2 ( 3.2f );
+	VELOCITY_PROFILE_KHARAKI.max_acc = Vec2 ( 2.9f );
 	VELOCITY_PROFILE_KHARAKI.max_w_acc = 40.0f;
 	VELOCITY_PROFILE_KHARAKI.max_w_dec = 140.0f;
 
+	playBook = new PlayBook();
+	read_playBook("strategy.ims");
+	cout << playBook->strategy_size() << " ";
+	cout << playBook->strategy(0).name() << endl;
+	
+	cout << playBook->strategy_size() << endl;
+	for ( int i = 0 ; i < playBook->strategy_size() ; i ++ )
+	{
+		cout << "	" << playBook->strategy(i).role_size() << endl;
+		for ( int j = 0 ; j < playBook->strategy(i).role_size() ; j ++ )
+		{
+			cout << "		" << playBook->strategy(i).role(j).path_size() << endl;
+			for (int k = 0 ; k < playBook->strategy(i).role(j).path_size() ; k++ ) {
+				cout << "			" << playBook->strategy(i).role(j).path(k).type() << endl;
+				cout << "				" << playBook->strategy(i).role(j).path(k).x() << "		" << playBook->strategy(i).role(j).path(k).y() << endl;
 
+			}
+		}
+	}
+	
+	cout << playBook->weight_size() << endl;
+	for ( int i = 0 ; i < playBook->weight_size() ; i ++ )
+	{
+		cout << "	" << playBook->weight(i) << endl;
+	}		
 }
 
 TVec2 ai09::PointOnConnectingLine(TVec2 FirstPoint,TVec2 SecondPoint,float distance){

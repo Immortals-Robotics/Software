@@ -1,19 +1,19 @@
 #include "ai09.h"
 #include "obstacle.h"
 
-void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own , bool opp , bool dribble )
+void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own , bool opp , bool dribble , bool bigPen )
 {
-	robot_num = min(4,max(0,robot_num));
+	robot_num = min(5,max(0,robot_num));
 	clear_map ( );
 	if ( own )
 	{
-		for ( int i = 0 ; i < 5 ; i ++ )
+		for ( int i = 0 ; i < 6 ; i ++ )
 		{
 			if ( ( OwnRobot[i].State.seenState != CompletelyOut ) && ( i != robot_num ) && ( OwnRobot[i].State.vision_id != OwnRobot[robot_num].State.vision_id ) )
 			{
 				//obstacle[obs_num].circle.setCenter ( VecPosition ( OwnRobot[i].Position.X , OwnRobot[i].Position.Y ) );
 				//obstacle[obs_num].circle.setRadius ( 400 );
-				AddCircle ( OwnRobot[i].State.Position.X , OwnRobot[i].State.Position.Y , 9 + (!dribble)*8 );
+				AddCircle ( OwnRobot[i].State.Position.X , OwnRobot[i].State.Position.Y , 10 + (!dribble)*8 );
 			}
 		}
 	}
@@ -24,7 +24,7 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 		{
 			if ( OppRobot[i].seenState != CompletelyOut )
 			{
-				AddCircle ( OppRobot[i].Position.X , OppRobot[i].Position.Y , 9 + (!dribble)*8 );
+				AddCircle ( OppRobot[i].Position.X , OppRobot[i].Position.Y , 10 + (!dribble)*8 );
 			}
 			//obstacle[obs_num].circle.setCenter ( VecPosition ( OppRobot[i].Position.X , OppRobot[i].Position.Y ) );
 			//obstacle[obs_num].circle.setRadius ( 400 );
@@ -38,7 +38,7 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 
 	if ( field )
 	{
-		AddCircle ( side*3020 , -170 , 60 );
+		AddCircle ( side*3020 , -170 , 90 );
 		
 		/*Debug_Circle * dbgCircle = AIDebug.add_circle();
 		dbgCircle -> set_x(side*3020);
@@ -49,15 +49,24 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 		col -> set_g(0);
 		col -> set_b(0);*/
 		
-		AddCircle ( side*3020 , 180 , 60 );
+		AddCircle ( side*3020 , 180 , 90 );
 
-		AddRectangle ( side*3110 , -170 , 69 , 36 );
+		AddRectangle ( side*3110 , -170 , 99 , 36 );
 		
 		/*Debug_Rect * newDebugRect =  AIDebug.add_rect();
 		newDebugRect -> set_x(side*3110);
 		newDebugRect -> set_y(-170);
 		newDebugRect -> set_w(360);
 		newDebugRect -> set_h(690);*/
+	}
+	
+	if ( bigPen )
+	{
+		AddCircle ( -side*3020 , -170 , 110 );
+		
+		AddCircle ( -side*3020 , 180 , 110 );
+		
+		AddRectangle ( -side*3110 , -170 , 119 , 36 );
 	}
 	
 	/*if (robot_num == 0) {

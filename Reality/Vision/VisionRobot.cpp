@@ -5,7 +5,7 @@ const float IGNORE_PREDICTION = 0.045f;
 
 // If the filtering process yields velocities above these values, reset the filter state
 // All these are in metres/sec
-const float BALL_ERROR_VELOCITY_SQUARED   = 1400000.0f;
+const float BALL_ERROR_VELOCITY_SQUARED   = 1960000.0f;
 const float OPPONENT_ERROR_VELOCITY_SQUARED = 200000.0f;
 
 #include <fstream>
@@ -36,8 +36,12 @@ void VisionModule::ProcessRobots ( WorldState * state )
 	FilterRobots ( robots_num , ! ( setting -> color ) );
 	
 	//We're almost done, only Prediction remains undone!
-	predictRobotsForward ( state );
-	
+	//predictRobotsForward ( state );
+	//RunANN(state);
+	//PredictWithANN(state);
+	//TrainANN(0.05f);
+	RunANN(state);
+		
 	//Now we send Robots States to the AI!
 	SendStates ( state );
 	
@@ -127,8 +131,8 @@ void VisionModule::FilterRobots ( int num , bool own )
 				
 				robot_kalman[own][i].updatePosition ( filtpos , filtout );
 				
-				if ( robot[j].robot_id() == 2 )
-					robot[j].set_orientation ( robot[j].orientation() +0.12);
+				//if ( robot[j].robot_id() == 5 )
+					//robot[j].set_orientation ( robot[j].orientation() + 0.135 );
 				
 				AngleFilter[own][i].AddData ( ( robot[j].orientation ( ) - rawAngles[own][i] ) * 61.0f );
 				rawAngles[0][i] = robot[j].orientation ( );
@@ -161,11 +165,16 @@ void VisionModule::FilterRobots ( int num , bool own )
 			//robotState[own][i].Angle = 0.0f;
 			robotState[own][i].AngularVelocity = 0.0f;
 			
-			robotState[own][i].velocity.x = 0.0f;
-			robotState[own][i].velocity.y = 0.0f;
+			//robotState[own][i].velocity.x = 0.0f;
+			//robotState[own][i].velocity.y = 0.0f;
 			
-			robotState[own][i].velocity.direction = 0.0f;
-			robotState[own][i].velocity.magnitude = 0.0f;
+			//robotState[own][i].velocity.direction = 0.0f;
+			//robotState[own][i].velocity.magnitude = 0.0f;
+			
+			//robotState[own][i].Position.X += robotState[own][i].velocity.x / 61.0;
+			//robotState[own][i].Position.Y += robotState[own][i].velocity.y / 61.0;
+			
+			//}
 		}
 		
 		else
@@ -209,8 +218,8 @@ void VisionModule::FilterRobots ( int num , bool own )
 }
 
 void VisionModule::predictRobotsForward( WorldState * state )
-{   
-	for ( int own = 0 ; own < 2 ; own ++ )
+{  
+	for ( int own = 1 ; own < 2 ; own ++ )
 	{
 		for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
 		{
@@ -223,7 +232,7 @@ void VisionModule::predictRobotsForward( WorldState * state )
 			//====================================
 			//====================================
 			// Predict the robot to go forward
-			if ( ( i == 0 ) || ( i == 4 ) )
+			/*if ( ( i == 0 ) || ( i == 4 ) )
 			{
 				robotState[own][i].Position.X = robotState[own][i].Position.X + robotState[own][i].velocity.x / ( PREDICT_STEPS * 2.0f );
 				
@@ -232,7 +241,7 @@ void VisionModule::predictRobotsForward( WorldState * state )
 				
 				// Predict the robot to go forward
 				//robotState[own][i].Angle = robotState[own][i].Angle + robotState[own][i].AngularVelocity / ( PREDICT_STEPS * 4.0f );
-			}
+			}*/
 			
 			//====================================
 			//====================================
@@ -242,6 +251,15 @@ void VisionModule::predictRobotsForward( WorldState * state )
 			 robotState[own][i].velocity.x *= (float)(1000.0);
 			 robotState[own][i].velocity.y *= (float)(1000.0);*/
 			
+			robotState[own][i].Position.X = robotState[own][i].Position.X + robotState[own][i].velocity.x / ( PREDICT_STEPS * 2.0f );
+			
+			// Predict the robot to go forward
+			robotState[own][i].Position.Y = robotState[own][i].Position.Y + robotState[own][i].velocity.y / ( PREDICT_STEPS * 2.0f );
+			
+			// Predict the robot to go forward
+			robotState[own][i].Angle = robotState[own][i].Angle + robotState[own][i].AngularVelocity / ( PREDICT_STEPS * 4.0f );
+
+			
 		}
 	}
 	
@@ -249,8 +267,8 @@ void VisionModule::predictRobotsForward( WorldState * state )
 	{
 		for ( int j = 0 ; j < 10 ; j ++ )
 		{
-			robotState[0][i].Position.X = robotState[0][i].Position.X + state -> lastCMDS[i][j].X / 2.0f;
-			robotState[0][i].Position.Y = robotState[0][i].Position.Y + state -> lastCMDS[i][j].Y / 2.0f;
+			robotState[0][i].Position.X = robotState[0][i].Position.X + state -> lastCMDS[i][j].X / 1.2f;
+			robotState[0][i].Position.Y = robotState[0][i].Position.Y + state -> lastCMDS[i][j].Y / 1.2f;
 			//if (( i == 3 ) )
 			//	robotState[0][i].Angle = robotState[0][i].Angle - state -> lastCMDS[i][j].Z * 0.04f;
 		}

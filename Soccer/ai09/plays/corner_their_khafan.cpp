@@ -18,9 +18,10 @@ void ai09::corner_their_khafan ( void )
 	if ( ( defenderMarching ) && ( playingAgainstSkuba ) )
 	{
 		GK(gk, 1);
-		TwoDef(def1, def2, &OppRobot[marchingDefender].Position);
-		ERRTNavigate2Point ( passgir , PointOnConnectingLine ( OppRobot[marchingDefender].Position , Vec2 ( side*2995 , 0 ) , 320.0f ) );
-		DefenceWall(attack, 30);
+		TwoDef(def, dmf, &OppRobot[marchingDefender].Position);
+		Halt(lmf);
+		ERRTNavigate2Point ( rmf , PointOnConnectingLine ( OppRobot[marchingDefender].Position , Vec2 ( side*2995 , 0 ) , 320.0f ) );
+		DefenceWall(attack);
 	}
 	
 	else
@@ -60,7 +61,7 @@ void ai09::corner_their_khafan ( void )
 			else
 			{
 				GK(gk,1);
-				DefenceWall(attack, 30);
+				DefenceWall(attack);
 				
 				if ( fabs(OppRobot[attackerGogshe].Position.Y) < fabs(OppRobot[attackerVasat].Position.Y) )
 				{
@@ -68,13 +69,14 @@ void ai09::corner_their_khafan ( void )
 					attackerVasat = attackerGogshe;
 					attackerGogshe = tmp;
 				}
-				TwoDef(def1, def2, &OppRobot[attackerVasat].Position);
+				TwoDef(def, dmf, &OppRobot[attackerVasat].Position);
+				Halt(lmf);
 				
-				ERRTSetObstacles ( passgir , 1 );
+				ERRTSetObstacles ( rmf , 1 );
 				if ( fabs(OppRobot[attackerGogshe].Position.X) > 2500 )
-					ERRTNavigate2Point ( passgir , PointOnConnectingLine ( OppRobot[attackerGogshe].Position , Vec2 ( side*2995 , 0 ) , 220.0f ) );
+					ERRTNavigate2Point ( rmf , PointOnConnectingLine ( OppRobot[attackerGogshe].Position , Vec2 ( side*2995 , 0 ) , 220.0f ) );
 				else
-					ERRTNavigate2Point ( passgir , PointOnConnectingLine ( OppRobot[attackerGogshe].Position , Vec2 ( side*2995 , 0 ) , 520.0f ) );			}
+					ERRTNavigate2Point ( rmf , PointOnConnectingLine ( OppRobot[attackerGogshe].Position , Vec2 ( side*2995 , 0 ) , 520.0f ) );			}
 		}
 		else if ( attackingOpps >= 3 )
 		{
@@ -88,7 +90,7 @@ void ai09::corner_their_khafan ( void )
 			else
 			{
 				GK(gk,1);
-				DefenceWall(attack, 30);
+				DefenceWall(attack);
 				
 				if ( fabs(OppRobot[attackerVasat2].Position.Y) < fabs(OppRobot[attackerVasat1].Position.Y) )
 				{
@@ -111,11 +113,13 @@ void ai09::corner_their_khafan ( void )
 					attackerVasat2 = tmp;
 				}
 				
-				ERRTSetObstacles ( passgir , 1 );
+				Halt(lmf);
+				
+				ERRTSetObstacles ( rmf , 1 );
 				if ( fabs(OppRobot[attackerGogshe].Position.X) > 2500 )
-					ERRTNavigate2Point ( passgir , PointOnConnectingLine ( OppRobot[attackerGogshe].Position , Vec2 ( side*2995 , 0 ) , 220.0f ) );
+					ERRTNavigate2Point ( rmf , PointOnConnectingLine ( OppRobot[attackerGogshe].Position , Vec2 ( side*2995 , 0 ) , 220.0f ) );
 				else
-					ERRTNavigate2Point ( passgir , PointOnConnectingLine ( OppRobot[attackerGogshe].Position , Vec2 ( side*2995 , 0 ) , 520.0f ) );
+					ERRTNavigate2Point ( rmf , PointOnConnectingLine ( OppRobot[attackerGogshe].Position , Vec2 ( side*2995 , 0 ) , 520.0f ) );
 				
 				if ( OppRobot[attackerVasat2].Position.Y < OppRobot[attackerVasat1].Position.Y )
 				{
@@ -124,8 +128,8 @@ void ai09::corner_their_khafan ( void )
 					attackerVasat2 = tmp;
 				}
 				
-				OneDef ( def1 , &OppRobot[attackerVasat2].Position );
-				OneDef ( def2 , &OppRobot[attackerVasat1].Position );
+				OneDef ( def , &OppRobot[attackerVasat2].Position );
+				OneDef ( dmf , &OppRobot[attackerVasat1].Position );
 			}
 		}
 		/*else if ( attackingOpps == 4 )

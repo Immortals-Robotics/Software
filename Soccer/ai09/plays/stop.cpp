@@ -2,21 +2,40 @@
 #include <iostream>
 using namespace std;
 
-void ai09::Stop ( int gk , int def , int wall1 , int wall2 , int wall3 )
+#include <vector>
+
+void ai09::Stop ( void )
 {
-	GK ( gk , 1 );
-	OneDef ( def , NULL , true );
-	//TwoDef ( def , wall1 );
-
-	ERRTSetObstacles ( wall1 , true , true , true , true );
-	OwnRobot[wall1].face(Vec2(ball.Position.X,ball.Position.Y));
-	ERRTNavigate2Point ( wall1 , CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(-20+AngleWith(ball.Position , Vec2(side*3025,0))),590) ,0 , 40,&VELOCITY_PROFILE_AROOM);	
+	if (timer.time()<0.5) {
+		if ( side * OwnRobot[rmf].State.Position.Y < side * OwnRobot[lmf].State.Position.Y )
+		{ 
+			swap(rmf, lmf);
+		}
+	}
+	GK_Ghuz( gk , 1 , true );
+	DefGhuz(def,NULL, true);
 	
-	ERRTSetObstacles ( wall2 , true , true , true , true );
-	OwnRobot[wall2].face(Vec2(ball.Position.X,ball.Position.Y));
-	ERRTNavigate2Point ( wall2 , CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(20+AngleWith(ball.Position , Vec2(side*3025,0))),590) ,0 , 40,&VELOCITY_PROFILE_AROOM);
+	//GK (gk , 1 , true );
+	//OneDef(def1,NULL, true);
 
-	ERRTSetObstacles ( wall3 , true , true , true , true );
-	OwnRobot[wall3].face(Vec2(ball.Position.X,ball.Position.Y));
-	ERRTNavigate2Point ( wall3 , CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(AngleWith(ball.Position , Vec2(side*3025,0))),580) ,0 , 40,&VELOCITY_PROFILE_AROOM);
+	//TwoDef ( def1 , def2 , NULL );
+	//TwoDef ( def , wall1 );
+	
+	ERRTSetObstacles ( dmf , true , true , true , true );
+	OwnRobot[dmf].face(ball.Position);
+	ERRTNavigate2Point ( dmf , PointOnConnectingLine(ball.Position, Vec2(side*3025, 0), DIS(ball.Position, Vec2(side*3025, 0))/3.0f) ,0 , 40,&VELOCITY_PROFILE_AROOM);
+	
+
+	ERRTSetObstacles ( lmf , true , true , true , true );
+	OwnRobot[lmf].face(Vec2(ball.Position.X,ball.Position.Y));
+	ERRTNavigate2Point ( lmf , CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(-20+AngleWith(ball.Position , Vec2(side*3025,0))),590) ,0 , 40,&VELOCITY_PROFILE_AROOM);	
+	
+	ERRTSetObstacles ( rmf , true , true , true , true );
+	OwnRobot[rmf].face(Vec2(ball.Position.X,ball.Position.Y));
+	ERRTNavigate2Point ( rmf , CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(20+AngleWith(ball.Position , Vec2(side*3025,0))),590) ,0 , 40,&VELOCITY_PROFILE_AROOM);
+
+	ERRTSetObstacles ( cmf , true , true , true , true );
+	OwnRobot[cmf].face(Vec2(ball.Position.X,ball.Position.Y));
+	ERRTNavigate2Point ( cmf , CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(AngleWith(ball.Position , Vec2(side*3025,0))),580) ,0 , 40,&VELOCITY_PROFILE_AROOM);
+	//side=-side;
 }
