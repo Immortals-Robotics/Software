@@ -32,7 +32,7 @@
   #include <netinet/in.h>      // For sockaddr_in
   typedef void raw_type;       // Type used for raw data on this platform
 #endif
-
+#include <cstdlib>
 #include <errno.h>             // For errno
 
 using namespace std;

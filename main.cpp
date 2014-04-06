@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include <omp.h>
+#include <thread>
 #include <unistd.h>
 #include <string.h>
 #include <ncurses.h>
@@ -135,19 +135,16 @@ int main ( )
 	
 	int tid;
 	bool exited = false;
-	omp_lock_t lock;
-	omp_init_lock(&lock);
-	omp_set_num_threads(4);
-#pragma omp parallel private(tid) shared(exited)
-	{
-		tid = omp_get_thread_num();
-		if ( tid == 0 )
+	mutex lock;
+
+
+		auto ai_func = [&]()
 		{
 			while ( (! kbhit()) && ( ImmortalsIsTheBest ) )	//Hope it lasts Forever...
 			{
 				timer.start();
 				
-				omp_set_lock ( &lock );
+				lock.lock();
 				vision.ProcessVision ( state );
 				//sleep(1);
 				//while (timer.time()*1000.0f<16.6f);//DELAY(100000);
@@ -157,7 +154,7 @@ int main ( )
 				//cout << timer.time() * 1000.0 << endl;
 				
 				vision.SendGUIData ( state , aii -> AIDebug );
-				omp_unset_lock ( &lock );
+				lock.unlock();
 				
 				cout << 1.0/timer.interval() << endl;
 				
@@ -166,22 +163,22 @@ int main ( )
 			exited = true;
 			commUDP.sendTo ( zeros , 10 , "localhost" , 60001 );
 			commUDP.sendTo ( zeros , 1 , "localhost" , 60006 );
-		}
-		if ( tid == 1 )
+		};
+		auto ref_func = [&]()
 		{
 			while ( ( !exited ) && (! kbhit()) && ( ImmortalsIsTheBest ) )	//Hope it lasts Forever...
 			{
 				if ( referee.recieve() )
 				{
 					//cout << "Referre Boz" << endl;
-					omp_set_lock ( &lock );
+					lock.lock();
 					referee.process ( state );
-					omp_unset_lock ( &lock );
+					lock.unlock();
 					//cout << "Referre Boz" << endl;
 				}
 			}
-		}
-		if ( tid == 2 )
+		};
+		auto sharifcup_func = [&]()
 		{
 			UDPSocket* blobUDP = new UDPSocket(60022);
 			blobUDP -> joinGroup("224.5.33.35");
@@ -193,13 +190,13 @@ int main ( )
 				string blobSrcAdd;
 				unsigned short blobSrcPort;
 				int blobSize = blobUDP->recvFrom(blobBuffer, blobBufferMaxSize, blobSrcAdd, blobSrcPort);
-				omp_set_lock ( &lock );
+				lock.lock();
 				lhp_frame->ParseFromArray(blobBuffer, blobSize);
-				omp_unset_lock ( &lock );
+				lock.unlock();
 				cout << "	XXXXXXXXXXXXXXXXXXXXXXXXXXXX: " << lhp_frame->blob_size() << endl;
 			}
-		}
-		if ( tid == 3 )
+		};
+		auto str_func = [&]()
 		{
 			UDPSocket* strategyUDP = new UDPSocket(60006);
 			strategyUDP -> joinGroup("224.5.23.3");
@@ -213,9 +210,9 @@ int main ( )
 				if ( strategySize > 11 )
 				{
 					cout << "Recieved \"strategy.ims\" with size: " << float(strategySize)/1000.0f << " KB, from " << strategySrcAdd << " on port " << strategySrcPort << "." << endl;
-					omp_set_lock ( &lock );
+					lock.lock();
 					dynamic_cast<ai09*>(aii)->read_playBook_str(strategyBuffer, strategySize);
-					omp_unset_lock ( &lock );
+					lock.unlock();
 					ofstream strategyFile ( "../../strategy.ims" , ios::out|ios::binary);
 					strategyFile.write(strategyBuffer, strategySize);
 					strategyFile.close();
@@ -260,9 +257,18 @@ int main ( )
 				}
 
 			}
-		}
-	}
+		};
+    
+    thread ai_thread(ai_func);
+    thread ref_thread(ref_func);
+    //thread sharifcup_thread(sharifcup_func);
+    thread str_thread(str_func);
 	
+    ai_thread.join();
+    ref_thread.join();
+    //sharifcup_thread.join();
+    str_thread.join();
+    
 	changemode(0);
 	
 	delete setting;

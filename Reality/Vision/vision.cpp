@@ -4,7 +4,6 @@
 
 #include <fstream>
 using namespace std;
-extern ofstream* nikRastKarde;
 
 VisionSetting * _visionSetting ( bool _color , std::string _UDP_Adress , short _LocalPort , std::string _GUI_Adress , short _GUIPort , bool _use_camera0 , bool _use_camera1 )
 {
@@ -70,10 +69,6 @@ VisionModule::VisionModule ( VisionSetting * _setting ) : connected ( false )
 }
 VisionModule::~VisionModule()
 {
-	if ( nikRastKarde )
-	{
-		nikRastKarde->close();
-	}
 }
 
 void VisionModule::ProcessVision ( WorldState * state )
