@@ -2,6 +2,8 @@
 
 void ai09::internalProcessData ( WorldState * worldState , GameSetting * setting )
 {
+    this -> oppGK = worldState -> oppGK;
+    
 	this->ball = worldState -> ball;
 	if ( ball.seenState != CompletelyOut )
 		this->ballHist.push_back(this->ball);

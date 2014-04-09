@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		097C9BDC18F529900086F270 /* referee_new.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 097C9BDA18F529900086F270 /* referee_new.cpp */; };
+		097C9BE018F531B60086F270 /* referee.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 097C9BDD18F531B60086F270 /* referee.pb.cc */; };
 		8DD76F6A0486A84900D96B5E /* RoboCup11.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C6859E8B029090EE04C91782 /* RoboCup11.1 */; };
 		A50570E8152E53C300617E29 /* NewNormalPlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A50570E7152E53C300617E29 /* NewNormalPlay.cpp */; };
 		A50570EC152E54C600617E29 /* CalcIsDefending.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A50570EB152E54C600617E29 /* CalcIsDefending.cpp */; };
@@ -149,6 +151,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		097C9BDA18F529900086F270 /* referee_new.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = referee_new.cpp; sourceTree = "<group>"; };
+		097C9BDB18F529900086F270 /* referee_new.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = referee_new.h; sourceTree = "<group>"; };
+		097C9BDD18F531B60086F270 /* referee.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = referee.pb.cc; sourceTree = "<group>"; };
+		097C9BDE18F531B60086F270 /* referee.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = referee.pb.h; sourceTree = "<group>"; };
+		097C9BDF18F531B60086F270 /* referee.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = referee.proto; sourceTree = "<group>"; };
 		8DD76F6C0486A84900D96B5E /* RoboCup11 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = RoboCup11; sourceTree = BUILT_PRODUCTS_DIR; };
 		A50570E7152E53C300617E29 /* NewNormalPlay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NewNormalPlay.cpp; sourceTree = "<group>"; };
 		A50570EB152E54C600617E29 /* CalcIsDefending.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CalcIsDefending.cpp; sourceTree = "<group>"; };
@@ -427,6 +434,8 @@
 				A51B53E513B549A30073486E /* game_state.h */,
 				A51B53E613B549A30073486E /* referee.cpp */,
 				A51B53E713B549A30073486E /* referee.h */,
+				097C9BDA18F529900086F270 /* referee_new.cpp */,
+				097C9BDB18F529900086F270 /* referee_new.h */,
 			);
 			path = Referee;
 			sourceTree = "<group>";
@@ -660,6 +669,9 @@
 		A5E2C7C613B5D49A004A4110 /* Protobuf */ = {
 			isa = PBXGroup;
 			children = (
+				097C9BDD18F531B60086F270 /* referee.pb.cc */,
+				097C9BDE18F531B60086F270 /* referee.pb.h */,
+				097C9BDF18F531B60086F270 /* referee.proto */,
 				A5C4DC2B17F242EE00938356 /* messages_blob.pb.cc */,
 				A5C4DC2C17F242EE00938356 /* messages_blob.pb.h */,
 				A5C4DC2D17F242EE00938356 /* messages_blob.proto */,
@@ -808,11 +820,13 @@
 				A5D6F18613BD103A00977D97 /* backPass.cpp in Sources */,
 				A5DF0C1113C39AEF00AB2F63 /* aidebug.pb.cc in Sources */,
 				A5DF0D8813C4B01100AB2F63 /* obstacle.cpp in Sources */,
+				097C9BE018F531B60086F270 /* referee.pb.cc in Sources */,
 				A5DF0EC913C512CA00AB2F63 /* corner_simple_pass.cpp in Sources */,
 				A5DF0ED713C523A800AB2F63 /* corner_switch_pass.cpp in Sources */,
 				A5DF0EDB13C524D400AB2F63 /* kickoff_us_chip.cpp in Sources */,
 				A5DF0EE913C5268800AB2F63 /* kickoff_us_pass.cpp in Sources */,
 				A5DF0EED13C5274800AB2F63 /* ai09.cpp in Sources */,
+				097C9BDC18F529900086F270 /* referee_new.cpp in Sources */,
 				A5DF0EFB13C52A1100AB2F63 /* throwin_chip_shoot.cpp in Sources */,
 				A5DF0F0813C52D2100AB2F63 /* kickoff_their_one_wall.cpp in Sources */,
 				A5DF0F0C13C52DC400AB2F63 /* penalty_their_simple.cpp in Sources */,

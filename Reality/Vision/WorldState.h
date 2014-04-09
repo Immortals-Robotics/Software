@@ -95,4 +95,6 @@ struct WorldState
 	TVec3 lastCMDS[MAX_ROBOTS][11];
 
 	RefereeState refereeState;
+    
+    int oppGK;
 };

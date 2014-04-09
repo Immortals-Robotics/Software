@@ -8,6 +8,7 @@
 #include "GameSetting.h"
 #include "Vision.h"
 #include "referee.h"
+#include "referee_new.h"
 #include "serial.h"
 #include "ai09.h"
 #include "kbhit.h"
@@ -45,6 +46,8 @@ void initWorldState ( WorldState * state )
 	
 	state -> ownRobots_num = 0;
 	state -> oppRobots_num = 0;
+    
+    state -> oppGK = -1;
 	
 	for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
 	{
@@ -85,13 +88,22 @@ int main ( )
 	initWorldState ( state );
 	
 	Referee referee;
+    NewReferee newReferee;
 	
-	referee.init ( "224.5.23.1" , 10001 , setting -> visionSetting -> color );
+	referee.init ( "224.5.23.1" , 60100 , setting -> visionSetting -> color );
 	cout << " Connecting to RefereeBox server at " << "224.5.23.1" << " , on port : 10001 " << endl;
 	if ( !referee.connect ( ) )
 	{
 		cout << "	Hey you! Put the LAN cable back in its socket, or ..." << endl;
 	}
+    
+    
+    /*newReferee.init ( "224.5.23.1" , 10003 , setting -> visionSetting -> color );
+	cout << " Connecting to NEW RefereeBox server at " << "224.5.23.1" << " , on port : 10003 " << endl;
+	if ( !newReferee.connect ( ) )
+	{
+		cout << "	Hey you! Put the LAN cable back in its socket, or ..." << endl;
+	}*/
 	
 	cout << " Connecting to SSL-Vision server at " << "224.5.23.2" << " , on port : 10002 " << endl;
 	VisionModule vision ( setting -> visionSetting );
@@ -178,6 +190,24 @@ int main ( )
 				}
 			}
 		};
+    
+    
+    /*auto new_ref_func = [&]()
+    {
+        while ( ( !exited ) && (! kbhit()) && ( ImmortalsIsTheBest ) )	//Hope it lasts Forever...
+        {
+            if ( newReferee.recieve() )
+            {
+                //cout << "Referre Boz" << endl;
+                lock.lock();
+                newReferee.process ( state );
+                cout << "OPP GK IS: " << newReferee.oppGK << endl;
+                lock.unlock();
+                //cout << "Referre Boz" << endl;
+            }
+        }
+    };*/
+    
 		auto sharifcup_func = [&]()
 		{
 			UDPSocket* blobUDP = new UDPSocket(60022);
@@ -261,11 +291,13 @@ int main ( )
     
     thread ai_thread(ai_func);
     thread ref_thread(ref_func);
+    //thread new_ref_thread(new_ref_func);
     //thread sharifcup_thread(sharifcup_func);
     thread str_thread(str_func);
 	
     ai_thread.join();
     ref_thread.join();
+    //new_ref_thread.join();
     //sharifcup_thread.join();
     str_thread.join();
     

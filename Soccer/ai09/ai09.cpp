@@ -97,12 +97,12 @@ ai09::ai09 ( ):maxBallHist(240)
 		OwnRobot[i].set_vision_id(i+1);
 		//OwnRobot[i].set_serial_id(VisionSerialTrans[i]);
 	}
-	OwnRobot[gk].set_vision_id(1);
-	OwnRobot[def].set_vision_id(5);
-	OwnRobot[dmf].set_vision_id(3);
-	OwnRobot[lmf].set_vision_id(4);
-	OwnRobot[rmf].set_vision_id(0);
-	OwnRobot[cmf].set_vision_id(2);
+	OwnRobot[gk].set_vision_id(5);
+	OwnRobot[def].set_vision_id(8);
+	OwnRobot[dmf].set_vision_id(1);
+	OwnRobot[lmf].set_vision_id(9);
+	OwnRobot[rmf].set_vision_id(6);
+	OwnRobot[cmf].set_vision_id(4);
 	
 	chip_head = 200;
 	
@@ -118,8 +118,8 @@ ai09::ai09 ( ):maxBallHist(240)
 	VELOCITY_PROFILE_AROOM.max_w_dec = 140.0f;
 	
 	VELOCITY_PROFILE_MAMOOLI.max_spd = Vec2 ( 60.0f );
-	VELOCITY_PROFILE_MAMOOLI.max_dec = Vec2 ( 2.7f );
-	VELOCITY_PROFILE_MAMOOLI.max_acc = Vec2 ( 2.3f );
+	VELOCITY_PROFILE_MAMOOLI.max_dec = Vec2 ( 2.8f );
+	VELOCITY_PROFILE_MAMOOLI.max_acc = Vec2 ( 2.4f );
 	VELOCITY_PROFILE_MAMOOLI.max_w_acc = 40.0f;
 	VELOCITY_PROFILE_MAMOOLI.max_w_dec = 140.0f;
 

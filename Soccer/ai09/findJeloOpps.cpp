@@ -5,6 +5,8 @@ int ai09::findJeloOpps ( float minX , int* ans , int mask1 , int mask2 , bool ac
 	int index = 0;
 	for ( int i = 0 ; i < 12 ; i ++ )
 	{
+        if ( i == oppGK )
+            continue;
 		if ( i == mask1 || i == mask2 )
 			continue;
 		if ( OppRobot[i].seenState == CompletelyOut )

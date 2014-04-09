@@ -38,6 +38,8 @@ class ai09 : public aiBase
 	int VisionSerialTrans[12];
 	
 	float penaltyAngle;
+    
+    int oppGK;
 	
 	bool playingAgainstSkuba;
 	int marchingDefender;

@@ -24,7 +24,7 @@ void ai09::NormalPlayAtt ( void )
 	}
 	else {
 		float shootAngle = NormalizeAngle( 180+calculateOpenAngleToGoal(ball.Position, attack).X);
-		float shoot_pow = 100;
+		float shoot_pow = 140;
 		if (DIS(OwnRobot[attack].State.Position,ball.Position) > 400 ) {
 			shoot_pow = 1;
 		}

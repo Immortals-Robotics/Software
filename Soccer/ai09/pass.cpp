@@ -53,7 +53,7 @@ void ai09::WaitForPass ( int robot_num , bool chip , TVec2* target , TVec2* stat
 			OwnRobot[robot_num].Chip( 60 );
 		}
 		else
-			OwnRobot[robot_num].Shoot( 100 );
+			OwnRobot[robot_num].Shoot( 150 );
 	}
 	else
 	{

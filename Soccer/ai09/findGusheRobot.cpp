@@ -28,6 +28,8 @@ int ai09::findGusheRobot ( int mask )
 	{
 		if ( i == mask )
 			continue;
+        if ( i == oppGK )
+            continue;
 		if ( OppRobot[i].seenState == CompletelyOut )
 			continue;
 		if ( ( fabs ( OppRobot[i].Position.X ) > 3025 ) ||

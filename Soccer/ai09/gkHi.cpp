@@ -30,7 +30,7 @@ void ai09::GKHi ( int robot_num , int defence_num , bool stop )
 		my_hys = 0;
 	
 		ERRTSetObstacles ( robot_num , false , true , false , false , false );
-		if ( ( IsInObstacle ( Vec2 ( world2mapX(ball.Position.X),world2mapY(ball.Position.Y) ) ) ) && ( ball.velocity.magnitude < 1000 ) && (!stop) && (side*ball.Position.X<3025) && (fabs(ball.Position.Y)<1200.0f) )
+		if ( ( IsInObstacle ( Vec2 ( world2mapX(ball.Position.X),world2mapY(ball.Position.Y) ) ) ) && ( ball.velocity.magnitude < 1000 ) && (!stop) && (side*ball.Position.X<3025) && (timer.time()>1.0f) && (fabs(ball.Position.Y)<1200.0f) )
 		{
 			gkIntercepting = true;
 
