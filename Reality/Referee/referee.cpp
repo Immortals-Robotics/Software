@@ -77,12 +77,14 @@ void Referee::process ( WorldState * state )
 bool Referee::IsKicked ( TVec2 ballPos )
 {
 	int requiredHys = 5;
+    float requiredDis = 50.0f;
 	if (gameState) {
 		if (gameState->ourRestart()) {
 			requiredHys = 5;
+            requiredDis = 150.0f;
 		}
 	}
-	if ( DIS ( ballPos , LastPlacedBall ) > 50 )
+	if ( DIS ( ballPos , LastPlacedBall ) > requiredDis )
 	{
 		move_hys ++;
 	}

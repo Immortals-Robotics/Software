@@ -31,7 +31,7 @@ void ai09::WaitForOmghi ( int robot_num , bool chip )
 	
 	ERRTSetObstacles ( robot_num );
 	
-	target = CalculatePassPos(robot_num,Vec2(-side*3025, 0), -200);
+	target = CalculatePassPos(robot_num,Vec2(-side*3025, 0), OwnRobot[robot_num].State.Position, -200);
 	
 	cout << "sBAR:	" << sBAR << endl;
 	ERRTNavigate2Point ( robot_num , target , 0 , sBAR , &VELOCITY_PROFILE_KHARAKI);

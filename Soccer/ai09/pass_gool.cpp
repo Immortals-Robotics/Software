@@ -2,7 +2,7 @@
 
 void ai09::WaitForGool ( int robot_num , bool chip )
 {
-	TVec2 pos = CalculatePassPos(robot_num,Vec2(-side*3025, 0),-1600);
+	TVec2 pos = CalculatePassPos(robot_num,Vec2(-side*3025, 0),OwnRobot[robot_num].State.Position,-1600);
 	
 	OwnRobot[robot_num].face(Vec2(-side*3025, 0));
 	

@@ -23,13 +23,15 @@ ball_circling_state (*state_func[6])( int robot_num , float tagret_angle , int c
 	&circle_ball_kick};*/
 	
 
-void ai09::circle_ball ( int robot_num , float tagret_angle , int shoot_pow , int chip_pow , float precision )
+void ai09::circle_ball ( int robot_num , float tagret_angle , int shoot_pow , int chip_pow , float precision , float near_dis_override )
 {
 	//tagret_angle -= 5;
 	const float very_far_ball_dis = 600.0f;
 	const float far_ball_dis = 150.0f;
 	const int far_to_near_hys = 5;
-	const float near_ball_dis = 140.0f;
+    float near_ball_dis = 140.0f;
+    if ( near_dis_override > 0 )
+        near_ball_dis = near_dis_override;
 	const float near_angle_tol = 4.0f;
 	const int near_to_kick_hys = 3;
 	const float shmit_coeff = 1.2f;
@@ -92,7 +94,10 @@ void ai09::circle_ball ( int robot_num , float tagret_angle , int shoot_pow , in
 		OwnRobot[robot_num].target.Angle = NormalizeAngle(OwnRobot[robot_num].target.Angle);
 		ERRTSetObstacles(robot_num, 0, 1, 1, 1, 0, 1);
 		TVec2 target_point = CircleAroundPoint(ball.Position, newToRobot, near_ball_dis/cosDeg(deltaAngle));
-		ERRTNavigate2Point(robot_num, target_point, 1, 20, &VELOCITY_PROFILE_MAMOOLI);
+        if ( near_dis_override > 0 )
+            ERRTNavigate2Point(robot_num, target_point, 1, 20, &VELOCITY_PROFILE_AROOM);
+        else
+            ERRTNavigate2Point(robot_num, target_point, 1, 20, &VELOCITY_PROFILE_MAMOOLI);
 		
 		if (DIS(OwnRobot[robot_num].State.Position, ball.Position) > far_ball_dis*shmit_coeff) {
 			state = far;
@@ -114,9 +119,9 @@ void ai09::circle_ball ( int robot_num , float tagret_angle , int shoot_pow , in
 	
 	else if (state == kick) {
 		if (chip_pow>0) {
-			//chip_head = OwnRobot[robot_num].State.Angle;
+			chip_head = OwnRobot[robot_num].State.Angle;
 		}
-		/*//OwnRobot[robot_num].face(ball.Position);
+		//OwnRobot[robot_num].face(ball.Position);
 		OwnRobot[robot_num].target.Angle=NormalizeAngle(tagret_angle+180.0f);
 		ERRTSetObstacles(robot_num, 0, 1, 1, 1, 0, 1);
 		ERRTNavigate2Point(robot_num, ball.Position, 1, 100, &VELOCITY_PROFILE_AROOM);
@@ -124,8 +129,8 @@ void ai09::circle_ball ( int robot_num , float tagret_angle , int shoot_pow , in
 			OwnRobot[robot_num].Shoot(shoot_pow);
 		if ( chip_pow > 0 )
 			OwnRobot[robot_num].Chip(chip_pow);
-		AddDebugCircle(ball.Position,very_far_ball_dis-90.0f,Red);*/
-		tech_circle(robot_num, tagret_angle, shoot_pow, chip_pow, 1, 1, 0, 0);
+		AddDebugCircle(ball.Position,very_far_ball_dis-90.0f,Red);
+		//tech_circle(robot_num, tagret_angle, shoot_pow, chip_pow, 1, 1, 0, 0);
 		
 		if (DIS(OwnRobot[robot_num].State.Position, ball.Position) > near_ball_dis*shmit_coeff) {
 			state = far;

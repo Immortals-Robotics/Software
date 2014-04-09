@@ -105,7 +105,7 @@ void ai09::tech_khers_pass ( void )
 		}
 		
 		if (oneTouchDetector[it->first].IsArriving(40, 80)) {
-			TVec2 target = CalculatePassPos(it->first,OwnRobot[next_rcv].State.Position, 85);
+			TVec2 target = CalculatePassPos(it->first,OwnRobot[next_rcv].State.Position,OwnRobot[it->first].State.Position, 85);
 			//OwnRobot[it->first].face(ball.Position);
 			OwnRobot[it->first].face(OwnRobot[next_rcv].State.Position);
 			Navigate2Point(it->first, target);

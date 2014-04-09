@@ -2,12 +2,16 @@
 
 void ai09::recievePass ( int robot_num , TVec2 staticPos , bool chip )
 {
+    const float contStrStaticTime = 1.0f;
+    
 	//oneTouchType[robot_num] = oneTouch;
 	if (timer.time()>0.7) {
 		chip_head = 200;
 	}
-	if (oneTouchType[robot_num] == allaf)
+	if (oneTouchType[robot_num] == allaf )
 		staticPos = allafPos[robot_num];
+    if (oneTouchType[robot_num] == oneTouch && timer.time()<contStrStaticTime)
+        staticPos = allafPos[robot_num];
 	
 	if (timer.time()>2.5) {
 		oneTouchTypeUsed[robot_num] = true;
@@ -54,7 +58,10 @@ void ai09::recievePass ( int robot_num , TVec2 staticPos , bool chip )
 	else if ((oneTouchDetector[robot_num].IsArriving(angleTol, maxBallAngle))&&(oneTouchType[robot_num] != allaf)) {
 		oneTouchTypeUsed[robot_num] = true;
 		if (oneTouchType[robot_num] == oneTouch) {
-			WaitForPass(robot_num, chip);
+            if (timer.time()<contStrStaticTime)
+                WaitForPass(robot_num, chip,NULL,&staticPos);
+            else
+                WaitForPass(robot_num, chip);
 		}
 		else if (oneTouchType[robot_num] == shirje) {
 			//WaitForOmghi(robot_num,chip);

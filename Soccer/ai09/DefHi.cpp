@@ -29,7 +29,7 @@ void ai09::DefHi ( int robot_num , TVec2 * defendTarget , bool stop )
 	
 	ballAriving = oneTouchDetector[robot_num].IsArriving(40,80);
 	
-	TVec2 oneTouchPos = CalculatePassPos(robot_num,Vec2(-side*3025, 0));
+	TVec2 oneTouchPos = CalculatePassPos(robot_num,Vec2(-side*3025, 0),OwnRobot[robot_num].State.Position);
 	
 	if (DIS(oneTouchPos, target) < max_def_move_to_intercept ) {
 		oneTouchNear = true;

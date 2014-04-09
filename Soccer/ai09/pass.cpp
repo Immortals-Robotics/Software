@@ -1,6 +1,6 @@
 #include "ai09.h"
 
-TVec2 ai09::CalculatePassPos ( int robot_num , const TVec2& target , float bar )
+TVec2 ai09::CalculatePassPos ( int robot_num , const TVec2& target , const TVec2& statPos , float bar )
 {
 	Line ball_line = Line::makeLineFromPositionAndAngle ( VecPosition ( ball.Position.X , ball.Position.Y ) , ball.velocity.direction );
 	//Line ball_line ( 1.0 , -ballLine.getSlope() , -ballLine.getIntercept() );
@@ -10,18 +10,18 @@ TVec2 ai09::CalculatePassPos ( int robot_num , const TVec2& target , float bar )
 		cout << "	calcing with static head: " << chip_head << endl;
 	}
 	
-	float angleWithTarget = AngleWith(OwnRobot[robot_num].State.Position, target);
+	float angleWithTarget = AngleWith(statPos, target);
 	//angleWithTarget = OwnRobot[robot_num].State.Angle;
-	VecPosition ans = ball_line.getPointOnLineClosestTo ( VecPosition ( OwnRobot[robot_num].State.Position.X + bar * cosDeg ( angleWithTarget ) , OwnRobot[robot_num].State.Position.Y + bar * sinDeg ( angleWithTarget ) ) );
+	VecPosition ans = ball_line.getPointOnLineClosestTo ( VecPosition ( statPos.X + bar * cosDeg ( angleWithTarget ) , statPos.Y + bar * sinDeg ( angleWithTarget ) ) );
 	TVec2 fans = Vec2 (ans.getX() - bar * cosDeg ( angleWithTarget ) , ans.getY() - bar * sinDeg ( angleWithTarget ) );
 	AddDebugCircle(fans,90,Cornflower_Blue);
 	return fans;
 }
 
 
-void ai09::WaitForPass ( int robot_num , bool chip , TVec2* target )
+void ai09::WaitForPass ( int robot_num , bool chip , TVec2* target , TVec2* statPos )
 {
-	TVec2 pos = CalculatePassPos(robot_num,target==NULL?Vec2(-side*3025, 0):*target,95);
+	TVec2 pos = CalculatePassPos(robot_num,target==NULL?Vec2(-side*3025, 0):*target,statPos==NULL?OwnRobot[robot_num].State.Position:*statPos,95);
 	
 	/*if (target==NULL) {
 		target = new TVec2(Vec2(-side*3025, 0));

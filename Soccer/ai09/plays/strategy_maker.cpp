@@ -165,6 +165,10 @@ void ai09::strategy_maker ( void )
 				}*/
 
 			}
+            else if (step[i]==strategy.role(i).path_size()-2) {
+                float passAngle = AngleWith(Vec2(strategy.role(i).path(step[i]).x()*xSgn, strategy.role(i).path(step[i]).y()*ySgn),ball.Position);
+                circle_ball(*stm2AInum[i], passAngle, 0, 0, 1.0f,90.0f);
+            }
 			else {
 				float passAngle = AngleWith(Vec2(strategy.role(i).path(step[i]).x()*xSgn, strategy.role(i).path(step[i]).y()*ySgn),ball.Position);
 				//tech_circle(*stm2AInum[i], passAngle , 0, 0, 0, 1, 0, 0);
@@ -208,6 +212,10 @@ void ai09::strategy_maker ( void )
 				break;
 			case 1:
 				oneTouchType[*stm2AInum[i]] = oneTouch;
+                if (strategy.role(i).path_size()==0)
+                    allafPos[*stm2AInum[i]] = Vec2(0, 0);
+                else
+                    allafPos[*stm2AInum[i]] = Vec2( strategy.role(i).path(strategy.role(i).path_size()-1).x()*xSgn,strategy.role(i).path(strategy.role(i).path_size()-1).y()*ySgn );
 				break;
 			case 2:
 				oneTouchType[*stm2AInum[i]] = shirje;

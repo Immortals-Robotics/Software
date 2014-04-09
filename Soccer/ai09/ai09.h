@@ -110,7 +110,7 @@ class ai09 : public aiBase
 		TVec2 PointOnConnectingLine(TVec2 FirstPoint,TVec2 SecondPoint,float distance);
 		TVec2 GK_Ghuz ( void );
 		TVec2 DefGhuz ( TVec2 * defendTarget = NULL );
-		TVec2 CalculatePassPos ( int robot_num , const TVec2& target , float bar = 89.0f );
+		TVec2 CalculatePassPos ( int robot_num , const TVec2& target , const TVec2& statPos , float bar = 89.0f );
 		void CalculateBallTrajectory ( void );
 		float calculateRobotReachTime ( int robot_num , TVec2 dest , VelocityProfile* vel_profile );
 
@@ -161,13 +161,13 @@ class ai09 : public aiBase
 		void PenaltyUs ( int robot_num , float angle , int kick = 0 , int chip = 0 );
 		void DefenceWall ( int robot_num , bool kickOff = false );
 		void tech_circle ( int robot_num , float angle , int kick = 0 , int chip = 0 , bool needRRT = true , bool gameRestart = false , bool kiss = false , bool dribbler = false );
-		void WaitForPass ( int robot_num , bool chip = false , TVec2* target = NULL );
+		void WaitForPass ( int robot_num , bool chip = false , TVec2* target = NULL , TVec2* statPos = NULL );
 		void WaitForOmghi ( int robot_num , bool chip = false );
 		void WaitForGool ( int robot_num , bool chip = false );
 		void recievePass ( int robot_num , TVec2 staticPos , bool chip = false );
 		void backPass ( int robot_num , float target , float t );
 		void dribble ( int robot_num , TVec2 target );
-		void circle_ball ( int robot_num , float tagret_angle , int shoot_pow , int chip_pow , float precision );
+		void circle_ball ( int robot_num , float tagret_angle , int shoot_pow , int chip_pow , float precision, float near_dis_override = -1.0f );
 	
 
 
