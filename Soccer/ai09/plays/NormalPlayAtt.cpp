@@ -20,7 +20,7 @@ void ai09::NormalPlayAtt ( void )
 	else if ( ( ball.Position.X * side < -1300 ) && ( fabs ( ball.Position.Y ) > 1400 ) )
 	{
 		float passAngle = AngleWith ( Vec2 ( -side*1700 , -sgn ( ball.Position.Y ) * 1700 ) , ball.Position );
-		tech_circle(attack, passAngle, 0, 89, 1, 1, 0, 1);
+		tech_circle(attack, passAngle, 0, 65, 1, 1, 0, 1);
 	}
 	else {
 		float shootAngle = NormalizeAngle( 180+calculateOpenAngleToGoal(ball.Position, attack).X);

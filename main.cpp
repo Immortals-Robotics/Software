@@ -81,7 +81,7 @@ int main ( )
 	char rf_freq = 110;
 	
 	GameSetting * setting = new GameSetting ( );
-	setting -> visionSetting = _visionSetting ( COLOR_BLUE , "224.5.23.2" , 10002 , "224.5.66.6" , 10009 ,1,1);
+	setting -> visionSetting = _visionSetting ( COLOR_BLUE, "224.5.23.2" , 10002 , "224.5.66.6" , 10009 ,1,1);
 	setting -> side = Left;
 	
 	WorldState * state = new WorldState ( );
@@ -90,7 +90,7 @@ int main ( )
 	Referee referee;
     NewReferee newReferee;
 	
-	referee.init ( "224.5.23.1" , 60100 , setting -> visionSetting -> color );
+	referee.init ( "224.5.23.1" , 10001 , setting -> visionSetting -> color );
 	cout << " Connecting to RefereeBox server at " << "224.5.23.1" << " , on port : 10001 " << endl;
 	if ( !referee.connect ( ) )
 	{

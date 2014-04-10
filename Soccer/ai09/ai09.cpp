@@ -99,9 +99,9 @@ ai09::ai09 ( ):maxBallHist(240)
 	}
 	OwnRobot[gk].set_vision_id(5);
 	OwnRobot[def].set_vision_id(8);
-	OwnRobot[dmf].set_vision_id(1);
-	OwnRobot[lmf].set_vision_id(9);
-	OwnRobot[rmf].set_vision_id(6);
+	OwnRobot[dmf].set_vision_id(2);
+	OwnRobot[lmf].set_vision_id(6);
+	OwnRobot[rmf].set_vision_id(1);
 	OwnRobot[cmf].set_vision_id(4);
 	
 	chip_head = 200;

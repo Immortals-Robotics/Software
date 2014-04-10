@@ -2,10 +2,10 @@
 
 void ai09::corner_their_mrl ( void )
 {
-	//GKHi(gk, 1, 0);
-	ERRTSetObstacles(gk, 0, 0, 1, 0, 0, 0);
-	OwnRobot[gk].target.Angle = (1+side)*90.0f;
-	ERRTNavigate2Point(gk, Vec2(side*2900.0f, 0), 0, 100, &VELOCITY_PROFILE_MAMOOLI);
+	GKHi(gk, 1, 0);
+	//ERRTSetObstacles(gk, 0, 0, 1, 0, 0, 0);
+	//OwnRobot[gk].target.Angle = (1+side)*90.0f;
+	//ERRTNavigate2Point(gk, Vec2(side*2900.0f, 0), 0, 100, &VELOCITY_PROFILE_MAMOOLI);
 	
 	DefHi(def,NULL, true);
 	isDefending = true;
