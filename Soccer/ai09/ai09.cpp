@@ -18,6 +18,24 @@ ai09::ai09 ( ):maxBallHist(240)
 {	
 	std::cout << "	Running Immortals SSL AI module 09" << std::endl << "	Hope us luck :D " << std::endl;
 	
+    field_width = 4500.0f;
+    field_height = 3000.0f;
+    goal_width = 1000.0f;
+    
+    penalty_area_r = 1000.0f;
+    penalty_area_width = 500.0f;
+    
+    for ( int i = 0 ; i < 6 ; i ++ )
+    {
+        oneTouchDetector[i].field_w = field_width;
+        oneTouchDetector[i].field_h = field_height;
+        
+        planner[i].set_field_params(field_width, field_height);
+        
+        OwnRobot[i].field_w = field_width;
+        OwnRobot[i].field_h = field_height;
+    }
+    
 	InitAIPlayBook();
 	currentPlay = "HaltAll";
 	currentPlayParam = 0;
@@ -53,9 +71,9 @@ ai09::ai09 ( ):maxBallHist(240)
 	isDefending = false;
 	oppRestarted = false;
 		
-	beta = 0.3;	//Damping factor
+	beta = 0.4;	//Damping factor
 	gamma = 0.14;	//Reflect factor
-	shootK = 8000.0f;
+	shootK = 7000.0f;
 	
 	lastReferee = GameState::GAME_OFF;
 	
@@ -97,12 +115,12 @@ ai09::ai09 ( ):maxBallHist(240)
 		OwnRobot[i].set_vision_id(i+1);
 		//OwnRobot[i].set_serial_id(VisionSerialTrans[i]);
 	}
-	OwnRobot[gk].set_vision_id(5);
-	OwnRobot[def].set_vision_id(8);
-	OwnRobot[dmf].set_vision_id(2);
-	OwnRobot[lmf].set_vision_id(6);
-	OwnRobot[rmf].set_vision_id(1);
-	OwnRobot[cmf].set_vision_id(4);
+	OwnRobot[gk].set_vision_id(4);
+	OwnRobot[def].set_vision_id(7);
+	OwnRobot[dmf].set_vision_id(6);
+	OwnRobot[lmf].set_vision_id(8);
+	OwnRobot[rmf].set_vision_id(3);
+	OwnRobot[cmf].set_vision_id(1);
 	
 	chip_head = 200;
 	
@@ -111,15 +129,15 @@ ai09::ai09 ( ):maxBallHist(240)
 	circleReachedBehindBall = false;
 	PredictedBall = Vec2 ( 0 );
 	
-	VELOCITY_PROFILE_AROOM.max_spd = Vec2 ( 30.0f );
-	VELOCITY_PROFILE_AROOM.max_dec = Vec2 ( 0.9f );
-	VELOCITY_PROFILE_AROOM.max_acc = Vec2 ( 1.2f );
+	VELOCITY_PROFILE_AROOM.max_spd = Vec2 ( 40.0f );
+	VELOCITY_PROFILE_AROOM.max_dec = Vec2 ( 1.0f );
+	VELOCITY_PROFILE_AROOM.max_acc = Vec2 ( 0.8f );
 	VELOCITY_PROFILE_AROOM.max_w_acc = 40.0f;
 	VELOCITY_PROFILE_AROOM.max_w_dec = 140.0f;
 	
-	VELOCITY_PROFILE_MAMOOLI.max_spd = Vec2 ( 60.0f );
-	VELOCITY_PROFILE_MAMOOLI.max_dec = Vec2 ( 2.8f );
-	VELOCITY_PROFILE_MAMOOLI.max_acc = Vec2 ( 2.4f );
+	VELOCITY_PROFILE_MAMOOLI.max_spd = Vec2 ( 80.0f );
+	VELOCITY_PROFILE_MAMOOLI.max_dec = Vec2 ( 2.0f );
+	VELOCITY_PROFILE_MAMOOLI.max_acc = Vec2 ( 1.3f );
 	VELOCITY_PROFILE_MAMOOLI.max_w_acc = 40.0f;
 	VELOCITY_PROFILE_MAMOOLI.max_w_dec = 140.0f;
 
@@ -130,13 +148,13 @@ ai09::ai09 ( ):maxBallHist(240)
 	//VELOCITY_PROFILE_KHARAKI.max_w_acc = 40.0f;
 	//VELOCITY_PROFILE_KHARAKI.max_w_dec = 140.0f;
 	
-	VELOCITY_PROFILE_KHARAKI.max_spd = Vec2 ( 60.0f );
-	VELOCITY_PROFILE_KHARAKI.max_dec = Vec2 ( 3.1f );
-	VELOCITY_PROFILE_KHARAKI.max_acc = Vec2 ( 2.6f );
+	VELOCITY_PROFILE_KHARAKI.max_spd = Vec2 ( 80.0f );
+	VELOCITY_PROFILE_KHARAKI.max_dec = Vec2 ( 2.4f );
+	VELOCITY_PROFILE_KHARAKI.max_acc = Vec2 ( 1.6f );
 	VELOCITY_PROFILE_KHARAKI.max_w_acc = 40.0f;
 	VELOCITY_PROFILE_KHARAKI.max_w_dec = 140.0f;
-	
-	//VELOCITY_PROFILE_KHARAKI = VELOCITY_PROFILE_MAMOOLI;
+    
+    //VELOCITY_PROFILE_KHARAKI = VELOCITY_PROFILE_MAMOOLI;
 
 	playBook = NULL;
 	read_playBook("../../strategy.ims");

@@ -65,14 +65,34 @@ float ai09::calculateRobotReachTime ( int robot_num , TVec2 dest , VelocityProfi
 	return DIS(OwnRobot[robot_num].State.Position, dest) / (Magnitude(vel_profile->max_spd)*42.5*0.5); 
 }
 
-void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , bool needRRT , bool gameRestart , bool kiss , bool dribbler )
+float ai09::calculateBallRobotReachTime ( int robot_num , VelocityProfile* vel_profile )
+{
+    static MedianFilter<float> predTFilt(5);
+    
+    const float tMax = 5.0;
+    float predT = tMax;
+    for (float forwT = 0; forwT < tMax ; forwT += 0.02f ) {
+        TVec2 newBallPos = predictBallForwardAI ( forwT );
+        float robotReachT = calculateRobotReachTime(robot_num, newBallPos, vel_profile);
+        if ( robotReachT <= forwT )
+        {
+            predT = robotReachT;
+            break;
+        }
+    }
+    predTFilt.AddData(predT);
+    
+    return predTFilt.GetCurrent();
+}
+
+void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , bool needRRT , bool gameRestart , bool kiss , bool dribbler , bool needOppRRT)
 {	
 	//kick=100;
 	if (gameRestart&&(chip>0)) {
 		chip_head = OwnRobot[robot_num].State.Angle;
 	}
 	
-	static MedianFilter<float> predTFilt(5);
+	
 	
 	if (1)// ( fabs(NormalizeAngle(lastBallDirection-ball.velocity.direction) ) > 5 ) || ( fabs(lastBallMagnitude-ball.velocity.magnitude) > 80 ) || ( ball.velocity.magnitude < 100 ) || ( DIS(ball.Position, PredictedBall) < 150) )
 	{
@@ -81,20 +101,9 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 		
 		PredictedBall = ball.Position;
 		
-		const float tMax = 5.0;
-		float predT = tMax;
-		for (float forwT = 0; forwT < tMax ; forwT += 0.02f ) {
-			TVec2 newBallPos = predictBallForwardAI ( forwT );
-			float robotReachT = calculateRobotReachTime(robot_num, newBallPos, &VELOCITY_PROFILE_MAMOOLI);
-			if ( robotReachT <= forwT )
-			{
-				predT = robotReachT;
-				break;
-			}
-		}
-		predTFilt.AddData(predT);
 		
-		//PredictedBall = predictBallForwardAI(predTFilt.GetCurrent());
+		
+		//PredictedBall = predictBallForwardAI(calculateBallRobotReachTime(robot_num,&VELOCITY_PROFILE_MAMOOLI));
 		if (1)// ( fabs(NormalizeAngle(lastBallDirection-ball.velocity.direction) ) > 5 ) || ( fabs(lastBallMagnitude-ball.velocity.magnitude) > 80 ) || ( ball.velocity.magnitude < 100 ) || ( DIS(ball.Position, PredictedBall) < 150) )
 		{
 			float d = DIS ( OwnRobot[robot_num].State.Position , CircleAroundPoint ( ball.Position , angle , 200.0f ) );
@@ -149,16 +158,16 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 	
 	static bool passedBall = false;
 	
-	float prepPredictMul = 0.1;
+	float prepPredictMul = 0.15;
 	float goalPredictMul = 0.0;
 
 	if ( passedBall )
 	{
 		prepPredictMul = 0.0;
-		goalPredictMul = -0.1;
+		goalPredictMul = -0.15;
 	}
 	
-	TVec2 ballToGoal = Vec2(-side*3025, 0) - ball.Position;
+	TVec2 ballToGoal = Vec2(-side*field_width, 0) - ball.Position;
 	ballToGoal = Normalize(ballToGoal);
 	float ballVelToGoalDot = (ball.velocity.x*ballToGoal.X+ball.velocity.y*ballToGoal.Y);
 	TVec2 ballVelToGoal = Vec2(ballToGoal.X*ballVelToGoalDot, ballToGoal.Y*ballVelToGoalDot);
@@ -168,8 +177,8 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 	//AddDebugLine(ball.Position,ball.Position+ballVelToGoal/1.0f , Pink);
 	//AddDebugLine(ball.Position,ball.Position+ballVelPrepToGoal/1.0f , Green);
 	
-	PredictedBall += ballVelPrepToGoal * prepPredictMul;
-	PredictedBall += ballVelToGoal * goalPredictMul;
+	//PredictedBall += ballVelPrepToGoal * prepPredictMul;
+	//PredictedBall += ballVelToGoal * goalPredictMul;
 	
 	//AddDebugCircle(PredictedBall, 70, Purple);
 	
@@ -231,7 +240,7 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 		else
 		{
 			r = 400.0f;
-			tetta = 52.0f;
+			tetta = 32.0f;
 			//if ( !passedBall )
 			//	r *= 1.5;
 		}
@@ -254,17 +263,23 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 	
 
 	if ( needRRT )
-		ERRTSetObstacles ( robot_num );
+    {
+        needOppRRT = (OwnRobot[robot_num].State.velocity.magnitude > 600) && (DIS(OwnRobot[robot_num].State.Position,ball.Position)>300);
+		ERRTSetObstacles ( robot_num , false , true , true , needOppRRT , false , false );
+    }
+
 	else
 		clear_map ( );
 	
 	if ( ( fabs ( hehe ) < tetta ) )//|| ( circleReachedBehindBall ) )
 	{
+        
 		AddDebugCircle(Vec2(0, 0),1000,Red);
 		//hehe = angle;
 		//if ( OwnRobot[2].State.Angle < 0 )
 		if (( kick) ||(chip ))
 		{
+            
 			if ( circleReachedBehindBall )
 			{
 				//cout << "								reached	";
@@ -278,13 +293,13 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 
 				//Line newLine = Line::makeLineFromTwoPoints ( VecPosition ( targetPoint.X , targetPoint.Y ) , VecPosition ( OwnRobot[robot_num].State.Position.X , OwnRobot[robot_num].State.Position.Y ) );
 				//Circle newCircle ( VecPosition ( OwnRobot[robot_num].State.Position.X , OwnRobot[robot_num].State.Position.Y ) , DIS(targetPoint, OwnRobot.State.Position) * 2 );
-				if ( 0)//!gameRestart )
+				if ( 1)//!gameRestart )
 				{
 					//cout << "elendil: " << elendil;
 					float hehe2 = AngleWith ( PredictedBall , OwnRobot[robot_num].State.Position );
 					hehe2 = NormalizeAngle ( angle - hehe2 );
 					bool el = ((hehe2<5)&&(DIS(ball.Position,OwnRobot[robot_num].State.Position)<100));
-					if (0)// el || ( elendil > 0 ) )
+					if ( el || ( elendil > 0 ) )
 					{
 						
 						targetPoint.X-=150.0*cosDeg(angle);
@@ -306,6 +321,8 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 					}
 					else
 					{
+                        //targetPoint.X -= 550.0 * pow(fabs ( sinDeg(hehe) ),4.0) * cosDeg(angle);
+                        //targetPoint.Y -= 550.0 * pow(fabs ( sinDeg(hehe) ),4.0) * sinDeg(angle);
 						targetPoint = Vec2(3*targetPoint.X-OwnRobot[robot_num].State.Position.X, 3*targetPoint.Y-OwnRobot[robot_num].State.Position.Y);
 						targetPoint.X /= 2;
 						targetPoint.Y /= 2;
@@ -317,7 +334,6 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 				
 				else {
 					ERRTNavigate2Point ( robot_num , targetPoint,0,100,&VELOCITY_PROFILE_MAMOOLI );
-
 				}
 
 
@@ -334,6 +350,8 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 	{
 		AddDebugCircle(Vec2(0, 0),1000,Orange);
 		
+
+        
 		hehe = AngleWith ( PredictedBall , OwnRobot[robot_num].State.Position ) + sgn ( hehe ) * tetta;
 		//if ( DIS ( OwnRobot[robot_num].State.Position , ball.Position ) < 200 )
 		//	ERRTNavigate2Point ( robot_num , CircleAroundPoint ( PredictedBall , hehe , r ) , 0 , 20 );

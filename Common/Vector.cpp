@@ -224,3 +224,13 @@ float Magnitude ( const TVec3& a )
 {
 	return sqrt(a.X*a.X+a.Y*a.Y+a.Z*a.Z);
 }
+
+float Dot ( const TVec2& a , const TVec2& b )
+{
+    return a.X*b.X + a.Y*b.Y;
+}
+
+float Dot ( const TVec3& a , const TVec3& b )
+{
+    return a.X*b.X + a.Y*b.Y + a.Z*b.Z;
+}

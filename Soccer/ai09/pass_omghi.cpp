@@ -7,7 +7,7 @@ void ai09::WaitForOmghi ( int robot_num , bool chip )
 		ball_line = Line::makeLineFromPositionAndAngle ( VecPosition ( ball.Position.X , ball.Position.Y ) , chip_head );
 		cout << "	calcing with static head: " << chip_head << endl;
 	}
-	Line to_goal_line = Line::makeLineFromTwoPoints(VecPosition(OwnRobot[robot_num].State.Position.X,OwnRobot[robot_num].State.Position.Y) , VecPosition(-side*3025,0) );
+	Line to_goal_line = Line::makeLineFromTwoPoints(VecPosition(OwnRobot[robot_num].State.Position.X,OwnRobot[robot_num].State.Position.Y) , VecPosition(-side*field_width,0) );
 	
 	VecPosition ans = ball_line.getIntersection ( to_goal_line );
 	
@@ -27,11 +27,11 @@ void ai09::WaitForOmghi ( int robot_num , bool chip )
 	TVec2 target = Vec2(ans.getX(), ans.getY());//CalculatePassPos(robot_num, 89);
 	
 	OwnRobot[robot_num].target.Angle = calculateOneTouchAngle ( robot_num , target );
-	OwnRobot[robot_num].face(Vec2(-side*3025, 0));
+	OwnRobot[robot_num].face(Vec2(-side*field_width, 0));
 	
 	ERRTSetObstacles ( robot_num );
 	
-	target = CalculatePassPos(robot_num,Vec2(-side*3025, 0), OwnRobot[robot_num].State.Position, -200);
+	target = CalculatePassPos(robot_num,Vec2(-side*field_width, 0), OwnRobot[robot_num].State.Position, -200);
 	
 	cout << "sBAR:	" << sBAR << endl;
 	ERRTNavigate2Point ( robot_num , target , 0 , sBAR , &VELOCITY_PROFILE_KHARAKI);

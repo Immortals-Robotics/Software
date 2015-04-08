@@ -38,7 +38,7 @@ TVec3 Robot::MotionPlan ( RobotState state , RobotState target , float speed , b
 	static TVec3 oldAns[12] = {Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f)};
 	
 	TVec3 ans;
-	ans.Z = state.Angle-target.Angle;
+	ans.Z = target.Angle;
 	while(ans.Z>180)
 	{
 		ans.Z-=360;
@@ -47,7 +47,7 @@ TVec3 Robot::MotionPlan ( RobotState state , RobotState target , float speed , b
 	{
 		ans.Z+=360;
 	}
-	//ans.Z /= 2.0f;
+	ans.Z /= 5.0f;
 	if ( oldRobot )
 	{
 	

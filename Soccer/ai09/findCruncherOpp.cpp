@@ -10,15 +10,15 @@ int ai09::findCruncherOpp ( int mask1 , int mask2 , bool acceptNearBall )
 			continue;
 		if ( OppRobot[i].seenState == CompletelyOut )
 			continue;
-		if ( ( fabs ( OppRobot[i].Position.X ) > 3025 ) ||
-			( fabs ( OppRobot[i].Position.Y ) > 2025 ) )
+		if ( ( fabs ( OppRobot[i].Position.X ) > field_width ) ||
+			( fabs ( OppRobot[i].Position.Y ) > field_height ) )
 			continue;
 		if ((!acceptNearBall)&&(( DIS ( ball.Position , OppRobot[i].Position ) < 500 ))) {
 			continue;
 		}
-		if ( ( DIS ( Vec2 ( side*3025 , 0 ) , OppRobot[i].Position ) < mdis ) )
+		if ( ( DIS ( Vec2 ( side*field_width , 0 ) , OppRobot[i].Position ) < mdis ) )
 		{
-			mdis = DIS ( Vec2 ( side*3025 , 0 ) , OppRobot[i].Position );
+			mdis = DIS ( Vec2 ( side*field_width , 0 ) , OppRobot[i].Position );
 			index = i;
 		}
 	}

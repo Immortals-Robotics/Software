@@ -33,6 +33,8 @@ void ai09::InitAIPlayBook ( void )
 	AIPlayBook["strategy_maker"] = &ai09::strategy_maker;
 	AIPlayBook["penalty_us_ghuz"] = &ai09::penalty_us_ghuz;
 	AIPlayBook["penalty_their_gool"] = &ai09::penalty_their_gool;
+    AIPlayBook["penalty_their_simple"] = &ai09::penalty_their_simple;
+    
 	AIPlayBook["throwin_tu_omgh"] = &ai09::throwin_tu_omgh;
 	AIPlayBook["corner_their_global"] = &ai09::corner_their_global;
 	AIPlayBook["tech_khers_pass"] = &ai09::tech_khers_pass;
@@ -46,4 +48,5 @@ void ai09::InitAIPlayBook ( void )
 	AIPlayBook["sharifcup_play_3rd"] = &ai09::sharifcup_play_3rd;
 	AIPlayBook["sharifcup_play_2nd"] = &ai09::sharifcup_play_2nd;
 	AIPlayBook["sharifcup_post_play"] = &ai09::sharifcup_post_play;
+    AIPlayBook["throwin_us_outgir"] = &ai09::throwin_us_outgir;
 }

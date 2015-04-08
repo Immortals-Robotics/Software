@@ -27,7 +27,7 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 		if ( worldState ->refereeState.State->get() == GameState::GAME_OFF )
 		{
 			oppRestarted = false;
-			if (side*ball.Position.X>2000) {
+			if (side*ball.Position.X>3000) {
 				currentPlay = "Stop_def";
 			}
 			else {
@@ -63,7 +63,10 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 				currentPlayParam = target_str;
 			}
 			else {
-				currentPlay = "throwin_chip_shoot";
+                //if (side*ball.Position.X<800)
+                //    currentPlay = "throwin_us_outgir";
+                //else
+                    currentPlay = "throwin_chip_shoot";
 			}
 		}
 		
@@ -105,7 +108,8 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 	}
 	else
 	{
-		currentPlay = "HaltAll";
+        currentPlay = "Stop";
+		//currentPlay = "HaltAll";
 	}
 	
 	

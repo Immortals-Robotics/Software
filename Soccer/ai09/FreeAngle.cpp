@@ -15,9 +15,9 @@ TVec2 ai09::calculateOpenAngleToGoal(TVec2 p1,int robot_num)
     bool oops=0;
 	int obsCount=0;
 	int obs[50][2];    
-	TVec2 t2 = Vec2 ( -3025*side , 350 );
-	TVec2 t1 = Vec2 ( -3025*side , -350 );    
-    TVec2 MidGoal = Vec2(-3025*side , 0);
+	TVec2 t2 = Vec2 ( -field_width*side , goal_width/2.0 );
+	TVec2 t1 = Vec2 ( -field_width*side , -goal_width/2.0 );
+    TVec2 MidGoal = Vec2(-field_width*side , 0);
     float midGoalAngel;    
     float t1Angel;
     float t2Angel;

@@ -68,8 +68,10 @@ void initWorldState ( WorldState * state )
 }
 
 int main ( )
-{	
-	init_net_log ( "224.5.92.10" , 60090 );
+{
+    //NetLogger* netLogger = new NetLogger("224.5.92.10" , 60090);
+    //netLogger -> Init();
+    
 	if (!ImmortalsIsTheBest) {
 		cout << "ERROR: Immortals is not the best SSL team anymore." << endl;
 		cout << "Shutting down the system..." << endl;
@@ -81,7 +83,19 @@ int main ( )
 	char rf_freq = 110;
 	
 	GameSetting * setting = new GameSetting ( );
-	setting -> visionSetting = _visionSetting ( COLOR_BLUE, "224.5.23.2" , 10002 , "224.5.66.6" , 10009 ,1,1);
+    
+	setting -> visionSetting = new VisionSetting();
+    setting -> visionSetting -> color = COLOR_BLUE;
+    setting -> visionSetting -> UDP_Adress = "224.5.23.2";
+    setting -> visionSetting -> LocalPort = 10006;
+    setting -> visionSetting -> GUI_Adress = "224.5.66.6";
+    setting -> visionSetting -> GUIPort = 10009;
+    setting -> visionSetting -> use_camera.push_back(true);
+    setting -> visionSetting -> use_camera.push_back(true);
+    setting -> visionSetting -> use_camera.push_back(true);
+    setting -> visionSetting -> use_camera.push_back(true);
+    
+    
 	setting -> side = Left;
 	
 	WorldState * state = new WorldState ( );
@@ -98,7 +112,7 @@ int main ( )
 	}
     
     
-    /*newReferee.init ( "224.5.23.1" , 10003 , setting -> visionSetting -> color );
+    /*newReferee.init ( "224.5.23.1" , 64003 , setting -> visionSetting -> color );
 	cout << " Connecting to NEW RefereeBox server at " << "224.5.23.1" << " , on port : 10003 " << endl;
 	if ( !newReferee.connect ( ) )
 	{
@@ -139,6 +153,8 @@ int main ( )
 	
 	changemode(1);
 	
+    int pid_det_index = 0;
+    
 	float gyrOff = 0;
 	int offCount = 0;
 	
@@ -154,18 +170,26 @@ int main ( )
 		{
 			while ( (! kbhit()) && ( ImmortalsIsTheBest ) )	//Hope it lasts Forever...
 			{
+                //netLogger->SetFrameID(netLogger->GetFrameID()+1);
 				timer.start();
 				
 				lock.lock();
 				vision.ProcessVision ( state );
 				//sleep(1);
-				//while (timer.time()*1000.0f<16.6f);//DELAY(100000);
+                //while (timer.time()*1000.0f<16.6f);//DELAY(100000);
 				if ( started )
-					commUDP.sendTo ( robot_cmds    , 77 , "224.5.92.5" , 10003 );
+                {
+                    try {
+                        commUDP.sendTo ( robot_cmds    , 77 , "224.5.92.5" , 60005 );
+                    } catch (...) {
+                        cout << "ERROR: failed to send robot packets." << endl;
+                    }
+					
+                }
 				aii -> Process( state , setting , robot_cmds );
 				//cout << timer.time() * 1000.0 << endl;
 				
-				vision.SendGUIData ( state , aii -> AIDebug );
+				//vision.SendGUIData ( state , aii -> AIDebug );
 				lock.unlock();
 				
 				cout << 1.0/timer.interval() << endl;
@@ -192,7 +216,7 @@ int main ( )
 		};
     
     
-    /*auto new_ref_func = [&]()
+    auto new_ref_func = [&]()
     {
         while ( ( !exited ) && (! kbhit()) && ( ImmortalsIsTheBest ) )	//Hope it lasts Forever...
         {
@@ -201,12 +225,12 @@ int main ( )
                 //cout << "Referre Boz" << endl;
                 lock.lock();
                 newReferee.process ( state );
-                cout << "OPP GK IS: " << newReferee.oppGK << endl;
+                //cout << "OPP GK IS: " << newReferee.oppGK << endl;
                 lock.unlock();
                 //cout << "Referre Boz" << endl;
             }
         }
-    };*/
+    };
     
 		auto sharifcup_func = [&]()
 		{
@@ -239,7 +263,7 @@ int main ( )
 				int strategySize = strategyUDP->recvFrom(strategyBuffer, strategyBufferMaxSize, strategySrcAdd, strategySrcPort);
 				if ( strategySize > 11 )
 				{
-					cout << "Recieved \"strategy.ims\" with size: " << float(strategySize)/1000.0f << " KB, from " << strategySrcAdd << " on port " << strategySrcPort << "." << endl;
+					//cout << "Recieved \"strategy.ims\" with size: " << float(strategySize)/1000.0f << " KB, from " << strategySrcAdd << " on port " << strategySrcPort << "." << endl;
 					lock.lock();
 					dynamic_cast<ai09*>(aii)->read_playBook_str(strategyBuffer, strategySize);
 					lock.unlock();
@@ -250,18 +274,52 @@ int main ( )
 				else if ( strategySize == 11 )
 				{
 					cout << "Recieved PID configs with size: " << float(strategySize) << " B, from " << strategySrcAdd << " on port " << strategySrcPort << "." << endl;
-					strategyBuffer[0] = 4;//robot id
+					strategyBuffer[0] = pid_det_index;//robot id
+                    pid_det_index = (pid_det_index+1)%MAX_ROBOTS;
 					strategyBuffer[1] = 2;
 					
 					for (int i = 0; i < 11; i ++) {
-						cout << (int)((unsigned char)strategyBuffer[i]) << endl;
+						//cout << (int)((unsigned char)strategyBuffer[i]) << endl;
 					}
-					commUDP.sendTo ( strategyBuffer , 11 , "224.5.92.5" , 10003 );
+					commUDP.sendTo ( strategyBuffer , 11 , "224.5.92.5" , 60005 );
+                    
+                    /*for ( int i = 0 ; i < 20 ; i ++ )
+                    {
+                    strategyBuffer[1] = 1;
+                    strategyBuffer[2] = 60*(min(((float)i)/3.0, 1.0));
+                    strategyBuffer[3] = 60*(min(((float)i)/3.0, 1.0));
+                    strategyBuffer[4] = 0;
+                    strategyBuffer[5] = 0;
+                    strategyBuffer[6] = 0;
+                    strategyBuffer[7] = 0;
+                    strategyBuffer[8] = 0;
+                    strategyBuffer[9] = 0;
+                    strategyBuffer[10] = 1;
+                    commUDP.sendTo ( strategyBuffer , 11 , "224.5.92.5" , 60005 );
+                        timer.start();
+                    while (timer.time()*1000.0f<160.6f);
+                    }
+                    for ( int i = 0 ; i < 18 ; i ++ )
+                    {
+                        strategyBuffer[1] = 1;
+                        strategyBuffer[2] = 60*(min(((float)i)/3.0, 1.0));
+                        strategyBuffer[3] = 60*(min(((float)i)/3.0, 1.0));
+                        strategyBuffer[4] = 0;
+                        strategyBuffer[5] = 0;
+                        strategyBuffer[6] = 0;
+                        strategyBuffer[7] = 0;
+                        strategyBuffer[8] = 0;
+                        strategyBuffer[9] = 0;
+                        strategyBuffer[10] = 49;
+                        commUDP.sendTo ( strategyBuffer , 11 , "224.5.92.5" , 60005 );
+                        timer.start();
+                        while (timer.time()*1000.0f<160.6f);
+                    }*/
 				}
 				
 				else if ( strategySize == 10 )
 				{
-					cout << "Recieved robot feedback with size: " << float(strategySize) << " B, from " << strategySrcAdd << " on port " << strategySrcPort << "." << endl;
+					//cout << "Recieved robot feedback with size: " << float(strategySize) << " B, from " << strategySrcAdd << " on port " << strategySrcPort << "." << endl;
 					/*for (int i = 0 ; i < 10 ; i ++) {
 						cout << (int)strategyBuffer[i] << "	";
 					}*/

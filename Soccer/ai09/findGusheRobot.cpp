@@ -24,6 +24,8 @@ bool ai09::isGooshe ( int id , bool sameSideAsBall )
 
 int ai09::findGusheRobot ( int mask )
 {
+    float minDis = (field_width+field_height)*2.0;
+    int ans = -1;
 	for ( int i = 0 ; i < 12 ; i ++ )
 	{
 		if ( i == mask )
@@ -32,14 +34,19 @@ int ai09::findGusheRobot ( int mask )
             continue;
 		if ( OppRobot[i].seenState == CompletelyOut )
 			continue;
-		if ( ( fabs ( OppRobot[i].Position.X ) > 3025 ) ||
-			( fabs ( OppRobot[i].Position.Y ) > 2025 ) )
+		if ( ( fabs ( OppRobot[i].Position.X ) > field_width ) ||
+			( fabs ( OppRobot[i].Position.Y ) > field_height ) )
 			continue;
 		
 		if ( isGooshe(i,0) ){
-			return i;
+            float newDis = DIS(OppRobot[i].Position, Vec2(side*field_width, 0));
+            if ( newDis < minDis )
+            {
+                minDis = newDis;
+                ans = i;
+            }
 		}
 	}
 	
-	return -1;
+	return ans;
 }

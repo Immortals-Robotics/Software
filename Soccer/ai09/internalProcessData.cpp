@@ -23,7 +23,7 @@ void ai09::internalProcessData ( WorldState * worldState , GameSetting * setting
 			{
 				for ( int j = 0 ; j < MAX_ROBOTS ; j ++ )
 				{
-					if ( ( worldState -> OwnRobot[j].seenState == Seen ) && ( fabs(worldState->OwnRobot[j].Position.X)<3025 ) && ( fabs(worldState->OwnRobot[j].Position.Y)<2025 ) )
+					if ( ( worldState -> OwnRobot[j].seenState == Seen ) && ( fabs(worldState->OwnRobot[j].Position.X)<field_width ) && ( fabs(worldState->OwnRobot[j].Position.Y)<field_height ) )
 					{
 						bool suitable = true;
 						for ( int k = 0 ; k < 6 ; k ++ )
@@ -50,7 +50,7 @@ void ai09::internalProcessData ( WorldState * worldState , GameSetting * setting
 				}
 			}
 		}
-		cout << OwnRobot[i].vision_id << "	";
+		//cout << OwnRobot[i].vision_id << "	";
 		
 		this->OwnRobot[i].set_serial_id(VisionSerialTrans[OwnRobot[i].vision_id]);
 		//this->OwnRobot[i].oldRobot = true;
@@ -69,7 +69,7 @@ void ai09::internalProcessData ( WorldState * worldState , GameSetting * setting
 		//	this->OwnRobot[i].oldRobot = true;
 		
 	}
-	cout << endl;
+	//cout << endl;
 	
 	for ( int i = 0 ; i < 12 ; i ++ )
 		this->OppRobot[i] = worldState -> OppRobot[i];

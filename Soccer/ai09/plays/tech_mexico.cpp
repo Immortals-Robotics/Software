@@ -18,7 +18,7 @@ void ai09::tech_mexico ( void )
 		ggg = 1;
 	
 	for (int i = 0; i<6; i++) {
-		OwnRobot[i].face(Vec2(0, 0));
+		//OwnRobot[i].face(Vec2(0, 0));
 		ERRTSetObstacles ( i , false , false , true , true );
 		/*if ( ggg < -0.5 )
 		{
@@ -30,9 +30,9 @@ void ai09::tech_mexico ( void )
 			//OwnRobot[i].target.Angle += 1.0;
 			ERRTNavigate2Point ( i   , Vec2 ( (1500.0f+ggg*1000.0f) , ggg*(1300.0f+300.0f) ) , 0 , 100 );
 		}*/
-		OwnRobot[i].target.Angle += 90.0;
+		OwnRobot[i].target.Angle = 90.0;
 		//ERRTNavigate2Point ( i   , Vec2 ( (100.0f+1000.0f) , ggg*(1300.0f+300.0f) ) , 1 , 100 );
-		ERRTNavigate2Point ( i   , Vec2 (hhh , ggg )*(i+1)*i*400.0f , 1 , 100 );
+		ERRTNavigate2Point ( i   , Vec2 (-3000+400.0f*i , ggg *1700.0f) , 1 , 100,&VELOCITY_PROFILE_MAMOOLI );
 		/*if (i==cmf) {
 			debugDraw=true;
 			AddDebugCircle(OwnRobot[i].State.Position,90,Blue_Violet);
@@ -84,7 +84,7 @@ void ai09::tech_mexico ( void )
 
 
 
-	tetta +=0.45f;
+	tetta +=0.8f;
 
 	if ( tetta >= 360 )
 		tetta = 0;

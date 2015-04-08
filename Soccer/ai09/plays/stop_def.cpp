@@ -29,6 +29,6 @@ void ai09::Stop_def ( void )
 	
 	ERRTSetObstacles ( attack , true , true , true , true );
 	OwnRobot[attack].face(Vec2(ball.Position.X,ball.Position.Y));
-	ERRTNavigate2Point ( attack , CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(AngleWith(ball.Position , Vec2(side*3025,0))),580) ,0 , 40,&VELOCITY_PROFILE_AROOM);
+	ERRTNavigate2Point ( attack , CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(AngleWith(ball.Position , Vec2(side*field_width,0))),580) ,0 , 40,&VELOCITY_PROFILE_AROOM);
 	//side=-side;
 }

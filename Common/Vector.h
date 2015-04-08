@@ -49,3 +49,7 @@ TVec3 Normalize ( const TVec3& a );
 
 float Magnitude ( const TVec2& a );
 float Magnitude ( const TVec3& a );
+
+
+float Dot ( const TVec2& a , const TVec2& b );
+float Dot ( const TVec3& a , const TVec3& b );

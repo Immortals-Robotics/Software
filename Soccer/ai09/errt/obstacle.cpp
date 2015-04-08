@@ -85,13 +85,13 @@ bool collisionDetect ( TVec2 p1 , TVec2 p2 )
 
         TVec2 current = p1;
 
-        while ( DIS ( current , p2 ) > 1 )
+        while ( DIS ( current , p2 ) > 10.0f )
         {
                 if ( IsInObstacle ( current ) )
                         return true;
 
-                current.X += coss * 1;
-                current.Y += sinn * 1;
+                current.X += coss * 10.0f;
+                current.Y += sinn * 10.0f;
         }
 
         return false;
@@ -133,14 +133,10 @@ bool collisionDetect ( TVec2 p1 , TVec2 p2 )
 
 void AddCircle ( int x , int y , int r )
 {
-	x = world2mapX(x);
-	y = world2mapY(y);
-        map.AddCircle ( x , y , r );
+    map.AddCircle ( x , y , r );
 }
 
 void AddRectangle ( int x , int y , int w , int h )
 {
-	x = world2mapX(x);
-	y = world2mapY(y);
 	map.AddRectangle(x,y,w,h);
 }

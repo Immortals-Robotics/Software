@@ -30,7 +30,7 @@ float getCalibratedShootPow ( int vision_id , float raw_shoot )
 	float b = poly_coeff[vision_id][1];
 	float c = poly_coeff[vision_id][2];
 
-	raw_shoot = min(85.0f, max(0.0f,raw_shoot));
+	raw_shoot = min(150.0f, max(0.0f,raw_shoot));
 	
 	float delta = b*b-4.0f*a*(c-raw_shoot);
 	if (delta<0)
@@ -52,19 +52,35 @@ float getCalibratedChipPow ( int vision_id , float dis_raw )
 	vision_id = min(11, max(0,vision_id));
 	
 	static float poly_coeff[MAX_ROBOTS][3] = {
-		{-0.0286,8.6857,-98.0}, //  0
-		{-0.0533,9.0368,-164.51}, //  1
-		{-0.034,5.5936,-100.2}, //  2
-		{-0.0533,9.0368,-164.51}, //  3*
-		{-0.045,7.4449,-125.72}, //  4
-		{-0.0091,2.5342,35.845}, //  5
-		{-0.0244,4.0808,-64.889}, //  6
-		{-0.0679,12.379,-156.0}, //  7
-		{-0.0679,12.379,-156.0}, //  8*
-		{-0.034,5.5936,-100.2}, //  9*
-		{-0.0679,12.379,-156.0}, //  10*
-		{-0.0679,12.379,-156.0}, //  11*
+		{-0.0586,7.6894,-121.18}, //  0
+		{-0.0845,12.051,-197.31}, //  1
+		{-0.0533,9.0368,-164.51}, //  2
+		{-0.0401,8.632,-139.31}, //  3*
+		{-0.08,10.804,-166.69}, //  4
+		{-0.0533,9.0368,-164.51}, //  5
+		{-0.0953,12.555,-195.92}, //  6
+		{-0.0291,7.0266,-103.61}, //  7
+		{-0.0533,9.0368,-164.51}, //  8*
+		{-0.0533,9.0368,-164.51}, //  9*
+		{-0.0263,5.3907,-84.211}, //  10*
+		{-0.0926,12.61,-203.72}, //  11*
 	};
+    
+    static float ghuz_coeffs[MAX_ROBOTS] = {
+        220.0,  //  0
+        265.0,  //  1
+        220.0,  //  2
+        305.0,  //  3
+        150.0,  //  4
+        220.0,  //  5
+        175.0,  //  6
+        200.0,  //  7
+        265.0,  //  8
+        265.0,  //  9
+        180.0,  //  A
+        255.0  //  B
+        
+    };
 	
 	float a = poly_coeff[vision_id][0];
 	float b = poly_coeff[vision_id][1];
@@ -77,7 +93,9 @@ float getCalibratedChipPow ( int vision_id , float dis_raw )
 		delta = 0;
 	
 	float calib_shoot = (-b+sqrt(delta))/(2.0f*a);
-	calib_shoot *= 1.25f;
+	//calib_shoot *= 1.25f;
+    
+    //calib_shoot *= pow(ghuz_coeffs[1] / ghuz_coeffs[vision_id],0.5);
 	
 	calib_shoot = min(100.0f, max(0.0f,calib_shoot));
 	
@@ -159,11 +177,11 @@ float getCalibratedChipPow ( int vision_id , float dis_raw )
 	void Robot::Move(bool accurate , float speed , VelocityProfile * velocityProfile ){
 		//if ( State.vision_id == 4 )
 		//else
-		if ( fabs ( target.Position.X ) > 3500 )
-			target.Position.X = sgn ( target.Position.X ) * 3500.0f;
+		if ( fabs ( target.Position.X ) > field_w + 150.0 )
+			target.Position.X = sgn ( target.Position.X ) * (field_w + 150.0);
 
-		if ( fabs ( target.Position.Y ) > 2200 )
-			target.Position.Y = sgn ( target.Position.Y ) * 2200.0f;
+		if ( fabs ( target.Position.Y ) > field_h + 150.0 )
+			target.Position.Y = sgn ( target.Position.Y ) * (field_h + 150.0);
 		target.Angle = NormalizeAngle ( target.Angle );
 		if ( speed < 0 )
 			speed = 0;
@@ -253,7 +271,7 @@ float getCalibratedChipPow ( int vision_id , float dis_raw )
 				data[1] = 1; //Set the packet type to "feedback".
 			}
 			
-			if ((State.seenState==Seen))//&&( angleSendTimer.time() > 1.0 ))// ((halted)&&(State.seenState==Seen)) ||( angleSendTimer.time() > 1.0 ) )
+			if ((State.seenState==Seen))//&&( angleSendTimer.time() > 0.3 ))// ((halted)&&(State.seenState==Seen)) ||( angleSendTimer.time() > 1.0 ) )
 			{
 				data[4] = fabs ( State.Angle );
 				if ( State.Angle < 0 )
@@ -266,6 +284,7 @@ float getCalibratedChipPow ( int vision_id , float dis_raw )
 			}
 			
 			//shoot = chip = 0;
+            //shoot = 70;
 			data[7] = shoot;
 			data[8] = chip;
 			data[9] = 0;

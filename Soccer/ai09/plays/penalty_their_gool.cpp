@@ -9,16 +9,16 @@ void ai09::penalty_their_gool ( void )
 	if (( index == -1 )||(!canKickBall))
 	{
 		OwnRobot[gk].target.Angle = (1+side)*90.0f;
-		Navigate2Point ( gk , Vec2 ( side*2900.0f , 0 ) );
+		Navigate2Point ( gk , Vec2 ( side*(field_width-100) , 0 ) );
 	}
 	else
 	{
 		cout << "	Penalty zan harif: " << index << endl;
 		if (OppRobot[index].velocity.magnitude>10) {
-			Navigate2Point(gk, Vec2(side*2900.0f, 250.0f*sgn(randomParam-0.5f)), 0, 100, &VELOCITY_PROFILE_KHARAKI);
+			Navigate2Point(gk, Vec2(side*(field_width-100), 250.0f*sgn(randomParam-0.5f)), 0, 100, &VELOCITY_PROFILE_KHARAKI);
 		}
 		else {
-			Navigate2Point ( gk , Vec2 ( side*2900.0f , 0 ) );
+			Navigate2Point ( gk , Vec2 ( side*(field_width-100) , 0 ) );
 		}
 
 	}

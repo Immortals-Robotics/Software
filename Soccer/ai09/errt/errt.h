@@ -19,6 +19,12 @@ class Planner
         unsigned int waypoints , cached_waypoints , cache_start;
 
 	void reverse_waypoints ( void );
+    
+    float field_width;
+    float field_height;
+    
+    bool started_in_obs;
+    
 
 public:
 
@@ -28,9 +34,12 @@ public:
 
 	Planner ( void );
 	Tree tree;
+    void set_field_params ( float _w , float _h );
 	void init ( TVec2 init , TVec2 final , float step );
         TVec2 random_state ( void );
 	TVec2 nearest_free ( TVec2 state );
+    TVec2 nearest_free_prob ( TVec2 state );
+    
         TVec2 choose_target ( int * type = NULL );
 	Node * extend ( Node * s , TVec2 & target );
 	void SetWayPoints ( void );

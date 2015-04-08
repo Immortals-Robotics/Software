@@ -28,23 +28,23 @@ void ai09::throwin_chip_shoot ( void )
 	
 	if (timer.time()>4 ) {
 		//tech_circle(dmf,AngleWith ( Vec2 ( -side*2995 , 0 ) , ball.Position ) ,0,30,0,1);
-		circle_ball(dmf, AngleWith ( Vec2 ( -side*2995 , 0 ) , ball.Position ), 0, 20, 1.0f);
+		circle_ball(dmf, AngleWith ( Vec2 ( -side*field_width , 0 ) , ball.Position ), 0, 150, 1.0f);
 	}
 	else
 	{
 		//tech_circle(dmf,AngleWith ( Vec2 ( -side*2995 , 0 ) , ball.Position ) ,0,0,0,1);
-		circle_ball(dmf, AngleWith ( Vec2 ( -side*2995 , 0 ) , ball.Position ), 0, 0, 1.0f);
+		circle_ball(dmf, AngleWith ( Vec2 ( -side*field_width , 0 ) , ball.Position ), 0, 0, 1.0f);
 	}
 	
-	OwnRobot[attack].face ( Vec2 ( -side*2995 , 0 ) );
+	OwnRobot[attack].face ( Vec2 ( -side*field_width , 0 ) );
 	ERRTSetObstacles ( attack , 0,1,1 );
-	AddCircle(ball.Position.X, ball.Position.Y, 32);
-	if ( randomParam < 0.3 )
-		ERRTNavigate2Point ( attack , PointOnConnectingLine ( ball.Position , Vec2 ( -side*2995 , 0 ) , 350+700*reached ) );
-	else if ( randomParam < 0.6 )
-		ERRTNavigate2Point ( attack , PointOnConnectingLine ( ball.Position , Vec2 ( -side*2995 , -sgn(ball.Position.X)*2000 ) , 350+700*reached ) );
+	AddCircle(ball.Position.X, ball.Position.Y, 320);
+	if ( randomParam < 0.0 )
+		ERRTNavigate2Point ( attack , PointOnConnectingLine ( ball.Position , Vec2 ( -side*field_width , 0 ) , 350+700*reached ) );
+	else if ( randomParam < 0.5 )
+		ERRTNavigate2Point ( attack , PointOnConnectingLine ( ball.Position , Vec2 ( -side*field_width , -sgn(ball.Position.X)*2000 ) , 350+700*reached ) );
 	else
-		ERRTNavigate2Point ( attack , PointOnConnectingLine ( ball.Position , Vec2 ( -side*2995 , sgn(ball.Position.X)*2000 ) , 350+700*reached ) );
+		ERRTNavigate2Point ( attack , PointOnConnectingLine ( ball.Position , Vec2 ( -side*field_width , sgn(ball.Position.X)*2000 ) , 350+700*reached ) );
 	
 	//swap(attack, gk);
 	//swap ( mid2 , attack );

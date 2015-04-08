@@ -8,8 +8,8 @@ bool ai09::attackFuckingAngle ( void )
 	
 	int oppAttack = findKickerOpp(-1);
 	if (oppAttack != -1) {
-		float ownGoalAngle = AngleWith(Vec2(side*3025, 0),ball.Position);
-		float oppGoalAngle = AngleWith(ball.Position, Vec2(-side*3025, 0));
+		float ownGoalAngle = AngleWith(Vec2(side*field_width, 0),ball.Position);
+		float oppGoalAngle = AngleWith(ball.Position, Vec2(-side*field_height, 0));
 		
 		if (fabs(NormalizeAngle(ownGoalAngle-oppGoalAngle)) > 80) {
 			ans = true;

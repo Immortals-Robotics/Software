@@ -40,7 +40,7 @@ struct RobotState
 	TVec2 Position;
 	Velocity velocity;
 
-	float Angle;
+	float Angle = 0.0f;
 	float AngularVelocity;
 
 	int vision_id;

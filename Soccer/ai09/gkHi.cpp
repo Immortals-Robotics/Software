@@ -29,22 +29,25 @@ void ai09::GKHi ( int robot_num , int defence_num , bool stop )
 		
 		my_hys = 0;
 	
-		ERRTSetObstacles ( robot_num , false , true , false , false , false );
-		if ( ( IsInObstacle ( Vec2 ( world2mapX(ball.Position.X),world2mapY(ball.Position.Y) ) ) ) && ( ball.velocity.magnitude < 1000 ) && (!stop) && (side*ball.Position.X<3025) && (timer.time()>1.0f) && (fabs(ball.Position.Y)<1200.0f) )
+        side = - side;
+		ERRTSetObstacles ( robot_num , false , false , false , false , false , true );
+        side = -side;
+		if ( ( IsInObstacle ( Vec2 ( (ball.Position.X),(ball.Position.Y) ) ) ) && ( ball.velocity.magnitude < 1000 ) && (!stop) && (side*ball.Position.X<field_width) && (timer.time()>1.0f) && (fabs(ball.Position.Y)<1200.0f) )
 		{
 			gkIntercepting = true;
 
 			ERRTSetObstacles ( robot_num , 0 , 0 , 1 , 0 , 0 );
 			//tech_circle(robot_num,sgn(ball.Position.Y)*side*60 ,0,15,false);
-			tech_circle(robot_num,AngleWith ( ball.Position , Vec2 ( side * 3133 , 0 ) ) ,0,500,false,0,0,0);
+			tech_circle(robot_num,AngleWith ( ball.Position , Vec2 ( side * (field_width+110) , 0 ) ) ,0,150,false,0,0,0);
 		}
 		else
 		{
-			TVec2 target = GK_Ghuz();
+            float cornerStartMul = pow(max(0,1.2-timer.time()),1.1);
+			TVec2 target = GK_Ghuz(cornerStartMul*0.4, cornerStartMul>0?(1+0.2*(1-cornerStartMul)):1,1);
 			
 			OwnRobot[robot_num].face(ball.Position);
 			ERRTSetObstacles(robot_num, stop , false, false, false, false);
-			ERRTNavigate2Point(robot_num, target, 0, 100, &VELOCITY_PROFILE_MAMOOLI);
+			ERRTNavigate2Point(robot_num, target, 0, 100, &VELOCITY_PROFILE_KHARAKI);
 			
 		}
 	}
@@ -60,5 +63,5 @@ void ai09::GK_shirje ( int robot_num )
 	fans = ((fans-OwnRobot[robot_num].State.Position)*2.0f)+OwnRobot[robot_num].State.Position;
 	ERRTSetObstacles ( robot_num ,0,0,0,0,0,0);
 	ERRTNavigate2Point(robot_num,fans , 1, 100, &VELOCITY_PROFILE_KHARAKI);
-	OwnRobot[robot_num].Chip(500);
+	OwnRobot[robot_num].Chip(150);
 }

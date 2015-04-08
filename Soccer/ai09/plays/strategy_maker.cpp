@@ -43,13 +43,35 @@ bool ai09::read_playBook_str ( char* buffer , int length )
 		playBook = NULL;
 		return false;
 	}
+    
+    for (int i = 0 ; i < playBook->strategy_size(); i++)
+    {
+        Strategy* strat = playBook->mutable_strategy(i);
+        
+        strat->set_minx(strat->minx() * field_width / 3025.0f);
+        strat->set_maxx(strat->maxx() * field_width / 3025.0f);
+        strat->set_miny(strat->miny() * field_height / 2025.0f);
+        strat->set_maxy(strat->maxy() * field_height / 2025.0f);
+        for (int j = 0 ; j < strat->role_size() ; j ++)
+        {
+            Role* roooole = strat->mutable_role(j);
+            for (int k = 0 ; k < roooole->path_size() ; k++)
+            {
+                Waypoint* _waypoint = roooole->mutable_path(k);
+                _waypoint->set_x(_waypoint->x() * field_width / 3025.0f);
+                _waypoint->set_y(_waypoint->y() * field_height / 2025.0f);
+            }
+        }
+    }
 	
-	return true;	
+	return true;
 }
 
 int step[6] = {0,0,0,0,0,0};
 float lastAdv[6] = {0,0,0,0,0,0};
 static int curr_str_id = -1;
+
+bool recievers_reached = false;
 
 void ai09::strategy_maker ( void )
 {
@@ -57,6 +79,7 @@ void ai09::strategy_maker ( void )
 	if ( timer.time() < 0.5 )
 	{
 		curr_str_id = str_id;
+        recievers_reached = false;
 	}
 	
 	if ( curr_str_id == -1 )
@@ -67,8 +90,7 @@ void ai09::strategy_maker ( void )
 	
 	Strategy strategy = playBook->strategy(curr_str_id);
 	
-	GKHi(gk);
-	DefHi(def);
+	
 	
 	int xSgn = side;
 	int ySgn = -1*sgn(ball.Position.Y);
@@ -121,14 +143,23 @@ void ai09::strategy_maker ( void )
 		}
 	}
 	
+    bool new_recievers_reached = true;
+    
 	for (int i = 0 ; i < 6 ; i ++ ) {
-		if ((*stm2AInum[i]==gk)||(*stm2AInum[i]==def)) {
-			continue;
-		}
+		//if ((*stm2AInum[i]==gk)||(*stm2AInum[i]==def)) {
+		//	continue;
+		//}
 		
 		if ( strategy.role(i).path_size() == 0 )
 		{
-			Halt(*stm2AInum[i]);
+            if (*stm2AInum[i]==gk)
+                GKHi(gk);
+            else if (*stm2AInum[i]==def)
+            {
+                DefHi(def);
+            }
+            else
+                Halt(*stm2AInum[i]);
 			continue;
 		}
 		
@@ -144,25 +175,12 @@ void ai09::strategy_maker ( void )
 			
 			cout << "	daram mirinam: " << shoot << "	" << chip << endl;
 
-			if (step[i]==strategy.role(i).path_size()-1) {
-				/*if (dt<waitTime) {
-					tech_circle(*stm2AInum[i], AngleWith(Vec2(strategy.role(i).path(step[i]).x()*xSgn, strategy.role(i).path(step[i]).y()*ySgn),ball.Position), 0, 0, 0, 1, 0, 1);
-				}
-				else if (dt<waitTime*(strategy.role(i).path(step[i]).type() == 0?0:2)) {
-					tech_circle(*stm2AInum[i], AngleWith(Vec2(strategy.role(i).path(step[i]).x()*xSgn, strategy.role(i).path(step[i]).y()*ySgn),ball.Position), 0, 0, 0, 1, 1, 1);
-				}
-				else{
-					tech_circle(*stm2AInum[i], AngleWith(Vec2(strategy.role(i).path(step[i]).x()*xSgn, strategy.role(i).path(step[i]).y()*ySgn),ball.Position), shoot, chip, 0, 1, 0, 0);
-				}*/
+            
+            
+            
+			if (step[i]==strategy.role(i).path_size()-1 && recievers_reached) {
 				float passAngle = AngleWith(Vec2(strategy.role(i).path(step[i]).x()*xSgn, strategy.role(i).path(step[i]).y()*ySgn),ball.Position);
-				//tech_circle(*stm2AInum[i], passAngle, shoot, chip, 1, 1, 0, 0);
 				circle_ball(*stm2AInum[i], passAngle, shoot, chip, 1.0f);
-				/*if (shoot>0) {
-					backPass(*stm2AInum[i],passAngle ,lastAdv[i]);
-				}
-				else {
-					tech_circle(*stm2AInum[i], passAngle, shoot, chip, 1, 1, 0, 0);
-				}*/
 
 			}
             else if (step[i]==strategy.role(i).path_size()-2) {
@@ -171,7 +189,6 @@ void ai09::strategy_maker ( void )
             }
 			else {
 				float passAngle = AngleWith(Vec2(strategy.role(i).path(step[i]).x()*xSgn, strategy.role(i).path(step[i]).y()*ySgn),ball.Position);
-				//tech_circle(*stm2AInum[i], passAngle , 0, 0, 0, 1, 0, 0);
 				circle_ball(*stm2AInum[i], passAngle, 0, 0, 1.0f);
 			}
 			
@@ -202,7 +219,11 @@ void ai09::strategy_maker ( void )
 					profile = &VELOCITY_PROFILE_MAMOOLI;
 					break;
 			}
-			OwnRobot[*stm2AInum[i]].face(Vec2(-side*3025, 0));
+            float dis_to_reach = DIS(OwnRobot[*stm2AInum[i]].State.Position, Vec2(strategy.role(i).path(step[i]).x(),strategy.role(i).path(step[i]).y()));
+            //if ((step[i]>=strategy.role(i).path_size()-2) || (dis_to_reach < 500))
+                OwnRobot[*stm2AInum[i]].face(Vec2(-side*field_width, 0));
+            //else
+            //    OwnRobot[*stm2AInum[i]].face(Vec2(strategy.role(i).path(step[i]).x(),strategy.role(i).path(step[i]).y()));
 			ERRTNavigate2Point(*stm2AInum[i], Vec2(strategy.role(i).path(step[i]).x()*xSgn, strategy.role(i).path(step[i]).y()*ySgn), 0, strategy.role(i).path(step[i]).speed() , profile);
 		}
 		
@@ -216,6 +237,9 @@ void ai09::strategy_maker ( void )
                     allafPos[*stm2AInum[i]] = Vec2(0, 0);
                 else
                     allafPos[*stm2AInum[i]] = Vec2( strategy.role(i).path(strategy.role(i).path_size()-1).x()*xSgn,strategy.role(i).path(strategy.role(i).path_size()-1).y()*ySgn );
+                
+                if (step[i]!=strategy.role(i).path_size()-1)
+                    new_recievers_reached = false;
 				break;
 			case 2:
 				oneTouchType[*stm2AInum[i]] = shirje;
@@ -237,5 +261,7 @@ void ai09::strategy_maker ( void )
 				break;
 		}
 	}
+    
+    recievers_reached = new_recievers_reached;
 	
 }

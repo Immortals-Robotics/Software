@@ -31,6 +31,8 @@
 #define POWED_DIS(a,b,c,d) (((a-c)*(a-c))+((b-d)*(b-d)))
 #endif
 
+#define CAM_COUNT 4
+
 #define PREDICT_STEPS 5.0f
 
 #define MAX_BALLS 10
@@ -44,7 +46,7 @@
 
 #define BALL_BUFFER_FRAMES 30
 
-VisionSetting * _visionSetting ( bool , std::string , short , std::string , short , bool = true , bool = true );
+VisionSetting * _visionSetting ( bool , std::string , short , std::string , short , bool = true , bool = true , bool = true , bool = true );
 
 /**
 Class VisionModule : Captures the vision packet from the network, and sends it to the rest
@@ -129,11 +131,11 @@ class VisionModule
 		robotDataMsg robotPacket[2][MAX_ROBOTS];
 
 		SSL_WrapperPacket packet;
-		SSL_DetectionFrame frame[2];
-		SSL_DetectionBall d_ball[MAX_BALLS*2];
-		SSL_DetectionRobot robot[MAX_ROBOTS*2];
+		SSL_DetectionFrame frame[CAM_COUNT];
+		SSL_DetectionBall d_ball[MAX_BALLS*CAM_COUNT];
+		SSL_DetectionRobot robot[MAX_ROBOTS*CAM_COUNT];
 
-		bool packet_recieved[2];
+		bool packet_recieved[CAM_COUNT];
 
 };
 

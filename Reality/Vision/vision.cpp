@@ -5,34 +5,22 @@
 #include <fstream>
 using namespace std;
 
-VisionSetting * _visionSetting ( bool _color , std::string _UDP_Adress , short _LocalPort , std::string _GUI_Adress , short _GUIPort , bool _use_camera0 , bool _use_camera1 )
-{
-	VisionSetting * ans = new VisionSetting;
-
-	ans -> color = _color;
-	ans -> UDP_Adress = _UDP_Adress;
-	ans -> LocalPort = _LocalPort;
-	ans -> GUI_Adress = _GUI_Adress;
-	ans -> GUIPort = _GUIPort;
-	ans -> use_camera[0] = _use_camera0;
-	ans -> use_camera[1] = _use_camera1;
-
-	return ans;
-}
-
 VisionModule::VisionModule ( VisionSetting * _setting ) : connected ( false ) 
 {
 	if ( _setting )
 	{
 		setting = _setting;
 
+        while ( setting->use_camera.size() < CAM_COUNT )
+            setting->use_camera.push_back(false);
+        
 		connectToVisionServer ( setting -> UDP_Adress , setting -> LocalPort );
 	}
 
 	GUIUDP = new UDPSocket ( );
 
-	packet_recieved[0] = false;
-	packet_recieved[1] = false;
+    for ( int i = 0 ; i < CAM_COUNT ; i ++ )
+        packet_recieved[i] = false;
 
 	ballBufferIndex = 0;
 
@@ -80,14 +68,31 @@ void VisionModule::ProcessVision ( WorldState * state )
 		//connectToVisionServer ( setting -> UDP_Adress , setting -> LocalPort );
 	}
 
-	while ( ! ( ( packet_recieved[0] || ( ! setting -> use_camera[0] ) ) && ( packet_recieved[1] || ( ! setting -> use_camera[1] ) ) ) )
-		recievePacket ( );
-
+    bool cams_ready = false;
+    while (!cams_ready)
+    {
+        cams_ready = true;
+        for ( int i = 0 ; i < CAM_COUNT ; i ++ )
+        {
+            bool new_cam_ready = packet_recieved[i] || (!setting -> use_camera[i]);
+            if ( !new_cam_ready )
+            {
+                cams_ready = false;
+                break;
+            }
+        }
+        if ( cams_ready )
+            break;
+        //cout << "bodo dg    " << cams_ready << endl;
+        recievePacket();
+        
+    }
+	
 	ProcessBalls ( state );
 	ProcessRobots ( state );
 
-	packet_recieved[0] = 0;
-	packet_recieved[1] = 0;
+	for ( int i = 0 ; i < CAM_COUNT ; i ++ )
+        packet_recieved[i] = false;
 
 }
 

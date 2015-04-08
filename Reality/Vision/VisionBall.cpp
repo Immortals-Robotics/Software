@@ -21,7 +21,7 @@ void VisionModule::ProcessBalls ( WorldState * state )
 int VisionModule::ExtractBalls ( void )
 {
 	int ans = 0;
-	for ( int i = 0 ; i < 2 ; i ++ )
+	for ( int i = 0 ; i < CAM_COUNT ; i ++ )
 	{
 		if ( setting -> use_camera[i] )
 		{

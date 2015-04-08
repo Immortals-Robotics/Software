@@ -22,21 +22,23 @@ Planner::Planner ( void )
 
         goal_target_prob = 0.1;
         waypoint_target_prob = 0.5;
-        acceptable_dis = 9;
+        acceptable_dis = 90.0;
+    
+    field_width = 0;
+    field_height = 0;
 }
 
 void Planner::init ( TVec2 init , TVec2 final , float step )
 {
-	init.X = world2mapX(init.X);
-	init.Y = world2mapY(init.Y);
-	final.X = world2mapX(final.X);
-	final.Y = world2mapY(final.Y);
-	init_state = nearest_free ( nearest_free ( init ) );
-	final_state = nearest_free ( nearest_free ( final ) );
+
+	init_state = nearest_free ( init );
+	final_state = nearest_free ( final );
 	step_size = step;
 
 	tree.reset ( );
 	tree.AddNode ( init_state , NULL );
+    
+    started_in_obs = IsInObstacle(init);
 
         /*init_state = init;
         final_state = nearest_free ( nearest_free ( final ) );
@@ -52,14 +54,21 @@ void Planner::init ( TVec2 init , TVec2 final , float step )
         }*/
 }
 
+void Planner::set_field_params ( float _w , float _h )
+{
+    field_width = _w;
+    field_height = _h;
+}
+
 TVec2 Planner::random_state ( void )
 {
         //return Vec2 ( ( rnd ( ) * 10000.0 ) - 5000.0 , ( rnd ( ) * 10000.0 ) - 5000.0 );
-        return Vec2 ( ( rnd ( ) * 705.0 ) , ( rnd ( ) * 505.0 ) );
+        return Vec2 ( ( (rnd() - 0.5f) * 2.0f * (field_width+250.0f) ) , ( (rnd() - 0.5f) * 2.0f * (field_height+250.0f) ) );
 }
 
 TVec2 Planner::nearest_free ( TVec2 state )
 {
+    return nearest_free_prob(state);
 	int r = 678 , l = -678 , u = 478 , d = -478;
 
 	state.X = min ( 678 , max ( 52 , state.X ) ) ;
@@ -137,6 +146,27 @@ TVec2 Planner::nearest_free ( TVec2 state )
 	}
 
 	return ans;
+}
+
+TVec2 Planner::nearest_free_prob ( TVec2 state )
+{
+    if ( ! IsInObstacle ( state ) )
+		return state;
+    
+    TVec2 ans = state;
+    float minDis = (field_width+field_height)*10.0f;
+    
+    for ( int i = 0 ; i < 1000 ; i ++ )
+    {
+        TVec2 newRndPoint = random_state();
+        if ( (!IsInObstacle(newRndPoint)) && DIS(state, newRndPoint) < minDis )
+        {
+            ans = newRndPoint;
+            minDis = DIS(state, newRndPoint);
+        }
+    }
+    
+    return ans;
 }
 
 TVec2 Planner::choose_target ( int * type )
@@ -247,6 +277,7 @@ bool Planner::IsReached ( void )
 
 TVec2 Planner::Plan ( void )
 {
+    //return final_state;
         if ( !collisionDetect ( init_state , final_state ) )
         {
                 tree.AddNode ( final_state , tree.NearestNeighbour ( init_state ) );
@@ -286,13 +317,22 @@ TVec2 Planner::Plan ( void )
         TVec2 ans;
 		if ( waypoints > 1 )
 		{
-			ans.X = map2worldX(waypoint[waypoints-2].X);
-			ans.Y = map2worldY(waypoint[waypoints-2].Y);
+            if ( started_in_obs )
+            {
+                ans.X = waypoint[waypoints-1].X;
+                ans.Y = waypoint[waypoints-1].Y;
+            }
+            else
+            {
+                ans.X = waypoint[waypoints-2].X;
+                ans.Y = waypoint[waypoints-2].Y;
+            }
+			
 		}
 		else
 		{
-			ans.X = map2worldX(waypoint[0].X);
-			ans.Y = map2worldY(waypoint[0].Y);
+			ans.X = waypoint[0].X;
+			ans.Y = waypoint[0].Y;
 		}
 
 	return ans;

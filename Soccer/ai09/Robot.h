@@ -14,6 +14,10 @@ class Robot
 	Timer angleSendTimer;
 	
 	public :
+    
+    float field_w;
+    float field_h;
+    
 	bool oldRobot;
 	RobotState State;
 	RobotState target;

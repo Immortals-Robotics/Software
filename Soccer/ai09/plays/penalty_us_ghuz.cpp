@@ -23,15 +23,15 @@ void ai09::penalty_us_ghuz ( void )
 	}
 	side=-side;*/
 	
-	OwnRobot[dmf].face ( Vec2 ( -side*2995 , 0 ) );
+	OwnRobot[dmf].face ( Vec2 ( -side*field_width , 0 ) );
 	ERRTSetObstacles ( dmf );
 	ERRTNavigate2Point ( dmf , Vec2 ( 0 , 0 ) );
 	
-	OwnRobot[mid1].face ( Vec2 ( -side*2995 , 0 ) );
+	OwnRobot[mid1].face ( Vec2 ( -side*field_width , 0 ) );
 	ERRTSetObstacles ( mid1 );
 	ERRTNavigate2Point ( mid1 , Vec2 ( -side*1000 , -500 ) );
 	
-	OwnRobot[mid2].face ( Vec2 ( -side*2995 , 0 ) );
+	OwnRobot[mid2].face ( Vec2 ( -side*field_width , 0 ) );
 	ERRTSetObstacles ( mid2 );
 	ERRTNavigate2Point ( mid2 , Vec2 ( -side*1000 , 500 ) );
 	
@@ -46,12 +46,14 @@ void ai09::penalty_us_ghuz ( void )
 		
 		TVec2 shootPoint;
 		
+        float shootDelta = (goal_width/2.0) - 100.0f;
+        
 		if ( randomParam < 0.5 )
 		{
-			shootPoint = Vec2 ( -side*2995,-250 );
+			shootPoint = Vec2 ( -side*field_width,-shootDelta );
 		}
 		else {
-			shootPoint = Vec2 ( -side*2995,250 );
+			shootPoint = Vec2 ( -side*field_width,shootDelta );
 		}
 
 		//PenaltyUs(attack,AngleWith ( Vec2 ( -side*2995,-220 ) , ball.Position ) ,0);

@@ -21,7 +21,7 @@ void ai09::recievePass ( int robot_num , TVec2 staticPos , bool chip )
 	
 	if (oneTouchType[robot_num] == oneTouch) {
 		angleTol = 45;
-		maxBallAngle = 90;
+		maxBallAngle = 150;
 	}
 	else if (oneTouchType[robot_num] == shirje) {
 		//angleTol = 55;
@@ -46,14 +46,14 @@ void ai09::recievePass ( int robot_num , TVec2 staticPos , bool chip )
 	{
 		WaitForPass(robot_num, 0, &OwnRobot[attack].State.Position);
 	}
-	else if ((oneTouchType[robot_num] == shirje)&&(DIS(ball.Position, OwnRobot[robot_num].State.Position)<450)&&(timer.time()<4.0))
+	/*else if ((oneTouchType[robot_num] == shirje)&&(DIS(ball.Position, OwnRobot[robot_num].State.Position)<450)&&(timer.time()<4.0))
 	{
 		int targetRobotNum = (robot_num==lmf)?rmf:lmf;
 		float passAngle = AngleWith ( Vec2 ( -side*2500 , -sgn ( ball.Position.Y ) * 1700 ) , ball.Position );
 		//float passAngle = AngleWith ( OwnRobot[targetRobotNum].State.Position , ball.Position );
 		//tech_circle(robot_num, passAngle, 0, 120, 1, 1, 0, 1);
 		circle_ball(robot_num, passAngle, 0, 80, 1.0f);
-	}
+	}*/
 			 
 	else if ((oneTouchDetector[robot_num].IsArriving(angleTol, maxBallAngle))&&(oneTouchType[robot_num] != allaf)) {
 		oneTouchTypeUsed[robot_num] = true;
@@ -72,7 +72,7 @@ void ai09::recievePass ( int robot_num , TVec2 staticPos , bool chip )
 		}
 		else{ //probably allaf!!!
 			ERRTSetObstacles ( robot_num , false , true , true , true );
-			OwnRobot[robot_num].face(Vec2(-side*3025, 0));
+			OwnRobot[robot_num].face(Vec2(-side*field_width, 0));
 			//OwnRobot[robot_num].target.Angle=-90;
 			ERRTNavigate2Point ( robot_num , staticPos ,0 , 100,&VELOCITY_PROFILE_MAMOOLI);
 		}
@@ -83,7 +83,7 @@ void ai09::recievePass ( int robot_num , TVec2 staticPos , bool chip )
 			oneTouchType[robot_num] = oneTouch;
 		}
 		ERRTSetObstacles ( robot_num , true , true , true , true );
-		OwnRobot[robot_num].face(Vec2(-side*3025, 0));
+		OwnRobot[robot_num].face(Vec2(-side*field_width, 0));
 		//OwnRobot[robot_num].target.Angle=-90;
 		ERRTNavigate2Point ( robot_num , staticPos ,0 , 100,&VELOCITY_PROFILE_MAMOOLI);
 	}

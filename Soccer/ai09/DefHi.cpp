@@ -29,7 +29,7 @@ void ai09::DefHi ( int robot_num , TVec2 * defendTarget , bool stop )
 	
 	ballAriving = oneTouchDetector[robot_num].IsArriving(40,80);
 	
-	TVec2 oneTouchPos = CalculatePassPos(robot_num,Vec2(-side*3025, 0),OwnRobot[robot_num].State.Position);
+	TVec2 oneTouchPos = CalculatePassPos(robot_num,Vec2(-side*field_width, 0),OwnRobot[robot_num].State.Position);
 	
 	if (DIS(oneTouchPos, target) < max_def_move_to_intercept ) {
 		oneTouchNear = true;
@@ -46,12 +46,12 @@ void ai09::DefHi ( int robot_num , TVec2 * defendTarget , bool stop )
 	assholeHasBall = DIS ( OppRobot[ballHandlerAsshole].Position , ball.Position ) < max_ball_handler_asshole_dis;
 	
 	oppGoalOpen = true;
-	Line ballGoalLine = Line::makeLineFromTwoPoints(VecPosition(-3025*side,0),VecPosition(target.X,target.Y));
+	Line ballGoalLine = Line::makeLineFromTwoPoints(VecPosition(-field_width*side,0),VecPosition(target.X,target.Y));
 	for (int i = 0; i < MAX_ROBOTS; i ++) {
 		if ( OppRobot[i].seenState == CompletelyOut )
 			continue;
-		if ( ( fabs ( OppRobot[i].Position.X ) > 3025 ) ||
-			( fabs ( OppRobot[i].Position.Y ) > 2025 ) )
+		if ( ( fabs ( OppRobot[i].Position.X ) > field_width ) ||
+			( fabs ( OppRobot[i].Position.Y ) > field_height ) )
 			continue;
 		if (DIS(OppRobot[i].Position, target)>max_shoot_blocker_dis)
 			continue;
@@ -65,8 +65,8 @@ void ai09::DefHi ( int robot_num , TVec2 * defendTarget , bool stop )
 		for (int i = 0; i < 6; i ++) {
 			if ( OwnRobot[i].State.seenState == CompletelyOut )
 				continue;
-			if ( ( fabs ( OwnRobot[i].State.Position.X ) > 3025 ) ||
-				( fabs ( OwnRobot[i].State.Position.Y ) > 2025 ) )
+			if ( ( fabs ( OwnRobot[i].State.Position.X ) > field_width ) ||
+				( fabs ( OwnRobot[i].State.Position.Y ) > field_height ) )
 				continue;
 			if (DIS(OwnRobot[i].State.Position, target)>max_shoot_blocker_dis)
 				continue;
@@ -116,7 +116,7 @@ void ai09::DefHi ( int robot_num , TVec2 * defendTarget , bool stop )
 	{
 		ERRTSetObstacles ( robot_num , 0 , 1 , 1 , 0 , 0 );
 		//tech_circle(robot_num,sgn(ball.Position.Y)*side*60 ,0,15,false);
-		tech_circle(robot_num,AngleWith ( ball.Position , Vec2 ( side * 3133 , 0 ) ) ,0,500,true,0,0,0);
+		tech_circle(robot_num,AngleWith ( ball.Position , Vec2 ( side * (field_width+110) , 0 ) ) ,0,500,true,0,0,0);
 	}
 	else {
 		ERRTSetObstacles ( robot_num , stop , true , true , false );

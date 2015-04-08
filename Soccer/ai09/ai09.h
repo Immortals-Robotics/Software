@@ -25,6 +25,13 @@ class ai09 : public aiBase
 {
 	private:
 	
+    float field_width;
+    float field_height;
+    float goal_width;
+    
+    float penalty_area_r;
+    float penalty_area_width;
+    
 	map<string,void (ai09::*)()> AIPlayBook;
 	string currentPlay;
 	uint32_t currentPlayParam;
@@ -110,11 +117,12 @@ class ai09 : public aiBase
 	
 		// Helpers
 		TVec2 PointOnConnectingLine(TVec2 FirstPoint,TVec2 SecondPoint,float distance);
-		TVec2 GK_Ghuz ( void );
+		TVec2 GK_Ghuz ( float predictBallT , float rMul , int def_count = 2);
 		TVec2 DefGhuz ( TVec2 * defendTarget = NULL );
 		TVec2 CalculatePassPos ( int robot_num , const TVec2& target , const TVec2& statPos , float bar = 89.0f );
 		void CalculateBallTrajectory ( void );
 		float calculateRobotReachTime ( int robot_num , TVec2 dest , VelocityProfile* vel_profile );
+        float calculateBallRobotReachTime ( int robot_num , VelocityProfile* vel_profile );
 
 	
 		// boz ha
@@ -151,6 +159,7 @@ class ai09 : public aiBase
 		void Navigate2Point ( int robot_num , TVec2 dest , bool accurate = false , int speed = 80 , VelocityProfile * velocityProfile = NULL );
 		void ERRTNavigate2Point ( int robot_num , TVec2 dest , bool accurate = false , int speed = 80 , VelocityProfile * velocityProfile = NULL );
 		void ERRTSetObstacles ( int robot_num , bool bll = false , bool field = true , bool own = true , bool opp = false , bool dribble = false , bool bigPen = false );
+        void AddOppObs ( int mask1 = -1, int mask2 = -1 );
 		void Mark2Goal ( int robot_num , int opp , float dist = 220.0f );
 		void Mark2Ball ( int robot_num , int opp , float dist = 220.0f );
 		void Halt ( int robot_num );
@@ -162,7 +171,8 @@ class ai09 : public aiBase
 		void DefHi ( int robot_num , TVec2 * defendTarget = NULL , bool stop = false );
 		void PenaltyUs ( int robot_num , float angle , int kick = 0 , int chip = 0 );
 		void DefenceWall ( int robot_num , bool kickOff = false );
-		void tech_circle ( int robot_num , float angle , int kick = 0 , int chip = 0 , bool needRRT = true , bool gameRestart = false , bool kiss = false , bool dribbler = false );
+		void tech_circle ( int robot_num , float angle , int kick = 0 , int chip = 0 , bool needRRT = true , bool gameRestart = false , bool kiss = false , bool dribbler = false  , bool needOppRRT = false);
+    void intercept_ball ( int robot_num , float angle , int shoot_pow , int chip_pow );
 		void WaitForPass ( int robot_num , bool chip = false , TVec2* target = NULL , TVec2* statPos = NULL );
 		void WaitForOmghi ( int robot_num , bool chip = false );
 		void WaitForGool ( int robot_num , bool chip = false );
@@ -221,6 +231,7 @@ class ai09 : public aiBase
 		void sharifcup_play_3rd ( void );
 		void sharifcup_play_4th ( void );
 		void sharifcup_post_play ( void );
+        void throwin_us_outgir ( void );
 
 	
 			

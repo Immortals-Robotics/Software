@@ -1,14 +1,20 @@
 #include "ai09.h"
 #include <math.h>
 
-TVec2 ai09::GK_Ghuz ( void )
+TVec2 ai09::GK_Ghuz ( float predictBallT, float rMul, int def_count )
 {
+    TVec2 predictedBall = ball.Position;
+    if ( predictBallT > 0.01 )
+    {
+        predictedBall = predictBallForwardAI(predictBallT);
+    }
+    
 	if (side==1) {
-		ball.Position.X*=-1.0f;
-		ball.Position.Y*=-1.0f;
+		predictedBall.X*=-1.0f;
+		predictedBall.Y*=-1.0f;
 	}
 	
-	double alpha = AngleWith(Vec2(-3025, 0),ball.Position);
+	double alpha = AngleWith(Vec2(-field_width, 0),predictedBall);
 	int alphaSgn = sgn(alpha);
 	alpha = fabs(alpha);
 	/*double tetta = (0.000003 * alpha * alpha * alpha * alpha)
@@ -18,7 +24,7 @@ TVec2 ai09::GK_Ghuz ( void )
 	 + 11.751;
 	 tetta *= alphaSgn;*/
 	
-	double d = DIS(Vec2(-3025, 0),ball.Position);
+	double d = DIS(Vec2(-field_width, 0),predictedBall);
 	d = max(1000,min(d, 3000.0));
 	//d *= 0.5;
 	/*double R = ((- 0.0000000000002) * d * d * d * d * d)
@@ -50,6 +56,9 @@ TVec2 ai09::GK_Ghuz ( void )
 	- 6.3613 * d
 	+ 3.2991;
 	R *= 1000.0;
+    
+    R *= 1.3;
+    R *= rMul * 1.0;
 	
 	
 	/*double R = -22419262.7398
@@ -63,7 +72,7 @@ TVec2 ai09::GK_Ghuz ( void )
 	 - 3.3427 * d;*/
 	
 	
-	TVec2 target = Vec2(-3025.0f, 0.0f);
+	TVec2 target = Vec2(-field_width, 0.0f);
 	
 	target.X += cosDeg(tetta) * R;
 	target.Y += sinDeg(tetta) * R;
@@ -71,9 +80,6 @@ TVec2 ai09::GK_Ghuz ( void )
 	//cout << "	alpha: " << alpha << "	tetta: " << tetta << "		d: " << d << "	R: " << R << endl;
 	
 	if (side==1) {
-		ball.Position.X*=-1.0f;
-		ball.Position.Y*=-1.0f;
-		
 		target.X*=-1.0f;
 		target.Y*=-1.0f;
 	}

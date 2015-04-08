@@ -8,8 +8,8 @@ bool ai09::goal_blocked ( TVec2 init_pos, float max_shoot_blocker_dis, float sho
 	for (int i = 0; i < MAX_ROBOTS; i ++) {
 		if ( OppRobot[i].seenState == CompletelyOut )
 			continue;
-		if ( ( fabs ( OppRobot[i].Position.X ) > 3025 ) ||
-			( fabs ( OppRobot[i].Position.Y ) > 2025 ) )
+		if ( ( fabs ( OppRobot[i].Position.X ) > field_width ) ||
+			( fabs ( OppRobot[i].Position.Y ) > field_height ) )
 			continue;
 		if (DIS(OppRobot[i].Position, init_pos)>max_shoot_blocker_dis)
 			continue;

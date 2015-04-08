@@ -10,8 +10,8 @@ int ai09::findNearestAsshole ( TVec2 pos , int mask , bool acceptNearBall )
 			continue;
 		if ( OppRobot[i].seenState == CompletelyOut )
 			continue;
-		if ( ( fabs ( OppRobot[i].Position.X ) > 3025 ) ||
-			( fabs ( OppRobot[i].Position.Y ) > 2025 ) )
+		if ( ( fabs ( OppRobot[i].Position.X ) > field_width ) ||
+			( fabs ( OppRobot[i].Position.Y ) > field_height ) )
 			continue;
 		if ((!acceptNearBall)&&(( DIS ( ball.Position , OppRobot[i].Position ) < 500 ))) {
 			continue;

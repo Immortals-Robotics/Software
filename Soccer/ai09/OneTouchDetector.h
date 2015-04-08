@@ -4,6 +4,8 @@
 class OneTouchDetector
 {
 public:
+    float field_w;
+    float field_h;
 	int hys;
 	RobotState* rState;
 	BallState* bState;
@@ -13,12 +15,12 @@ public:
 	
 	OneTouchDetector()
 	{
-		hys = 0;
+        hys = 0;
 		BAR = 89.0;
 	}
 	bool IsArriving ( float angleTol = 40 , float passAngleLimit = 80 )
 	{
-		return IsArriving(Vec2(-(*side)*3025,0),angleTol,passAngleLimit);
+		return IsArriving(Vec2(-(*side)*field_w,0),angleTol,passAngleLimit);
 	}
 	bool IsArriving ( const TVec2& target, float angleTol, float passAngleLimit )
 	{

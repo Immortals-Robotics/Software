@@ -3,33 +3,36 @@
 #include <sstream>
 #include <iostream>
 
-class NetLogger : public std::stringbuf
-{
-protected:
-	string logger_ip;
-	short logger_port;
-	UDPSocket udpSock;
-	
-    virtual int sync()
+    int NetLogger::sync()
     {
 		// ensure NUL termination
 		//overflow(0);
 		//Send data
 		string data = str();
-		udpSock.sendTo(data.c_str(), data.length(), logger_ip, logger_port);
-		printf(data.c_str());
+        printf("%s", data.c_str());
+        //data.insert(0, frame_id_str);
+		//udpSock.sendTo(data.c_str(), data.length(), logger_ip, logger_port);
 		// clear buffer
 		str(std::string());
 		return std::stringbuf::sync();
     }
 	
-public:
-	NetLogger ( const string _address , const short _port )
-	:logger_ip(_address),logger_port(_port){}
-};
+NetLogger::NetLogger ( const string _address , const short _port )
+	:logger_ip(_address),logger_port(_port),frame_id(0){}
+    
+void NetLogger::SetFrameID ( unsigned int id )
+    {
+        frame_id = id;
+        //sprintf(frame_id_str, "%u\n", frame_id);
+    }
 
-void init_net_log ( const string address , const short port )
+unsigned int NetLogger::GetFrameID ( void )
 {
-	NetLogger* netLogger = new NetLogger ( address , port );
-	std::cout.rdbuf(netLogger);
+    return frame_id;
 }
+
+void NetLogger::Init()
+    {
+        SetFrameID(0);
+        std::cout.rdbuf(this);
+    }

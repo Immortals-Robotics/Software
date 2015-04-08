@@ -21,7 +21,7 @@ TVec2 ai09::CalculatePassPos ( int robot_num , const TVec2& target , const TVec2
 
 void ai09::WaitForPass ( int robot_num , bool chip , TVec2* target , TVec2* statPos )
 {
-	TVec2 pos = CalculatePassPos(robot_num,target==NULL?Vec2(-side*3025, 0):*target,statPos==NULL?OwnRobot[robot_num].State.Position:*statPos,95);
+	TVec2 pos = CalculatePassPos(robot_num,target==NULL?Vec2(-side*field_width, 0):*target,statPos==NULL?OwnRobot[robot_num].State.Position:*statPos,87);
 	
 	/*if (target==NULL) {
 		target = new TVec2(Vec2(-side*3025, 0));
@@ -37,8 +37,8 @@ void ai09::WaitForPass ( int robot_num , bool chip , TVec2* target , TVec2* stat
 	Line shoot_line = Line::makeLineFromPositionAndAngle ( VecPosition( pos.X , pos.Y ) , OwnRobot[robot_num].target.Angle);
 	Line open_line = Line::makeLineFromPositionAndAngle ( VecPosition ( pos.X , pos.Y ) , calculateOpenAngleToGoal (pos,robot_num).X );
 	debugDraw=true;
-	AddDebugLine(pos,Vec2(-side*3025, shoot_line.getYGivenX(-side*3025)),Brown);
-	AddDebugLine(pos,Vec2(-side*3025, open_line.getYGivenX(-side*3025)),Pink);
+	AddDebugLine(pos,Vec2(-side*field_width, shoot_line.getYGivenX(-side*field_width)),Brown);
+	AddDebugLine(pos,Vec2(-side*field_width, open_line.getYGivenX(-side*field_width)),Pink);
 	debugDraw=false;
 
 	
@@ -53,7 +53,7 @@ void ai09::WaitForPass ( int robot_num , bool chip , TVec2* target , TVec2* stat
 			OwnRobot[robot_num].Chip( 60 );
 		}
 		else
-			OwnRobot[robot_num].Shoot( 150 );
+			OwnRobot[robot_num].Shoot( 100 );
 	}
 	else
 	{
@@ -65,5 +65,5 @@ void ai09::WaitForPass ( int robot_num , bool chip , TVec2* target , TVec2* stat
 
 	}
 
-	//OwnRobot[robot_num].Dribble( 15 );
+	OwnRobot[robot_num].Dribble( 15 );
 }

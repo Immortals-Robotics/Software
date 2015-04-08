@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		094FBEA1197E262C00D1D68A /* intercept_ball.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094FBE9F197E262C00D1D68A /* intercept_ball.cpp */; };
 		097C9BDC18F529900086F270 /* referee_new.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 097C9BDA18F529900086F270 /* referee_new.cpp */; };
 		097C9BE018F531B60086F270 /* referee.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 097C9BDD18F531B60086F270 /* referee.pb.cc */; };
+		09EF2C631980150200C97A3F /* throwin_us_outgir.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09EF2C611980150200C97A3F /* throwin_us_outgir.cpp */; };
 		8DD76F6A0486A84900D96B5E /* RoboCup11.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C6859E8B029090EE04C91782 /* RoboCup11.1 */; };
 		A50570E8152E53C300617E29 /* NewNormalPlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A50570E7152E53C300617E29 /* NewNormalPlay.cpp */; };
 		A50570EC152E54C600617E29 /* CalcIsDefending.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A50570EB152E54C600617E29 /* CalcIsDefending.cpp */; };
@@ -151,11 +153,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		094FBE9F197E262C00D1D68A /* intercept_ball.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = intercept_ball.cpp; sourceTree = "<group>"; };
 		097C9BDA18F529900086F270 /* referee_new.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = referee_new.cpp; sourceTree = "<group>"; };
 		097C9BDB18F529900086F270 /* referee_new.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = referee_new.h; sourceTree = "<group>"; };
 		097C9BDD18F531B60086F270 /* referee.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = referee.pb.cc; sourceTree = "<group>"; };
 		097C9BDE18F531B60086F270 /* referee.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = referee.pb.h; sourceTree = "<group>"; };
 		097C9BDF18F531B60086F270 /* referee.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = referee.proto; sourceTree = "<group>"; };
+		09EF2C611980150200C97A3F /* throwin_us_outgir.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = throwin_us_outgir.cpp; sourceTree = "<group>"; };
 		8DD76F6C0486A84900D96B5E /* RoboCup11 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = RoboCup11; sourceTree = BUILT_PRODUCTS_DIR; };
 		A50570E7152E53C300617E29 /* NewNormalPlay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NewNormalPlay.cpp; sourceTree = "<group>"; };
 		A50570EB152E54C600617E29 /* CalcIsDefending.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CalcIsDefending.cpp; sourceTree = "<group>"; };
@@ -562,6 +566,7 @@
 				A5E467EA170A088500C7CF6C /* tech_motion_ann.cpp */,
 				A5C4DC5117F24A0B00938356 /* sharifcup.cpp */,
 				A55E0797182395BC008AF3A6 /* corner_their_mrl.cpp */,
+				09EF2C611980150200C97A3F /* throwin_us_outgir.cpp */,
 			);
 			path = plays;
 			sourceTree = "<group>";
@@ -570,6 +575,7 @@
 			isa = PBXGroup;
 			children = (
 				A51B543D13B549BD0073486E /* TwoDef.cpp */,
+				094FBE9F197E262C00D1D68A /* intercept_ball.cpp */,
 				A5D6F18513BD103A00977D97 /* backPass.cpp */,
 				A5DF0F1D13C530D100AB2F63 /* defenceWall.cpp */,
 				A51B542813B549BD0073486E /* halt.cpp */,
@@ -847,6 +853,7 @@
 				A5805D3C1474CEED00FE0D1B /* internalFinalize.cpp in Sources */,
 				F7E41AAC151E0107002DC8A5 /* serial.cc in Sources */,
 				A57314FB1524355300649EAC /* strategy.pb.cc in Sources */,
+				094FBEA1197E262C00D1D68A /* intercept_ball.cpp in Sources */,
 				A57314FE152450D600649EAC /* strategy_maker.cpp in Sources */,
 				A5E4719B1525939C003B00B4 /* penalty_us_ghuz.cpp in Sources */,
 				A5E4721F1525C9FA003B00B4 /* kickoff_us_zamini.cpp in Sources */,
@@ -871,6 +878,7 @@
 				A5FCDE8F158E65D1004A16CF /* DefHi.cpp in Sources */,
 				A5FCDEE2158E8ED3004A16CF /* nearestAsshole.cpp in Sources */,
 				A5FCDF04158E9788004A16CF /* ballIsGoaling.cpp in Sources */,
+				09EF2C631980150200C97A3F /* throwin_us_outgir.cpp in Sources */,
 				A5FCDF34158F796C004A16CF /* pass_gool.cpp in Sources */,
 				A5FCDFE7158FDEC8004A16CF /* recievePass.cpp in Sources */,
 				A5FCE026158FF8AC004A16CF /* gkHi.cpp in Sources */,

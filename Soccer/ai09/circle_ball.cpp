@@ -27,7 +27,7 @@ void ai09::circle_ball ( int robot_num , float tagret_angle , int shoot_pow , in
 {
 	//tagret_angle -= 5;
 	const float very_far_ball_dis = 600.0f;
-	const float far_ball_dis = 150.0f;
+	const float far_ball_dis = 160.0f;
 	const int far_to_near_hys = 5;
     float near_ball_dis = 140.0f;
     if ( near_dis_override > 0 )
@@ -91,7 +91,7 @@ void ai09::circle_ball ( int robot_num , float tagret_angle , int shoot_pow , in
 		
 		OwnRobot[robot_num].face(ball.Position);
 		OwnRobot[robot_num].target.Angle += NormalizeAngle(newToRobot+180.0f-OwnRobot[robot_num].target.Angle)/2.0f;
-		OwnRobot[robot_num].target.Angle = NormalizeAngle(OwnRobot[robot_num].target.Angle);
+		//OwnRobot[robot_num].target.Angle = NormalizeAngle(OwnRobot[robot_num].target.Angle);
 		ERRTSetObstacles(robot_num, 0, 1, 1, 1, 0, 1);
 		TVec2 target_point = CircleAroundPoint(ball.Position, newToRobot, near_ball_dis/cosDeg(deltaAngle));
         if ( near_dis_override > 0 )

@@ -15,7 +15,7 @@ void ai09::DefenceWall ( int robot_num , bool kickOff )
 	int index = findKickerOpp ( -1 );
 	if ( index == -1 )
 	{
-		target = CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(AngleWith(ball.Position , Vec2(side*2995,0))),730);
+		target = CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(AngleWith(ball.Position , Vec2(side*field_width,0))),730);
 	}
 	else
 	{
@@ -25,7 +25,7 @@ void ai09::DefenceWall ( int robot_num , bool kickOff )
 	cout << index << endl;
 	
 	float ballAngle = AngleWith(ball.Position, target);
-	float firstLeg = AngleWith(ball.Position, Vec2(side*3025.0f, sgn(ball.Position.Y)*(350.0f)));
+	float firstLeg = AngleWith(ball.Position, Vec2(side*field_width, sgn(ball.Position.Y)*(350.0f)));
 	float secLeg = firstLeg - tetta * sgn(ball.Position.Y)*side;
 	
 	cout << "	ball: " << ballAngle << "	f: " << firstLeg << "	s: " << secLeg << endl;
@@ -34,10 +34,10 @@ void ai09::DefenceWall ( int robot_num , bool kickOff )
 	
 	if ( isOut )
 	{
-		target = CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(AngleWith(ball.Position , Vec2(side*2995,0))),730);
+		target = CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(AngleWith(ball.Position , Vec2(side*field_width,0))),730);
 	}
 	
-	OwnRobot[attack].face ( ball.Position );
-	ERRTSetObstacles ( attack , true , true , true , false );
-	ERRTNavigate2Point ( attack , target );
+	OwnRobot[robot_num].face ( ball.Position );
+	ERRTSetObstacles ( robot_num , true , true , true , false );
+	ERRTNavigate2Point ( robot_num , target );
 }

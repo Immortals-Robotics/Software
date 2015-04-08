@@ -15,11 +15,13 @@ void ai09::Navigate2Point ( int robot_num , TVec2 dest , bool accurate , int spe
 
 void ai09::ERRTNavigate2Point ( int robot_num , TVec2 dest , bool accurate , int speed , VelocityProfile * velocityProfile )
 {
+    //Navigate2Point(robot_num, dest,accurate,speed,velocityProfile);
+    //return;
 	if ( OwnRobot[robot_num].State.seenState == CompletelyOut )
 		Halt ( robot_num );
 	else
 	{
-		planner[robot_num].init ( OwnRobot[robot_num].State.Position , dest , 9 );
+		planner[robot_num].init ( OwnRobot[robot_num].State.Position , dest , 90.0f );
 		TVec2 wayp = planner[robot_num].Plan ( );
 		
 		//if ( robot_num == 0 )

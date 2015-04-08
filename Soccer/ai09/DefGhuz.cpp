@@ -11,7 +11,7 @@ TVec2 ai09::DefGhuz ( TVec2 * defendTarget )
 		ball.Position.Y*=-1.0f;
 	}
 
-	double alpha = AngleWith(Vec2(-3025, 0),ball.Position);
+	double alpha = AngleWith(Vec2(-field_width, 0),ball.Position);
 	int alphaSgn = sgn(alpha);
 	alpha = fabs(alpha);
 	double tetta = (0.0001 * alpha * alpha * alpha)
@@ -19,7 +19,7 @@ TVec2 ai09::DefGhuz ( TVec2 * defendTarget )
 	+ (1.0936 * alpha )
 	- (4.9259 );
 	
-	double d = DIS(Vec2(-3025, 0),ball.Position);
+	double d = DIS(Vec2(-field_width, 0),ball.Position);
 	d=min(3000, d);
 	
 	/*double tetta = 550.2833
@@ -45,10 +45,11 @@ TVec2 ai09::DefGhuz ( TVec2 * defendTarget )
 			+ 1.3698 * d
 			+ 0.4887;
 	
+    R *= 1.3;
 	R *= 1000.0;
 	
 	
-	TVec2 target = Vec2(-3025.0f, 0.0f);
+	TVec2 target = Vec2(-field_width, 0.0f);
 	
 	target.X += cosDeg(tetta) * R;
 	target.Y += sinDeg(tetta) * R;

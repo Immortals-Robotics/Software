@@ -14,7 +14,7 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 			{
 				//obstacle[obs_num].circle.setCenter ( VecPosition ( OwnRobot[i].Position.X , OwnRobot[i].Position.Y ) );
 				//obstacle[obs_num].circle.setRadius ( 400 );
-				AddCircle ( OwnRobot[i].State.Position.X , OwnRobot[i].State.Position.Y , 9 + (!dribble)*8 );
+				AddCircle ( OwnRobot[i].State.Position.X , OwnRobot[i].State.Position.Y , 90.0f + (!dribble)*90.0f );
 			}
 		}
 	}
@@ -25,7 +25,7 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 		{
 			if ( OppRobot[i].seenState != CompletelyOut )
 			{
-				AddCircle ( OppRobot[i].Position.X , OppRobot[i].Position.Y , 9 + (!dribble)*8 );
+				AddCircle ( OppRobot[i].Position.X , OppRobot[i].Position.Y , 90.0f + (!dribble)*90.0f );
 			}
 			//obstacle[obs_num].circle.setCenter ( VecPosition ( OppRobot[i].Position.X , OppRobot[i].Position.Y ) );
 			//obstacle[obs_num].circle.setRadius ( 400 );
@@ -34,12 +34,14 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 
 	if ( bll )
 	{
-		AddCircle ( ball.Position.X , ball.Position.Y , 51 );
+		AddCircle ( ball.Position.X , ball.Position.Y , 510.0f );
 	}
 
 	if ( field )
 	{
-		AddCircle ( side*3020 , -170 , 95 );
+        float penalty_circle_center_y = penalty_area_width/2.0;
+		AddCircle ( side*field_width , -penalty_circle_center_y , penalty_area_r + 100.0f );
+        AddCircle ( -side*field_width , -penalty_circle_center_y , penalty_area_r + 50.0f );
 		
 		/*Debug_Circle * dbgCircle = AIDebug.add_circle();
 		dbgCircle -> set_x(side*3020);
@@ -50,9 +52,11 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 		col -> set_g(0);
 		col -> set_b(0);*/
 		
-		AddCircle ( side*3020 , 180 , 95 );
+		AddCircle ( side*field_width , penalty_circle_center_y , penalty_area_r + 100.0f );
+        AddCircle ( -side*field_width , penalty_circle_center_y , penalty_area_r + 50.0f );
 
-		AddRectangle ( side*3110 , -170 , 104 , 36 );
+		AddRectangle ( side*(field_width+85.0f) , -penalty_circle_center_y , 185.0+penalty_area_r , penalty_area_width );
+        AddRectangle ( -side*(field_width+85.0f) , -penalty_circle_center_y , 135.0+penalty_area_r , penalty_area_width );
 		
 		/*Debug_Rect * newDebugRect =  AIDebug.add_rect();
 		newDebugRect -> set_x(side*3110);
@@ -63,11 +67,13 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 	
 	if ( bigPen )
 	{
-		AddCircle ( -side*3020 , -170 , 110 );
+        float penalty_circle_center_y = penalty_area_width/2.0;
+        
+		AddCircle ( -side*field_width , -penalty_circle_center_y , penalty_area_r + 200.0f );
 		
-		AddCircle ( -side*3020 , 180 , 110 );
+		AddCircle ( -side*field_width , penalty_circle_center_y , penalty_area_r + 200.0f );
 		
-		AddRectangle ( -side*3110 , -170 , 119 , 36 );
+		AddRectangle ( -side*(field_width+85.0f) , -penalty_circle_center_y , 285.0+penalty_area_r , penalty_area_width );
 	}
 	
 	/*if (robot_num == 0) {
@@ -91,4 +97,14 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 	//AddRectangle ( 0 , 0 , 38 , 730 );
 
 	//AddCircle ( world2mapX ( ball.Position.X ) , world2mapY ( ball.Position.Y ) , 7 );
+}
+
+void ai09::AddOppObs ( int mask1, int mask2 )
+{
+    for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
+    {
+        if ( OppRobot[i].seenState == CompletelyOut || i == mask1 || i == mask2 )
+            continue;
+        AddCircle ( OppRobot[i].Position.X , OppRobot[i].Position.Y , 180.0f );
+    }
 }

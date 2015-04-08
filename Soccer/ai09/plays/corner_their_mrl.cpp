@@ -2,24 +2,24 @@
 
 void ai09::corner_their_mrl ( void )
 {
-	GKHi(gk, 1, 0);
-	//ERRTSetObstacles(gk, 0, 0, 1, 0, 0, 0);
-	//OwnRobot[gk].target.Angle = (1+side)*90.0f;
-	//ERRTNavigate2Point(gk, Vec2(side*2900.0f, 0), 0, 100, &VELOCITY_PROFILE_MAMOOLI);
+	//GKHi(gk, 1, 0);
+	ERRTSetObstacles(gk, 0, 0, 1, 0, 0, 0);
+	OwnRobot[gk].target.Angle = (1+side)*90.0f;
+	ERRTNavigate2Point(gk, Vec2(side*(field_width-100), 0), 0, 100, &VELOCITY_PROFILE_MAMOOLI);
 	
 	DefHi(def,NULL, true);
 	isDefending = true;
 	DefenceWall(attack, false);
 	
 	map<int,TVec2> static_pos;
-	static_pos[dmf] = Vec2(side*2300, -sgn(ball.Position.Y)*800);
-	static_pos[mid1] = Vec2(side*2000, 300);
-	static_pos[mid2] = Vec2(side*2000, 300);
+	static_pos[dmf] = Vec2(side*3500, -sgn(ball.Position.Y)*1100);
+	static_pos[mid1] = Vec2(side*3200, 600);
+	static_pos[mid2] = Vec2(side*3200, 0);
 	
 	int gooshe = findGusheRobot(-1);
 	markMap[&dmf] = gooshe;
 	if (gooshe != -1) {
-		Mark2Goal(dmf, gooshe, 60);
+		Mark2Goal(dmf, gooshe, 180);
 	}
 	else {
 		ERRTSetObstacles(dmf, 1, 1, 1, 1, 0, 0);
@@ -39,10 +39,10 @@ void ai09::corner_their_mrl ( void )
 		markMap[&mid1] = -1;
 	}
 	else {
-		float mark_dis = min(2000, DIS(Vec2(side*3025, 0), OppRobot[jelos[0]].Position)-50);
-		TVec2 markPoint = PointOnConnectingLine(Vec2(side*3025, 0), OppRobot[jelos[0]].Position, mark_dis);
+		float mark_dis = min(2000, DIS(Vec2(side*field_width, 0), OppRobot[jelos[0]].Position)-180);
+		TVec2 markPoint = PointOnConnectingLine(Vec2(side*field_width, 0), OppRobot[jelos[0]].Position, mark_dis);
 		
-		ERRTSetObstacles(mid1, 1, 1, 1, 0, 0, 0);
+		ERRTSetObstacles(mid1, 1, 1, 1, 1, 0, 0);
 		ERRTNavigate2Point(mid1, markPoint, 0, 100, &VELOCITY_PROFILE_KHARAKI);
 		OwnRobot[mid1].face(ball.Position);
 		markMap[&mid1] = jelos[0];
@@ -60,10 +60,10 @@ void ai09::corner_their_mrl ( void )
 		markMap[&mid2] = -1;
 	}
 	else {
-		float mark_dis = min(2000, DIS(Vec2(side*3025, 0), OppRobot[remaining_jelos[0]].Position)-50);
-		TVec2 markPoint = PointOnConnectingLine(Vec2(side*3025, 0), OppRobot[remaining_jelos[0]].Position, mark_dis);
+		float mark_dis = min(2500, DIS(Vec2(side*field_width, 0), OppRobot[remaining_jelos[0]].Position)-180);
+		TVec2 markPoint = PointOnConnectingLine(Vec2(side*field_width, 0), OppRobot[remaining_jelos[0]].Position, mark_dis);
 		
-		ERRTSetObstacles(mid2, 1, 1, 1, 0, 0, 0);
+		ERRTSetObstacles(mid2, 1, 1, 1, 1, 0, 0);
 		ERRTNavigate2Point(mid2, markPoint, 0, 100, &VELOCITY_PROFILE_KHARAKI);
 		OwnRobot[mid2].face(ball.Position);
 		markMap[&mid2] = remaining_jelos[0];

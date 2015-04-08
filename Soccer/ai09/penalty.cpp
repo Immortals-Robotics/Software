@@ -21,14 +21,14 @@ void ai09::PenaltyUs ( int robot_num , float angle , int kick , int chip )
 	float hehe = AngleWith ( PredictedBall , OwnRobot[robot_num].State.Position );
 	hehe = NormalizeAngle ( angle - hehe );
 
-	ERRTSetObstacles ( robot_num );
+	ERRTSetObstacles ( robot_num, false, false );
 
 	if ( fabs ( hehe ) < tetta )
 	{
 		//hehe = angle;
 		//if ( OwnRobot[2].State.Angle < 0 )
 		if (( kick) ||(chip ))
-			ERRTNavigate2Point ( robot_num , CircleAroundPoint ( PredictedBall , angle , min ( r , fabs(hehe)*320.0f/tetta ) ) );
+			ERRTNavigate2Point ( robot_num , CircleAroundPoint ( PredictedBall , angle , min ( r , fabs(hehe)*280.0f/tetta ) ) );
 		else
 		{
 			//OwnRobot[robot_num].target.Angle = 90+side*90;
@@ -50,8 +50,8 @@ void ai09::PenaltyUs ( int robot_num , float angle , int kick , int chip )
 			tmpPos.X = -tmpPos.X;
 			tmpAng += 180.0f;
 		}*/
-		float t1 = AngleWith ( tmpPos , Vec2 ( -3025.0f , -350.0f ) );
-		float t2 = AngleWith ( tmpPos , Vec2 ( -3025.0f , 350.0f ) );
+		float t1 = AngleWith ( tmpPos , Vec2 ( -field_width , -450.0f ) );
+		float t2 = AngleWith ( tmpPos , Vec2 ( -field_width , 450.0f ) );
 
 		while ( t1 < 0 )
 			t1 += 360.0f;

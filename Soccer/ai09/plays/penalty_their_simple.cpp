@@ -2,22 +2,25 @@
 
 void ai09::penalty_their_simple ( void )
 {
+    float penalty_x = field_width - 85.0;
+    
 	int index = findKickerOpp(-1);
 	if ( index == -1 )
 	{
 		OwnRobot[gk].target.Angle = (1+side)*90.0f;
-		Navigate2Point ( gk , Vec2 ( side*2900.0f , 0 ) );
+		Navigate2Point ( gk , Vec2 ( side*penalty_x , 0 ) );
 	}
 	else
 	{
-		float gkp_y = Line::makeLineFromTwoPoints ( VecPosition ( OppRobot[index].Position.X , OppRobot[index].Position.Y ) , VecPosition ( ball.Position.X , ball.Position.Y ) ).getIntersection ( Line::makeLineFromTwoPoints ( VecPosition ( side * 2940 , 100 ) , VecPosition ( side * 2940 , -100 ) ) ).getY ( );
-		if(gkp_y > 250)
-			gkp_y = 250;
-		if(gkp_y < -250)
-			gkp_y = -250;
+		float gkp_y = Line::makeLineFromTwoPoints ( VecPosition ( OppRobot[index].Position.X , OppRobot[index].Position.Y ) , VecPosition ( ball.Position.X , ball.Position.Y ) ).getIntersection ( Line::makeLineFromTwoPoints ( VecPosition ( side * penalty_x , 100 ) , VecPosition ( side * penalty_x , -100 ) ) ).getY ( );
+        float max_reach_y = (goal_width/2.0) - 100.0;
+		if(max_reach_y > 250)
+			max_reach_y = 250;
+		if(max_reach_y < -250)
+			max_reach_y = -250;
 		
 		OwnRobot[gk].face(ball.Position);
-		Navigate2Point ( gk , Vec2 ( side * 2940 , gkp_y ) );
+		Navigate2Point ( gk , Vec2 ( side * penalty_x , gkp_y ) );
 	}
 	ERRTSetObstacles ( def , true , true , true , true );
 	ERRTNavigate2Point ( def , Vec2 ( side*2000 , 500 ) );

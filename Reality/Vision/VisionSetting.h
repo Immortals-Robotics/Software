@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <vector>
 
 #define COLOR_BLUE false
 #define COLOR_YELLOW true
@@ -15,5 +16,5 @@ struct VisionSetting
 	std::string GUI_Adress;
 	short GUIPort;
 
-	bool use_camera[2];
+    std::vector<bool> use_camera;
 };

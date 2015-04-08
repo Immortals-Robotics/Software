@@ -16,7 +16,7 @@ void ai09::TwoDef ( int robot_num1 , int robot_num2 , TVec2 * defendTarget )
 
 	TVec2 num1Target , num2Target ;
 
-	if ( ( Line::makeLineFromTwoPoints(VecPosition(side*3025.0f,-175.0f),VecPosition((*defendTarget).X , (*defendTarget).Y)).getCircleIntersectionPoints(Circle (VecPosition(side*3025.0f,-175.0f),750.0f),p1,p2) ) &&
+	if ( ( Line::makeLineFromTwoPoints(VecPosition(side*field_width,-175.0f),VecPosition((*defendTarget).X , (*defendTarget).Y)).getCircleIntersectionPoints(Circle (VecPosition(side*field_width,-175.0f),750.0f),p1,p2) ) &&
 		( (*defendTarget).Y < -175.0f ) )
 	{
 		if ( p1->getY() <= -175.0f )
@@ -28,8 +28,8 @@ void ai09::TwoDef ( int robot_num1 , int robot_num2 , TVec2 * defendTarget )
 			num1Target = Vec2 ( p2->getX() , p2->getY() );
 		}
 	}
-	else if ( ( Line::makeLineFromTwoPoints(VecPosition(side*3025.0f,-175.0f),VecPosition((*defendTarget).X , (*defendTarget).Y)).getCircleIntersectionPoints(Circle (VecPosition(side*3025.0f,175.0f),750.0f),p1,p2) ) &&
-		( ( p1->getY ( ) > 175.0f ) && ( fabs ( p1->getX() ) < 3025.0f ) || ( p2->getY ( ) > 175.0f ) && ( fabs ( p2->getX() ) < 3025.0f ) ) )
+	else if ( ( Line::makeLineFromTwoPoints(VecPosition(side*field_width,-175.0f),VecPosition((*defendTarget).X , (*defendTarget).Y)).getCircleIntersectionPoints(Circle (VecPosition(side*field_width,175.0f),750.0f),p1,p2) ) &&
+		( ( p1->getY ( ) > 175.0f ) && ( fabs ( p1->getX() ) < field_width ) || ( p2->getY ( ) > 175.0f ) && ( fabs ( p2->getX() ) < field_width ) ) )
 	{
 		if ( p1->getY() >= 175.0f )
 		{
@@ -42,7 +42,7 @@ void ai09::TwoDef ( int robot_num1 , int robot_num2 , TVec2 * defendTarget )
 	}
 	else
 	{
-		*p1 = Line::makeLineFromTwoPoints(VecPosition(side*3025.0f,-175.0f),VecPosition((*defendTarget).X , (*defendTarget).Y)).getIntersection ( Line::makeLineFromTwoPoints ( VecPosition ( side*2275.0f , 175.0f ) , VecPosition ( side*2275.0f , -175.0f ) ) );
+		*p1 = Line::makeLineFromTwoPoints(VecPosition(side*field_width,-175.0f),VecPosition((*defendTarget).X , (*defendTarget).Y)).getIntersection ( Line::makeLineFromTwoPoints ( VecPosition ( side*2275.0f , 175.0f ) , VecPosition ( side*2275.0f , -175.0f ) ) );
 		num1Target = Vec2 ( p1->getX() , p1->getY() );
 		
 	}
