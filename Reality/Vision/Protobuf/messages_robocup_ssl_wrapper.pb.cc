@@ -109,6 +109,7 @@ const int SSL_WrapperPacket::kGeometryFieldNumber;
 SSL_WrapperPacket::SSL_WrapperPacket()
   : ::google::protobuf::Message() {
   SharedCtor();
+  // @@protoc_insertion_point(constructor:SSL_WrapperPacket)
 }
 
 void SSL_WrapperPacket::InitAsDefaultInstance() {
@@ -120,6 +121,7 @@ SSL_WrapperPacket::SSL_WrapperPacket(const SSL_WrapperPacket& from)
   : ::google::protobuf::Message() {
   SharedCtor();
   MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:SSL_WrapperPacket)
 }
 
 void SSL_WrapperPacket::SharedCtor() {
@@ -130,6 +132,7 @@ void SSL_WrapperPacket::SharedCtor() {
 }
 
 SSL_WrapperPacket::~SSL_WrapperPacket() {
+  // @@protoc_insertion_point(destructor:SSL_WrapperPacket)
   SharedDtor();
 }
 
@@ -162,7 +165,7 @@ SSL_WrapperPacket* SSL_WrapperPacket::New() const {
 }
 
 void SSL_WrapperPacket::Clear() {
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+  if (_has_bits_[0 / 32] & 3) {
     if (has_detection()) {
       if (detection_ != NULL) detection_->::SSL_DetectionFrame::Clear();
     }
@@ -176,18 +179,21 @@ void SSL_WrapperPacket::Clear() {
 
 bool SSL_WrapperPacket::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  while ((tag = input->ReadTag()) != 0) {
+  // @@protoc_insertion_point(parse_start:SSL_WrapperPacket)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // optional .SSL_DetectionFrame detection = 1;
       case 1: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 10) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_detection()));
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(18)) goto parse_geometry;
         break;
@@ -195,23 +201,23 @@ bool SSL_WrapperPacket::MergePartialFromCodedStream(
 
       // optional .SSL_GeometryData geometry = 2;
       case 2: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 18) {
          parse_geometry:
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_geometry()));
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
-        if (input->ExpectAtEnd()) return true;
+        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
       default: {
-      handle_uninterpreted:
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          return true;
+          goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
               input, tag, mutable_unknown_fields()));
@@ -219,12 +225,18 @@ bool SSL_WrapperPacket::MergePartialFromCodedStream(
       }
     }
   }
+success:
+  // @@protoc_insertion_point(parse_success:SSL_WrapperPacket)
   return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:SSL_WrapperPacket)
+  return false;
 #undef DO_
 }
 
 void SSL_WrapperPacket::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:SSL_WrapperPacket)
   // optional .SSL_DetectionFrame detection = 1;
   if (has_detection()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
@@ -241,10 +253,12 @@ void SSL_WrapperPacket::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
+  // @@protoc_insertion_point(serialize_end:SSL_WrapperPacket)
 }
 
 ::google::protobuf::uint8* SSL_WrapperPacket::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:SSL_WrapperPacket)
   // optional .SSL_DetectionFrame detection = 1;
   if (has_detection()) {
     target = ::google::protobuf::internal::WireFormatLite::
@@ -263,6 +277,7 @@ void SSL_WrapperPacket::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
+  // @@protoc_insertion_point(serialize_to_array_end:SSL_WrapperPacket)
   return target;
 }
 

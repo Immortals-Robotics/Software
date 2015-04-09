@@ -376,8 +376,8 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 			tmpPos.X = -tmpPos.X;
 			tmpAng += 180.0f;
 		}*/
-		float t1 = AngleWith ( tmpPos , Vec2 ( -3025.0f , -350.0f ) );
-		float t2 = AngleWith ( tmpPos , Vec2 ( -3025.0f , 350.0f ) );
+		float t1 = AngleWith ( tmpPos , Vec2 ( field_width , -goal_width/2.0 ) );
+		float t2 = AngleWith ( tmpPos , Vec2 ( field_width , goal_width/2.0 ) );
 
 		while ( t1 < 0 )
 			t1 += 360.0f;
@@ -408,6 +408,10 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 			//if ( chip )
 			OwnRobot[robot_num].Chip(chip);
 			//else
+            kick = min(80, kick);
+            float vel_delta = OwnRobot[robot_num].State.velocity.magnitude / 100.0f;
+            vel_delta = min(40,vel_delta);
+            vel_delta = kick - vel_delta;
 			OwnRobot[robot_num].Shoot(kick);
 		}
 	}

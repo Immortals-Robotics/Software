@@ -21,7 +21,7 @@ TVec2 ai09::CalculatePassPos ( int robot_num , const TVec2& target , const TVec2
 
 void ai09::WaitForPass ( int robot_num , bool chip , TVec2* target , TVec2* statPos )
 {
-	TVec2 pos = CalculatePassPos(robot_num,target==NULL?Vec2(-side*field_width, 0):*target,statPos==NULL?OwnRobot[robot_num].State.Position:*statPos,87);
+	TVec2 pos = CalculatePassPos(robot_num,target==NULL?Vec2(-side*field_width, 0):*target,statPos==NULL?OwnRobot[robot_num].State.Position:*statPos,86);
 	
 	/*if (target==NULL) {
 		target = new TVec2(Vec2(-side*3025, 0));
@@ -53,7 +53,14 @@ void ai09::WaitForPass ( int robot_num , bool chip , TVec2* target , TVec2* stat
 			OwnRobot[robot_num].Chip( 60 );
 		}
 		else
-			OwnRobot[robot_num].Shoot( 100 );
+        {
+            float vel_delta = ball.velocity.magnitude / 100.0f;
+            vel_delta = min(60,vel_delta);
+            vel_delta *= 0.7;
+            vel_delta = 80 - vel_delta;
+            cout << "ball vel: " << vel_delta << endl;
+			OwnRobot[robot_num].Shoot( vel_delta );
+        }
 	}
 	else
 	{

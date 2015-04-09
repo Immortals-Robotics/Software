@@ -56,7 +56,7 @@ void ai09::NormalPlayAtt ( void )
                     mid1Suitable = false;
             }
 
-	if ( openAngle.Y < 10 && (mid1Suitable||mid2Suitable) )//&& ( ball.Position.X * side < -2300 ) && ( fabs ( ball.Position.Y ) > 1800 ) )
+	if ( openAngle.Y < 2 && (mid1Suitable||mid2Suitable) )//&& ( ball.Position.X * side < -2300 ) && ( fabs ( ball.Position.Y ) > 1800 ) )
 	{
         
 		//float passAngle = AngleWith ( OwnRobot[randomParam<0.3?dmf:(randomParam<0.6?rmf:lmf)].State.Position , ball.Position );
@@ -89,8 +89,8 @@ void ai09::NormalPlayAtt ( void )
             shootAngle = AngleWith ( Vec2 ( -side*field_width , 0 ) , ball.Position );
         
 		float shoot_pow = 140;
-        if ( openAngle.Y < 2 )
-            shoot_pow = 0;
+        //if ( openAngle.Y < 2 )
+        //    shoot_pow = 0;
 		if (DIS(OwnRobot[attack].State.Position,ball.Position) > 400 ) {
 			shoot_pow = 1;
             activeShootTimer.start();

@@ -185,7 +185,7 @@ void ai09::strategy_maker ( void )
 			}
             else if (step[i]==strategy.role(i).path_size()-2) {
                 float passAngle = AngleWith(Vec2(strategy.role(i).path(step[i]).x()*xSgn, strategy.role(i).path(step[i]).y()*ySgn),ball.Position);
-                circle_ball(*stm2AInum[i], passAngle, 0, 0, 1.0f,100.0f);
+                circle_ball(*stm2AInum[i], passAngle, 0, 0, 1.0f,140.0f);
             }
 			else {
 				float passAngle = AngleWith(Vec2(strategy.role(i).path(step[i]).x()*xSgn, strategy.role(i).path(step[i]).y()*ySgn),ball.Position);
