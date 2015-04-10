@@ -46,6 +46,7 @@ struct RobotState
 	int vision_id;
 
 	SeenState seenState;
+    bool OutForSubsitute;
 };
 
 struct BallState

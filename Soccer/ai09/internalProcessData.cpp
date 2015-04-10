@@ -19,7 +19,7 @@ void ai09::internalProcessData ( WorldState * worldState , GameSetting * setting
 		
 		if ( !worldState ->refereeState.State || worldState ->refereeState.State->get() == GameState::GAME_OFF )
 		{
-			if ( OwnRobot[i].State.seenState == CompletelyOut )
+			if ( OwnRobot[i].State.OutForSubsitute )
 			{
 				for ( int j = 0 ; j < MAX_ROBOTS ; j ++ )
 				{

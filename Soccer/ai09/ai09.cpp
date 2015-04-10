@@ -116,11 +116,11 @@ ai09::ai09 ( ):maxBallHist(240)
 		//OwnRobot[i].set_serial_id(VisionSerialTrans[i]);
 	}
 	OwnRobot[gk].set_vision_id(4);
-	OwnRobot[def].set_vision_id(7);
+	OwnRobot[def].set_vision_id(2);
 	OwnRobot[dmf].set_vision_id(6);
-	OwnRobot[lmf].set_vision_id(8);
-	OwnRobot[rmf].set_vision_id(3);
-	OwnRobot[cmf].set_vision_id(1);
+	OwnRobot[lmf].set_vision_id(11);
+	OwnRobot[rmf].set_vision_id(7);
+	OwnRobot[cmf].set_vision_id(10);
 	
 	chip_head = 200;
 	
@@ -135,7 +135,7 @@ ai09::ai09 ( ):maxBallHist(240)
 	VELOCITY_PROFILE_AROOM.max_w_acc = 40.0f;
 	VELOCITY_PROFILE_AROOM.max_w_dec = 140.0f;
 	
-	VELOCITY_PROFILE_MAMOOLI.max_spd = Vec2 ( 80.0f );
+	VELOCITY_PROFILE_MAMOOLI.max_spd = Vec2 ( 70.0f );
 	VELOCITY_PROFILE_MAMOOLI.max_dec = Vec2 ( 2.0f );
 	VELOCITY_PROFILE_MAMOOLI.max_acc = Vec2 ( 1.3f );
 	VELOCITY_PROFILE_MAMOOLI.max_w_acc = 40.0f;
@@ -148,9 +148,9 @@ ai09::ai09 ( ):maxBallHist(240)
 	//VELOCITY_PROFILE_KHARAKI.max_w_acc = 40.0f;
 	//VELOCITY_PROFILE_KHARAKI.max_w_dec = 140.0f;
 	
-	VELOCITY_PROFILE_KHARAKI.max_spd = Vec2 ( 80.0f );
-	VELOCITY_PROFILE_KHARAKI.max_dec = Vec2 ( 2.4f );
-	VELOCITY_PROFILE_KHARAKI.max_acc = Vec2 ( 1.6f );
+	VELOCITY_PROFILE_KHARAKI.max_spd = Vec2 ( 70.0f );
+	VELOCITY_PROFILE_KHARAKI.max_dec = Vec2 ( 2.7f );
+	VELOCITY_PROFILE_KHARAKI.max_acc = Vec2 ( 1.9f );
 	VELOCITY_PROFILE_KHARAKI.max_w_acc = 40.0f;
 	VELOCITY_PROFILE_KHARAKI.max_w_dec = 140.0f;
     

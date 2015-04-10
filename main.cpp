@@ -55,6 +55,7 @@ void initWorldState ( WorldState * state )
 		state -> OwnRobot[i].AngularVelocity = 0.0f;
 		state -> OwnRobot[i].Position = Vec2 ( 0.0f );
 		state -> OwnRobot[i].seenState = CompletelyOut;
+        state -> OwnRobot[i].OutForSubsitute = true;
 		state -> OwnRobot[i].velocity.direction = 0.0f;
 		state -> OwnRobot[i].velocity.magnitude = 0.0f;
 		state -> OwnRobot[i].velocity.x = 0.0f;
@@ -90,13 +91,13 @@ int main ( )
     setting -> visionSetting -> LocalPort = 10006;
     setting -> visionSetting -> GUI_Adress = "224.5.66.6";
     setting -> visionSetting -> GUIPort = 10009;
-    setting -> visionSetting -> use_camera.push_back(true);
-    setting -> visionSetting -> use_camera.push_back(true);
+    setting -> visionSetting -> use_camera.push_back(false);
+    setting -> visionSetting -> use_camera.push_back(false);
     setting -> visionSetting -> use_camera.push_back(true);
     setting -> visionSetting -> use_camera.push_back(true);
     
     
-	setting -> side = Left;
+	setting -> side = Right;
 	
 	WorldState * state = new WorldState ( );
 	initWorldState ( state );
@@ -104,7 +105,7 @@ int main ( )
 	Referee referee;
     NewReferee newReferee;
 	
-	referee.init ( "224.5.23.1" , 10001 , setting -> visionSetting -> color );
+	referee.init ( "224.5.23.1" , 60001 , setting -> visionSetting -> color );
 	cout << " Connecting to RefereeBox server at " << "224.5.23.1" << " , on port : 10001 " << endl;
 	if ( !referee.connect ( ) )
 	{

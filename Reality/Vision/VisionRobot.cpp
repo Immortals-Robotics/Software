@@ -313,6 +313,15 @@ void VisionModule::SendStates ( WorldState * state )
 			robotState[0][i].seenState = CompletelyOut;
 			state -> ownRobots_num --;
 		}
+        
+        if (robot_not_seen[0][i] < MAX_ROBOT_SUBSITUTE)
+        {
+            robotState[0][i].OutForSubsitute = false;
+        }
+        else
+        {
+            robotState[0][i].OutForSubsitute = true;
+        }
 		
 		state -> OwnRobot[i] = robotState[0][i];
 	}

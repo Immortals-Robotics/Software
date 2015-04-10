@@ -10,7 +10,22 @@ void ai09::Stop ( void )
 	AddDebugCircle(ball.Position,500,Red);
 	debugDraw = false;
 	
-	if (timer.time()<0.5) {
+	if (1)//timer.time()<0.5)
+    {
+        //attack = cmf;
+        //mid1 = rmf;
+        //mid2 = lmf;
+        if (OwnRobot[attack].State.OutForSubsitute)
+        {
+            if (!OwnRobot[mid1].State.OutForSubsitute)
+            {
+                swap(attack,mid1);
+            }
+            else if (!OwnRobot[mid2].State.OutForSubsitute)
+            {
+                swap(attack,mid2);
+            }
+        }
 		if ( side * OwnRobot[mid1].State.Position.Y < side * OwnRobot[mid2].State.Position.Y )
 		{ 
 			swap(mid1, mid2);

@@ -70,12 +70,12 @@ void ai09::NormalPlayDef ( void )
 	}
 	
     if (attackFuckingAngle() || findKickerOpp(-1)) {
-		shootAngle = 0;AngleWith(ball.Position, Vec2(side*field_width, 0));
+		shootAngle = AngleWith(ball.Position, Vec2(side*field_width, 0));
 		shoot_pow = 0;
 		chip_pow = 500;
 	}
     
-    if (findKickerOpp(-1))
+    if (0)//findKickerOpp(-1))
     {
         shootAngle = AngleWith(ball.Position, OwnRobot[attack].State.Position);
         shoot_pow = 0;

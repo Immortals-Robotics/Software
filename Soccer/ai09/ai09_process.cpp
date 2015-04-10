@@ -52,7 +52,7 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 		else if ( worldState ->refereeState.State->ourKickoff ( ) )
 		{
 			currentPlay = "kickoff_us_chip";
-			//currentPlay = "kickoff_us_pass";
+			currentPlay = "kickoff_us_farar";
 			
 			currentPlayParam = worldState ->refereeState.State->canKickBall();
 		}
