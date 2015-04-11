@@ -51,6 +51,6 @@ void ai09::kickoff_us_farar ( void )
 		
 		OwnRobot[lmf].face ( Vec2 ( -side*field_width , 0 ) );
 		ERRTSetObstacles(lmf, 1, 1, 1, 1);
-		ERRTNavigate2Point ( lmf , Vec2 ( side*100 , -2600 ) );
+        ERRTNavigate2Point ( lmf , Vec2 ( side*100 , (randomParam>0.5f)?-2600:2600 ) );
 	}
 }

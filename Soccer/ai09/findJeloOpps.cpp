@@ -32,6 +32,15 @@ int ai09::findJeloOpps ( float minX , int* ans , int mask1 , int mask2 , bool ac
 	for (int i = index; i<12; i++) {
 		ans[i] = -1;
 	}
+    
+    for ( int i = 0 ; i < index ; i ++ )
+    {
+        if (isGooshe(ans[i], 1))
+        {
+            swap(ans[i], ans[0]);
+            break;
+        }
+    }
 	
 	return index;
 }

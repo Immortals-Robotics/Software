@@ -17,18 +17,20 @@ void ai09::throwin_chip_shoot ( void )
 	ERRTNavigate2Point ( mid1 , Vec2(-side*500, -sgn(ball.Position.Y)*1800) ,0 , 70,&VELOCITY_PROFILE_MAMOOLI);*/
 	
 	ERRTSetObstacles ( mid2 , true , true , true , true );
-	OwnRobot[mid2].face(ball.Position);
-	ERRTNavigate2Point ( mid2 , Vec2(side*500, sgn(ball.Position.Y)*100) ,0 , 70,&VELOCITY_PROFILE_MAMOOLI);
+    OwnRobot[mid2].face(ball.Position);
+    ERRTNavigate2Point ( mid2 , Vec2(-side*1500, sgn(ball.Position.Y)*2500.0f) ,0 , 70,&VELOCITY_PROFILE_MAMOOLI);
+    oneTouchType[mid2] = shirje;
 	
 	ERRTSetObstacles ( mid1 , true , true , true , true );
 	OwnRobot[mid1].face(ball.Position);
-	ERRTNavigate2Point ( mid1 , Vec2(side*500, sgn(ball.Position.Y)*400) ,0 , 70,&VELOCITY_PROFILE_MAMOOLI);
+	ERRTNavigate2Point ( mid1 , Vec2(-side*3500, sgn(ball.Position.Y)*2500.0f) ,0 , 70,&VELOCITY_PROFILE_MAMOOLI);
+    oneTouchType[mid1] = shirje;
 	
 	
 	
 	if (timer.time()>4 ) {
 		//tech_circle(dmf,AngleWith ( Vec2 ( -side*2995 , 0 ) , ball.Position ) ,0,30,0,1);
-		circle_ball(dmf, AngleWith ( Vec2 ( -side*field_width , 0 ) , ball.Position ), 0, 150, 1.0f);
+		circle_ball(dmf, AngleWith ( Vec2 ( -side*field_width , sgn(ball.Position.Y)*2200.0f ) , ball.Position ), 0, 500, 1.0f);
 	}
 	else
 	{

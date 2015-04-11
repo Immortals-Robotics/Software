@@ -53,7 +53,7 @@ void ai09::MarkManager ( bool restart )
 		
 		if (shouldMark) {
 			for (map<int*,int>::const_iterator i=markMap.begin(); i!=markMap.end(); ++i) {
-				if ( (OwnRobot[*i->first].State.seenState != CompletelyOut) && (i->second==-1) ) {
+				if ((*i->first != mid2) && (OwnRobot[*i->first].State.seenState != CompletelyOut) && (i->second==-1) ) {
 					markMap[i->first] = opp;
 					break;
 				}

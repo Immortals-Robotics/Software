@@ -89,19 +89,20 @@ void ai09::strategy_maker ( void )
 	}
 	
 	Strategy strategy = playBook->strategy(curr_str_id);
+    cout << "STRATEGY: " << strategy.name() << endl;
 	
 	
 	
 	int xSgn = side;
 	int ySgn = -1*sgn(ball.Position.Y);
 	
-	cout << timer.time() << endl;
+	//cout << timer.time() << endl;
 	if ( timer.time() < 1.0 )
 	{
 		for (int i = 0 ; i < 6 ; i ++ ) {
 			step[i] = 0;
 			lastAdv[i] = timer.time();
-			cout << "zeroed: " << i << endl;
+			//cout << "zeroed: " << i << endl;
 		}
 		float passAngle = 90-side*90;
 		//tech_circle(attack, passAngle , 0, 0, 0, 1, 0, 0);
@@ -129,14 +130,14 @@ void ai09::strategy_maker ( void )
 				{
 					step[i] = min(strategy.role(i).path_size()-1, step[i]+1);
 					lastAdv[i] = timer.time();
-					cout << "stepped: " << i << "	" << step[i] << endl;
+					//cout << "stepped: " << i << "	" << step[i] << endl;
 				}
 			}
 			else {
 				if (DIS(Vec2(strategy.role(i).path(step[i]).x()*xSgn, strategy.role(i).path(step[i]).y()*ySgn), OwnRobot[*stm2AInum[i]].State.Position) < strategy.role(i).path(step[i]).tolerance() ) {
 					step[i] = min(strategy.role(i).path_size()-1, step[i]+1);
 					lastAdv[i] = timer.time();
-					cout << "stepped: " << i << "	" << step[i] << endl;
+					//cout << "stepped: " << i << "	" << step[i] << endl;
 				}
 			}
 
@@ -173,7 +174,7 @@ void ai09::strategy_maker ( void )
 				chip = strategy.role(i).path(step[i]).tolerance();
 			}
 			
-			cout << "	daram mirinam: " << shoot << "	" << chip << endl;
+			//cout << "	daram mirinam: " << shoot << "	" << chip << endl;
 
             
             

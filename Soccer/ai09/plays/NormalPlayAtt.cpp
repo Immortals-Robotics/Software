@@ -56,7 +56,7 @@ void ai09::NormalPlayAtt ( void )
                     mid1Suitable = false;
             }
 
-	if ( openAngle.Y < 2 && (mid1Suitable||mid2Suitable) && (findKickerOpp(-1)!=-1) )//&& ( ball.Position.X * side < -2300 ) && ( fabs ( ball.Position.Y ) > 1800 ) )
+	if ( openAngle.Y < 2 && (mid1Suitable||mid2Suitable) && (findKickerOpp(-1)==-1) )//&& ( ball.Position.X * side < -2300 ) && ( fabs ( ball.Position.Y ) > 1800 ) )
 	{
         
 		//float passAngle = AngleWith ( OwnRobot[randomParam<0.3?dmf:(randomParam<0.6?rmf:lmf)].State.Position , ball.Position );

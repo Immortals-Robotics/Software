@@ -91,8 +91,8 @@ int main ( )
     setting -> visionSetting -> LocalPort = 10006;
     setting -> visionSetting -> GUI_Adress = "224.5.66.6";
     setting -> visionSetting -> GUIPort = 10009;
-    setting -> visionSetting -> use_camera.push_back(false);
-    setting -> visionSetting -> use_camera.push_back(false);
+    setting -> visionSetting -> use_camera.push_back(true);
+    setting -> visionSetting -> use_camera.push_back(true);
     setting -> visionSetting -> use_camera.push_back(true);
     setting -> visionSetting -> use_camera.push_back(true);
     
@@ -105,7 +105,7 @@ int main ( )
 	Referee referee;
     NewReferee newReferee;
 	
-	referee.init ( "224.5.23.1" , 60001 , setting -> visionSetting -> color );
+	referee.init ( "224.5.23.1" , 10001 , setting -> visionSetting -> color );
 	cout << " Connecting to RefereeBox server at " << "224.5.23.1" << " , on port : 10001 " << endl;
 	if ( !referee.connect ( ) )
 	{
@@ -264,7 +264,7 @@ int main ( )
 				int strategySize = strategyUDP->recvFrom(strategyBuffer, strategyBufferMaxSize, strategySrcAdd, strategySrcPort);
 				if ( strategySize > 11 )
 				{
-					//cout << "Recieved \"strategy.ims\" with size: " << float(strategySize)/1000.0f << " KB, from " << strategySrcAdd << " on port " << strategySrcPort << "." << endl;
+					cout << "Recieved \"strategy.ims\" with size: " << float(strategySize)/1000.0f << " KB, from " << strategySrcAdd << " on port " << strategySrcPort << "." << endl;
 					lock.lock();
 					dynamic_cast<ai09*>(aii)->read_playBook_str(strategyBuffer, strategySize);
 					lock.unlock();

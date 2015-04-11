@@ -116,11 +116,11 @@ ai09::ai09 ( ):maxBallHist(240)
 		//OwnRobot[i].set_serial_id(VisionSerialTrans[i]);
 	}
 	OwnRobot[gk].set_vision_id(4);
-	OwnRobot[def].set_vision_id(2);
-	OwnRobot[dmf].set_vision_id(6);
-	OwnRobot[lmf].set_vision_id(11);
-	OwnRobot[rmf].set_vision_id(7);
-	OwnRobot[cmf].set_vision_id(10);
+	OwnRobot[def].set_vision_id(10);
+	OwnRobot[dmf].set_vision_id(1);
+	OwnRobot[lmf].set_vision_id(3);
+	OwnRobot[rmf].set_vision_id(6);
+	OwnRobot[cmf].set_vision_id(7);
 	
 	chip_head = 200;
 	
