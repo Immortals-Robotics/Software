@@ -32,3 +32,4 @@ _ReSharper*/
 build/
 ._*
 .DS_Store
+.idea
