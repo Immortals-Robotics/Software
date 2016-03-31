@@ -37,7 +37,7 @@ FilteredObject::FilteredObject(float A[2][2], float B[2], float C[2][2], float D
   usageCount = 0;
 }
 
-void FilteredObject::initialize(char* filename1, char* filename2)
+void FilteredObject::initialize(const char* filename1, const char* filename2)
 {
   // open the file 1
   ifstream matFile(filename1);

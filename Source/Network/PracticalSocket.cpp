@@ -24,6 +24,7 @@
   typedef int socklen_t;
   typedef char raw_type;       // Type used for raw data on this platform
 #else
+  #include <string.h>
   #include <sys/types.h>       // For data types
   #include <sys/socket.h>      // For socket(), connect(), send(), and recv()
   #include <netdb.h>           // For gethostbyname()

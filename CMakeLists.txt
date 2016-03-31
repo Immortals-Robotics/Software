@@ -53,7 +53,7 @@ set(SOURCE_FILES
     Source/Reality/Vision/Protobuf/referee.pb.h
     Source/Reality/Vision/Protobuf/strategy.pb.cc
     Source/Reality/Vision/Protobuf/strategy.pb.h
-    Source/Reality/Vision/vision.cpp
+    Source/Reality/Vision/Vision.cpp
     Source/Reality/Vision/Vision.h
     Source/Reality/Vision/VisionBall.cpp
     Source/Reality/Vision/VisionComminucation.cpp

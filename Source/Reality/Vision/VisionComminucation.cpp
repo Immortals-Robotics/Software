@@ -1,4 +1,4 @@
-#include "vision.h"
+#include "Vision.h"
 
 bool VisionModule::connectToVisionServer ( const std::string & address , const unsigned short port )
 {

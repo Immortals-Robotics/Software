@@ -31,7 +31,7 @@ public:
   /// Constructor with intialization matrices fed in
   FilteredObject(float A[2][2], float B[2], float C[2][2], float D[2],float lossMat[2]);
   /// Constructor from a file
-  void initialize(char* filename1, char* filename2);
+  void initialize(const char* filename1, const char* filename2);
   /// Default Destructor
 	virtual ~FilteredObject();
   /// Initialize the position whenever it is lost and refound. Use this for the first initial state too.
