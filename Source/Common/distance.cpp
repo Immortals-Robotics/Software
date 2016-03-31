@@ -53,7 +53,7 @@ float DIS ( const float x1 , const float y1 , const float x2 , const float y2 )
 
 float DISL ( const TVec2 a , const TVec2 b )
 {
-	return dis_lut[(int)abs(a.X-b.X)][(int)abs(a.Y-b.Y)];
+	return dis_lut[(int)fabs(a.X-b.X)][(int)fabs(a.Y-b.Y)];
 }
 
 /*float DIS ( float & a , float & b )

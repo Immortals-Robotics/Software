@@ -1,3 +1,5 @@
+#ifndef _WIN32
+
 #include "kbhit.h"
 
 #include <stdio.h>
@@ -35,3 +37,5 @@ int kbhit (void)
 	return FD_ISSET(STDIN_FILENO, &rdfs);
 	
 }
+
+#endif

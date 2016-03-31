@@ -1,15 +1,13 @@
 #include <iostream>
 #include <fstream>
 #include <thread>
-#include <unistd.h>
+#include <mutex>
 #include <string.h>
-#include <ncurses.h>
 
 #include "Common/GameSetting.h"
 #include "Reality/Vision/Vision.h"
 #include "Reality/Referee/referee.h"
 #include "Reality/Referee/referee_new.h"
-#include "Reality/Serial/serial.h"
 #include "Soccer/ai09/ai09.h"
 #include "Common/kbhit.h"
 #include "Common/timer.h"
@@ -154,8 +152,6 @@ int main ( )
 	Timer timer;
 	
 	cout << " Now it is time, lets rock..." << endl;
-	
-	changemode(1);
 	
     int pid_det_index = 0;
     
@@ -363,8 +359,6 @@ int main ( )
     //sharifcup_thread.join();
     str_thread.join();
     
-	changemode(0);
-	
 	delete setting;
 	delete state;
 	delete aii;

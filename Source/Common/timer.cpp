@@ -14,15 +14,21 @@
 
 #include "timer.h"
 
+using namespace std::chrono;
 
-void Timer::start()  {gettimeofday(&tv1,NULL);}
-void Timer::end()    {gettimeofday(&tv2,NULL);}
-double Timer::time() {end();
-	return((tv2.tv_sec - tv1.tv_sec) +
-						  (tv2.tv_usec - tv1.tv_usec) / 1.0E6);}
+void Timer::start() { tv1 = high_resolution_clock::now(); }
+void Timer::end()   { tv2 = high_resolution_clock::now(); }
+
+double Timer::time() 
+{
+	end();
+	auto time_span = duration_cast<duration<double>>(tv2 - tv1);
+	return time_span.count();
+}
+
 double Timer::interval(){
 	double t;
-	gettimeofday(&tv2,NULL);
+	tv2 = high_resolution_clock::now();
 	t = time();
 	tv1 = tv2;
 	return(t);

@@ -35,8 +35,6 @@ set(SOURCE_FILES
     Source/Reality/Referee/referee.h
     Source/Reality/Referee/referee_new.cpp
     Source/Reality/Referee/referee_new.h
-    Source/Reality/Serial/serial.cc
-    Source/Reality/Serial/serial.h
     Source/Reality/Vision/Kalman/FilteredObject.cpp
     Source/Reality/Vision/Kalman/FilteredObject.h
     Source/Reality/Vision/Protobuf/aidebug.pb.cc
@@ -184,4 +182,7 @@ set(SOURCE_FILES
     Source/main.cpp)
 
 add_executable(immortalsssl ${SOURCE_FILES})
+if(WIN32)
+  target_link_libraries(immortalsssl wsock32)
+endif()
 target_link_libraries(immortalsssl ${PROTOBUF_LIBRARIES})

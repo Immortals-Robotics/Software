@@ -13,13 +13,10 @@
   ========================================================================*/
 
 #pragma once
-
-#include <sys/time.h>
-#include <unistd.h>
-
+#include <chrono>
 
 class Timer{
-  timeval tv1,tv2;
+	std::chrono::high_resolution_clock::time_point tv1,tv2;
 public:
 	void start();
 	void end();
