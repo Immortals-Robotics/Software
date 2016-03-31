@@ -8,189 +8,59 @@ add_definitions(-DDATA_PATH="${CMAKE_CURRENT_SOURCE_DIR}/Data")
 find_package(Protobuf REQUIRED)
 include_directories(${PROTOBUF_INCLUDE_DIRS})
 
+file(GLOB_RECURSE GEN_PROTO_DEF "Source/*.proto")
+
+set(PROTO_SRCS)
+set(PROTO_HDRS)
+
+foreach(file ${GEN_PROTO_DEF})
+    get_filename_component(FILE_ABS ${file} ABSOLUTE)
+    get_filename_component(FILE_WE ${file} NAME_WE)
+    get_filename_component(FILE_PATH ${file} DIRECTORY)
+
+    set(GEN_FILE_HEADER "${FILE_PATH}/${FILE_WE}.pb.h")
+    set(GEN_FILE_SOURCE "${FILE_PATH}/${FILE_WE}.pb.cc")
+
+    file(RELATIVE_PATH GEN_FILE_HEADER_REL ${CMAKE_CURRENT_SOURCE_DIR} ${GEN_FILE_HEADER})
+    file(RELATIVE_PATH GEN_FILE_SOURCE_REL ${CMAKE_CURRENT_SOURCE_DIR} ${GEN_FILE_SOURCE})
+
+    list(APPEND PROTO_SRCS ${GEN_FILE_SOURCE_REL})
+    list(APPEND PROTO_HDRS ${GEN_FILE_HEADER_REL})
+
+    MESSAGE(1 ${CMAKE_CURRENT_BINARY_DIR})
+    MESSAGE(2 ${_protobuf_include_path})
+    MESSAGE(3 ${FILE_ABS})
+    MESSAGE(4 ${PROTOBUF_PROTOC_EXECUTABLE})
+
+    add_custom_command(
+      OUTPUT ${GEN_FILE_SOURCE}
+             ${GEN_FILE_HEADER}
+      COMMAND  ${PROTOBUF_PROTOC_EXECUTABLE}
+      ARGS --proto_path=${FILE_PATH} --cpp_out=${FILE_PATH} ${FILE_ABS}
+      DEPENDS ${FILE_ABS}
+      COMMENT "Running C++ protocol buffer compiler on ${file}" 
+      VERBATIM )
+endforeach()
+
+foreach(file ${PROTO_SRCS})
+    MESSAGE(${file})
+endforeach()
+
+file(GLOB_RECURSE GEN_SOURCE_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "Source/*.c" "Source/*.cpp" "/Source/*.cc" "/Source/*.cxx")
+file(GLOB_RECURSE GEN_HEADER_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "Source/*.h" "Source/*.hpp")
+
 set(SOURCE_FILES
-    Source/Common/common_colors.cpp
-    Source/Common/common_colors.h
-    Source/Common/distance.cpp
-    Source/Common/distance.h
-    Source/Common/GameSetting.h
-    Source/Common/kbhit.cpp
-    Source/Common/kbhit.h
-    Source/Common/linear.cpp
-    Source/Common/linear.h
-    Source/Common/MATHS_REGRESSION_PARABOLIC.cpp
-    Source/Common/MATHS_REGRESSION_PARABOLIC.h
-    Source/Common/MedianFilter.h
-    Source/Common/net_log.cpp
-    Source/Common/net_log.h
-    Source/Common/parameter.cpp
-    Source/Common/parameter.h
-    Source/Common/timer.cpp
-    Source/Common/timer.h
-    Source/Common/Vector.cpp
-    Source/Common/Vector.h
-    Source/Network/PracticalSocket.cpp
-    Source/Network/PracticalSocket.h
-    Source/Reality/Referee/commands.h
-    Source/Reality/Referee/game_state.h
-    Source/Reality/Referee/referee.cpp
-    Source/Reality/Referee/referee.h
-    Source/Reality/Referee/referee_new.cpp
-    Source/Reality/Referee/referee_new.h
-    Source/Reality/Vision/Kalman/FilteredObject.cpp
-    Source/Reality/Vision/Kalman/FilteredObject.h
-    Source/Reality/Vision/Protobuf/aidebug.pb.cc
-    Source/Reality/Vision/Protobuf/aidebug.pb.h
-    Source/Reality/Vision/Protobuf/ImmortalsProtocols.pb.cc
-    Source/Reality/Vision/Protobuf/ImmortalsProtocols.pb.h
-    Source/Reality/Vision/Protobuf/messages_blob.pb.cc
-    Source/Reality/Vision/Protobuf/messages_blob.pb.h
-    Source/Reality/Vision/Protobuf/messages_robocup_ssl_detection.pb.cc
-    Source/Reality/Vision/Protobuf/messages_robocup_ssl_detection.pb.h
-    Source/Reality/Vision/Protobuf/messages_robocup_ssl_geometry.pb.cc
-    Source/Reality/Vision/Protobuf/messages_robocup_ssl_geometry.pb.h
-    Source/Reality/Vision/Protobuf/messages_robocup_ssl_wrapper.pb.cc
-    Source/Reality/Vision/Protobuf/messages_robocup_ssl_wrapper.pb.h
-    Source/Reality/Vision/Protobuf/referee.pb.cc
-    Source/Reality/Vision/Protobuf/referee.pb.h
-    Source/Reality/Vision/Protobuf/strategy.pb.cc
-    Source/Reality/Vision/Protobuf/strategy.pb.h
-    Source/Reality/Vision/Vision.cpp
-    Source/Reality/Vision/Vision.h
-    Source/Reality/Vision/VisionBall.cpp
-    Source/Reality/Vision/VisionComminucation.cpp
-    Source/Reality/Vision/visionPrediction.cpp
-    Source/Reality/Vision/VisionRobot.cpp
-    Source/Reality/Vision/VisionSetting.h
-    Source/Reality/Vision/WorldState.h
-    Source/Soccer/ai09/errt/errt.cpp
-    Source/Soccer/ai09/errt/errt.h
-    Source/Soccer/ai09/errt/line.cpp
-    Source/Soccer/ai09/errt/line.h
-    Source/Soccer/ai09/errt/obstacle.cpp
-    Source/Soccer/ai09/errt/obstacle.h
-    Source/Soccer/ai09/errt/obstacle_circle.cpp
-    Source/Soccer/ai09/errt/obstacle_map.cpp
-    Source/Soccer/ai09/errt/obstacle_new.h
-    Source/Soccer/ai09/errt/obstacle_rectangle.cpp
-    Source/Soccer/ai09/errt/tree.cpp
-    Source/Soccer/ai09/errt/tree.h
-    Source/Soccer/ai09/plays/corner_simple_chip.cpp
-    Source/Soccer/ai09/plays/corner_simple_pass.cpp
-    Source/Soccer/ai09/plays/corner_switch_pass.cpp
-    Source/Soccer/ai09/plays/corner_their_def_ajor.cpp
-    Source/Soccer/ai09/plays/corner_their_def_karkas.cpp
-    Source/Soccer/ai09/plays/corner_their_global.cpp
-    Source/Soccer/ai09/plays/corner_their_khafan.cpp
-    Source/Soccer/ai09/plays/corner_their_marker_ajor.cpp
-    Source/Soccer/ai09/plays/corner_their_marker_karkas.cpp
-    Source/Soccer/ai09/plays/corner_their_mrl.cpp
-    Source/Soccer/ai09/plays/corner_their_skuba.cpp
-    Source/Soccer/ai09/plays/kickoff_their_back_def.cpp
-    Source/Soccer/ai09/plays/kickoff_their_one_wall.cpp
-    Source/Soccer/ai09/plays/kickoff_us_chip.cpp
-    Source/Soccer/ai09/plays/kickoff_us_farar.cpp
-    Source/Soccer/ai09/plays/kickoff_us_pass.cpp
-    Source/Soccer/ai09/plays/kickoff_us_zamini.cpp
-    Source/Soccer/ai09/plays/NewNormalPlay.cpp
-    Source/Soccer/ai09/plays/NormalPlayAtt.cpp
-    Source/Soccer/ai09/plays/NormalPlayDef.cpp
-    Source/Soccer/ai09/plays/penalty_their_gool.cpp
-    Source/Soccer/ai09/plays/penalty_their_simple.cpp
-    Source/Soccer/ai09/plays/penalty_us_ghuz.cpp
-    Source/Soccer/ai09/plays/sharifcup.cpp
-    Source/Soccer/ai09/plays/stop.cpp
-    Source/Soccer/ai09/plays/stop_ajor.cpp
-    Source/Soccer/ai09/plays/stop_def.cpp
-    Source/Soccer/ai09/plays/strategy_maker.cpp
-    Source/Soccer/ai09/plays/tech_challenge.cpp
-    Source/Soccer/ai09/plays/tech_circle.cpp
-    Source/Soccer/ai09/plays/tech_cmu.cpp
-    Source/Soccer/ai09/plays/tech_khers.cpp
-    Source/Soccer/ai09/plays/tech_khers_def.cpp
-    Source/Soccer/ai09/plays/tech_mexico.cpp
-    Source/Soccer/ai09/plays/tech_motion_ann.cpp
-    Source/Soccer/ai09/plays/throwin_chip_shoot.cpp
-    Source/Soccer/ai09/plays/throwin_their_khafan.cpp
-    Source/Soccer/ai09/plays/throwin_tu_omgh.cpp
-    Source/Soccer/ai09/plays/throwin_us_outgir.cpp
-    Source/Soccer/ai09/ai09.cpp
-    Source/Soccer/ai09/ai09.h
-    Source/Soccer/ai09/ai09_process.cpp
-    Source/Soccer/ai09/attackFuckingAngle.cpp
-    Source/Soccer/ai09/backPass.cpp
-    Source/Soccer/ai09/ballIsGoaling.cpp
-    Source/Soccer/ai09/ballTrajectory.cpp
-    Source/Soccer/ai09/CalcIsDefending.cpp
-    Source/Soccer/ai09/circle_ball.cpp
-    Source/Soccer/ai09/cmuAngle.cpp
-    Source/Soccer/ai09/data_flow.cpp
-    Source/Soccer/ai09/data_flow.h
-    Source/Soccer/ai09/defenceWall.cpp
-    Source/Soccer/ai09/DefGhuz.cpp
-    Source/Soccer/ai09/DefHi.cpp
-    Source/Soccer/ai09/dribblr.cpp
-    Source/Soccer/ai09/errt_setObs.cpp
-    Source/Soccer/ai09/evaluate.cpp
-    Source/Soccer/ai09/findCruncherOpp.cpp
-    Source/Soccer/ai09/findGusheRobot.cpp
-    Source/Soccer/ai09/findJeloOpps.cpp
-    Source/Soccer/ai09/findKickerOpp.cpp
-    Source/Soccer/ai09/FreeAngle.cpp
-    Source/Soccer/ai09/Geom.cpp
-    Source/Soccer/ai09/Geom.h
-    Source/Soccer/ai09/GK.cpp
-    Source/Soccer/ai09/gk_ghuz.cpp
-    Source/Soccer/ai09/gkHi.cpp
-    Source/Soccer/ai09/goalBlocked.cpp
-    Source/Soccer/ai09/halt.cpp
-    Source/Soccer/ai09/helpers.cpp
-    Source/Soccer/ai09/helpers.h
-    Source/Soccer/ai09/intercept_ball.cpp
-    Source/Soccer/ai09/internalFinalize.cpp
-    Source/Soccer/ai09/internalProcessData.cpp
-    Source/Soccer/ai09/manageAttRoles.cpp
-    Source/Soccer/ai09/mark2ball.cpp
-    Source/Soccer/ai09/Mark2Goal.cpp
-    Source/Soccer/ai09/markManager.cpp
-    Source/Soccer/ai09/motionPlan.cpp
-    Source/Soccer/ai09/navigation.cpp
-    Source/Soccer/ai09/nearestAsshole.cpp
-    Source/Soccer/ai09/NormalPlay.cpp
-    Source/Soccer/ai09/one_touch_score.cpp
-    Source/Soccer/ai09/OneDef.cpp
-    Source/Soccer/ai09/OneTouchDetector.h
-    Source/Soccer/ai09/pass.cpp
-    Source/Soccer/ai09/pass_gool.cpp
-    Source/Soccer/ai09/pass_omghi.cpp
-    Source/Soccer/ai09/penalty.cpp
-    Source/Soccer/ai09/planner.h
-    Source/Soccer/ai09/play_book.cpp
-    Source/Soccer/ai09/recievePass.cpp
-    Source/Soccer/ai09/Robgot.cpp
-    Source/Soccer/ai09/Robot.h
-    Source/Soccer/ai09/strategyWeight.cpp
-    Source/Soccer/ai09/trapezoid.cpp
-    Source/Soccer/ai09/trapezoid.h
-    Source/Soccer/ai09/tree.h
-    Source/Soccer/ai09/TwoDef.cpp
-    Source/Soccer/ai09/VelocityProfile.h
-    Source/Soccer/ai11/ai11.cpp
-    Source/Soccer/ai11/ai11.h
-    Source/Soccer/ai11/tactic.cpp
-    Source/Soccer/ai11/tactic.h
-    Source/Soccer/aiBase.cpp
-    Source/Soccer/aiBase.h
-    Source/main.cpp)
+    ${GEN_HEADER_FILES}
+    ${PROTO_HDRS}
+    ${GEN_SOURCE_FILES}
+    ${PROTO_SRCS})
 
 add_executable(immortalsssl ${SOURCE_FILES})
 
 foreach(FILE ${SOURCE_FILES})
-  get_filename_component(PARENT_DIR "${FILE}" PATH)
+  get_filename_component(PARENT_DIR "${FILE}" DIRECTORY)
 
-  # skip src or include and changes /'s to \\'s
-  string(REPLACE "/" "\\" GROUP "${PARENT_DIR}")
-  string(REPLACE "\\" "\\\\" GROUP "${GROUP}")
+  string(REPLACE "/" "\\\\" GROUP "${PARENT_DIR}")
 
   source_group(${GROUP} FILES ${FILE})
 endforeach()
