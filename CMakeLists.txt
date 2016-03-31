@@ -27,11 +27,6 @@ foreach(file ${GEN_PROTO_DEF})
     list(APPEND PROTO_SRCS ${GEN_FILE_SOURCE_REL})
     list(APPEND PROTO_HDRS ${GEN_FILE_HEADER_REL})
 
-    MESSAGE(1 ${CMAKE_CURRENT_BINARY_DIR})
-    MESSAGE(2 ${_protobuf_include_path})
-    MESSAGE(3 ${FILE_ABS})
-    MESSAGE(4 ${PROTOBUF_PROTOC_EXECUTABLE})
-
     add_custom_command(
       OUTPUT ${GEN_FILE_SOURCE}
              ${GEN_FILE_HEADER}
@@ -40,10 +35,6 @@ foreach(file ${GEN_PROTO_DEF})
       DEPENDS ${FILE_ABS}
       COMMENT "Running C++ protocol buffer compiler on ${file}" 
       VERBATIM )
-endforeach()
-
-foreach(file ${PROTO_SRCS})
-    MESSAGE(${file})
 endforeach()
 
 file(GLOB_RECURSE GEN_SOURCE_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "Source/*.c" "Source/*.cpp" "/Source/*.cc" "/Source/*.cxx")

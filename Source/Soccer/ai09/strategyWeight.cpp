@@ -11,8 +11,6 @@ int ai09::strategy_weight ( void )
 		return -1;
 	}
 	
-	ball.Position.X;
-	
 	map<int,float> good_strs;
 	
 	float sigma_w = 0;

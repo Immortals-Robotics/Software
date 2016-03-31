@@ -1,5 +1,3 @@
-#pragma once
-
 #include "referee_new.h"
 
 NewReferee::NewReferee ( void )
