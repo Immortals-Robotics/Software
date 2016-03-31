@@ -157,7 +157,8 @@ ai09::ai09 ( ):maxBallHist(240)
     //VELOCITY_PROFILE_KHARAKI = VELOCITY_PROFILE_MAMOOLI;
 
 	playBook = NULL;
-	read_playBook("../../strategy.ims");
+	string strategy_path(DATA_PATH); strategy_path.append("/strategy.ims");
+	read_playBook(strategy_path.c_str());
 	if ( playBook )
 	{
 		cout << playBook->strategy_size() << " ";
