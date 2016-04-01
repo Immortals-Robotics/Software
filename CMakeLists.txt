@@ -3,9 +3,25 @@ project(immortalsssl)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/CMake/")
+
 add_definitions(-DDATA_PATH="${CMAKE_CURRENT_SOURCE_DIR}/Data")
 
+find_package(ZeroMQ REQUIRED)
+if (ZeroMQ_FOUND)
+    message(STATUS "Found ZeroMQ: ${ZeroMQ_LIBRARIES}")
+else()
+    message(FATAL_ERROR ZeroMQ not found!)
+endif ()
+include_directories(${ZeroMQ_INCLUDE_DIR})
+
 find_package(Protobuf REQUIRED)
+if (PROTOBUF_FOUND)
+    message(STATUS "Found Protobuf: ${PROTOBUF_LIBRARY}")
+else()
+    message(FATAL_ERROR Protobuf not found!)
+endif ()
+
 include_directories(${PROTOBUF_INCLUDE_DIRS})
 
 file(GLOB_RECURSE GEN_PROTO_DEF "Source/*.proto")
@@ -33,7 +49,7 @@ foreach(file ${GEN_PROTO_DEF})
       COMMAND  ${PROTOBUF_PROTOC_EXECUTABLE}
       ARGS --proto_path=${FILE_PATH} --cpp_out=${FILE_PATH} ${FILE_ABS}
       DEPENDS ${FILE_ABS}
-      COMMENT "Running C++ protocol buffer compiler on ${file}" 
+      COMMENT "Running C++ protocol buffer compiler on ${file}"
       VERBATIM )
 endforeach()
 
@@ -59,4 +75,4 @@ endforeach()
 if(WIN32)
   target_link_libraries(immortalsssl wsock32)
 endif()
-target_link_libraries(immortalsssl ${PROTOBUF_LIBRARIES})
+target_link_libraries(immortalsssl ${PROTOBUF_LIBRARIES} ${ZeroMQ_LIBRARIES})
