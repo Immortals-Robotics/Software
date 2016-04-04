@@ -1,27 +1,48 @@
 cmake_minimum_required(VERSION 3.0)
 project(immortalsssl)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/CMake/")
 
 add_definitions(-DDATA_PATH="${CMAKE_CURRENT_SOURCE_DIR}/Data")
 
-find_package(ZeroMQ REQUIRED)
-if (ZeroMQ_FOUND)
-    message(STATUS "Found ZeroMQ: ${ZeroMQ_LIBRARIES}")
-else()
-    message(FATAL_ERROR ZeroMQ not found!)
-endif ()
-include_directories(${ZeroMQ_INCLUDE_DIR})
+if(MSVC)
+  set(CompilerFlags
+        CMAKE_CXX_FLAGS
+        CMAKE_CXX_FLAGS_DEBUG
+        CMAKE_CXX_FLAGS_RELEASE
+        CMAKE_C_FLAGS
+        CMAKE_C_FLAGS_DEBUG
+        CMAKE_C_FLAGS_RELEASE
+        )
+  foreach(CompilerFlag ${CompilerFlags})
+    set(${CompilerFlag} "${${CompilerFlag}} /MP")
+  endforeach()
+  message(STATUS "Added parallel build arguments to CMAKE_*_FLAGS")
+elseif(${CMAKE_GENERATOR} MATCHES "Unix Makefiles")
+	message(STATUS ${CMAKE_BUILD_TOOL})
+	include(ProcessorCount)
+	ProcessorCount(CORES_COUNT)
+	if(CORES_COUNT EQUAL 0)
+		set(CORES_COUNT 4)
+		message(STATUS "Failed to determine cpu cores, using 4")
+	else()
+		message(STATUS "Found ${CORES_COUNT} cpu cores")
+	endif()
+    set(CMAKE_MAKE_PROGRAM "${CMAKE_MAKE_PROGRAM} -j${CORES_COUNT}")
+    message(STATUS "Added parallel build arguments to CMAKE_MAKE_PROGRAM")
+endif()
+if(CMAKE_COMPILER_IS_GNUCC EQUAL TRUE)
+	set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -std=c11")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+endif()
 
+#find_package(ZeroMQ REQUIRED)
+#include_directories(${ZeroMQ_INCLUDE_DIR})
+
+if(MSVC)
+	set(PROTOBUF_SRC_ROOT_FOLDER "${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/protobuf")
+endif()
 find_package(Protobuf REQUIRED)
-if (PROTOBUF_FOUND)
-    message(STATUS "Found Protobuf: ${PROTOBUF_LIBRARY}")
-else()
-    message(FATAL_ERROR Protobuf not found!)
-endif ()
-
 include_directories(${PROTOBUF_INCLUDE_DIRS})
 
 file(GLOB_RECURSE GEN_PROTO_DEF "Source/*.proto")
@@ -75,4 +96,4 @@ endforeach()
 if(WIN32)
   target_link_libraries(immortalsssl wsock32)
 endif()
-target_link_libraries(immortalsssl ${PROTOBUF_LIBRARIES} ${ZeroMQ_LIBRARIES})
+target_link_libraries(immortalsssl ${PROTOBUF_LIBRARIES})
