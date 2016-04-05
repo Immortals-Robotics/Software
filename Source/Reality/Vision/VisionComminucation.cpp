@@ -53,7 +53,6 @@ bool VisionModule::isConnected ( void )
 {
 	return connected;
 }
-int olaghekhar=0;
 void VisionModule::SendGUIData ( WorldState * state , AI_Debug & aidebug )
 {
 	if ( state == NULL )
@@ -76,13 +75,6 @@ void VisionModule::SendGUIData ( WorldState * state , AI_Debug & aidebug )
 		GUIMsg.mutable_ballsdata() -> set_x ( state -> ball.Position.X );
 		GUIMsg.mutable_ballsdata() -> set_y ( state -> ball.Position.Y );
 
-		robotDataMsg * tmprobot;
-		
-		olaghekhar++;
-		if ( olaghekhar > 6 )
-			olaghekhar = 0;
-
-
 		for ( int i = 0 ; i < 12 ; i ++ )
 		{
 			robotPacket[0][i].Clear ( );
@@ -98,9 +90,9 @@ void VisionModule::SendGUIData ( WorldState * state , AI_Debug & aidebug )
 			robotPacket[0][i].set_y ( state -> OwnRobot[i].Position.Y );
 			robotPacket[0][i].set_vmag ( state -> lastCMDS[i][(int)(state->lastCMDS[i][10].X)].Y * 45.0f );
 			robotPacket[0][i].set_own ( 1 );
-			//if (state -> OwnRobot[i].seenState!=CompletelyOut)
+			if (state -> OwnRobot[i].seenState!=CompletelyOut)
 			{
-				tmprobot = GUIMsg.add_robotdata ( );
+				robotDataMsg *tmprobot = GUIMsg.add_robotdata ( );
 				tmprobot -> CopyFrom ( robotPacket[0][i] );
 			}
 		}
@@ -118,25 +110,12 @@ void VisionModule::SendGUIData ( WorldState * state , AI_Debug & aidebug )
 			robotPacket[1][i].set_vy ( state -> OppRobot[i].velocity.y );
 			robotPacket[1][i].set_x ( state -> OppRobot[i].Position.X );
 			robotPacket[1][i].set_y ( state -> OppRobot[i].Position.Y );
-			robotPacket[1][i].set_vmag ( state -> lastCMDS[i][0].X * 30.0f );
 			robotPacket[1][i].set_own ( 0 );
 			if (state -> OppRobot[i].seenState!=CompletelyOut)
 			{
-				tmprobot = GUIMsg.add_robotdata ( );
+				robotDataMsg *tmprobot = GUIMsg.add_robotdata ( );
 				tmprobot -> CopyFrom ( robotPacket[1][i] );
 			}
-			
-			/*tmprobot = GUIMsg.add_robotdata ( );
-			tmprobot -> set_omega ( state -> OppRobot[i].AngularVelocity );
-			tmprobot -> set_orientation ( state -> OppRobot[i].Angle );
-			tmprobot -> set_robot_id ( state -> OppRobot[i].vision_id );
-			tmprobot -> set_seenstate ( state -> OppRobot[i].seenState );
-			tmprobot -> set_vdir ( state -> OppRobot[i].velocity.direction );
-			tmprobot -> set_vmag ( state -> OppRobot[i].velocity.magnitude );
-			tmprobot -> set_vx ( state -> OppRobot[i].velocity.x );
-			tmprobot -> set_vy ( state -> OppRobot[i].velocity.y );
-			tmprobot -> set_x ( state -> OppRobot[i].Position.X );
-			tmprobot -> set_y ( state -> OppRobot[i].Position.Y );*/
 		}
 
 		GUIMsg.mutable_gamestate()->set_goalblue ( state -> refereeState.goals_blue );
@@ -153,8 +132,6 @@ void VisionModule::SendGUIData ( WorldState * state , AI_Debug & aidebug )
 		string GUIBuffer;
 
 		GUIMsg.SerializeToString ( &GUIBuffer );
-
-		//GUIBuffer = "hippo";
 
 		//GUIUDP -> sendTo ( GUIBuffer.c_str() , GUIBuffer.length() , "224.5.66.6" , 10009 );
 		zmq_send (gui_zmq_publisher, GUIBuffer.c_str(), GUIBuffer.size(), 0);
