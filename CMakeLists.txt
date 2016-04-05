@@ -43,8 +43,8 @@ if(CMAKE_C_COMPILER_ID STREQUAL "GNU" OR CMAKE_C_COMPILER_ID STREQUAL "Clang" OR
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11")
 endif()
 
-#find_package(ZeroMQ REQUIRED)
-#include_directories(${ZeroMQ_INCLUDE_DIR})
+find_package(ZeroMQ REQUIRED)
+include_directories(${ZeroMQ_INCLUDE_DIR})
 
 if(MSVC)
 	set(PROTOBUF_SRC_ROOT_FOLDER "${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/protobuf")
@@ -103,4 +103,4 @@ endforeach()
 if(WIN32)
   target_link_libraries(immortalsssl wsock32)
 endif()
-target_link_libraries(immortalsssl ${PROTOBUF_LIBRARIES})
+target_link_libraries(immortalsssl ${PROTOBUF_LIBRARIES} ${ZeroMQ_LIBRARIES})

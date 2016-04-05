@@ -43,26 +43,6 @@ bool ai09::read_playBook_str ( char* buffer , int length )
 		playBook = NULL;
 		return false;
 	}
-    
-    for (int i = 0 ; i < playBook->strategy_size(); i++)
-    {
-        Strategy* strat = playBook->mutable_strategy(i);
-        
-        strat->set_minx(strat->minx() * field_width / 3025.0f);
-        strat->set_maxx(strat->maxx() * field_width / 3025.0f);
-        strat->set_miny(strat->miny() * field_height / 2025.0f);
-        strat->set_maxy(strat->maxy() * field_height / 2025.0f);
-        for (int j = 0 ; j < strat->role_size() ; j ++)
-        {
-            Role* roooole = strat->mutable_role(j);
-            for (int k = 0 ; k < roooole->path_size() ; k++)
-            {
-                Waypoint* _waypoint = roooole->mutable_path(k);
-                _waypoint->set_x(_waypoint->x() * field_width / 3025.0f);
-                _waypoint->set_y(_waypoint->y() * field_height / 2025.0f);
-            }
-        }
-    }
 	
 	return true;
 }

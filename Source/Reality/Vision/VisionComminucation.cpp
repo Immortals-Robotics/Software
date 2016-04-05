@@ -83,7 +83,7 @@ void VisionModule::SendGUIData ( WorldState * state , AI_Debug & aidebug )
 			olaghekhar = 0;
 
 
-		/*for ( int i = 0 ; i < 12 ; i ++ )
+		for ( int i = 0 ; i < 12 ; i ++ )
 		{
 			robotPacket[0][i].Clear ( );
 			robotPacket[0][i].set_omega ( state -> OwnRobot[i].AngularVelocity );
@@ -124,7 +124,7 @@ void VisionModule::SendGUIData ( WorldState * state , AI_Debug & aidebug )
 			{
 				tmprobot = GUIMsg.add_robotdata ( );
 				tmprobot -> CopyFrom ( robotPacket[1][i] );
-			}*/
+			}
 			
 			/*tmprobot = GUIMsg.add_robotdata ( );
 			tmprobot -> set_omega ( state -> OppRobot[i].AngularVelocity );
@@ -137,7 +137,7 @@ void VisionModule::SendGUIData ( WorldState * state , AI_Debug & aidebug )
 			tmprobot -> set_vy ( state -> OppRobot[i].velocity.y );
 			tmprobot -> set_x ( state -> OppRobot[i].Position.X );
 			tmprobot -> set_y ( state -> OppRobot[i].Position.Y );*/
-		//}
+		}
 
 		GUIMsg.mutable_gamestate()->set_goalblue ( state -> refereeState.goals_blue );
 		GUIMsg.mutable_gamestate()->set_goalyellow ( state -> refereeState.goals_yellow );
@@ -156,8 +156,8 @@ void VisionModule::SendGUIData ( WorldState * state , AI_Debug & aidebug )
 
 		//GUIBuffer = "hippo";
 
-		GUIUDP -> sendTo ( GUIBuffer.c_str() , GUIBuffer.length() , "224.5.66.6" , 10009 );
-
+		//GUIUDP -> sendTo ( GUIBuffer.c_str() , GUIBuffer.length() , "224.5.66.6" , 10009 );
+		zmq_send (gui_zmq_publisher, GUIBuffer.c_str(), GUIBuffer.size(), 0);
 		
 
 	}

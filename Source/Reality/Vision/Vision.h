@@ -22,6 +22,7 @@
 #include "../../Common/MedianFilter.h"
 #include "../../Common/MATHS_REGRESSION_PARABOLIC.h"
 #include "WorldState.h"
+#include <zmq.h>
 
 #ifndef INT_MAX
 #define INT_MAX       2147483647    /* maximum (signed) int value */
@@ -128,6 +129,9 @@ class VisionModule
 
 		UDPSocket * VisionUDP;
 		UDPSocket * GUIUDP;
+
+		void* gui_zmq_context;
+		void* gui_zmq_publisher;
 
 		robotDataMsg robotPacket[2][MAX_ROBOTS];
 

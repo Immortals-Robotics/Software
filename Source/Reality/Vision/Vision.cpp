@@ -19,6 +19,11 @@ VisionModule::VisionModule ( VisionSetting * _setting ) : connected ( false )
 
 	GUIUDP = new UDPSocket ( );
 
+	gui_zmq_context = zmq_ctx_new ();
+	gui_zmq_publisher = zmq_socket (gui_zmq_context, ZMQ_PUB);
+	int rc = zmq_bind (gui_zmq_publisher, "tcp://*:5556");
+	assert (rc == 0);
+
     for ( int i = 0 ; i < CAM_COUNT ; i ++ )
         packet_recieved[i] = false;
 
@@ -60,6 +65,8 @@ VisionModule::VisionModule ( VisionSetting * _setting ) : connected ( false )
 }
 VisionModule::~VisionModule()
 {
+	zmq_close (gui_zmq_publisher);
+	zmq_ctx_destroy (gui_zmq_context);
 }
 
 void VisionModule::ProcessVision ( WorldState * state )

@@ -16,6 +16,7 @@
 #include "Common/Vector.h"
 #include "Network/PracticalSocket.h"
 #include "Soccer/aiBase.h"
+#include "Network/zhelpers.h"
 
 using namespace std;
 
@@ -113,7 +114,6 @@ int main ( )
 		cout << "	Hey you! Put the LAN cable back in its socket, or ..." << endl;
 	}
     
-    
     /*newReferee.init ( "224.5.23.1" , 64003 , setting -> visionSetting -> color );
 	cout << " Connecting to NEW RefereeBox server at " << "224.5.23.1" << " , on port : 10003 " << endl;
 	if ( !newReferee.connect ( ) )
@@ -189,7 +189,7 @@ int main ( )
 				aii -> Process( state , setting , robot_cmds );
 				//cout << timer.time() * 1000.0 << endl;
 				
-				//vision.SendGUIData ( state , aii -> AIDebug );
+				vision.SendGUIData ( state , aii -> AIDebug );
 				lock.unlock();
 				
 				cout << 1.0/timer.interval() << endl;
@@ -231,7 +231,35 @@ int main ( )
             }
         }
     };
-    
+
+	auto test_dbg_dump = [&]()
+	{
+		//  Socket to talk to server
+		printf ("Collecting updates from ai server…\n");
+		void *context = zmq_ctx_new ();
+		void *subscriber = zmq_socket (context, ZMQ_SUB);
+		int rc = zmq_connect (subscriber, "tcp://localhost:5556");
+		assert (rc == 0);
+
+		//  Subscribe to zipcode, default is NYC, 10001
+		char *filter = "";
+		rc = zmq_setsockopt (subscriber, ZMQ_SUBSCRIBE,
+							 filter, strlen (filter));
+		assert (rc == 0);
+
+		const int buffer_size = 1000*1000;
+		char buffer[buffer_size];
+
+
+		while(!exited)
+		{
+			int received_size = zmq_recv (subscriber, buffer, buffer_size, 0);
+
+			cout << "Received ai debug blob of size " << received_size << endl;
+		}
+		zmq_close (subscriber);
+		zmq_ctx_destroy (context);
+	};
 		auto sharifcup_func = [&]()
 		{
 			UDPSocket* blobUDP = new UDPSocket(60022);
@@ -352,12 +380,14 @@ int main ( )
     //thread new_ref_thread(new_ref_func);
     //thread sharifcup_thread(sharifcup_func);
     thread str_thread(str_func);
+	thread dbg_dump_thread(test_dbg_dump);
 	
     ai_thread.join();
     ref_thread.join();
     //new_ref_thread.join();
     //sharifcup_thread.join();
     str_thread.join();
+	dbg_dump_thread.join();
     
 	delete setting;
 	delete state;
