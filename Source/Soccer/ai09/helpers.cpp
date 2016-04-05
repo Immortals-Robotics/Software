@@ -1,4 +1,5 @@
 #include "helpers.h"
+#include <math.h>
 
 float max(float a, float b)
 {

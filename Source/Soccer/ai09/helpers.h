@@ -2,11 +2,13 @@
 
 #include "../../Common/Vector.h"
 //#include "WorldState.h"
-#include <math.h>
 
+#ifndef max
 float max(float a, float b);
-
+#endif
+#ifndef min
 float min(float a, float b);
+#endif
 
 /*#ifndef max
 #define max(a,b)            (((a) > (b)) ? (a) : (b))

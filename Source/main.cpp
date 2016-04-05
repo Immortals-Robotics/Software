@@ -16,7 +16,6 @@
 #include "Common/Vector.h"
 #include "Network/PracticalSocket.h"
 #include "Soccer/aiBase.h"
-#include "Network/zhelpers.h"
 
 using namespace std;
 
