@@ -66,13 +66,14 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 	
 	if ( bigPen )
 	{
-        float penalty_circle_center_y = penalty_area_width/2.0;
+		float big_penalty_area_r  = penalty_area_r + 240.0f;
+        float penalty_circle_center_y = penalty_area_width / 2.0f;
         
-		AddCircle ( -side*field_width , -penalty_circle_center_y , penalty_area_r + 200.0f );
+		AddCircle ( -side*field_width , -penalty_circle_center_y , big_penalty_area_r);
 		
-		AddCircle ( -side*field_width , penalty_circle_center_y , penalty_area_r + 200.0f );
+		AddCircle ( -side*field_width , penalty_circle_center_y , big_penalty_area_r);
 		
-		AddRectangle ( -side*(field_width+85.0f) , -penalty_circle_center_y , 285.0+penalty_area_r , penalty_area_width );
+		AddRectangle ( -side*(field_width+85.0f) , -penalty_circle_center_y , 85.0f+big_penalty_area_r , penalty_area_width );
 	}
 	
 	/*if (robot_num == 0) {

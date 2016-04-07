@@ -52,5 +52,5 @@ void AddCircle ( int x , int y , int r )
 void clear_map ( void );
 bool IsInObstacle ( TVec2 p );
 bool collisionDetect ( TVec2 p1 , TVec2 p2 );
-void AddCircle ( int x , int y , int r );
-void AddRectangle ( int x , int y , int w , int h );
+void AddCircle ( float x , float y , float r );
+void AddRectangle ( float x , float y , float w , float h );

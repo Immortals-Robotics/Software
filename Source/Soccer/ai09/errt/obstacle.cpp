@@ -130,12 +130,12 @@ bool collisionDetect ( TVec2 p1 , TVec2 p2 )
         return false;
 }*/
 
-void AddCircle ( int x , int y , int r )
+void AddCircle ( float x , float y , float r )
 {
     map.AddCircle ( x , y , r );
 }
 
-void AddRectangle ( int x , int y , int w , int h )
+void AddRectangle ( float x , float y , float w , float h )
 {
 	map.AddRectangle(x,y,w,h);
 }

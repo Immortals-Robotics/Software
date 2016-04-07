@@ -151,6 +151,7 @@ TVec2 Planner::nearest_free ( TVec2 state )
 
 TVec2 Planner::nearest_free_prob ( TVec2 state )
 {
+    const float acceptable_free_dis = 50;
     if ( ! IsInObstacle ( state ) )
 		return state;
     
@@ -164,6 +165,8 @@ TVec2 Planner::nearest_free_prob ( TVec2 state )
         {
             ans = newRndPoint;
             minDis = DIS(state, newRndPoint);
+            if (minDis < acceptable_free_dis)
+                break;
         }
     }
     
