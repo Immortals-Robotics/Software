@@ -42,7 +42,7 @@ void ai09::recievePass ( int robot_num , TVec2 staticPos , bool chip )
 	distCoeff = max ( 0.8 , distCoeff );
 	distCoeff = min ( 1.2 , distCoeff );
 	//angleTol *= distCoeff;
-	if ((oneTouchType[robot_num] == shirje)&&(oneTouchDetector[robot_num].IsArriving(OwnRobot[dmf].State.Position,angleTol, maxBallAngle)))
+	if (0)//(oneTouchType[robot_num] == shirje)&&(oneTouchDetector[robot_num].IsArriving(OwnRobot[dmf].State.Position,angleTol, maxBallAngle)))
 	{
 		WaitForPass(robot_num, 0, &OwnRobot[attack].State.Position);
 	}
@@ -64,8 +64,8 @@ void ai09::recievePass ( int robot_num , TVec2 staticPos , bool chip )
                 WaitForPass(robot_num, chip);
 		}
 		else if (oneTouchType[robot_num] == shirje) {
-			//WaitForOmghi(robot_num,chip);
-			WaitForPass(robot_num, 0, &OwnRobot[dmf].State.Position);
+			WaitForOmghi(robot_num,chip);
+			//WaitForPass(robot_num, 0, &OwnRobot[dmf].State.Position);
 		}
 		else if (oneTouchType[robot_num] == gool) {
 			WaitForGool(robot_num,chip);

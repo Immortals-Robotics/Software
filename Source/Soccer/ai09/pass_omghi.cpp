@@ -15,19 +15,19 @@ void ai09::WaitForOmghi ( int robot_num , bool chip )
 	sBAR = ans.getDistanceTo ( VecPosition ( ball.Position.X , ball.Position.Y ) );
 	sBAR /= ball.velocity.magnitude;
 	sBAR = ans.getDistanceTo ( VecPosition ( OwnRobot[robot_num].State.Position.X , OwnRobot[robot_num].State.Position.Y ) ) / sBAR;
-	sBAR /= 58.0;
+	sBAR /= 63.0;
 	//sBAR /= 10.0;
 	//sBAR /= 1500000;
 	
 	cout << "old sBAR:	" << sBAR << "	"
 	;
 	if ( sBAR < 5 )		sBAR = 5;
-	if ( sBAR > 100 )	sBAR = 100;
+	if ( sBAR > 70 )	sBAR = 70;
 	
 	TVec2 target = Vec2(ans.getX(), ans.getY());//CalculatePassPos(robot_num, 89);
 	
 	OwnRobot[robot_num].target.Angle = calculateOneTouchAngle ( robot_num , target );
-	OwnRobot[robot_num].face(Vec2(-side*field_width, 0));
+	OwnRobot[robot_num].face(Vec2(-side*field_width, -sgn(OwnRobot[robot_num].State.Position.Y)*300));
 	
 	ERRTSetObstacles ( robot_num );
 	

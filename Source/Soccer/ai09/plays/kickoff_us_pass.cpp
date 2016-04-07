@@ -26,7 +26,34 @@ void ai09::kickoff_us_pass ( void )
 			ERRTSetObstacles ( attack );
 			tech_circle(attack,AngleWith ( Vec2 ( -side*80 , oneTouchSide * 1700 ) , ball.Position ) ,0,0,0,1);
 		}*/
-		circle_ball(attack, AngleWith ( OwnRobot[(randomParam<0.5)?rmf:lmf].State.Position , ball.Position ), 30, 0, 1.0f);
+
+		TVec2 pass_pos;
+		int shoot_pow = 0;
+		int chip_pow = 0;
+		if (OwnRobot[mid1].State.seenState != CompletelyOut && OwnRobot[mid2].State.seenState != CompletelyOut)
+		{
+			pass_pos = OwnRobot[(randomParam<0.0)?mid1:mid2].State.Position;
+			pass_pos.X += -side*900.0f;
+			shoot_pow = 30;
+		}
+		else if (OwnRobot[mid1].State.seenState != CompletelyOut)
+		{
+			pass_pos = OwnRobot[mid1].State.Position;
+			pass_pos.X += -side*900.0f;
+			shoot_pow = 30;
+		}
+		else if (OwnRobot[mid2].State.seenState != CompletelyOut)
+		{
+			pass_pos = OwnRobot[mid2].State.Position;
+			pass_pos.X += -side*900.0f;
+			shoot_pow = 30;
+		}
+		else
+		{
+			pass_pos = Vec2(-side * field_width, 0);
+			chip_pow = 200;
+		}
+		circle_ball(attack, AngleWith ( pass_pos , ball.Position ), shoot_pow, chip_pow, 1.0f);
 		
 	}
 	else
@@ -34,27 +61,13 @@ void ai09::kickoff_us_pass ( void )
 		ERRTSetObstacles ( attack );
 		tech_circle(attack,90-sgn(side)*90 ,0);
 	}
-	
-	if (oneTouchDetector[rmf].IsArriving(70)) {
-		WaitForPass ( rmf );
-	}
-	else
-	{
-		OwnRobot[rmf].face ( Vec2 ( -side*field_width , 0 ) );
-		ERRTSetObstacles ( rmf , true );
-		ERRTNavigate2Point ( rmf , Vec2 ( side*150 , oneTouchSide * 2700 ) );
-	}
-	
-	if (oneTouchDetector[lmf].IsArriving(70)) {
-		WaitForPass ( lmf );
-	}
-	else
-	{
-		OwnRobot[lmf].face ( Vec2 ( -side*field_width , 0 ) );
-		ERRTSetObstacles ( lmf , true );
-		ERRTNavigate2Point ( lmf , Vec2 ( side*150 , -oneTouchSide * 2700 ) );
-	}
-	
-    oneTouchType[rmf] = oneTouch;
-    oneTouchType[lmf] = oneTouch;
+
+	allafPos[mid1] = Vec2 ( side*150 , -oneTouchSide * 2700 );
+	allafPos[mid2] = Vec2 ( side*150 , oneTouchSide * 2700 );
+
+	recievePass(mid1, allafPos[mid1]);
+	recievePass(mid2, allafPos[mid2]);
+
+	oneTouchType[mid1] = oneTouch;
+    oneTouchType[mid2] = oneTouch;
 }

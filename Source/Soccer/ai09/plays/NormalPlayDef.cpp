@@ -75,8 +75,8 @@ void ai09::NormalPlayDef ( void )
 	}
 	
 	if (!goal_blocked(ball.Position, 3000, 130)) {
-		shoot_pow = 100;
-		chip_pow = 0;
+		shoot_pow = 0;
+		chip_pow = 200;
 	}
 	
     if (attackFuckingAngle() && findKickerOpp(-1)) {

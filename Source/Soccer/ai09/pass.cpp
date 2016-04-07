@@ -2,8 +2,8 @@
 
 TVec2 ai09::CalculatePassPos ( int robot_num , const TVec2& target , const TVec2& statPos , float bar )
 {
-	Line ball_line = Line::makeLineFromPositionAndAngle ( VecPosition ( ball.Position.X , ball.Position.Y ) , ball.velocity.direction );
-	//Line ball_line ( 1.0 , -ballLine.getSlope() , -ballLine.getIntercept() );
+	//Line ball_line = Line::makeLineFromPositionAndAngle ( VecPosition ( ball.Position.X , ball.Position.Y ) , ball.velocity.direction );
+	Line ball_line ( 1.0 , -ballLine.getSlope() , -ballLine.getIntercept() );
 	
 	if (chip_head<180) {
 		ball_line = Line::makeLineFromPositionAndAngle ( VecPosition ( ball.Position.X , ball.Position.Y ) , chip_head );
@@ -21,7 +21,7 @@ TVec2 ai09::CalculatePassPos ( int robot_num , const TVec2& target , const TVec2
 
 void ai09::WaitForPass ( int robot_num , bool chip , TVec2* target , TVec2* statPos )
 {
-	TVec2 pos = CalculatePassPos(robot_num,target==NULL?Vec2(-side*field_width, 0):*target,statPos==NULL?OwnRobot[robot_num].State.Position:*statPos,86);
+	TVec2 pos = CalculatePassPos(robot_num,target==NULL?Vec2(-side*field_width, 0):*target,statPos==NULL?OwnRobot[robot_num].State.Position:*statPos,78);
 	
 	/*if (target==NULL) {
 		target = new TVec2(Vec2(-side*3025, 0));
@@ -45,7 +45,7 @@ void ai09::WaitForPass ( int robot_num , bool chip , TVec2* target , TVec2* stat
 	//OwnRobot[robot_num].target.Angle=-90;
 
 	ERRTSetObstacles ( robot_num ,0,1,1,0,0,0);
-	ERRTNavigate2Point ( robot_num ,pos,0,100,&VELOCITY_PROFILE_MAMOOLI );
+	ERRTNavigate2Point ( robot_num ,pos,0,100,&VELOCITY_PROFILE_KHARAKI );
 	
 	if ( target == NULL )
 	{
@@ -55,10 +55,11 @@ void ai09::WaitForPass ( int robot_num , bool chip , TVec2* target , TVec2* stat
 		else
         {
             float vel_delta = ball.velocity.magnitude / 100.0f;
-            vel_delta = min(60,vel_delta);
-            vel_delta *= 0.7;
-            vel_delta = 80 - vel_delta;
+            //vel_delta = min(60,vel_delta);
+            vel_delta *= 0.5;
+            vel_delta = 110 - vel_delta;
             cout << "ball vel: " << vel_delta << endl;
+			//vel_delta = 100;
 			OwnRobot[robot_num].Shoot( vel_delta );
         }
 	}
@@ -72,5 +73,5 @@ void ai09::WaitForPass ( int robot_num , bool chip , TVec2* target , TVec2* stat
 
 	}
 
-	OwnRobot[robot_num].Dribble( 15 );
+	//OwnRobot[robot_num].Dribble( 15 );
 }
