@@ -2,7 +2,7 @@
 
 void ai09::NormalPlayDef ( void )
 {
-	//ManageAttRoles();
+	ManageAttRoles();
 	
 	MarkManager(false);
 	
@@ -40,13 +40,7 @@ void ai09::NormalPlayDef ( void )
 				}
 			}
 			else {
-				OwnRobot[own].face(ball.Position);
-				if (1){//ball.Position.Y*OppRobot[opp].Position.Y<0) {
-					Mark2Goal(own,opp,180);
-				}
-				else {
-					Mark2Ball(own,opp,180);
-				}
+				Mark(own, opp, 180);
 			}
 		}
 	}

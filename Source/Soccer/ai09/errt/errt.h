@@ -4,13 +4,7 @@
 #include "obstacle.h"
 #include "../../../Common/Vector.h"
 #include <limits.h>
-
-
-/*#ifndef INT_MAX
-#define INT_MAX 2147483647 //2,147,483,647
-#endif*/
-
-//float rnd ( void );
+#include "../../../Common/Random.h"
 
 class Planner
 {
@@ -20,13 +14,14 @@ class Planner
         unsigned int waypoints , cached_waypoints , cache_start;
 
 	void reverse_waypoints ( void );
-    
+
     float field_width;
     float field_height;
     
     bool started_in_obs;
-    
 
+	Random random;
+	
 public:
 
 	float goal_target_prob;
@@ -34,6 +29,7 @@ public:
 	float acceptable_dis;
 
 	Planner ( void );
+	~Planner(void);
 	Tree tree;
     void set_field_params ( float _w , float _h );
 	void init ( TVec2 init , TVec2 final , float step );

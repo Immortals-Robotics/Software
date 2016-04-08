@@ -39,7 +39,7 @@ int ai09::strategy_weight ( void )
 	
 	
 	int ans_str = -1;
-	for (map<int,float>::const_iterator it = good_strs.begin(); it!=good_strs.end(); it++) {
+	for (map<int,float>::const_iterator it = good_strs.begin(); it!=good_strs.end(); ++it) {
 		if (randomParam*sigma_w <= it->second) {
 			ans_str = it->first;
 			break;

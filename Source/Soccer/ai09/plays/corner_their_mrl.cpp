@@ -2,12 +2,23 @@
 
 void ai09::corner_their_mrl ( void )
 {
-	//GKHi(gk, 1, 0);
-	ERRTSetObstacles(gk, 0, 0, 1, 0, 0, 0);
-	OwnRobot[gk].target.Angle = (1+side)*90.0f;
-	ERRTNavigate2Point(gk, Vec2(side*(field_width-100), 0), 0, 100, &VELOCITY_PROFILE_MAMOOLI);
-	
-	DefHi(def,NULL, true);
+	if (side*ball.Position.X > field_width - 1000)
+	{
+		ERRTSetObstacles(gk, 0, 0, 1, 0, 0, 0);
+		OwnRobot[gk].target.Angle = (1 + side)*90.0f;
+		ERRTNavigate2Point(gk, Vec2(side*(field_width - 100), 0), 0, 100, &VELOCITY_PROFILE_MAMOOLI);
+
+		ERRTSetObstacles(def, 1, 1, 1, 1, 0, 0);
+		OwnRobot[def].face(ball.Position);
+		auto defTarget = PointOnConnectingLine(Vec2(side*field_width, 0), ball.Position, 2000);
+		ERRTNavigate2Point(def, defTarget, 0, 100, &VELOCITY_PROFILE_MAMOOLI);
+	}
+	else
+	{
+		GKHi(gk, 1, 0);
+		DefHi(def, NULL, true);
+	}
+
 	isDefending = true;
 	DefenceWall(attack, false);
 	

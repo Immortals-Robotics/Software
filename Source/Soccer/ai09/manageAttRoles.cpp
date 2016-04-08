@@ -4,46 +4,30 @@ static int attackerChangeHys = 0;
 
 void ai09::ManageAttRoles ( void )
 {
-	if ( 
-		(DIS(OwnRobot[attack].State.Position, ball.Position)>600)|| //Check if the current attacker has lost the ball, before switching its role
-		(OwnRobot[attack].State.seenState == CompletelyOut )
-		)
-	{
-		attackerChangeHys ++;
-	}
+	if (DIS(OwnRobot[attack].State.Position, ball.Position) > 600) //Check if the current attacker has lost the ball, before switching its role
+		attackerChangeHys++;
+	if (OwnRobot[attack].State.seenState == CompletelyOut)
+		attackerChangeHys = 100;
 	
 	if (attackerChangeHys > 30) {
 		int newAttack = attack;
-		
-		float currAttBallDis = DIS(OwnRobot[newAttack].State.Position, ball.Position);
-		
-		if(OwnRobot[attack].State.seenState == CompletelyOut )
+
+		auto mid1_score = calculateSwicthToAttackerScore(mid1);
+		auto mid2_score = calculateSwicthToAttackerScore(mid2);
+		if (mid1_score > -0.5f && mid2_score > -0.5f)
 		{
-			currAttBallDis = 10000;
+			if (mid1_score > mid2_score)
+				newAttack = mid1;
+			else
+				newAttack = mid2;
 		}
-		
-		if ( OwnRobot[lmf].State.seenState != CompletelyOut )
-		if (DIS(OwnRobot[lmf].State.Position, ball.Position) < currAttBallDis) {
-			if (!oneTouchDetector[lmf].IsArriving(70)) {
-				currAttBallDis = DIS(OwnRobot[lmf].State.Position, ball.Position);
-				newAttack = lmf;
-			}
+		else if (mid1_score > -0.5f)
+		{
+			newAttack = mid1;
 		}
-		
-		if ( OwnRobot[rmf].State.seenState != CompletelyOut )
-		if (DIS(OwnRobot[rmf].State.Position, ball.Position) < currAttBallDis) {
-			if (!oneTouchDetector[rmf].IsArriving(70)) {
-				currAttBallDis = DIS(OwnRobot[rmf].State.Position, ball.Position);
-				newAttack = rmf;
-			}
-		}
-		
-		if ( OwnRobot[cmf].State.seenState != CompletelyOut )
-		if (DIS(OwnRobot[cmf].State.Position, ball.Position) < currAttBallDis) {
-			if (!oneTouchDetector[cmf].IsArriving(70)) {
-				currAttBallDis = DIS(OwnRobot[cmf].State.Position, ball.Position);
-				newAttack = cmf;
-			}
+		else if (mid2_score > -0.5f)
+		{
+			newAttack = mid2;
 		}
 		
 		if ( attack != newAttack )

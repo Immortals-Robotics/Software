@@ -9,12 +9,6 @@
 #define world2mapX(a) min(729,max(0,((a/10)+364)))
 #define world2mapY(a) min(529,max(0,((a/10)+264)))
 
-float rnd ( void )
-{
-        return ( ( float ) ( rand ( ) ) ) / RAND_MAX ;
-}
-
-
 Planner::Planner ( void )
 {
         waypoints = 0;
@@ -27,6 +21,10 @@ Planner::Planner ( void )
     
     field_width = 0;
     field_height = 0;
+}
+
+Planner::~Planner()
+{
 }
 
 void Planner::init ( TVec2 init , TVec2 final , float step )
@@ -64,7 +62,7 @@ void Planner::set_field_params ( float _w , float _h )
 TVec2 Planner::random_state ( void )
 {
         //return Vec2 ( ( rnd ( ) * 10000.0 ) - 5000.0 , ( rnd ( ) * 10000.0 ) - 5000.0 );
-        return Vec2 ( ( (rnd() - 0.5f) * 2.0f * (field_width+250.0f) ) , ( (rnd() - 0.5f) * 2.0f * (field_height+250.0f) ) );
+        return Vec2 ( ( (random.get() - 0.5f) * 2.0f * (field_width+250.0f) ) , ( (random.get() - 0.5f) * 2.0f * (field_height+250.0f) ) );
 }
 
 TVec2 Planner::nearest_free ( TVec2 state )
@@ -175,7 +173,7 @@ TVec2 Planner::nearest_free_prob ( TVec2 state )
 
 TVec2 Planner::choose_target ( int * type )
 {
-        float r = rnd ( );
+        float r = random.get( );
 
         if ( type == NULL )
             type = new int;
@@ -187,7 +185,7 @@ TVec2 Planner::choose_target ( int * type )
         }
         else if ( ( r <= goal_target_prob + waypoint_target_prob ) && ( cached_waypoints > 0 ) && ( cached_waypoints > cache_start ) )
         {
-            r = rnd ( );
+            r = random.get( );
             *type = (int)( r * ( cached_waypoints ) );
             if ( *type >= cached_waypoints )
                 *type >= cached_waypoints;

@@ -20,7 +20,7 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 		{
 			timer.start();
 			lastReferee = worldState ->refereeState.State->get();
-			randomParam = ( ( float ) ( rand ( ) ) ) / RAND_MAX;
+			randomParam = random.get();
 			target_str = strategy_weight();
 		}
 		
@@ -80,7 +80,8 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 		
 		else if ( worldState ->refereeState.State->theirFreeKick() )
 		{
-			currentPlay = "corner_their_mrl";
+			//currentPlay = "corner_their_mrl";
+			currentPlay = "corner_their_global";
 			//currentPlay = "Stop";
 		}
 		

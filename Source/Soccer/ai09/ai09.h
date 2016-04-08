@@ -25,6 +25,8 @@ class ai09 : public aiBase
 {
 	private:
 	
+	Random random;
+
     float field_width;
     float field_height;
     float goal_width;
@@ -152,7 +154,9 @@ class ai09 : public aiBase
 		bool attackFuckingAngle ( void );
 		TVec2 predictBallForwardAI( float timeAhead );
 		float oneTouchScore ( int robot_num );
-
+		float calculateOppThreat(int opp, bool restart = false);
+		float calculateMarkCost(int robot_num, int opp);
+		float calculateSwicthToAttackerScore(int robot_num);
 
 	
 		// Skills
@@ -160,6 +164,7 @@ class ai09 : public aiBase
 		void ERRTNavigate2Point ( int robot_num , TVec2 dest , bool accurate = false , int speed = 80 , VelocityProfile * velocityProfile = NULL );
 		void ERRTSetObstacles ( int robot_num , bool bll = false , bool field = true , bool own = true , bool opp = false , bool dribble = false , bool bigPen = false );
         void AddOppObs ( int mask1 = -1, int mask2 = -1 );
+		void Mark(int robot_num, int opp, float dist = 220.0f);
 		void Mark2Goal ( int robot_num , int opp , float dist = 220.0f );
 		void Mark2Ball ( int robot_num , int opp , float dist = 220.0f );
 		void Halt ( int robot_num );
