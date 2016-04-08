@@ -16,9 +16,19 @@ float ai09::calculateSwicthToAttackerScore(int robot_num)
 	if (OwnRobot[attack].State.seenState == CompletelyOut)
 		currAttBallDis = 10000;
 
-	if (isDefending && markMap[&robot_num] != -1)
+	auto marked_id = -1;
+	for (auto it = markMap.begin(); it != markMap.end(); ++it)
 	{
-		auto opp = markMap[&robot_num];
+		if (*it->first == robot_num)
+		{
+			marked_id = it->second;
+			break;
+		}
+	}
+
+	if (isDefending && marked_id != -1)
+	{
+		auto opp = marked_id;
 		if (
 			(DIS(OppRobot[opp].Position, ball.Position) < 400) &&
 			(DIS(OwnRobot[robot_num].State.Position, ball.Position) < 400) &&
@@ -31,10 +41,10 @@ float ai09::calculateSwicthToAttackerScore(int robot_num)
 	}
 
 	auto disToBall = DIS(OwnRobot[robot_num].State.Position, ball.Position);
-	if (disToBall > currAttBallDis)
+	if (disToBall > currAttBallDis - 500)
 		return 0;
 
-	auto dis_score = (currAttBallDis - disToBall) / 1000.0f;
+	auto dis_score = (currAttBallDis - disToBall - 500) / 1000.0f;
 	dis_score = min(1.0f, max(0.0f, dis_score));
 
 	return dis_score;

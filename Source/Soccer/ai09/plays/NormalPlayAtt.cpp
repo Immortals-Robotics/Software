@@ -88,7 +88,9 @@ void ai09::NormalPlayAtt ( void )
         else
             shootAngle = AngleWith ( Vec2 ( -side*field_width , 0 ) , ball.Position );
         
-		float shoot_pow = 140;
+		float shoot_pow = 80 - OwnRobot[attack].State.velocity.magnitude * 0.01;
+
+
         //if ( openAngle.Y < 2 )
         //    shoot_pow = 0;
 		if (DIS(OwnRobot[attack].State.Position,ball.Position) > 400 ) {

@@ -4,7 +4,7 @@ float ai09::calculateMarkCost(int robot_num, int opp)
 {
 	if (OwnRobot[robot_num].State.seenState == CompletelyOut)
 		return -1;
-	if (OppRobot[robot_num].seenState == CompletelyOut)
+	if (OppRobot[opp].seenState == CompletelyOut)
 		return -1;
 
 	const float predict_t = 0.3f;
@@ -15,8 +15,15 @@ float ai09::calculateMarkCost(int robot_num, int opp)
 		OppRobot[opp].Position.X + OppRobot[opp].velocity.x*predict_t,
 		OppRobot[opp].Position.Y + OppRobot[opp].velocity.y*predict_t);
 
-	auto dis_pred = DIS(predicted_pos_own, predicted_pos_own);
-	auto already_marked = markMap[&robot_num] == opp;
+	auto dis_pred = DIS(predicted_pos_own, predicted_pos_opp);
+	bool already_marked = false;
+	for (auto it = markMap.begin(); it != markMap.end(); ++it) {
+		if (*it->first == robot_num)
+		{
+			already_marked = it->second == opp;
+			break;
+		}
+	}
 
 	float score_stay;
 	if (!already_marked)
@@ -41,7 +48,7 @@ float ai09::calculateMarkCost(int robot_num, int opp)
 	cost_reach = min(1.0f, max(0.0f, cost_reach));
 	cost_attack = min(1.0f, max(0.0f, cost_attack));
 
-	auto cost = score_stay - cost_reach + cost_attack;
+	auto cost = 1.0f - score_stay + cost_reach + cost_attack;
 
 	return cost;
 }

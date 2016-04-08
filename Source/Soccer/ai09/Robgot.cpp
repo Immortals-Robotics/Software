@@ -68,17 +68,17 @@ float getCalibratedChipPow ( int vision_id , float dis_raw )
     
     static float ghuz_coeffs[MAX_ROBOTS] = {
         220.0,  //  0
-        265.0,  //  1
-        220.0,  //  2
-        305.0,  //  3
-        150.0,  //  4
-        220.0,  //  5
-        175.0,  //  6
+        260.0,  //  1
+        180.0,  //  2
+        250.0,  //  3
+        210.0,  //  4
+        200.0,  //  5
+        150.0,  //  6
         200.0,  //  7
         265.0,  //  8
         265.0,  //  9
-        180.0,  //  A
-        255.0  //  B
+        140.0,  //  A
+        180.0  //  B
         
     };
 	
@@ -95,7 +95,7 @@ float getCalibratedChipPow ( int vision_id , float dis_raw )
 	float calib_shoot = (-b+sqrt(delta))/(2.0f*a);
 	//calib_shoot *= 1.25f;
     
-    //calib_shoot *= pow(ghuz_coeffs[1] / ghuz_coeffs[vision_id],0.5);
+    calib_shoot *= pow(ghuz_coeffs[1] / ghuz_coeffs[vision_id],0.5);
 	
 	calib_shoot = min(100.0f, max(0.0f,calib_shoot));
 	

@@ -10,7 +10,7 @@ void ai09::corner_their_global ( void )
 
 		ERRTSetObstacles(def, 1, 1, 1, 1, 0, 0);
 		OwnRobot[def].face(ball.Position);
-		auto defTarget = PointOnConnectingLine(Vec2(side*field_width, 0), ball.Position, 2000);
+		auto defTarget = PointOnConnectingLine(Vec2(side*field_width, 0), ball.Position, 1400);
 		ERRTNavigate2Point(def, defTarget, 0, 100, &VELOCITY_PROFILE_MAMOOLI);
 	}
 	else
@@ -36,7 +36,7 @@ void ai09::corner_their_global ( void )
 		if (opp == -1) {
 			OwnRobot[own].face(Vec2(-side * field_width, 0));
 			ERRTSetObstacles(own, 1, 1, 1, 1, 0, 0);
-			ERRTNavigate2Point(dmf, static_pos[own], 0, 100, &VELOCITY_PROFILE_MAMOOLI);
+			ERRTNavigate2Point(own, static_pos[own], 0, 100, &VELOCITY_PROFILE_MAMOOLI);
 		}
 		else {
 			Mark(own, opp, 180);

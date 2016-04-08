@@ -32,6 +32,10 @@ void ai09::MarkManager(bool restart)
 	});
 
 	cout << "	Opps: " << crunchingOpps.size() << endl;
+	for(auto it = crunchingOpps.begin(); it != crunchingOpps.end(); ++it)
+	{
+		cout << "-- " << it->first << " : " << it->second << endl;
+	}
 
 	struct MarkPair
 	{
@@ -116,18 +120,20 @@ void ai09::MarkManager(bool restart)
 
 
 	for(auto it = markMap.begin(); it != markMap.end(); ++it)
-		it->second = -1;
+		markMap[it->first] = -1;
 
 	if (!valid_formations.empty())
 	{
 		auto best_pair = valid_formations[0].pairs;
 		for (auto it = best_pair.begin(); it != best_pair.end(); ++it)
 		{
+			cout << " XXXXXX " << it->first << " : " << it -> second << endl;
 			for (auto it1 = markMap.begin(); it1 != markMap.end(); ++it1)
 			{
 				if (*it1->first == it->first)
 				{
 					it1->second = it->second;
+					break;
 				}
 			}
 		}

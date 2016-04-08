@@ -14,18 +14,18 @@ void ai09::ManageAttRoles ( void )
 
 		auto mid1_score = calculateSwicthToAttackerScore(mid1);
 		auto mid2_score = calculateSwicthToAttackerScore(mid2);
-		if (mid1_score > -0.5f && mid2_score > -0.5f)
+		if (mid1_score > 0.1f && mid2_score > 0.1f)
 		{
 			if (mid1_score > mid2_score)
 				newAttack = mid1;
 			else
 				newAttack = mid2;
 		}
-		else if (mid1_score > -0.5f)
+		else if (mid1_score > 0.1f)
 		{
 			newAttack = mid1;
 		}
-		else if (mid2_score > -0.5f)
+		else if (mid2_score > 0.1f)
 		{
 			newAttack = mid2;
 		}

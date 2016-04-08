@@ -56,7 +56,7 @@ void ai09::WaitForPass ( int robot_num , bool chip , TVec2* target , TVec2* stat
         {
             float vel_delta = ball.velocity.magnitude / 100.0f;
             //vel_delta = min(60,vel_delta);
-            vel_delta *= 0.5;
+            vel_delta *= 0.7;
             vel_delta = 110 - vel_delta;
             cout << "ball vel: " << vel_delta << endl;
 			//vel_delta = 100;
