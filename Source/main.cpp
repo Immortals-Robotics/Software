@@ -14,7 +14,7 @@
 #include "Common/net_log.h"
 #include "Reality/Vision/Protobuf/messages_blob.pb.h"
 #include "Common/Vector.h"
-#include "Network/PracticalSocket.h"
+#include "Reality/Network/PracticalSocket.h"
 #include "Soccer/aiBase.h"
 
 using namespace std;

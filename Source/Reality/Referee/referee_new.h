@@ -1,4 +1,4 @@
-#include "../../Network/PracticalSocket.h"
+#include "../Network/PracticalSocket.h"
 #include "../Vision/Protobuf/referee.pb.h"
 #include "../Vision/WorldState.h"
 

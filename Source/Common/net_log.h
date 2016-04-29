@@ -1,7 +1,7 @@
 #include <string>
 #include <sstream>
 #include <iostream>
-#include "../Network/PracticalSocket.h"
+#include "../Reality/Network/PracticalSocket.h"
 
 class NetLogger : public std::stringbuf
 {

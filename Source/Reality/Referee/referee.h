@@ -1,6 +1,6 @@
 #pragma once
 #include "game_state.h"
-#include "../../Network/PracticalSocket.h"
+#include "../Network/PracticalSocket.h"
 #include "../../Common/Vector.h"
 #include "../Vision/WorldState.h"
 
