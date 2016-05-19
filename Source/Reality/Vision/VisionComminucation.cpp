@@ -14,7 +14,7 @@ bool VisionModule::connectToVisionServer ( const std::string & address , const u
 
 	}
 
-	catch ( ... )
+	catch ( SocketException ex )
 	{
 		connected = false;
 
