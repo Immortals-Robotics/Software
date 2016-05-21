@@ -11,7 +11,6 @@
 #include "Soccer/ai09/ai09.h"
 #include "Common/kbhit.h"
 #include "Common/timer.h"
-#include "Common/net_log.h"
 #include "Reality/Vision/Protobuf/messages_blob.pb.h"
 #include "Common/Vector.h"
 #include "Reality/Network/PracticalSocket.h"
