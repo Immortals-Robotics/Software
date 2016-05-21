@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(${CMAKE_PROJECT_NAME}-soccer)
+project(${CMAKE_PROJECT_NAME}-common)
 
 include("${CMAKE_SOURCE_DIR}/CMake/Helpers.cmake")
 
@@ -26,11 +26,13 @@ set(SOURCE_FILES
     ${GEN_SOURCE_FILES}
     ${PROTO_SRCS})
 
-add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+add_library(${PROJECT_NAME} ${SOURCE_FILES})
 
 set_files_group(SOURCE_FILES)
+
+target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
 if(WIN32)
   target_link_libraries(${PROJECT_NAME} wsock32)
 endif()
-target_link_libraries(${PROJECT_NAME} ${PROTOBUF_LIBRARIES} ${ZeroMQ_LIBRARIES} ${CMAKE_PROJECT_NAME}--common)
+target_link_libraries(${PROJECT_NAME} ${PROTOBUF_LIBRARIES} ${ZeroMQ_LIBRARIES})
