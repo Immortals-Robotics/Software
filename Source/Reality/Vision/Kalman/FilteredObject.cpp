@@ -86,7 +86,7 @@ void FilteredObject::initialize(const char* filename1, const char* filename2)
   }
   else
   {
-    cout<<"Invalid initialization file 1"<<endl;
+    cout<<"Invalid initialization file 2"<<endl;
   }
 }
 
