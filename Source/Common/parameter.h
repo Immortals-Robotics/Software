@@ -3,7 +3,7 @@
 #include <map>
 #include <string>
 #include "math/Vector.h"
-#include "../Reality/Vision/Protobuf/aidebug.pb.h"
+#include "protos/aidebug.pb.h"
 
 using namespace std;
 

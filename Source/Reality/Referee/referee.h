@@ -1,7 +1,7 @@
 #pragma once
 #include "game_state.h"
-#include "../Network/PracticalSocket.h"
-#include "../../Common/Vector.h"
+#include "network/netraw.h"
+#include "math/Vector.h"
 #include "../Vision/WorldState.h"
 
 struct GameStatePacket{
@@ -20,7 +20,7 @@ private:
 
 	int move_hys;
 
-	UDPSocket * RefUDP;
+	Net::UDP * RefUDP;
 	std::string address;
 	unsigned short port;
 	bool color;

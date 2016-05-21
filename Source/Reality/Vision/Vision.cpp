@@ -3,6 +3,7 @@
 #include "Kalman/FilteredObject.h"
 
 #include <fstream>
+#include <assert.h>
 using namespace std;
 
 VisionModule::VisionModule ( VisionSetting * _setting ) : connected ( false ) 
@@ -17,7 +18,7 @@ VisionModule::VisionModule ( VisionSetting * _setting ) : connected ( false )
 		connectToVisionServer ( setting -> UDP_Adress , setting -> LocalPort );
 	}
 
-	GUIUDP = new UDPSocket ( );
+	GUIUDP = new Net::UDP ( );
 
 	gui_zmq_context = zmq_ctx_new ();
 	gui_zmq_publisher = zmq_socket (gui_zmq_context, ZMQ_PUB);

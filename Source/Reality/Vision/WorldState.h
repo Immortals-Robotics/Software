@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include "../Referee/game_state.h"
-#include "../../Common/Vector.h"
+#include "math/Vector.h"
 #include <math.h>
 
 #define MAX_ROBOTS 12

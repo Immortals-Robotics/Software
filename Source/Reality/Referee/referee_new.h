@@ -1,5 +1,5 @@
-#include "../Network/PracticalSocket.h"
-#include "../Vision/Protobuf/referee.pb.h"
+#include "network/netraw.h"
+#include "protos/referee.pb.h"
 #include "../Vision/WorldState.h"
 
 class NewReferee
@@ -7,7 +7,7 @@ class NewReferee
 private:
     bool initialized , connected;
     
-	UDPSocket * RefUDP;
+	Net::UDP * RefUDP;
 	std::string address;
 	unsigned short port;
 	bool color;

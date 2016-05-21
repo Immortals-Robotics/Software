@@ -18,4 +18,4 @@ add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 set_files_group(SOURCE_FILES)
 
-target_link_libraries(${PROJECT_NAME} ${CMAKE_PROJECT_NAME}--common)
+target_link_libraries(${PROJECT_NAME} ${CMAKE_PROJECT_NAME}-common)

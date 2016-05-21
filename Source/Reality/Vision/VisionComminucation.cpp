@@ -2,24 +2,23 @@
 
 bool VisionModule::connectToVisionServer ( const std::string & address , const unsigned short port )
 {
-	try
-	{
-		VisionUDP = new UDPSocket ( port );
-
-		VisionUDP -> joinGroup ( address );
-
-		connected = true;
-
-		return true;
-
-	}
-
-	catch ( ... )
+	VisionUDP = new Net::UDP();
+	if (!VisionUDP->open(port, true, true, true))
 	{
 		connected = false;
-
 		return false;
 	}
+	Net::Address multiaddr, interf;
+	multiaddr.setHost(address.c_str(), port);
+	interf.setAny();
+
+	if (!VisionUDP->addMulticast(multiaddr, interf)) {
+		connected = false;
+		return false;
+	}
+
+	connected = true;
+	return true;
 }
 
 bool VisionModule::recievePacket ( void )
@@ -28,7 +27,8 @@ bool VisionModule::recievePacket ( void )
 		return false;
 
 	try{
-		int incoming_size = VisionUDP -> recv ( incoming_buffer , MAX_INCOMING_PACKET_SIZE );
+		Net::Address src;
+		int incoming_size = VisionUDP -> recv ( incoming_buffer , MAX_INCOMING_PACKET_SIZE , src);
 
 		packet.ParseFromArray(incoming_buffer,incoming_size);
 	}
