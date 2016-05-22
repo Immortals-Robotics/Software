@@ -145,7 +145,7 @@ int main()
 
 		while(!exited)
 		{
-			this_thread::sleep_for(16ms);
+			this_thread::sleep_for(chrono::milliseconds(16));
 
 			auto now = std::chrono::system_clock::now();
 			auto timestamp = now.time_since_epoch().count();
