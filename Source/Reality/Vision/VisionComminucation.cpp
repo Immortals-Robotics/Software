@@ -21,32 +21,25 @@ bool VisionModule::connectToVisionServer ( const std::string & address , const u
 	return true;
 }
 
-bool VisionModule::recievePacket ( void )
+bool VisionModule::recievePacket(void)
 {
-	if ( ! connected )
+	if (!connected)
 		return false;
 
-	try{
-		Net::Address src;
-		int incoming_size = VisionUDP -> recv ( incoming_buffer , MAX_INCOMING_PACKET_SIZE , src);
+	Net::Address src;
+	int incoming_size = VisionUDP->recv(incoming_buffer, MAX_INCOMING_PACKET_SIZE, src);
 
-		packet.ParseFromArray(incoming_buffer,incoming_size);
-	}
-	catch(...)
-	{
+	if (incoming_size <= 0)
 		return false;
-	}
 
-	if ( packet.has_detection ( ) )
-	{
-		frame[packet.detection ( ).camera_id ( )] = packet.detection ( );
-		packet_recieved[packet.detection ( ).camera_id ( )] = true;
-	}
-	else
+	packet.ParseFromArray(incoming_buffer, incoming_size);
+
+	if (!packet.has_detection())
 		return false;
+	frame[packet.detection().camera_id()] = packet.detection();
+	packet_recieved[packet.detection().camera_id()] = true;
 
 	return true;
-
 }
 
 bool VisionModule::isConnected ( void )

@@ -3,7 +3,7 @@
 #include <map>
 #include <string>
 #include "math/Vector.h"
-#include "protos/aidebug.pb.h"
+#include "protos/messages_immortals_aidebug.pb.h"
 
 using namespace std;
 
