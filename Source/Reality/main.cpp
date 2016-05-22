@@ -1,4 +1,3 @@
-#include <math/Vector.h>
 #include "Vision/Vision.h"
 #include "Referee/referee_new.h"
 #include "Referee/referee.h"
@@ -7,46 +6,7 @@
 #include <kbhit.h>
 #include <thread>
 #include <mutex>
-
-void initWorldState(WorldState * state)
-{
-	state->ball.Position = Vec2(0.0f);
-	state->ball.velocity.x = 0.0f;
-	state->ball.velocity.y = 0.0f;
-	state->ball.velocity.direction = 0.0f;
-	state->ball.velocity.magnitude = 0.0f;
-	state->ball.seenState = CompletelyOut;
-	state->has_ball = false;
-
-	state->refereeState.counter = 0;
-	state->refereeState.goals_blue = 0;
-	state->refereeState.goals_yellow = 0;
-	state->refereeState.time_remaining = 0;
-	state->refereeState.State = NULL;
-
-	state->ownRobots_num = 0;
-	state->oppRobots_num = 0;
-
-	state->oppGK = -1;
-
-	for (int i = 0; i < MAX_ROBOTS; i++)
-	{
-		state->OwnRobot[i].Angle = 0.0f;
-		state->OwnRobot[i].AngularVelocity = 0.0f;
-		state->OwnRobot[i].Position = Vec2(0.0f);
-		state->OwnRobot[i].seenState = CompletelyOut;
-		state->OwnRobot[i].OutForSubsitute = true;
-		state->OwnRobot[i].velocity.direction = 0.0f;
-		state->OwnRobot[i].velocity.magnitude = 0.0f;
-		state->OwnRobot[i].velocity.x = 0.0f;
-		state->OwnRobot[i].velocity.y = 0.0f;
-		state->OwnRobot[i].vision_id = i;
-		for (int j = 0; j < 10; j++)
-		{
-			state->lastCMDS[i][j] = Vec3(0.0f);
-		}
-	}
-}
+#include <protos/messages_robocup_ssl_wrapper.pb.h>
 
 int main()
 {
@@ -63,18 +23,16 @@ int main()
 	setting->visionSetting->use_camera.push_back(false);
 	setting->visionSetting->use_camera.push_back(false);
 
-
 	setting->side = Right;
 
-	WorldState * state = new WorldState();
-	initWorldState(state);
+	WorldState state;
 
 	Referee referee;
 	NewReferee newReferee;
 
-	referee.init("224.5.23.1", 10001, setting->visionSetting->color);
+	referee.Init("224.5.23.1", 10001, setting->visionSetting->color);
 	cout << " Connecting to RefereeBox server at " << "224.5.23.1" << " , on port : 10001 " << endl;
-	if (!referee.connect())
+	if (!referee.Open())
 	{
 		cout << "	Hey you! Put the LAN cable back in its socket, or ..." << endl;
 	}
@@ -87,8 +45,8 @@ int main()
 	}*/
 
 	cout << " Connecting to SSL-Vision server at " << "224.5.23.2" << " , on port : 10002 " << endl;
-	VisionModule vision(setting->visionSetting);
-	if (!vision.isConnected())
+	Vision vision(setting->visionSetting);
+	if (!vision.IsConnected())
 	{
 		cout << "	Hey you! Put the LAN cable back in its socket, or ..." << endl;
 		return 0;
@@ -103,13 +61,14 @@ int main()
 
 	auto ai_func = [&]()
 	{
-		while (!kbhit())
+		while (true)
 		{
 			timer.start();
 
+			vision.Process(state);
+
 			lock.lock();
-			vision.ProcessVision(state);
-			//vision.SendGUIData(state, aii->AIDebug);
+			vision.Publish(state);
 			lock.unlock();
 
 			cout << 1.0 / timer.interval() << endl;
@@ -120,11 +79,11 @@ int main()
 	{
 		while (!exited)
 		{
-			if (referee.recieve())
+			if (referee.Recieve())
 			{
 				//cout << "Referre Boz" << endl;
 				lock.lock();
-				referee.process(state);
+				referee.Process(state);
 				lock.unlock();
 				//cout << "Referre Boz" << endl;
 			}
@@ -136,11 +95,11 @@ int main()
 	{
 		while (!exited && !kbhit())
 		{
-			if (newReferee.recieve())
+			if (newReferee.Recieve())
 			{
 				//cout << "Referre Boz" << endl;
 				lock.lock();
-				newReferee.process(state);
+				newReferee.Process(state);
 				//cout << "OPP GK IS: " << newReferee.oppGK << endl;
 				lock.unlock();
 				//cout << "Referre Boz" << endl;
@@ -177,6 +136,13 @@ int main()
 		SSL_WrapperPacket packet;
 		packet.mutable_detection()->set_camera_id(0);
 		
+		auto ball = packet.mutable_detection()->add_balls();
+		ball->set_confidence(1.f);
+		ball->set_x(500);
+		ball->set_y(500);
+		ball->set_pixel_x(5);
+		ball->set_pixel_y(5);
+
 		while(!exited)
 		{
 			this_thread::sleep_for(16ms);
@@ -187,6 +153,9 @@ int main()
 			packet.mutable_detection()->set_t_sent(timestamp);
 			packet.mutable_detection()->set_t_capture(timestamp);
 			packet.mutable_detection()->set_frame_number(packet.detection().frame_number() + 1);
+
+			
+
 
 			string buffer;
 			packet.SerializeToString(&buffer);
@@ -218,7 +187,6 @@ int main()
 	vision_test_send_thread.join();
 
 	delete setting;
-	delete state;
-
+	
 	return 0;
 }

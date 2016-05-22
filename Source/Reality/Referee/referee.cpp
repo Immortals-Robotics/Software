@@ -15,7 +15,7 @@ Referee::Referee ( void )
 	move_hys = 0;
 }
 
-void Referee::init ( const std::string & _address , const unsigned short _port , bool _color )
+void Referee::Init ( const std::string & _address , const unsigned short _port , bool _color )
 {
 	address = _address;
 	port = _port;
@@ -28,7 +28,7 @@ void Referee::init ( const std::string & _address , const unsigned short _port ,
 	initialized = true;
 }
 
-bool Referee::connect ( void )
+bool Referee::Open ( void )
 {
 	if ( !initialized )
 		return false;
@@ -50,7 +50,7 @@ bool Referee::connect ( void )
 	connected = true;
 	return true;
 }
-void Referee::process ( WorldState * state )
+void Referee::Process ( WorldState& state )
 {
 	packet.cmd = buffer[0];
 	packet.goals_blue = buffer[2];
@@ -61,23 +61,23 @@ void Referee::process ( WorldState * state )
 
 	if ( packet.cmd_counter != buffer[1] )
 	{
-		LastPlacedBall = state -> ball.Position;
+		LastPlacedBall = state.ball.Position;
 		packet.cmd_counter = buffer[1];
 		std::cout << "new cmd" << std::endl;
 	}
 	//cout << packet.cmd << endl;
 
-	gameState -> transition ( packet.cmd , IsKicked(state->ball.Position) );
+	gameState -> transition ( packet.cmd , IsKicked(state.ball.Position) );
 	//if ( IsKicked(state->ball.Position) )
 	//	cout << "kicked" << endl;
 
-	state -> refereeState.counter = packet.cmd_counter;
+	state.refereeState.counter = packet.cmd_counter;
 	//cout << (int)packet.cmd_counter << endl;
-	state -> refereeState.goals_blue = packet.goals_blue;
-	state -> refereeState.goals_yellow = packet.goals_yellow;
-	state -> refereeState.time_remaining = packet.time_remaining;
+	state.refereeState.goals_blue = packet.goals_blue;
+	state.refereeState.goals_yellow = packet.goals_yellow;
+	state.refereeState.time_remaining = packet.time_remaining;
 
-	state -> refereeState.State = gameState;
+	state.refereeState.State = gameState;
 }
 
 bool Referee::IsKicked ( TVec2 ballPos )
@@ -102,7 +102,7 @@ bool Referee::IsKicked ( TVec2 ballPos )
 	return false;
 }
 
-bool Referee::recieve ( void )
+bool Referee::Recieve ( void )
 {
 	if ( ( !initialized ) || ( !connected ) )
 		return false;

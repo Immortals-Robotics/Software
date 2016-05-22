@@ -10,7 +10,7 @@ NewReferee::NewReferee ( void )
     oppGK = -1;
 }
 
-void NewReferee::init ( const std::string & _address , const unsigned short _port , bool _color )
+void NewReferee::Init ( const std::string & _address , const unsigned short _port , bool _color )
 {
 	address = _address;
 	port = _port;
@@ -21,7 +21,7 @@ void NewReferee::init ( const std::string & _address , const unsigned short _por
 	initialized = true;
 }
 
-bool NewReferee::connect ( void )
+bool NewReferee::Open ( void )
 {
 	if (!initialized)
 		return false;
@@ -43,7 +43,7 @@ bool NewReferee::connect ( void )
 	connected = true;
 	return true;
 }
-void NewReferee::process ( WorldState * state )
+void NewReferee::Process (WorldState & state)
 {
     if ( !pSSLRef.ParseFromArray(buffer, buffer_size) )
     {
@@ -55,10 +55,10 @@ void NewReferee::process ( WorldState * state )
     else
         oppGK = pSSLRef.blue().goalie();
     
-    state -> oppGK = this -> oppGK;
+    state.oppGK = this -> oppGK;
 }
 
-bool NewReferee::recieve ( void )
+bool NewReferee::Recieve ( void )
 {
 	Net::Address src;
 	if ( ( !initialized ) || ( !connected ) )

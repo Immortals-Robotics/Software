@@ -12,15 +12,12 @@
 
 #include "protos/messages_robocup_ssl_detection.pb.h"
 #include "protos/messages_robocup_ssl_geometry.pb.h"
-#include "protos/messages_robocup_ssl_wrapper.pb.h"
-#include "protos/ImmortalsProtocols.pb.h"
 
 #include "VisionSetting.h"
 
 #include "network/netraw.h"
 #include "Kalman/FilteredObject.h"
 #include "math/MedianFilter.h"
-#include "math/MATHS_REGRESSION_PARABOLIC.h"
 #include "WorldState.h"
 #include <zmq.h>
 
@@ -48,10 +45,8 @@
 
 #define BALL_BUFFER_FRAMES 30
 
-VisionSetting * _visionSetting ( bool , std::string , short , std::string , short , bool = true , bool = true , bool = true , bool = true );
-
 /**
-Class VisionModule : Captures the vision packet from the network, and sends it to the rest
+Class Vision : Captures the vision packet from the network, and sends it to the rest
 of the AI class.
 @author Ali Salehi ( Rewritten from original 2009 source code )
 @version 0.1
@@ -59,55 +54,36 @@ June 2010
 Changes include : 
 **/
 
-class VisionModule
+class Vision
 {
 	public:
+		Vision ( VisionSetting * );
+		~Vision();
 
-		VisionModule ( VisionSetting * );
-		~VisionModule();
+		const VisionSetting& GetSetting ( void ) const;
 
-		VisionSetting * GetSetting ( void );
-
-		bool recievePacket ( void );
-		bool connectToVisionServer ( const std::string & , const unsigned short );
-		void ProcessVision ( WorldState * );
-		bool isConnected ( void );
-
-		void ProcessRobots ( WorldState * );
-		int ExtractBlueRobots ( void );
-		int ExtractYellowRobots ( void );
-		int MergeRobots ( int num );
-		void FilterRobots ( int num , bool own );
-		void predictRobotsForward( WorldState * );
-		void SendStates ( WorldState * );
+		bool Receive ( void );
+		bool Open ( const std::string & , const unsigned short );
+		void Process ( WorldState& );
+		bool IsConnected ( void ) const;
 	
-		// Ridemun haie nik injan:
-		void InitANN ( void );
-		void RunANN ( WorldState * );
-		void PredictWithANN ( WorldState * );
-		void TrainANN ( float );
-		//Tamum shod!
-
-		void SendGUIData ( WorldState * , AI_Debug & );
-
-		void ProcessBalls ( WorldState * );
-		int ExtractBalls ( void );
-		int MergeBalls ( int num );
-		void FilterBalls ( int num , WorldState * );
-		void predictBallForward( WorldState * );
-		void calculateBallHeight ( void );
+		void Publish ( const WorldState& ) const;
 
 	private:
+		void ProcessRobots(WorldState &);
+		int ExtractBlueRobots(void);
+		int ExtractYellowRobots(void);
+		int MergeRobots(int num);
+		void FilterRobots(int num, bool own);
+		void PredictRobots(WorldState &);
+		void FillStates(WorldState &);
 
-		float ballBufferX[BALL_BUFFER_FRAMES];
-		float ballBufferY[BALL_BUFFER_FRAMES];
-		int ballBufferIndex;
-
-		//TVec2 lastShootPosition;
-		//TVec2 prevBallVel;
-
-
-		Parabolic ballParabolic;
+		void ProcessBalls(WorldState &);
+		int ExtractBalls(void);
+		int MergeBalls(int num);
+		void FilterBalls(int num, WorldState &);
+		void PredictBall(WorldState &);
+		void ComputeBallHeight(void);
 
 		FilteredObject ball_kalman;
 		FilteredObject robot_kalman[2][MAX_ROBOTS];
@@ -118,6 +94,8 @@ class VisionModule
 		VisionSetting * setting;
 		bool connected;
 
+		unsigned long frameId;
+
 		int ball_not_seen;
 		int robot_not_seen[2][MAX_ROBOTS];
 
@@ -125,17 +103,11 @@ class VisionModule
 
 		RobotState robotState[2][MAX_ROBOTS];
 
-		char incoming_buffer[MAX_INCOMING_PACKET_SIZE];
-
 		Net::UDP * VisionUDP;
-		Net::UDP * GUIUDP;
 
-		void* gui_zmq_context;
-		void* gui_zmq_publisher;
+		void* zmq_context;
+		void* zmq_publisher;
 
-		robotDataMsg robotPacket[2][MAX_ROBOTS];
-
-		SSL_WrapperPacket packet;
 		SSL_DetectionFrame frame[CAM_COUNT];
 		SSL_DetectionBall d_ball[MAX_BALLS*CAM_COUNT];
 		SSL_DetectionRobot robot[MAX_ROBOTS*CAM_COUNT];

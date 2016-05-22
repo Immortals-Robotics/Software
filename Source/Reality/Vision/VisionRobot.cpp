@@ -13,7 +13,7 @@ ofstream outfile ( "outf.txt" );
 ofstream delay_data ( "delay.txt" );
 unsigned int fr_num = 0;
 
-void VisionModule::ProcessRobots ( WorldState * state )
+void Vision::ProcessRobots (WorldState & state)
 {
 	int robots_num = 0;
 	
@@ -38,20 +38,20 @@ void VisionModule::ProcessRobots ( WorldState * state )
 	FilterRobots ( robots_num , ! ( setting -> color ) );
 	
 	//We're almost done, only Prediction remains undone!
-	predictRobotsForward ( state );
+	PredictRobots ( state );
 	//RunANN(state);
 	//PredictWithANN(state);
 	//TrainANN(0.1f);
 	//RunANN(state);
 		
 	//Now we send Robots States to the AI!
-	SendStates ( state );
+	FillStates ( state );
 	
 	//int cmdIndex = state->lastCMDS[6][10].X;
 	//delay_data << fr_num++ << "	" << state->OwnRobot[6].Position.X << "	" << state->OwnRobot[6].Position.Y << "	" << state->lastCMDS[6][cmdIndex].X << "	" << state->lastCMDS[6][cmdIndex].Y << endl;
 	
 }
-int VisionModule::ExtractBlueRobots ( void )
+int Vision::ExtractBlueRobots ( void )
 {
 	int ans = 0;
 	for ( int i = 0 ; i < CAM_COUNT ; i ++ )
@@ -68,7 +68,7 @@ int VisionModule::ExtractBlueRobots ( void )
 	return ans;
 }
 
-int VisionModule::ExtractYellowRobots ( void )
+int Vision::ExtractYellowRobots ( void )
 {
 	int ans = 0;
 	for ( int i = 0 ; i < CAM_COUNT ; i ++ )
@@ -85,7 +85,7 @@ int VisionModule::ExtractYellowRobots ( void )
 	return ans;
 }
 
-int VisionModule::MergeRobots ( int num )
+int Vision::MergeRobots ( int num )
 {
 	int robots_num = 0;
 	for ( int i = 0 ; i < num ; i ++ )
@@ -109,7 +109,7 @@ int VisionModule::MergeRobots ( int num )
 	return robots_num;
 }
 
-void VisionModule::FilterRobots ( int num , bool own )
+void Vision::FilterRobots ( int num , bool own )
 {
 	float filtout[2][2];
 	float filtpos[2];
@@ -222,7 +222,7 @@ void VisionModule::FilterRobots ( int num , bool own )
 	}
 } 
 
-void VisionModule::predictRobotsForward( WorldState * state )
+void Vision::PredictRobots(WorldState & state)
 {  
 	for ( int own = 1 ; own < 2 ; own ++ )
 	{
@@ -271,16 +271,16 @@ void VisionModule::predictRobotsForward( WorldState * state )
 	for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
 	{
 		if (robotState[0][i].seenState != Seen) {
-			robotState[0][i].Position.X = robotState[0][i].Position.X + state -> lastCMDS[i][(int)state->lastCMDS[i][10].X].X / 1.2f;
-			robotState[0][i].Position.Y = robotState[0][i].Position.Y + state -> lastCMDS[i][(int)state->lastCMDS[i][10].X].Y / 1.2f;
+			robotState[0][i].Position.X = robotState[0][i].Position.X + state.lastCMDS[i][(int)state.lastCMDS[i][10].X].X / 1.2f;
+			robotState[0][i].Position.Y = robotState[0][i].Position.Y + state.lastCMDS[i][(int)state.lastCMDS[i][10].X].Y / 1.2f;
 		}
 		else {
 			for ( int j = 0 ; j < 10 ; j ++ )
 			{
-				robotState[0][i].Position.X = robotState[0][i].Position.X + state -> lastCMDS[i][j].X / 1.4f;
-				robotState[0][i].Position.Y = robotState[0][i].Position.Y + state -> lastCMDS[i][j].Y / 1.4f;
+				robotState[0][i].Position.X = robotState[0][i].Position.X + state.lastCMDS[i][j].X / 1.4f;
+				robotState[0][i].Position.Y = robotState[0][i].Position.Y + state.lastCMDS[i][j].Y / 1.4f;
 				//if (( i == 3 ) )
-				//	robotState[0][i].Angle = robotState[0][i].Angle - state -> lastCMDS[i][j].Z * 0.04f;
+				//	robotState[0][i].Angle = robotState[0][i].Angle - state.lastCMDS[i][j].Z * 0.04f;
 			}
 		}
 		if ( robotState[0][i].Angle > 180 )
@@ -292,14 +292,14 @@ void VisionModule::predictRobotsForward( WorldState * state )
 	
 }
 
-void VisionModule::SendStates ( WorldState * state )
+void Vision::FillStates (WorldState & state)
 {
-	state -> ownRobots_num = 0;
+	state.ownRobots_num = 0;
 	for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
 	{
 		robotState[0][i].vision_id = i;
 		
-		state -> ownRobots_num ++;
+		state.ownRobots_num ++;
 		if ( robot_not_seen[0][i] == 0 )
 		{
 			robotState[0][i].seenState = Seen;
@@ -311,7 +311,7 @@ void VisionModule::SendStates ( WorldState * state )
 		else
 		{
 			robotState[0][i].seenState = CompletelyOut;
-			state -> ownRobots_num --;
+			state.ownRobots_num --;
 		}
         
         if (robot_not_seen[0][i] < MAX_ROBOT_SUBSITUTE)
@@ -323,15 +323,15 @@ void VisionModule::SendStates ( WorldState * state )
             robotState[0][i].OutForSubsitute = true;
         }
 		
-		state -> OwnRobot[i] = robotState[0][i];
+		state.OwnRobot[i] = robotState[0][i];
 	}
 	
-	state -> oppRobots_num = 0;
+	state.oppRobots_num = 0;
 	for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
 	{
 		robotState[1][i].vision_id = i;
 		
-		state -> oppRobots_num ++;
+		state.oppRobots_num ++;
 		if ( robot_not_seen[1][i] == 0 )
 		{
 			robotState[1][i].seenState = Seen;
@@ -343,9 +343,9 @@ void VisionModule::SendStates ( WorldState * state )
 		else
 		{
 			robotState[1][i].seenState = CompletelyOut;
-			state -> oppRobots_num --;
+			state.oppRobots_num --;
 		}
 		
-		state -> OppRobot[i] = robotState[1][i];
+		state.OppRobot[i] = robotState[1][i];
 	}
 }

@@ -6,7 +6,7 @@
 #include <assert.h>
 using namespace std;
 
-VisionModule::VisionModule ( VisionSetting * _setting ) : connected ( false ) 
+Vision::Vision ( VisionSetting * _setting ) : connected ( false ) 
 {
 	if ( _setting )
 	{
@@ -15,29 +15,18 @@ VisionModule::VisionModule ( VisionSetting * _setting ) : connected ( false )
         while ( setting->use_camera.size() < CAM_COUNT )
             setting->use_camera.push_back(false);
         
-		connectToVisionServer ( setting -> UDP_Adress , setting -> LocalPort );
+		Open ( setting -> UDP_Adress , setting -> LocalPort );
 	}
 
-	GUIUDP = new Net::UDP ( );
+	frameId = 0;
 
-	gui_zmq_context = zmq_ctx_new ();
-	gui_zmq_publisher = zmq_socket (gui_zmq_context, ZMQ_PUB);
-	int rc = zmq_bind (gui_zmq_publisher, "tcp://*:5556");
+	zmq_context = zmq_ctx_new ();
+	zmq_publisher = zmq_socket (zmq_context, ZMQ_PUB);
+	int rc = zmq_bind (zmq_publisher, "tcp://*:5556");
 	assert (rc == 0);
 
     for ( int i = 0 ; i < CAM_COUNT ; i ++ )
         packet_recieved[i] = false;
-
-	ballBufferIndex = 0;
-
-	//lastShootPosition = Vec2 ( 0.0f );
-	//prevBallVel = Vec2 ( 0.0f );
-
-	for ( int i = 0 ; i < BALL_BUFFER_FRAMES ; i ++ )
-	{
-		ballBufferX[i] = 0.0f;
-		ballBufferY[i] = 0.0f;
-	}
 
 	lastRawBall.set_x ( 0.0f );
 	lastRawBall.set_y ( 0.0f );
@@ -55,8 +44,6 @@ VisionModule::VisionModule ( VisionSetting * _setting ) : connected ( false )
 		rawAngles[1][i] = 0.0f;
 	}
 	
-	//InitANN();
-	
 	ball_not_seen = MAX_BALL_NOT_SEEN + 1;
 	for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
 	{
@@ -64,13 +51,13 @@ VisionModule::VisionModule ( VisionSetting * _setting ) : connected ( false )
 		robot_not_seen[1][i] = MAX_ROBOT_NOT_SEEN + 1;
 	}
 }
-VisionModule::~VisionModule()
+Vision::~Vision()
 {
-	zmq_close (gui_zmq_publisher);
-	zmq_ctx_destroy (gui_zmq_context);
+	zmq_close (zmq_publisher);
+	zmq_ctx_destroy (zmq_context);
 }
 
-void VisionModule::ProcessVision ( WorldState * state )
+void Vision::Process ( WorldState& state )
 {
 	if ( !connected )
 	{
@@ -95,7 +82,7 @@ void VisionModule::ProcessVision ( WorldState * state )
         if ( cams_ready )
             break;
         //cout << "bodo dg    " << cams_ready << endl;
-        recievePacket();
+        Receive();
         
     }
 	
@@ -105,9 +92,11 @@ void VisionModule::ProcessVision ( WorldState * state )
 	for ( int i = 0 ; i < CAM_COUNT ; i ++ )
         packet_recieved[i] = false;
 
+	frameId++;
+
 }
 
-VisionSetting * VisionModule::GetSetting ( void )
+const VisionSetting& Vision::GetSetting ( void ) const
 {
-	return setting;
+	return *setting;
 }

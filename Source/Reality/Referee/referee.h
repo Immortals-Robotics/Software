@@ -34,10 +34,10 @@ private:
 
 public:
 	Referee ( void );
-	void init ( const std::string & _address , const unsigned short _port , bool _color ); 
-	bool connect ( void );
-	bool recieve ( void );
-	void process ( WorldState * state );
+	void Init ( const std::string & _address , const unsigned short _port , bool _color ); 
+	bool Open ( void );
+	bool Recieve ( void );
+	void Process ( WorldState& state );
 	bool IsKicked ( TVec2 ballPos );
 
 };

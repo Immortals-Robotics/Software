@@ -1,7 +1,7 @@
 #include "Vision.h"
 #define MAX_BALL_2FRAMES_DISTANCE 450000.0f
 
-void VisionModule::ProcessBalls ( WorldState * state )
+void Vision::ProcessBalls (WorldState & state)
 {
 	int balls_num = 0;
 
@@ -15,10 +15,10 @@ void VisionModule::ProcessBalls ( WorldState * state )
 	FilterBalls ( balls_num , state );
 
 	//We're almost done, only Prediction remains undone!
-	predictBallForward ( state );
+	PredictBall ( state );
 
 }
-int VisionModule::ExtractBalls ( void )
+int Vision::ExtractBalls ( void )
 {
 	int ans = 0;
 	for ( int i = 0 ; i < CAM_COUNT ; i ++ )
@@ -35,7 +35,7 @@ int VisionModule::ExtractBalls ( void )
 	}
 	return ans;
 }
-int VisionModule::MergeBalls ( int num )
+int Vision::MergeBalls ( int num )
 {
 	int balls_num = 0;
 	for ( int i = 0 ; i < num ; i ++ )
@@ -61,7 +61,7 @@ int VisionModule::MergeBalls ( int num )
 	return balls_num;
 }
 
-void VisionModule::FilterBalls ( int num , WorldState * state )
+void Vision::FilterBalls (int num, WorldState & state)
 {
 	int id = 100;
 	float dis = 214748364.0f;
@@ -87,14 +87,14 @@ void VisionModule::FilterBalls ( int num , WorldState * state )
 
 		ball_kalman.updatePosition ( filtpos , filtout );
 
-		state -> ball.Position.X = filtout[0][0] ;
-		state -> ball.Position.Y = filtout[1][0] ;
-		state -> ball.velocity.x = filtout[0][1] ;
-		state -> ball.velocity.y = filtout[1][1] ;
+		state.ball.Position.X = filtout[0][0] ;
+		state.ball.Position.Y = filtout[1][0] ;
+		state.ball.velocity.x = filtout[0][1] ;
+		state.ball.velocity.y = filtout[1][1] ;
 
 		ball_not_seen = 0;
-		state -> has_ball = true;
-		state -> ball.seenState = Seen;
+		state.has_ball = true;
+		state.ball.seenState = Seen;
 	}
 
 	else
@@ -112,64 +112,64 @@ void VisionModule::FilterBalls ( int num , WorldState * state )
 				
 				ball_kalman.updatePosition ( filtpos , filtout );
 
-				state -> ball.Position.X = filtout[0][0];
-				state -> ball.Position.Y = filtout[1][0];
-				state -> ball.velocity.x = filtout[0][1];
-				state -> ball.velocity.y = filtout[1][1];
+				state.ball.Position.X = filtout[0][0];
+				state.ball.Position.Y = filtout[1][0];
+				state.ball.velocity.x = filtout[0][1];
+				state.ball.velocity.y = filtout[1][1];
 
 				ball_not_seen = 0;
-				state -> has_ball = true;
-				state -> ball.seenState = Seen;
+				state.has_ball = true;
+				state.ball.seenState = Seen;
 			}
 			else
 			{
-				state -> ball.velocity.x = 0;
-				state -> ball.velocity.y = 0;
+				state.ball.velocity.x = 0;
+				state.ball.velocity.y = 0;
 
-				state -> ball.Position.X /= (float)10.0;
-				state -> ball.Position.Y /= (float)10.0;
+				state.ball.Position.X /= (float)10.0;
+				state.ball.Position.Y /= (float)10.0;
 
 				lastRawBall.set_x ( 0.0f );
 				lastRawBall.set_y ( 0.0f );
 
-				state -> has_ball = false;
-				state -> ball.seenState = CompletelyOut;
+				state.has_ball = false;
+				state.ball.seenState = CompletelyOut;
 			}
 		}
 		else
 		{
-			state -> ball.velocity.x /= (float)10.0;
-			state -> ball.velocity.y /= (float)10.0;
+			state.ball.velocity.x /= (float)10.0;
+			state.ball.velocity.y /= (float)10.0;
 
-			state -> ball.Position.X /= (float)10.0;
-			state -> ball.Position.Y /= (float)10.0;
+			state.ball.Position.X /= (float)10.0;
+			state.ball.Position.Y /= (float)10.0;
 
-			state -> ball.seenState = TemprolilyOut;
+			state.ball.seenState = TemprolilyOut;
 		}
 	}
 	
 }
 
-void VisionModule::predictBallForward( WorldState * state )
+void Vision::PredictBall(WorldState & state)
 {
-	state -> ball.Position.X /= (float)100.0;
-	state -> ball.Position.Y /= (float)100.0;
-	state -> ball.velocity.x /= (float)100.0;
-	state -> ball.velocity.y /= (float)100.0;
+	state.ball.Position.X /= (float)100.0;
+	state.ball.Position.Y /= (float)100.0;
+	state.ball.velocity.x /= (float)100.0;
+	state.ball.velocity.y /= (float)100.0;
 	float k = 0.25f; //velocity derate every sec(units (m/s)/s)
 	float frame_rate = 61.0f;
 	float tsample = (float)1.0f/(float)frame_rate;
   
-	float vx_vision = state -> ball.velocity.x; 
-	float vy_vision = state -> ball.velocity.y;
+	float vx_vision = state.ball.velocity.x; 
+	float vy_vision = state.ball.velocity.y;
   
-	float xpos_vision = state -> ball.Position.X;
-	float ypos_vision = state -> ball.Position.Y;
+	float xpos_vision = state.ball.Position.X;
+	float ypos_vision = state.ball.Position.Y;
   
 	float vball_vision = float(sqrt(vx_vision*vx_vision + vy_vision*vy_vision));
   
 	float t;
-	if ( state -> ball.seenState == TemprolilyOut )
+	if ( state.ball.seenState == TemprolilyOut )
 		t = tsample;
 	else
 		t = PREDICT_STEPS*tsample;
@@ -194,30 +194,30 @@ void VisionModule::predictBallForward( WorldState * state )
 	}
   
 	if(vball_vision != 0){
-		state -> ball.velocity.x = vball_pred*(vx_vision)/vball_vision;
-		state -> ball.velocity.y = vball_pred*(vy_vision)/vball_vision;
-		state -> ball.Position.X = (xpos_vision + dist*(vx_vision)/vball_vision);
-		state -> ball.Position.Y = (ypos_vision + dist*(vy_vision)/vball_vision);
+		state.ball.velocity.x = vball_pred*(vx_vision)/vball_vision;
+		state.ball.velocity.y = vball_pred*(vy_vision)/vball_vision;
+		state.ball.Position.X = (xpos_vision + dist*(vx_vision)/vball_vision);
+		state.ball.Position.Y = (ypos_vision + dist*(vy_vision)/vball_vision);
 	}
 
-	state -> ball.velocity.x *= (float) 1000.0;
-	state -> ball.velocity.y *= (float) 1000.0;
-	state -> ball.Position.X *= (float) 1000.0;
-	state -> ball.Position.Y *= (float) 1000.0;
+	state.ball.velocity.x *= (float) 1000.0;
+	state.ball.velocity.y *= (float) 1000.0;
+	state.ball.Position.X *= (float) 1000.0;
+	state.ball.Position.Y *= (float) 1000.0;
 
-	state -> ball.velocity.direction = atan((state -> ball.velocity.y)/(state -> ball.velocity.x));
-	state -> ball.velocity.direction *= 180.0f / 3.1415f;
-	if(state -> ball.velocity.x<0)
-		state -> ball.velocity.direction+=180;
-	while(state -> ball.velocity.direction>180)
-		state -> ball.velocity.direction-=360;
-	while(state -> ball.velocity.direction<-180)
-		state -> ball.velocity.direction+=360;
-	state -> ball.velocity.magnitude = sqrt ( ( state -> ball.velocity.x * state -> ball.velocity.x ) + ( state -> ball.velocity.y * state -> ball.velocity.y ) );
+	state.ball.velocity.direction = atan((state.ball.velocity.y)/(state.ball.velocity.x));
+	state.ball.velocity.direction *= 180.0f / 3.1415f;
+	if(state.ball.velocity.x<0)
+		state.ball.velocity.direction+=180;
+	while(state.ball.velocity.direction>180)
+		state.ball.velocity.direction-=360;
+	while(state.ball.velocity.direction<-180)
+		state.ball.velocity.direction+=360;
+	state.ball.velocity.magnitude = sqrt ( ( state.ball.velocity.x * state.ball.velocity.x ) + ( state.ball.velocity.y * state.ball.velocity.y ) );
 	
 }
 
-void VisionModule::calculateBallHeight ( void )
+void Vision::ComputeBallHeight ( void )
 {
 	/*const float XO = -1358.2;
 	const float YO = 60.93;

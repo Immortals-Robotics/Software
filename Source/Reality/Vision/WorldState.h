@@ -18,17 +18,6 @@ struct Velocity {
 	float direction;
 };
 
-//Replaced with RobotState
-/*struct RobotTarget
-{
-	float x;
-	float y;
-
-	Velocity velocity;
-
-	float angle;
-};*/
-
 struct RobotState
 {
 	friend std::ostream &operator<< ( std::ostream & oo , const RobotState & state )
@@ -74,18 +63,18 @@ struct RefereeState
 
 struct WorldState
 {
-	friend std::ostream &operator<< ( std::ostream & oo , const WorldState & state )
+	friend std::ostream &operator<< (std::ostream & oo, const WorldState & state)
 	{
-		oo << (int)state.has_ball <<" balls,	" << state.ownRobots_num << " Own Robots,	" << state.oppRobots_num << " Opp Robots." << std::endl;
+		oo << (int)state.has_ball << " balls,	" << state.ownRobots_num << " Own Robots,	" << state.oppRobots_num << " Opp Robots." << std::endl;
 		oo << (int)state.ball.Position.X << "	" << (int)state.ball.Position.Y << std::endl;
 
-		for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
-			if ( state.OwnRobot[i].seenState != CompletelyOut )
-			oo << state.OwnRobot[i] ;
+		for (int i = 0; i < MAX_ROBOTS; i++)
+			if (state.OwnRobot[i].seenState != CompletelyOut)
+				oo << state.OwnRobot[i];
 		return oo;
 	}
 
-	int ownRobots_num , oppRobots_num;
+	int ownRobots_num, oppRobots_num;
 	bool has_ball;
 
 	BallState ball;
@@ -96,6 +85,46 @@ struct WorldState
 	TVec3 lastCMDS[MAX_ROBOTS][11];
 
 	RefereeState refereeState;
-    
-    int oppGK;
+
+	int oppGK;
+
+	WorldState()
+	{
+		this->ball.Position = Vec2(0.0f);
+		this->ball.velocity.x = 0.0f;
+		this->ball.velocity.y = 0.0f;
+		this->ball.velocity.direction = 0.0f;
+		this->ball.velocity.magnitude = 0.0f;
+		this->ball.seenState = CompletelyOut;
+		this->has_ball = false;
+
+		this->refereeState.counter = 0;
+		this->refereeState.goals_blue = 0;
+		this->refereeState.goals_yellow = 0;
+		this->refereeState.time_remaining = 0;
+		this->refereeState.State = NULL;
+
+		this->ownRobots_num = 0;
+		this->oppRobots_num = 0;
+
+		this->oppGK = -1;
+
+		for (int i = 0; i < MAX_ROBOTS; i++)
+		{
+			this->OwnRobot[i].Angle = 0.0f;
+			this->OwnRobot[i].AngularVelocity = 0.0f;
+			this->OwnRobot[i].Position = Vec2(0.0f);
+			this->OwnRobot[i].seenState = CompletelyOut;
+			this->OwnRobot[i].OutForSubsitute = true;
+			this->OwnRobot[i].velocity.direction = 0.0f;
+			this->OwnRobot[i].velocity.magnitude = 0.0f;
+			this->OwnRobot[i].velocity.x = 0.0f;
+			this->OwnRobot[i].velocity.y = 0.0f;
+			this->OwnRobot[i].vision_id = i;
+			for (int j = 0; j < 11; j++)
+			{
+				this->lastCMDS[i][j] = Vec3(0.0f);
+			}
+		}
+	}
 };
