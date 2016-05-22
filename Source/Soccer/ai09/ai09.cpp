@@ -71,8 +71,8 @@ ai09::ai09 ( ):maxBallHist(240)
 	isDefending = false;
 	oppRestarted = false;
 		
-	beta = 0.4;	//Damping factor
-	gamma = 0.14;	//Reflect factor
+	beta = 0.25;	//Damping factor
+	gamma = 0.11;	//Reflect factor
 	shootK = 7000.0f;
 	
 	lastReferee = GameState::GAME_OFF;
@@ -115,12 +115,12 @@ ai09::ai09 ( ):maxBallHist(240)
 		OwnRobot[i].set_vision_id(i+1);
 		//OwnRobot[i].set_serial_id(VisionSerialTrans[i]);
 	}
-	OwnRobot[gk].set_vision_id(4);
-	OwnRobot[def].set_vision_id(10);
+	OwnRobot[gk].set_vision_id(7);
+	OwnRobot[def].set_vision_id(2);
 	OwnRobot[dmf].set_vision_id(1);
 	OwnRobot[lmf].set_vision_id(3);
-	OwnRobot[rmf].set_vision_id(6);
-	OwnRobot[cmf].set_vision_id(7);
+	OwnRobot[rmf].set_vision_id(5);
+	OwnRobot[cmf].set_vision_id(6);
 	
 	chip_head = 200;
 	
@@ -135,7 +135,7 @@ ai09::ai09 ( ):maxBallHist(240)
 	VELOCITY_PROFILE_AROOM.max_w_acc = 40.0f;
 	VELOCITY_PROFILE_AROOM.max_w_dec = 140.0f;
 	
-	VELOCITY_PROFILE_MAMOOLI.max_spd = Vec2 ( 70.0f );
+	VELOCITY_PROFILE_MAMOOLI.max_spd = Vec2 ( 100.0f );
 	VELOCITY_PROFILE_MAMOOLI.max_dec = Vec2 ( 2.0f );
 	VELOCITY_PROFILE_MAMOOLI.max_acc = Vec2 ( 1.3f );
 	VELOCITY_PROFILE_MAMOOLI.max_w_acc = 40.0f;
@@ -148,24 +148,22 @@ ai09::ai09 ( ):maxBallHist(240)
 	//VELOCITY_PROFILE_KHARAKI.max_w_acc = 40.0f;
 	//VELOCITY_PROFILE_KHARAKI.max_w_dec = 140.0f;
 	
-	VELOCITY_PROFILE_KHARAKI.max_spd = Vec2 ( 70.0f );
+	VELOCITY_PROFILE_KHARAKI.max_spd = Vec2 ( 100.0f );
 	VELOCITY_PROFILE_KHARAKI.max_dec = Vec2 ( 2.7f );
 	VELOCITY_PROFILE_KHARAKI.max_acc = Vec2 ( 1.9f );
 	VELOCITY_PROFILE_KHARAKI.max_w_acc = 40.0f;
 	VELOCITY_PROFILE_KHARAKI.max_w_dec = 140.0f;
-    
-    //VELOCITY_PROFILE_KHARAKI = VELOCITY_PROFILE_MAMOOLI;
 
 	playBook = NULL;
 	string strategy_path(DATA_PATH); strategy_path.append("/strategy.ims");
 	read_playBook(strategy_path.c_str());
 	if ( playBook )
 	{
-		cout << playBook->strategy_size() << " ";
-		cout << playBook->strategy(0).name() << endl;
+		//cout << playBook->strategy_size() << " ";
+		//cout << playBook->strategy(0).name() << endl;
 		
 		cout << playBook->strategy_size() << endl;
-		for ( int i = 0 ; i < playBook->strategy_size() ; i ++ )
+		/*for ( int i = 0 ; i < playBook->strategy_size() ; i ++ )
 		{
 			cout << "	" << playBook->strategy(i).role_size() << endl;
 			for ( int j = 0 ; j < playBook->strategy(i).role_size() ; j ++ )
@@ -183,7 +181,7 @@ ai09::ai09 ( ):maxBallHist(240)
 		for ( int i = 0 ; i < playBook->weight_size() ; i ++ )
 		{
 			cout << "	" << playBook->weight(i) << endl;
-		}
+		}*/
 	}
 	else {
 		cout << "	Coud not open \"strategy.ims\"" << endl;
