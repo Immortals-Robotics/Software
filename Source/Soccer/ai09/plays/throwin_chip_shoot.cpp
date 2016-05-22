@@ -18,7 +18,7 @@ void ai09::throwin_chip_shoot ( void )
 	
 	ERRTSetObstacles ( mid2 , true , true , true , true );
     OwnRobot[mid2].face(ball.Position);
-    ERRTNavigate2Point ( mid2 , Vec2(-side*1500, sgn(ball.Position.Y)*2500.0f) ,0 , 70,&VELOCITY_PROFILE_MAMOOLI);
+    ERRTNavigate2Point ( mid2 , Vec2(-side*1500, -sgn(ball.Position.Y)*2500.0f) ,0 , 70,&VELOCITY_PROFILE_MAMOOLI);
     oneTouchType[mid2] = shirje;
 	
 	ERRTSetObstacles ( mid1 , true , true , true , true );
@@ -28,9 +28,9 @@ void ai09::throwin_chip_shoot ( void )
 	
 	
 	
-	if (timer.time()>4 ) {
+	if (timer.time()>2 ) {
 		//tech_circle(dmf,AngleWith ( Vec2 ( -side*2995 , 0 ) , ball.Position ) ,0,30,0,1);
-		circle_ball(dmf, AngleWith ( Vec2 ( -side*field_width , sgn(ball.Position.Y)*2200.0f ) , ball.Position ), 0, 500, 1.0f);
+		circle_ball(dmf, AngleWith ( Vec2 ( -side*field_width , sgn(ball.Position.Y)*2200.0f ) , ball.Position ), 0, 80, 1.0f);
 	}
 	else
 	{

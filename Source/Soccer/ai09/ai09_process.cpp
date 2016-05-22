@@ -53,7 +53,7 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 		{
 			currentPlay = "kickoff_us_chip";
 			//currentPlay = "kickoff_us_farar";
-			currentPlay = "kickoff_us_pass";
+			//currentPlay = "kickoff_us_pass";
 			
 			currentPlayParam = worldState ->refereeState.State->canKickBall();
 		}

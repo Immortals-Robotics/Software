@@ -87,15 +87,15 @@ int main ( )
 	GameSetting * setting = new GameSetting ( );
     
 	setting -> visionSetting = new VisionSetting();
-    setting -> visionSetting -> color = COLOR_BLUE;
+    setting -> visionSetting -> color = COLOR_YELLOW;
     setting -> visionSetting -> UDP_Adress = "224.5.23.2";
     setting -> visionSetting -> LocalPort = 10006;
     setting -> visionSetting -> GUI_Adress = "224.5.66.6";
     setting -> visionSetting -> GUIPort = 10009;
     setting -> visionSetting -> use_camera.push_back(true);
-    setting -> visionSetting -> use_camera.push_back(true);
-    setting -> visionSetting -> use_camera.push_back(true);
-    setting -> visionSetting -> use_camera.push_back(true);
+    setting -> visionSetting -> use_camera.push_back(false);
+    setting -> visionSetting -> use_camera.push_back(false);
+    setting -> visionSetting -> use_camera.push_back(false);
     
     
 	setting -> side = Right;
@@ -188,7 +188,7 @@ int main ( )
 				aii -> Process( state , setting , robot_cmds );
 				//cout << timer.time() * 1000.0 << endl;
 				
-				vision.SendGUIData ( state , aii -> AIDebug );
+				//vision.SendGUIData ( state , aii -> AIDebug );
 				lock.unlock();
 				
 				cout << 1.0/timer.interval() << endl;
@@ -379,14 +379,14 @@ int main ( )
     //thread new_ref_thread(new_ref_func);
     //thread sharifcup_thread(sharifcup_func);
     thread str_thread(str_func);
-	thread dbg_dump_thread(test_dbg_dump);
+	//thread dbg_dump_thread(test_dbg_dump);
 	
     ai_thread.join();
     ref_thread.join();
     //new_ref_thread.join();
     //sharifcup_thread.join();
     str_thread.join();
-	dbg_dump_thread.join();
+	//dbg_dump_thread.join();
     
 	delete setting;
 	delete state;

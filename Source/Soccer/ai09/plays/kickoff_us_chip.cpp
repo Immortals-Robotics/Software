@@ -26,7 +26,7 @@ void ai09::kickoff_us_chip ( void )
 	TVec2 chip_target = Vec2(-side*2000, 0);
 	if ( canKickBall )
 	{
-		float chip_pow = DIS(chip_target, ball.Position)/11;
+		float chip_pow = 85;//DIS(chip_target, ball.Position)/11;
 		tech_circle(attack,AngleWith ( chip_target , ball.Position ), 0,chip_pow,0,1,0,1);
 		//circle_ball(attack, AngleWith ( chip_target , ball.Position ), 100, 0, 1.0f);
 	}
