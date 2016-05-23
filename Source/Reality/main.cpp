@@ -7,6 +7,7 @@
 #include <thread>
 #include <mutex>
 #include <protos/messages_robocup_ssl_wrapper.pb.h>
+#include <math/Random.h>
 
 int main()
 {
@@ -16,8 +17,7 @@ int main()
 	setting->visionSetting->color = COLOR_BLUE;
 	setting->visionSetting->UDP_Adress = "224.5.23.2";
 	setting->visionSetting->LocalPort = 10006;
-	setting->visionSetting->GUI_Adress = "224.5.66.6";
-	setting->visionSetting->GUIPort = 10009;
+	setting->visionSetting->ZmqPort = 5556;
 	setting->visionSetting->use_camera.push_back(true);
 	setting->visionSetting->use_camera.push_back(false);
 	setting->visionSetting->use_camera.push_back(false);
@@ -143,6 +143,8 @@ int main()
 		ball->set_pixel_x(5);
 		ball->set_pixel_y(5);
 
+		Random random(-10, 10);
+
 		while(!exited)
 		{
 			this_thread::sleep_for(chrono::milliseconds(16));
@@ -155,7 +157,12 @@ int main()
 			packet.mutable_detection()->set_frame_number(packet.detection().frame_number() + 1);
 
 			
-
+			ball = packet.mutable_detection()->mutable_balls(0);
+			ball->set_confidence(1.f);
+			ball->set_x(500 + random.get());
+			ball->set_y(500 + random.get());
+			ball->set_pixel_x(5);
+			ball->set_pixel_y(5);
 
 			string buffer;
 			packet.SerializeToString(&buffer);

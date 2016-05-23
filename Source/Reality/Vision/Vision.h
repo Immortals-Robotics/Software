@@ -14,6 +14,7 @@
 #include "protos/messages_robocup_ssl_geometry.pb.h"
 
 #include "VisionSetting.h"
+#include <protos/messages_immortals_configs.pb.h>
 
 #include "network/netraw.h"
 #include "Kalman/FilteredObject.h"
@@ -57,10 +58,10 @@ Changes include :
 class Vision
 {
 	public:
-		Vision ( VisionSetting * );
+		Vision ( Immortals::Data::VisionConfig& );
 		~Vision();
 
-		const VisionSetting& GetSetting ( void ) const;
+		const Immortals::Data::VisionConfig& GetSetting ( void ) const;
 
 		bool Receive ( void );
 		bool Open ( const std::string & , const unsigned short );
@@ -91,7 +92,7 @@ class Vision
 		MedianFilter<float> AngleFilter[2][MAX_ROBOTS];
 		float rawAngles[2][MAX_ROBOTS];
 
-		VisionSetting * setting;
+		Immortals::Data::VisionConfig config;
 		bool connected;
 
 		unsigned long frameId;

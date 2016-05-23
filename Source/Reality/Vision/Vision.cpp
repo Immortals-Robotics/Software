@@ -6,26 +6,25 @@
 #include <assert.h>
 using namespace std;
 
-Vision::Vision ( VisionSetting * _setting ) : connected ( false ) 
+Vision::Vision (Immortals::Data::VisionConfig& _config ) : connected ( false )
 {
-	if ( _setting )
-	{
-		setting = _setting;
+	config = _config;
 
-        while ( setting->use_camera.size() < CAM_COUNT )
-            setting->use_camera.push_back(false);
+    while ( config.cameraenabled_size() < config.cameracount() )
+        config.add_cameraenabled(false);
         
-		Open ( setting -> UDP_Adress , setting -> LocalPort );
-	}
+	Open ( config.visionaddress() , config.visionport() );
 
 	frameId = 0;
 
 	zmq_context = zmq_ctx_new ();
 	zmq_publisher = zmq_socket (zmq_context, ZMQ_PUB);
-	int rc = zmq_bind (zmq_publisher, "tcp://*:5556");
+
+	//"tcp://*:5556"
+	int rc = zmq_bind (zmq_publisher, config.zeroaddr().c_str());
 	assert (rc == 0);
 
-    for ( int i = 0 ; i < CAM_COUNT ; i ++ )
+    for ( int i = 0 ; i < config.cameracount(); i ++ )
         packet_recieved[i] = false;
 
 	lastRawBall.set_x ( 0.0f );
@@ -36,7 +35,7 @@ Vision::Vision ( VisionSetting * _setting ) : connected ( false )
 
 	ball_kalman.initialize(fast_filter_path.c_str(), slow_filter_path.c_str());
 	
-	for ( int i = 0 ; i < MAX_ROBOTS; i++ )
+	for ( int i = 0 ; i < config.maxrobots(); i++ )
 	{
 		robot_kalman[0][i].initialize (fast_filter_path.c_str(), slow_filter_path.c_str());
 		robot_kalman[1][i].initialize (fast_filter_path.c_str(), slow_filter_path.c_str());
@@ -44,11 +43,11 @@ Vision::Vision ( VisionSetting * _setting ) : connected ( false )
 		rawAngles[1][i] = 0.0f;
 	}
 	
-	ball_not_seen = MAX_BALL_NOT_SEEN + 1;
-	for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
+	ball_not_seen = config.maxballnotseen() + 1;
+	for ( int i = 0 ; i < config.maxrobots(); i ++ )
 	{
-		robot_not_seen[0][i] = MAX_ROBOT_NOT_SEEN + 1;
-		robot_not_seen[1][i] = MAX_ROBOT_NOT_SEEN + 1;
+		robot_not_seen[0][i] = config.maxrobotnotseen() + 1;
+		robot_not_seen[1][i] = config.maxrobotnotseen() + 1;
 	}
 }
 Vision::~Vision()
@@ -70,9 +69,9 @@ void Vision::Process ( WorldState& state )
     while (!cams_ready)
     {
         cams_ready = true;
-        for ( int i = 0 ; i < CAM_COUNT ; i ++ )
+        for ( int i = 0 ; i < config.cameracount(); i ++ )
         {
-            bool new_cam_ready = packet_recieved[i] || (!setting -> use_camera[i]);
+            bool new_cam_ready = packet_recieved[i] || (!config.cameraenabled(i));
             if ( !new_cam_ready )
             {
                 cams_ready = false;
@@ -89,14 +88,14 @@ void Vision::Process ( WorldState& state )
 	ProcessBalls ( state );
 	ProcessRobots ( state );
 
-	for ( int i = 0 ; i < CAM_COUNT ; i ++ )
+	for ( int i = 0 ; i < config.cameracount(); i ++ )
         packet_recieved[i] = false;
 
 	frameId++;
 
 }
 
-const VisionSetting& Vision::GetSetting ( void ) const
+const Immortals::Data::VisionConfig& Vision::GetSetting ( void ) const
 {
-	return *setting;
+	return config;
 }

@@ -53,7 +53,7 @@ bool Vision::IsConnected ( void ) const
 }
 void Vision::Publish(const WorldState& state) const
 {
-	Immortals::WorldState::WorldState _state;
+	Immortals::Data::WorldState _state;
 	_state.set_id(frameId);
 	_state.set_timestamp(0);
 

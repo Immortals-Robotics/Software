@@ -8,11 +8,6 @@ const float IGNORE_PREDICTION = 0.045f;
 const float BALL_ERROR_VELOCITY_SQUARED   = 1960000.0f;
 const float OPPONENT_ERROR_VELOCITY_SQUARED = 200000.0f;
 
-#include <fstream>
-ofstream outfile ( "outf.txt" );
-ofstream delay_data ( "delay.txt" );
-unsigned int fr_num = 0;
-
 void Vision::ProcessRobots (WorldState & state)
 {
 	int robots_num = 0;
@@ -39,18 +34,11 @@ void Vision::ProcessRobots (WorldState & state)
 	
 	//We're almost done, only Prediction remains undone!
 	PredictRobots ( state );
-	//RunANN(state);
-	//PredictWithANN(state);
-	//TrainANN(0.1f);
-	//RunANN(state);
-		
+	
 	//Now we send Robots States to the AI!
 	FillStates ( state );
-	
-	//int cmdIndex = state->lastCMDS[6][10].X;
-	//delay_data << fr_num++ << "	" << state->OwnRobot[6].Position.X << "	" << state->OwnRobot[6].Position.Y << "	" << state->lastCMDS[6][cmdIndex].X << "	" << state->lastCMDS[6][cmdIndex].Y << endl;
-	
 }
+
 int Vision::ExtractBlueRobots ( void )
 {
 	int ans = 0;
