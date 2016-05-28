@@ -43,8 +43,8 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 			
 			//   
 			
-			currentPlay = "NewNormalPlay";
-			//currentPlay = "tech_mexico";
+			//currentPlay = "NewNormalPlay";
+			currentPlay = "tech_mexico";
 			//currentPlay = "tech_motion_ann";
 			//if ( timer.time() > 30.0 || ball.seenState == CompletelyOut )
 			//	currentPlay = "sharifcup_post_play";

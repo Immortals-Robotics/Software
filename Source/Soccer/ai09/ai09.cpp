@@ -120,7 +120,7 @@ ai09::ai09 ( ):maxBallHist(240)
 	OwnRobot[dmf].set_vision_id(1);
 	OwnRobot[lmf].set_vision_id(3);
 	OwnRobot[rmf].set_vision_id(5);
-	OwnRobot[cmf].set_vision_id(6);
+	OwnRobot[cmf].set_vision_id(10);
 	
 	chip_head = 200;
 	

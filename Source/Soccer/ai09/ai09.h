@@ -112,7 +112,9 @@ class ai09 : public aiBase
 	
 		bool navigated[6];
 		int side;
-	
+
+	bool ballReached(TVec2);
+
 		VelocityProfile VELOCITY_PROFILE_AROOM;
 		VelocityProfile VELOCITY_PROFILE_KHARAKI;
 		VelocityProfile VELOCITY_PROFILE_MAMOOLI;
@@ -252,4 +254,5 @@ class ai09 : public aiBase
 		LHP_Frame* getLFrame ( void );
 		void read_sharifcup_config ( void );
 
+	int WaitToInterceptBall(int state);
 };

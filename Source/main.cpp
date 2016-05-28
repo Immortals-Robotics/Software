@@ -87,18 +87,18 @@ int main ( )
 	GameSetting * setting = new GameSetting ( );
     
 	setting -> visionSetting = new VisionSetting();
-    setting -> visionSetting -> color = COLOR_YELLOW;
+    setting -> visionSetting -> color = COLOR_BLUE;
     setting -> visionSetting -> UDP_Adress = "224.5.23.2";
     setting -> visionSetting -> LocalPort = 10006;
     setting -> visionSetting -> GUI_Adress = "224.5.66.6";
     setting -> visionSetting -> GUIPort = 10009;
     setting -> visionSetting -> use_camera.push_back(true);
-    setting -> visionSetting -> use_camera.push_back(false);
+    setting -> visionSetting -> use_camera.push_back(true);
     setting -> visionSetting -> use_camera.push_back(false);
     setting -> visionSetting -> use_camera.push_back(false);
     
     
-	setting -> side = Right;
+	setting -> side = Left;
 	
 	WorldState * state = new WorldState ( );
 	initWorldState ( state );
