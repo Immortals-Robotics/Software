@@ -25,6 +25,32 @@ int main()
 
 	setting->side = Right;
 
+	auto config = new Immortals::Data::GameConfig();
+	config->set_side(Immortals::Data::FieldSide::Right);
+	auto visionConfig = config->mutable_vision_config();
+	visionConfig->set_our_color(Immortals::Data::TeamColor::Blue);
+	visionConfig->set_vision_address("224.5.23.2");
+	visionConfig->set_vision_port(10006);
+	visionConfig->set_zero_address("tcp://*:5556");
+	visionConfig->add_camera_enabled(true);
+	visionConfig->add_camera_enabled(true);
+	visionConfig->add_camera_enabled(false);
+	visionConfig->add_camera_enabled(false);
+	visionConfig->set_camera_count(4);
+	visionConfig->set_predict_steps(5.0f);
+	visionConfig->set_max_balls(10);
+	visionConfig->set_max_ball_not_seen(40);
+	visionConfig->set_max_robots(12);
+	visionConfig->set_max_robot_not_seen(600);
+	visionConfig->set_max_robot_subsitute(60);
+	visionConfig->set_merge_distance(70.0f);
+	visionConfig->set_ball_buffer_frames(30);
+	visionConfig->set_ignore_prediction(0.045f);
+	visionConfig->set_ball_error_velocity(1960000.0f);
+	visionConfig->set_robot_error_velocity(200000.0f);
+	visionConfig->set_max_ball_2_frames_dis(450000.0f);
+
+
 	WorldState state;
 
 	Referee referee;
@@ -45,7 +71,7 @@ int main()
 	}*/
 
 	cout << " Connecting to SSL-Vision server at " << "224.5.23.2" << " , on port : 10002 " << endl;
-	Vision vision(setting->visionSetting);
+	Vision vision(config->vision_config());
 	if (!vision.IsConnected())
 	{
 		cout << "	Hey you! Put the LAN cable back in its socket, or ..." << endl;

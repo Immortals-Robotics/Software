@@ -1,3 +1,4 @@
+#include <math/distance.h>
 #include "Vision.h"
 
 // Don't add prediction to Ball or Opponents if both velocities are below this threshold
@@ -20,7 +21,7 @@ void Vision::ProcessRobots (WorldState & state)
 	robots_num = MergeRobots ( robots_num );
 	
 	//The most important part, The Kalman Filter!
-	FilterRobots ( robots_num , setting -> color );
+	FilterRobots ( robots_num , config.our_color() == Immortals::Data::TeamColor::Blue);
 	
 	//Yellow Robots
 	//First we have to extract the robots!
@@ -30,7 +31,7 @@ void Vision::ProcessRobots (WorldState & state)
 	robots_num = MergeRobots ( robots_num );
 	
 	//The most important part, The Kalman Filter!
-	FilterRobots ( robots_num , ! ( setting -> color ) );
+	FilterRobots ( robots_num , config.our_color() == Immortals::Data::TeamColor::Yellow );
 	
 	//We're almost done, only Prediction remains undone!
 	PredictRobots ( state );
@@ -44,7 +45,7 @@ int Vision::ExtractBlueRobots ( void )
 	int ans = 0;
 	for ( int i = 0 ; i < CAM_COUNT ; i ++ )
 	{
-		if ( setting -> use_camera[i] )
+		if ( config.camera_enabled(i) )
 		{
 			for ( int j = 0 ; j < min ( MAX_ROBOTS , frame[i].robots_blue_size ( ) ) ; j ++ )
 			{
@@ -61,7 +62,7 @@ int Vision::ExtractYellowRobots ( void )
 	int ans = 0;
 	for ( int i = 0 ; i < CAM_COUNT ; i ++ )
 	{
-		if ( setting -> use_camera[i] )
+		if ( config.camera_enabled(i) )
 		{
 			for ( int j = 0 ; j < min ( MAX_ROBOTS , frame[i].robots_yellow_size ( ) ) ; j ++ )
 			{
@@ -80,7 +81,7 @@ int Vision::MergeRobots ( int num )
 	{
 		for ( int j = i + 1 ; j < num ; j ++ )
 		{
-			if ( POWED_DIS( robot[i].x() , robot[i].y() , robot[j].x() , robot[j].y() ) < MERGE_DISTANCE )
+			if ( DIS( robot[i].x() , robot[i].y() , robot[j].x() , robot[j].y() ) < config.merge_distance() )
 			{
 				robot[i].set_x ( ( robot[i].x ( ) + robot[j].x ( ) ) / (float)2.0 );
 				robot[i].set_y ( ( robot[i].y ( ) + robot[j].y ( ) ) / (float)2.0 );
@@ -152,8 +153,8 @@ void Vision::FilterRobots ( int num , bool own )
 		if ( ! found )
 		{
 			robot_not_seen[own][i] ++;
-			if ( robot_not_seen[own][i] >= MAX_ROBOT_NOT_SEEN + 1 )
-				robot_not_seen[own][i] = MAX_ROBOT_NOT_SEEN + 1;
+			if ( robot_not_seen[own][i] >= config.max_robot_not_seen() + 1 )
+				robot_not_seen[own][i] = config.max_robot_not_seen() + 1;
 			
 			//robotState[own][i].Angle = 0.0f;
 			robotState[own][i].AngularVelocity = 0.0f;
@@ -292,7 +293,7 @@ void Vision::FillStates (WorldState & state)
 		{
 			robotState[0][i].seenState = Seen;
 		}
-		else if ( robot_not_seen[0][i] < MAX_ROBOT_NOT_SEEN )
+		else if ( robot_not_seen[0][i] < config.max_robot_not_seen() )
 		{
 			robotState[0][i].seenState = TemprolilyOut;
 		}
@@ -301,15 +302,8 @@ void Vision::FillStates (WorldState & state)
 			robotState[0][i].seenState = CompletelyOut;
 			state.ownRobots_num --;
 		}
-        
-        if (robot_not_seen[0][i] < MAX_ROBOT_SUBSITUTE)
-        {
-            robotState[0][i].OutForSubsitute = false;
-        }
-        else
-        {
-            robotState[0][i].OutForSubsitute = true;
-        }
+
+		robotState[0][i].OutForSubsitute = robot_not_seen[0][i] >= config.max_robot_subsitute();
 		
 		state.OwnRobot[i] = robotState[0][i];
 	}
@@ -324,7 +318,7 @@ void Vision::FillStates (WorldState & state)
 		{
 			robotState[1][i].seenState = Seen;
 		}
-		else if ( robot_not_seen[1][i] < MAX_ROBOT_NOT_SEEN )
+		else if ( robot_not_seen[1][i] < config.max_robot_not_seen() )
 		{
 			robotState[1][i].seenState = TemprolilyOut;
 		}

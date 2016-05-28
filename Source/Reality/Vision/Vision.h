@@ -26,21 +26,21 @@
 #define INT_MAX       2147483647    /* maximum (signed) int value */
 #endif
 
-#ifndef POWED_DIS
+/*#ifndef POWED_DIS
 #define POWED_DIS(a,b,c,d) (((a-c)*(a-c))+((b-d)*(b-d)))
-#endif
+#endif*/
 
 #define CAM_COUNT 4
 
 #define PREDICT_STEPS 5.0f
 
 #define MAX_BALLS 10
-#define MAX_BALL_NOT_SEEN 40
+//#define MAX_BALL_NOT_SEEN 40
 
-#define MAX_ROBOT_NOT_SEEN 600
-#define MAX_ROBOT_SUBSITUTE 60
+//#define MAX_ROBOT_NOT_SEEN 600
+//#define MAX_ROBOT_SUBSITUTE 60
 
-#define MERGE_DISTANCE 5000
+//#define MERGE_DISTANCE 5000
 
 #define MAX_INCOMING_PACKET_SIZE 1000
 
@@ -58,7 +58,7 @@ Changes include :
 class Vision
 {
 	public:
-		Vision ( Immortals::Data::VisionConfig& );
+		Vision ( const Immortals::Data::VisionConfig& );
 		~Vision();
 
 		const Immortals::Data::VisionConfig& GetSetting ( void ) const;
@@ -92,7 +92,7 @@ class Vision
 		MedianFilter<float> AngleFilter[2][MAX_ROBOTS];
 		float rawAngles[2][MAX_ROBOTS];
 
-		Immortals::Data::VisionConfig config;
+		const Immortals::Data::VisionConfig& config;
 		bool connected;
 
 		unsigned long frameId;

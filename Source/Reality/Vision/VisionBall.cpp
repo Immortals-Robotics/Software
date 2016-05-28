@@ -1,5 +1,6 @@
+#include <math/distance.h>
 #include "Vision.h"
-#define MAX_BALL_2FRAMES_DISTANCE 450000.0f
+//#define MAX_BALL_2FRAMES_DISTANCE 450000.0f
 
 void Vision::ProcessBalls (WorldState & state)
 {
@@ -23,7 +24,7 @@ int Vision::ExtractBalls ( void )
 	int ans = 0;
 	for ( int i = 0 ; i < CAM_COUNT ; i ++ )
 	{
-		if ( setting -> use_camera[i] )
+		if ( config.camera_enabled(i) )
 		{
 			for ( int j = 0 ; j < frame[i].balls_size ( ) ; j ++ )
 			{
@@ -42,7 +43,7 @@ int Vision::MergeBalls ( int num )
 	{
 		for ( int j = i + 1 ; j < num ; j ++ )
 		{
-			if ( POWED_DIS ( d_ball[i].x() , d_ball[i].y() , d_ball[j].x() , d_ball[j].y() ) < MERGE_DISTANCE )
+			if ( DIS ( d_ball[i].x() , d_ball[i].y() , d_ball[j].x() , d_ball[j].y() ) < config.merge_distance() )
 			{
 				d_ball[i].set_x ( ( d_ball[i].x ( ) + d_ball[j].x ( ) ) / (float)2.0 );
 				d_ball[i].set_y ( ( d_ball[i].y ( ) + d_ball[j].y ( ) ) / (float)2.0 );
@@ -64,17 +65,17 @@ int Vision::MergeBalls ( int num )
 void Vision::FilterBalls (int num, WorldState & state)
 {
 	int id = 100;
-	float dis = 214748364.0f;
+	float dis = 14654.0f;
 	for ( int i = 0 ; i < num ; i ++ )
 	{
-		if ( POWED_DIS ( d_ball[i].x() , d_ball[i].y() , lastRawBall.x() , lastRawBall.y() ) < dis )
+		if ( DIS ( d_ball[i].x() , d_ball[i].y() , lastRawBall.x() , lastRawBall.y() ) < dis )
 		{
-			dis = POWED_DIS ( d_ball[i].x() , d_ball[i].y() , lastRawBall.x() , lastRawBall.y() );
+			dis = DIS ( d_ball[i].x() , d_ball[i].y() , lastRawBall.x() , lastRawBall.y() );
 			id = i;
 		}
 	}
 
-	if ( dis < MAX_BALL_2FRAMES_DISTANCE )
+	if ( dis < config.max_ball_2_frames_dis() )
 	{
 		float filtout[2][2];
 		float filtpos[2] = { d_ball[id].x() / (float)10.0 , d_ball[id].y() / (float)10.0 };
@@ -101,7 +102,7 @@ void Vision::FilterBalls (int num, WorldState & state)
 	{
 		ball_not_seen ++;
 
-		if ( ball_not_seen > MAX_BALL_NOT_SEEN )
+		if ( ball_not_seen > config.max_ball_not_seen() )
 		{
 			if ( num > 0 )
 			{
