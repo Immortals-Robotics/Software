@@ -1,17 +1,15 @@
 #include "../ai09.h"
-bool ai09::ballReached(TVec2 dest)
-{
-	if (DIS(ball.Position.X,ball.Position.Y,dest.X,dest.Y) < 100.f)
-	{
-		return true;
-	}
-	return false;
-}
+
 void ai09::tech_mexico ( void )
 {
 	static int state = 0;
 	if (state == 0){
 		WaitToInterceptBall(state);
+	}
+	else if(state == 1){
+		//Dribler on
+		OwnRobot[attack].face(4500.0);
+		//shoot
 	}
 }
 
@@ -37,4 +35,12 @@ int ai09::WaitToInterceptBall(int state) {
 		}
 
 	}
+}
+bool ai09::ballReached(TVec2 dest)
+{
+	if (DIS(ball.Position,dest)< 100.f && ball.velocity.magnitude < 50)
+	{
+		return true;
+	}
+	return false;
 }
