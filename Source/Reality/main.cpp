@@ -48,7 +48,7 @@ int main()
 	visionConfig->set_ignore_prediction(0.045f);
 	visionConfig->set_ball_error_velocity(1960000.0f);
 	visionConfig->set_robot_error_velocity(200000.0f);
-	visionConfig->set_max_ball_2_frames_dis(450000.0f);
+	visionConfig->set_max_ball_2_frames_dis(671.0f);
 
 
 	WorldState state;
@@ -200,7 +200,7 @@ int main()
 				perror("Sendto Error");
 				fprintf(stderr,
 					"Sending UDP datagram to %s:%d failed (maybe too large?). "
-					"Size was: %zu byte(s)\n",
+					"Size was: %lu byte(s)\n",
 					_net_address.c_str(),
 					_port,
 					buffer.length());

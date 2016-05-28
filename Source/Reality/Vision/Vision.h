@@ -21,30 +21,11 @@
 #include "math/MedianFilter.h"
 #include "WorldState.h"
 #include <zmq.h>
+#include <protos/messages_immortals_world_state.pb.h>
 
 #ifndef INT_MAX
 #define INT_MAX       2147483647    /* maximum (signed) int value */
 #endif
-
-/*#ifndef POWED_DIS
-#define POWED_DIS(a,b,c,d) (((a-c)*(a-c))+((b-d)*(b-d)))
-#endif*/
-
-#define CAM_COUNT 4
-
-#define PREDICT_STEPS 5.0f
-
-#define MAX_BALLS 10
-//#define MAX_BALL_NOT_SEEN 40
-
-//#define MAX_ROBOT_NOT_SEEN 600
-//#define MAX_ROBOT_SUBSITUTE 60
-
-//#define MERGE_DISTANCE 5000
-
-#define MAX_INCOMING_PACKET_SIZE 1000
-
-#define BALL_BUFFER_FRAMES 30
 
 /**
 Class Vision : Captures the vision packet from the network, and sends it to the rest
@@ -87,10 +68,10 @@ class Vision
 		void ComputeBallHeight(void);
 
 		FilteredObject ball_kalman;
-		FilteredObject robot_kalman[2][MAX_ROBOTS];
+		FilteredObject* robot_kalman[2];
 
-		MedianFilter<float> AngleFilter[2][MAX_ROBOTS];
-		float rawAngles[2][MAX_ROBOTS];
+		MedianFilter<float>* AngleFilter[2];
+		float* rawAngles[2];
 
 		const Immortals::Data::VisionConfig& config;
 		bool connected;
@@ -98,22 +79,21 @@ class Vision
 		unsigned long frameId;
 
 		int ball_not_seen;
-		int robot_not_seen[2][MAX_ROBOTS];
+		int* robot_not_seen[2];
 
 		SSL_DetectionBall lastRawBall;
 
-		RobotState robotState[2][MAX_ROBOTS];
+		RobotState* robotState[2];
 
 		Net::UDP * VisionUDP;
 
 		void* zmq_context;
 		void* zmq_publisher;
 
-		SSL_DetectionFrame frame[CAM_COUNT];
-		SSL_DetectionBall d_ball[MAX_BALLS*CAM_COUNT];
-		SSL_DetectionRobot robot[MAX_ROBOTS*CAM_COUNT];
+		SSL_DetectionFrame* frame;
+		SSL_DetectionBall* d_ball;
+		SSL_DetectionRobot* robot;
 
-		bool packet_recieved[CAM_COUNT];
-
+		bool* packet_received;
 };
 

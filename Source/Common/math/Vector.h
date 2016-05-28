@@ -30,6 +30,8 @@ TVec2 operator *= ( TVec2 & a , const TVec2 & b );
 TVec2 operator /= ( TVec2 & a , const TVec2 & b );
 TVec2 operator *= ( TVec2 & a , const float b );
 TVec2 operator /= ( TVec2 & a , const float b );
+TVec2 operator - ( const TVec2 & a );
+TVec2 operator + ( const TVec2 & a );
 
 TVec3 operator + ( const TVec3 & a , const TVec3 & b );
 TVec3 operator - ( const TVec3 & a , const TVec3 & b );
@@ -47,6 +49,8 @@ TVec3 operator /= ( TVec3 & a , const float b );
 TVec2 Normalize ( const TVec2& a );
 TVec3 Normalize ( const TVec3& a );
 
+float Magnitude ( float x, float y );
+float Magnitude ( float x, float y, float z );
 float Magnitude ( const TVec2& a );
 float Magnitude ( const TVec3& a );
 

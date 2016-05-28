@@ -1,6 +1,5 @@
 #include <math/distance.h>
 #include "Vision.h"
-//#define MAX_BALL_2FRAMES_DISTANCE 450000.0f
 
 void Vision::ProcessBalls (WorldState & state)
 {
@@ -22,7 +21,7 @@ void Vision::ProcessBalls (WorldState & state)
 int Vision::ExtractBalls ( void )
 {
 	int ans = 0;
-	for ( int i = 0 ; i < CAM_COUNT ; i ++ )
+	for ( int i = 0 ; i < config.camera_count() ; i ++ )
 	{
 		if ( config.camera_enabled(i) )
 		{
@@ -167,13 +166,13 @@ void Vision::PredictBall(WorldState & state)
 	float xpos_vision = state.ball.Position.X;
 	float ypos_vision = state.ball.Position.Y;
   
-	float vball_vision = float(sqrt(vx_vision*vx_vision + vy_vision*vy_vision));
+	float vball_vision = Magnitude(vx_vision, vy_vision);
   
 	float t;
 	if ( state.ball.seenState == TemprolilyOut )
 		t = tsample;
 	else
-		t = PREDICT_STEPS*tsample;
+		t = config.predict_steps()*tsample;
 
   
 	float v = vball_vision - k*t;
