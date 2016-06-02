@@ -4,12 +4,19 @@ void ai09::tech_mexico ( void )
 {
 	static int state = 0;
 	if (state == 0){
-		WaitToInterceptBall(state);
+		int state = WaitToInterceptBall(state);
 	}
 	else if(state == 1){
-		//Dribler on
-		OwnRobot[attack].face(4500.0);
-		//shoot
+		OwnRobot[attack].Dribble(1);
+		OwnRobot[attack].face(Vec2(-side*(field_width),0));
+		OwnRobot[attack].Shoot(60);
+		state++;
+	}
+	else if(state == 3)
+	{
+		ERRTSetObstacles(attack);
+		ERRTNavigate2Point(attack,Vec2(0,0));
+		state++;
 	}
 }
 
