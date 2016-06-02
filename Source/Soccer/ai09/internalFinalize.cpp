@@ -12,8 +12,10 @@ void ai09::internalFinalize ( WorldState * worldState , GameSetting * setting , 
 	{
 		for ( int j = 0 ; j < 11 ; j ++ )
 		{
-			commands[11*i+j] = OwnRobot[i].data[j];
+			commands[12*i+j+1] = OwnRobot[i].data[j];
 		}
+		commands[12*i+0] = OwnRobot[i].data[0];
+		commands[12*i+1] = 10;
 		//OwnRobot[i].data[9]=200;
 		OwnRobot[i].halted = false;
 	}

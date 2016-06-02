@@ -83,9 +83,9 @@ int main ( )
 	
 	
 	char rf_freq = 110;
-	
+
 	GameSetting * setting = new GameSetting ( );
-    
+
 	setting -> visionSetting = new VisionSetting();
     setting -> visionSetting -> color = COLOR_BLUE;
     setting -> visionSetting -> UDP_Adress = "224.5.23.2";
@@ -96,8 +96,8 @@ int main ( )
     setting -> visionSetting -> use_camera.push_back(true);
     setting -> visionSetting -> use_camera.push_back(false);
     setting -> visionSetting -> use_camera.push_back(false);
-    
-    
+
+
 	setting -> side = Left;
 	
 	WorldState * state = new WorldState ( );
@@ -129,19 +129,20 @@ int main ( )
 	}
 	
 	UDPSocket commUDP;
-	char robot_cmds[90];
-	char zeros[90];
+	char robot_cmds[100];
+	char zeros[100];
 	
-	for ( int i = 0 ; i < 90 ; i ++ )
+	for ( int i = 0 ; i < 100 ; i ++ )
 	{
 		zeros[i] = 0;
 		robot_cmds[i]=0;
 	}
 	
-	robot_cmds[66] = 25;
-	robot_cmds[77] = 80;
-	robot_cmds[78] = rf_freq;
-	robot_cmds[84] = rf_freq;
+	robot_cmds[72] = 25;
+	robot_cmds[73] = 10;
+	robot_cmds[84] = 80;
+	robot_cmds[85] = rf_freq;
+	robot_cmds[96] = rf_freq;
 	
 	bool started = false;
 	
@@ -179,7 +180,7 @@ int main ( )
 				if ( started )
                 {
                     try {
-                        commUDP.sendTo ( robot_cmds    , 77 , "224.5.92.5" , 60005 );
+                        commUDP.sendTo ( robot_cmds    , 84 , "224.5.92.5" , 60005 );
                     } catch (...) {
                         cout << "ERROR: failed to send robot packets." << endl;
                     }
@@ -191,7 +192,7 @@ int main ( )
 				//vision.SendGUIData ( state , aii -> AIDebug );
 				lock.unlock();
 				
-				cout << 1.0/timer.interval() << endl;
+				//cout << 1.0/timer.interval() << endl;
 				
 				started = true;
 			}
@@ -346,10 +347,10 @@ int main ( )
 				
 				else if ( strategySize == 10 )
 				{
-					//cout << "Recieved robot feedback with size: " << float(strategySize) << " B, from " << strategySrcAdd << " on port " << strategySrcPort << "." << endl;
-					/*for (int i = 0 ; i < 10 ; i ++) {
+					cout << "Recieved robot feedback with size: " << float(strategySize) << " B, from " << strategySrcAdd << " on port " << strategySrcPort << "." << endl;
+					for (int i = 0 ; i < 10 ; i ++) {
 						cout << (int)strategyBuffer[i] << "	";
-					}*/
+					}
 					
 					unsigned int gyroD[2];
 					gyroD[0] = strategyBuffer[0];
@@ -362,9 +363,9 @@ int main ( )
 					offCount ++;
 					gyrOff /= (float)(offCount);
 					
-					cout << gyrOff << "	" << tmpGyro/14.375;
+					//cout << gyrOff << "	" << tmpGyro/14.375;
 					
-					cout << endl;
+					//cout << endl;
 				}
 
 				else {
