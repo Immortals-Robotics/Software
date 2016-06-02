@@ -135,7 +135,7 @@ ai09::ai09 ( ):maxBallHist(240)
 	VELOCITY_PROFILE_AROOM.max_w_acc = 40.0f;
 	VELOCITY_PROFILE_AROOM.max_w_dec = 140.0f;
 	
-	VELOCITY_PROFILE_MAMOOLI.max_spd = Vec2 ( 100.0f );
+	VELOCITY_PROFILE_MAMOOLI.max_spd = Vec2 ( 30.0f );
 	VELOCITY_PROFILE_MAMOOLI.max_dec = Vec2 ( 2.0f );
 	VELOCITY_PROFILE_MAMOOLI.max_acc = Vec2 ( 1.3f );
 	VELOCITY_PROFILE_MAMOOLI.max_w_acc = 40.0f;
@@ -148,7 +148,7 @@ ai09::ai09 ( ):maxBallHist(240)
 	//VELOCITY_PROFILE_KHARAKI.max_w_acc = 40.0f;
 	//VELOCITY_PROFILE_KHARAKI.max_w_dec = 140.0f;
 	
-	VELOCITY_PROFILE_KHARAKI.max_spd = Vec2 ( 100.0f );
+	VELOCITY_PROFILE_KHARAKI.max_spd = Vec2 ( 30.0f );
 	VELOCITY_PROFILE_KHARAKI.max_dec = Vec2 ( 2.7f );
 	VELOCITY_PROFILE_KHARAKI.max_acc = Vec2 ( 1.9f );
 	VELOCITY_PROFILE_KHARAKI.max_w_acc = 40.0f;

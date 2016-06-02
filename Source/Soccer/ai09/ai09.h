@@ -113,7 +113,7 @@ class ai09 : public aiBase
 		bool navigated[6];
 		int side;
 
-	bool ballReached(TVec2);
+	bool ballReached();
 
 		VelocityProfile VELOCITY_PROFILE_AROOM;
 		VelocityProfile VELOCITY_PROFILE_KHARAKI;
@@ -255,4 +255,6 @@ class ai09 : public aiBase
 		void read_sharifcup_config ( void );
 
 	int WaitToInterceptBall(int state);
+	void TowarDestination(TVec2 dest);
+	int MoveToDest(TVec2 dest,int state);
 };

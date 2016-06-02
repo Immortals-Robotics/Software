@@ -192,7 +192,7 @@ int main ( )
 				//vision.SendGUIData ( state , aii -> AIDebug );
 				lock.unlock();
 				
-				//cout << 1.0/timer.interval() << endl;
+				cout << 1.0/timer.interval() << endl;
 				
 				started = true;
 			}
