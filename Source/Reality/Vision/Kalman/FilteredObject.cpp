@@ -118,17 +118,19 @@ void FilteredObject::updatePosition(float z[2], float filtOut[2][2])
    filtOut   = Cimp*filtState + Dimp*posMeasure
   ************************************************/
   // x axis 
-  filtOut[0][0] = Cimp[0][0]*filtState[0][0]+Cimp[0][1]*filtState[0][1] + Dimp[0]*z[0];
-  filtOut[0][1] = Cimp[1][0]*filtState[0][0]+Cimp[1][1]*filtState[0][1] + Dimp[1]*z[0];
-  filtOutP[0][0] = CimpP[0][0]*filtStateP[0][0]+CimpP[0][1]*filtStateP[0][1] + DimpP[0]*z[0];
-  filtOutP[0][1] = CimpP[1][0]*filtStateP[0][0]+CimpP[1][1]*filtStateP[0][1] + DimpP[1]*z[0];
+  filtOut[0][0] = Cimp[0][0]*filtState[0][0]+Cimp[0][1]*filtState[0][1] + Dimp[0]*z[0];//position
+  filtOut[0][1] = Cimp[1][0]*filtState[0][0]+Cimp[1][1]*filtState[0][1] + Dimp[1]*z[0];//velocity
+
+  filtOutP[0][0] = CimpP[0][0]*filtStateP[0][0]+CimpP[0][1]*filtStateP[0][1] + DimpP[0]*z[0];//position
+  filtOutP[0][1] = CimpP[1][0]*filtStateP[0][0]+CimpP[1][1]*filtStateP[0][1] + DimpP[1]*z[0];//velocity
   
   
   // y axis
-  filtOut[1][0] = Cimp[0][0]*filtState[1][0]+Cimp[0][1]*filtState[1][1] + Dimp[0]*z[1];
-  filtOut[1][1] = Cimp[1][0]*filtState[1][0]+Cimp[1][1]*filtState[1][1] + Dimp[1]*z[1];
-  filtOutP[1][0] = CimpP[0][0]*filtStateP[1][0]+CimpP[0][1]*filtStateP[1][1] + DimpP[0]*z[1];
-  filtOutP[1][1] = CimpP[1][0]*filtStateP[1][0]+CimpP[1][1]*filtStateP[1][1] + DimpP[1]*z[1];
+  filtOut[1][0] = Cimp[0][0]*filtState[1][0]+Cimp[0][1]*filtState[1][1] + Dimp[0]*z[1];//position
+  filtOut[1][1] = Cimp[1][0]*filtState[1][0]+Cimp[1][1]*filtState[1][1] + Dimp[1]*z[1];//velocity
+
+  filtOutP[1][0] = CimpP[0][0]*filtStateP[1][0]+CimpP[0][1]*filtStateP[1][1] + DimpP[0]*z[1];//position
+  filtOutP[1][1] = CimpP[1][0]*filtStateP[1][0]+CimpP[1][1]*filtStateP[1][1] + DimpP[1]*z[1];//velocity
   
   // add in the check to revert to the fast filter state if certain conditions are met
   // filtState = CimpInv * (filtOutP - Dimp*z)
