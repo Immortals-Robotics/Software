@@ -44,6 +44,8 @@ bool Vision::Receive(void)
 	frame[packet.detection().camera_id()] = packet.detection();
 	packet_received[packet.detection().camera_id()] = true;
 
+	t_capture = packet.detection().t_capture();
+
 	return true;
 }
 
@@ -132,5 +134,4 @@ void Vision::Publish(const WorldState& state) const
 	auto buffer = worldState.SerializeAsString();
 
 	zmq_send(zmq_publisher, buffer.c_str(), buffer.size(), 0);
-
 }

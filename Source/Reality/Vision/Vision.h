@@ -18,6 +18,7 @@
 
 #include "network/netraw.h"
 #include "Kalman/FilteredObject.h"
+#include "cmu_kalman/vtracker.h"
 #include "math/MedianFilter.h"
 #include "WorldState.h"
 #include <zmq.h>
@@ -70,6 +71,8 @@ class Vision
 		FilteredObject ball_kalman;
 		FilteredObject* robot_kalman[2];
 
+		VTracker * vTracker;
+
 		MedianFilter<float>* AngleFilter[2];
 		float* rawAngles[2];
 
@@ -89,6 +92,8 @@ class Vision
 
 		void* zmq_context;
 		void* zmq_publisher;
+
+		double t_capture;
 
 		SSL_DetectionFrame* frame;
 		SSL_DetectionBall* d_ball;

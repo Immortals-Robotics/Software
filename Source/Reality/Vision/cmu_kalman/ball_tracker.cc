@@ -84,8 +84,6 @@ double BallTracker::velocity_variance(const Matrix &x)
 
   for(int i = 0; i < NUM_TEAMS; i++) {
     for(int j = 0; j < MAX_TEAM_ROBOTS; j++) {
-      if (!tracker->Exists(i, j)) continue;
-
       double d = (tracker->robots[i][j].position(0.0) - ball).length();
       if (d < dist) dist = d;
     }
@@ -109,7 +107,6 @@ bool BallTracker::check_occlusion()
 
   for(int i = 0; i < NUM_TEAMS; i++) {
     for(int j = 0; j < MAX_TEAM_ROBOTS; j++) {
-      if (!tracker->Exists(i, j)) continue;
 
       double radius = tracker->Radius(i, j);
       double height = tracker->Height(i, j);
@@ -419,7 +416,6 @@ bool BallTracker::check_for_collision(const Matrix &x,
 
   for(int i = 0; i < NUM_TEAMS; i++) {
     for(int j = 0; j < MAX_TEAM_ROBOTS; j++) {
-      if (!tracker->Exists(i, j)) continue;
 
       double radius;
 

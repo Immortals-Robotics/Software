@@ -24,8 +24,8 @@
     including MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
   ------------------------------------------------------------------------- */
 
-#ifndef __VTRACKER_H__
-#define __VTRACKER_H__
+#ifndef VTRACKER_H
+#define VTRACKER_H
 
 #include "constants.h"
 #include "net_vision.h"
@@ -39,25 +39,16 @@ class VTracker {
 public:
   BallTracker ball;
   RobotTracker robots[NUM_TEAMS][MAX_TEAM_ROBOTS];
-  int id2index[NUM_TEAMS][MAX_ROBOT_ID];
-  int index2id[NUM_TEAMS][MAX_TEAM_ROBOTS];
 
-  net_vconfig vconfig;
-
-  // temp matrix to store ball covariances
+    // temp matrix to store ball covariances
   Matrix bcovar;
 
 public:
   VTracker(void);
 
-  bool Exists(int team, int robot) { return (index2id[team][robot] >= 0); }
-  double Height(int team, int robot) {
-    return OMNIBOT_HEIGHT;
-  }
-
+  double Height(int team, int robot) { return OMNIBOT_HEIGHT; }
   double Radius(int team, int robot) { return 90.0; }
-  // set the configuration for the EKBF's 
-  void SetConfig(const net_vconfig &vcfg);
+
   void ResetAll(void);
 
   void GetBallData(vball &vb, double dt);

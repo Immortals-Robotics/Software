@@ -26,6 +26,7 @@ Vision::Vision (const Immortals::Data::VisionConfig& _config )
 	Open(config.vision_address(), config.vision_port());
 
 	frameId = 0;
+	t_capture = 0;
 
 	zmq_context = zmq_ctx_new();
 	zmq_publisher = zmq_socket(zmq_context, ZMQ_PUB);
@@ -46,6 +47,9 @@ Vision::Vision (const Immortals::Data::VisionConfig& _config )
 	slow_filter_path.append("/ballFilterSlow.txt");
 
 	ball_kalman.initialize(fast_filter_path.c_str(), slow_filter_path.c_str());
+
+	vTracker = new VTracker();
+	vTracker->ResetAll();
 
 	for (int i = 0; i < config.max_robots(); i++) {
 		robot_kalman[0][i].initialize(fast_filter_path.c_str(), slow_filter_path.c_str());

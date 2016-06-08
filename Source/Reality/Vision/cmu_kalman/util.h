@@ -27,18 +27,6 @@ using namespace std;
 #ifndef __SGI_STL_ALGOBASE_H
 #ifndef __SGI_STL_INTERNAL_ALGOBASE_H
 
-template <class num>
-inline num max(num a,num b)
-{
-  return((a > b)? a : b);
-}
-
-template <class num>
-inline num min(num a,num b)
-{
-  return((a < b)? a : b);
-}
-
 template <class data>
 inline void swap(data &a,data &b)
 {

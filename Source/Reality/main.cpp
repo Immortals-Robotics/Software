@@ -1,6 +1,7 @@
 #include "Vision/Vision.h"
 #include "Referee/referee_new.h"
 #include "Referee/referee.h"
+#include "Vision/cmu_kalman/configreader.h"
 #include <GameSetting.h>
 #include <timer.h>
 #include <kbhit.h>
@@ -93,9 +94,9 @@ int main()
 
 			vision.Process(state);
 
-			lock.lock();
+			//lock.lock();
 			vision.Publish(state);
-			lock.unlock();
+			//lock.unlock();
 
 			cout << 1.0 / timer.interval() << endl;
 		}
@@ -210,14 +211,14 @@ int main()
 	};
 
 	thread ai_thread(ai_func);
-	thread ref_thread(ref_func);
+	//thread ref_thread(ref_func);
 	//thread new_ref_thread(new_ref_func);
-	thread vision_test_send_thread(vision_test_send);
+	//thread vision_test_send_thread(vision_test_send);
 
 	ai_thread.join();
-	ref_thread.join();
+	//ref_thread.join();
 	//new_ref_thread.join();
-	vision_test_send_thread.join();
+	//vision_test_send_thread.join();
 
 	delete setting;
 	

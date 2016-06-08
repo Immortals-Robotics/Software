@@ -44,58 +44,14 @@ VTracker::VTracker(void)
   fprintf(stderr, "SIMTRACKER:constructor\n");
 #endif
 
-  for (int t = 0; t < NUM_TEAMS; t++) {
-    for (int i = 0; i < MAX_TEAM_ROBOTS; i++) {
-      index2id[t][i] = -1;
-    }
-    for (int i = 0; i < MAX_ROBOT_ID; i++)
-      id2index[t][i] = -1;
-  }
-
   ball.set_tracker(this);
 }
-    
-  
-  // set the configuration for the EKBF's 
-void VTracker::SetConfig(const net_vconfig &vcfg)
-{
-#ifdef DEBUG
-  fprintf(stderr, "SIMTRACKER:Setting config\n");
-#endif
 
-  vconfig = vcfg;
-
-  // clear out idnexes and types
-  for (int t = 0; t < NUM_TEAMS; t++) {
-    for (int i = 0; i < MAX_TEAM_ROBOTS; i++) {
-      index2id[t][i] = -1;
-    }
-    for (int i = 0; i < MAX_ROBOT_ID; i++)
-      id2index[t][i] = -1;
-  }
-
-  // set it all
-  for (int t = 0; t < NUM_TEAMS; t++) {
-    for (int i = 0; i < MAX_TEAM_ROBOTS; i++) {
-      if (vcfg.teams[t].robots[i].id >= 0) {
-#ifdef DEBUG
-	fprintf(stderr, "Setting team %i, ind %i, id %i\n", t, i, vcfg.teams[t].robots[i].id);
-#endif
-
-	index2id[t][i] = vcfg.teams[t].robots[i].id;
-	id2index[t][vcfg.teams[t].robots[i].id] = i;
-      }
-    }
-  }
-}  
-
-void VTracker::ResetAll(void) 
-{
+void VTracker::ResetAll(void) {
   ball.reset();
   for (int t = 0; t < NUM_TEAMS; t++) {
     for (int i = 0; i < MAX_TEAM_ROBOTS; i++) {
-      if (index2id[t][i] >= 0) 
-	robots[t][i].reset();
+      robots[t][i].reset();
     }
   }
 }
