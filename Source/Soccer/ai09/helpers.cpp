@@ -24,6 +24,19 @@ bool sgnBool(float num)
 	else return(true);
 }
 
+float Angle(TVec2 a){
+	float ans;
+	ans=atan(a.Y/a.X);
+	ans*=(float)180.0/(float)3.1415;
+	if(a.X<0)
+		ans+=180;
+	while(ans>180)
+		ans-=360;
+	while(ans<-180)
+		ans+=360;
+	return ans;
+}
+
 float AngleWith(TVec2 a,TVec2 b){
 		float ans;
 		ans=atan((b.Y-a.Y)/(b.X-a.X));
@@ -65,3 +78,9 @@ TVec2 CircleAroundPoint(TVec2 point,float angle,float radius){
 	TVec2 ans = Vec2(point.X + radius * cos(angle),point.Y + radius * sin(angle));
 	return ans;
 }
+
+float sq(float a)
+{
+	return a * a;
+}
+

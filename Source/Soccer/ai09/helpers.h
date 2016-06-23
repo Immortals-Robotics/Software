@@ -10,16 +10,12 @@ float max(float a, float b);
 float min(float a, float b);
 #endif
 
-/*#ifndef max
-#define max(a,b)            (((a) > (b)) ? (a) : (b))
-#endif
-
-#ifndef min
-#define min(a,b)            (((a) < (b)) ? (a) : (b))
-#endif*/
+float sq(float a);
 
 int sgn(float num);
 bool sgnBool(float num);
+
+float Angle(TVec2 a);
 
 float AngleWith(TVec2 a,TVec2 b);
 

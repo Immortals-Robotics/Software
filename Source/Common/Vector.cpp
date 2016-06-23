@@ -1,5 +1,6 @@
 
 #include "Vector.h"
+#include "../Soccer/ai09/Geom.h"
 #include <math.h>
 
 TVec2 Vec2 ( float X , float Y )
@@ -233,4 +234,18 @@ float Dot ( const TVec2& a , const TVec2& b )
 float Dot ( const TVec3& a , const TVec3& b )
 {
     return a.X*b.X + a.Y*b.Y + a.Z*b.Z;
+}
+
+TVec2 Rotate( const TVec2& v, const double a)
+{
+	TVec2 q;
+	double s, c;
+
+	s = sinDeg(a);
+	c = cosDeg(a);
+
+	q.X = c * v.X + -s * v.Y;
+	q.Y = s * v.X + c * v.Y;
+
+	return (q);
 }
