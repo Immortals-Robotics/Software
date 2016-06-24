@@ -98,10 +98,12 @@ Socket::Socket(int type, int protocol) throw(SocketException) {
     throw SocketException("Socket creation failed (socket())", true);
   }
 
+#ifndef WIN32
   // set socket as non-blocking
   int flags = fcntl(sockDesc, F_GETFL, 0);
   if(flags < 0) flags = 0;
   fcntl(sockDesc, F_SETFL, flags);
+#endif
 
   {
     int reuse=1;
