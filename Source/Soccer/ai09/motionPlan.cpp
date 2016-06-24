@@ -18,17 +18,15 @@ TVec2 vdes_ann;
 
 TVec3 Robot::MotionPlan ( RobotState state , RobotState target , float speed , bool accurate , TVec3 * cmd , VelocityProfile * velocityProfile )
 {
-	target.velocity.x = speed;
-	target.velocity.y = speed;
-
 	Trajectory cmu_traj = goto_point(state, target, velocityProfile);
 
 	if (state.vision_id == 5)
 	{
-		cout << cmu_traj.eta << " | " << cmu_traj.vx << ", " << cmu_traj.vy << ", " << cmu_traj.va << endl;
+		printf(" %.2f | (%.2f, %.2f)  | (%.2f, %.2f)  ", cmu_traj.eta, cmu_traj.vx, cmu_traj.vy, state.velocity.x, state.velocity.y);
 	}
 
-	return Vec3(cmu_traj.vx, cmu_traj.vy, cmu_traj.va);
+
+	return Vec3(cmu_traj.vx / 50.0, cmu_traj.vy / 50.0, cmu_traj.va);
 
 	/*TVec2 max_spd = Vec2 ( 100.0f );
 	TVec2 max_dec = Vec2 ( 2.3f );

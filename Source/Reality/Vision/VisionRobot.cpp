@@ -277,8 +277,8 @@ void VisionModule::predictRobotsForward( WorldState * state )
 		else {
 			for ( int j = 0 ; j < 10 ; j ++ )
 			{
-				robotState[0][i].Position.X = robotState[0][i].Position.X + state -> lastCMDS[i][j].X / 1.4f;
-				robotState[0][i].Position.Y = robotState[0][i].Position.Y + state -> lastCMDS[i][j].Y / 1.4f;
+				robotState[0][i].Position.X = robotState[0][i].Position.X + state -> lastCMDS[i][j].X / 1.2f;
+				robotState[0][i].Position.Y = robotState[0][i].Position.Y + state -> lastCMDS[i][j].Y / 1.2f;
 				//if (( i == 3 ) )
 				//	robotState[0][i].Angle = robotState[0][i].Angle - state -> lastCMDS[i][j].Z * 0.04f;
 			}

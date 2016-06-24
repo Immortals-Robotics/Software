@@ -5,7 +5,7 @@
 #include <iostream>
 #include "../../Common/timer.h"
 
-#define PREDICT_CMDS 7
+#define PREDICT_CMDS 6
 
 class Robot
 {

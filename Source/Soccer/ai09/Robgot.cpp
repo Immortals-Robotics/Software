@@ -189,10 +189,15 @@ float getCalibratedChipPow ( int vision_id , float dis_raw )
 			speed = 100;
 		MoveByMotion ( MotionPlan ( State , target , speed , accurate , lastCMDs, velocityProfile ) );
 		//MoveByMotion ( trapezoid.Plan ( &State , &target ) );
+		target.velocity.x = 0;
+		target.velocity.y = 0;
 	}
 	
 	void Robot::MoveByMotion(TVec3 motion)
 	{
+		motion.X = min(100, max(-100, motion.X));
+		motion.Y = min(100, max(-100, motion.Y));
+
 		//motion.X=0;
 		lastCMDs[CMDindex] = motion;
 		lastCMDs[10].X = CMDindex;

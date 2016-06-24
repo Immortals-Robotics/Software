@@ -267,7 +267,10 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 
 	else
 		clear_map ( );
-	
+
+	OwnRobot[robot_num].target.velocity.x = 500.0f*cosDeg(hehe);
+	OwnRobot[robot_num].target.velocity.y = 500.0f*sinDeg(hehe);
+
 	if ( ( fabs ( hehe ) < tetta ) )//|| ( circleReachedBehindBall ) )
 	{
         
@@ -314,6 +317,9 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 						if (el) {
 							elendil = 30;
 						}
+
+						OwnRobot[robot_num].target.velocity.x = 3500.0f*cosDeg(angle);
+						OwnRobot[robot_num].target.velocity.y = 3500.0f*sinDeg(angle);
 						ERRTNavigate2Point ( robot_num , Pelendil,0,100,&VELOCITY_PROFILE_KHARAKI );
 					}
 					else

@@ -298,6 +298,9 @@ Trajectory goto_point(RobotState state,
 {
 	static TVec3 oldAns[12] = {Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f)};
 
+  const float a_max = 5000.0f;
+  const float v_max = 4000.0f;
+
   TVec2 x = state.Position - target.Position;
 	TVec2 v = Vec2(oldAns[state.vision_id].X, oldAns[state.vision_id].Y);
   float ang = NormalizeAngle(state.Angle - target.Angle);
@@ -311,8 +314,8 @@ Trajectory goto_point(RobotState state,
 	float time_a, time;
 
   compute_motion_2d(x, v, target_v,
-		    200,
-		    200,
+                    a_max,
+                    v_max,
 		    1.1,
 		    a, time);
 
@@ -330,8 +333,8 @@ Trajectory goto_point(RobotState state,
   v += a / 61.0;
   ang_v += ang_a / 61.0;
 
-  if (Magnitude(v) > profile->max_spd.X)
-    v = Normalize(v) * profile->max_spd.X;
+  if (Magnitude(v) > v_max)
+    v = Normalize(v) * v_max;
   /*ang_v = bound(ang_v,
 		-VDVAR(OMNI_MAX_ANG_VEL)[type], 
 		VDVAR(OMNI_MAX_ANG_VEL)[type]);*/

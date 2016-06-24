@@ -112,9 +112,11 @@ void ai09::NormalPlayAtt ( void )
 		//	shootAngle = AngleWith(ball.Position, Vec2(side*field_width, 0));
 		//	shoot_pow = 1;
 		//}
-		
+
+
+		//shoot_pow = 1;
 		debugDraw = true;
-		tech_circle(attack, shootAngle, shoot_pow, 0, 1, 0, 0, 0);
+		tech_circle(attack, shootAngle, shoot_pow, 0, 1, 0, 0, 1);
 		//circle_ball(attack, 90, 80, 0, 1.0f);
 		debugDraw = false;
 	}
