@@ -271,8 +271,8 @@ Trajectory goto_point(RobotState state,
 {
 	static TVec3 oldAns[12] = { Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f) };
 
-	const float a_max = 5000.0f;
-	const float v_max = 4000.0f;
+	const float a_max = profile->max_acc.X;
+	const float v_max = profile->max_spd.X;
 	const float ang_a_max = 700.0;
 	const float ang_v_max = 300.0;
 
@@ -311,6 +311,15 @@ Trajectory goto_point(RobotState state,
 	if (Magnitude(v) > v_max)
 		v = Normalize(v) * v_max;
 	ang_v = min(ang_v_max, max(-ang_v_max, ang_v));
+
+  if (!isfinite(v.X) || !isfinite(v.Y))
+  {
+    v = Vec2(0.0f);
+  }
+  if (!isfinite(ang_v))
+  {
+    ang_v = 0.0f;
+  }
 
 	Trajectory t(v.X, v.Y, ang_v, time);
 
@@ -361,5 +370,5 @@ Trajectory nav_to_point(
 		v = Vec2(target.velocity.x, target.velocity.y);
 	}
 
-	return goto_point(world, me, q, v, target_angle, type);
+	//return goto_point(world, me, q, v, target_angle, type);
 }
