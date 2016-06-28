@@ -20,9 +20,9 @@ TVec3 Robot::MotionPlan ( RobotState state , RobotState target , float speed , b
 {
 	Trajectory cmu_traj = goto_point(state, target, velocityProfile);
 
-	if (state.vision_id == 5)
+	if (state.vision_id == 7)
 	{
-		printf(" %.2f | (%.2f, %.2f)  | (%.2f, %.2f)  ", cmu_traj.eta, cmu_traj.vx, cmu_traj.vy, state.velocity.x, state.velocity.y);
+		printf(" %5.2f | (%7.2f, %7.2f)  | (%7.2f, %7.2f)  ", cmu_traj.eta, cmu_traj.vx, cmu_traj.vy, state.velocity.x, state.velocity.y);
 	}
 
 

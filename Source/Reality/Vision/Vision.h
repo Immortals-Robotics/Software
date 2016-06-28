@@ -34,7 +34,7 @@
 
 #define CAM_COUNT 4
 
-#define PREDICT_STEPS 6.0f
+#define PREDICT_STEPS 7.0f
 
 #define MAX_BALLS 10
 #define MAX_BALL_NOT_SEEN 40

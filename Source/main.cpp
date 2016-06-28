@@ -106,7 +106,7 @@ int main ( )
 	Referee referee;
     NewReferee newReferee;
 	
-	referee.init ( "224.5.23.1" , 10001 , setting -> visionSetting -> color );
+	referee.init ( "224.5.23.1" , 60001 , setting -> visionSetting -> color );
 	cout << " Connecting to RefereeBox server at " << "224.5.23.1" << " , on port : 10001 " << endl;
 	if ( !referee.connect ( ) )
 	{

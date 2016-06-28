@@ -289,7 +289,7 @@ float getCalibratedChipPow ( int vision_id , float dis_raw )
 			}
 			
 			//shoot = chip = 0;
-            //shoot = 70;
+			//shoot = 80;
 			data[7] = shoot;
 			data[8] = chip;
 			data[9] = 0;

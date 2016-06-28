@@ -9,7 +9,7 @@ void ai09::GKHi ( int robot_num , int defence_num , bool stop )
 {
 	gkIntercepting = false;
 
-	//side = -side;
+	side = -side;
 	if ((ballIsGoaling())&&(DIS(ball.Position, OwnRobot[robot_num].State.Position)/ball.velocity.magnitude<1)&&(!stop))
 	{
 		//WaitForPass ( robot_num , true );
@@ -51,7 +51,7 @@ void ai09::GKHi ( int robot_num , int defence_num , bool stop )
 			
 		}
 	}
-	//side = -side;
+	side = -side;
 }
 
 void ai09::GK_shirje ( int robot_num )

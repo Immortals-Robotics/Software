@@ -174,8 +174,8 @@ void compute_motion_1d(float x0, float v0, float v1,
 
 	// We follow OPTION 2 if t_a is less than a FRAME_PERIOD making it
 	// difficult to transition to decelerating and stopping exactly.
-	if (0 && a_to_v1_at_x0 < a_max && a_to_v1_at_x0 > 0.0 &&
-		t_to_v1_at_x0 < 2.0 / 61.0 && 0) {
+	if (a_to_v1_at_x0 < a_max && a_to_v1_at_x0 > 0.0 &&
+		t_to_v1_at_x0 < 2.0 / 61.0) {
 
 		// OPTION 2
 		// Use option 1 time, even though we're not following it.
@@ -369,6 +369,8 @@ Trajectory nav_to_point(
 	else {
 		v = Vec2(target.velocity.x, target.velocity.y);
 	}
+
+	return Trajectory();
 
 	//return goto_point(world, me, q, v, target_angle, type);
 }

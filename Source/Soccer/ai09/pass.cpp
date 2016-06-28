@@ -2,8 +2,8 @@
 
 TVec2 ai09::CalculatePassPos ( int robot_num , const TVec2& target , const TVec2& statPos , float bar )
 {
-	//Line ball_line = Line::makeLineFromPositionAndAngle ( VecPosition ( ball.Position.X , ball.Position.Y ) , ball.velocity.direction );
-	Line ball_line ( 1.0 , -ballLine.getSlope() , -ballLine.getIntercept() );
+	Line ball_line = Line::makeLineFromPositionAndAngle ( VecPosition ( ball.Position.X , ball.Position.Y ) , ball.velocity.direction );
+	//Line ball_line ( 1.0 , -ballLine.getSlope() , -ballLine.getIntercept() );
 	
 	if (chip_head<180) {
 		ball_line = Line::makeLineFromPositionAndAngle ( VecPosition ( ball.Position.X , ball.Position.Y ) , chip_head );
@@ -45,7 +45,7 @@ void ai09::WaitForPass ( int robot_num , bool chip , TVec2* target , TVec2* stat
 	//OwnRobot[robot_num].target.Angle=-90;
 
 	ERRTSetObstacles ( robot_num ,0,1,1,0,0,0);
-	ERRTNavigate2Point ( robot_num ,pos,0,100,&VELOCITY_PROFILE_KHARAKI );
+	ERRTNavigate2Point ( robot_num ,pos,0,100,&VELOCITY_PROFILE_MAMOOLI );
 	
 	if ( target == NULL )
 	{
