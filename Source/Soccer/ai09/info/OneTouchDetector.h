@@ -1,5 +1,7 @@
-#include "Geom.h"
-#include "../../Common/distance.h"
+#include <math/Geom.h>
+#include <math/distance.h>
+#include "../../Reality/Vision/WorldState.h"
+#include <math/helpers.h>
 
 class OneTouchDetector
 {

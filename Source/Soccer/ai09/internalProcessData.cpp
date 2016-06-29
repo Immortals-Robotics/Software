@@ -1,10 +1,13 @@
 #include "ai09.h"
 
-void ai09::internalProcessData ( WorldState * worldState , GameSetting * setting )
+void ai09::internalProcessData (
+	const Immortals::Data::WorldState &worldState,
+	const Immortals::Data::GameConfig &setting)
 {
-    this -> oppGK = worldState -> oppGK;
+    //this -> oppGK = worldState.referee() -> oppGK;
     
-	this->ball = worldState -> ball;
+	this->ball.seenState = worldState.ball().
+
 	if ( ball.seenState != CompletelyOut )
 		this->ballHist.push_back(this->ball);
 	if ( this->ballHist.size() > maxBallHist )

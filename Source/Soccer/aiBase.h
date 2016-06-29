@@ -1,10 +1,11 @@
 #pragma once
 
-#include "../Common/Vector.h"
-#include "../Common/common_colors.h"
-#include "../Reality/Vision/WorldState.h"
-#include "../Common/GameSetting.h"
-#include "../Reality/Vision/Protobuf/aidebug.pb.h"
+#include <math/Vector.h>
+#include <common_colors.h>
+#include <protos/messages_immortals_configs.pb.h>
+#include <protos/messages_immortals_aidebug.pb.h>
+#include <protos/messages_immortals_world_state.pb.h>
+#include <protos/messages_immortals_robot_wrapper.pb.h>
 
 class aiBase
 {
@@ -15,9 +16,11 @@ class aiBase
 	void AddDebugRect ( const TVec2& p , const float w , const float h , const CommonColor _color = White );
 	void AddDebugCircle ( const TVec2& p , const float r , const CommonColor _color = White );
 
-	
-	
 	public:
-		virtual void Process ( WorldState * worldState , GameSetting * setting , char * commands ) = 0;
+		virtual void Process (
+			const Immortals::Data::WorldState &worldState, 
+			const Immortals::Data::GameConfig &setting,
+			Immortals::Data::RobotMessageFrame *const message_frame) = 0;
+
 		AI_Debug AIDebug;
 };

@@ -4,22 +4,21 @@
 #include "../aiBase.h"
 #include "Robot.h"
 #include "errt/errt.h"
-#include "OneTouchDetector.h"
+#include "info/OneTouchDetector.h"
 #include "../../Common/timer.h"
-#include "../../Common/linear.h"
-
-#include "../../Reality/Vision/Protobuf/messages_blob.pb.h"
 
 #include <map>
 
 #include <iostream>
+#include <protos/messages_immortals_strategy.pb.h>
+#include <math/MedianFilter.h>
+#include "../../Reality/Vision/WorldState.h"
 using namespace std;
 
-#include "Geom.h"
+#include <math/Geom.h>
+#include <math/MedianFilter.h>
 
-#include "../../Reality/Vision/Protobuf/strategy.pb.h"
-
-#include "../../Common/MedianFilter.h"
+#include <math/Random.h>
 
 class ai09 : public aiBase
 {
@@ -79,8 +78,6 @@ class ai09 : public aiBase
 	
 	Timer timer;
 	
-	LHP_Frame lFrame;
-
 		bool isDefending;
 		bool oppRestarted;
 	
@@ -94,7 +91,6 @@ class ai09 : public aiBase
 
 		const int maxBallHist;
 		deque<BallState> ballHist;
-		Linear ballLine;
 		BallState ball;
 		RobotState OppRobot[12];
 		int OwnRobotNum , OppRobotNum;
@@ -226,30 +222,27 @@ class ai09 : public aiBase
 		void tech_challenge ( void );
 		void tech_mexico ( void );
 		void tech_cmu ( void );
-		void tech_khers_pass ( void );
-		void tech_khers_def ( void );
-		void tech_motion_ann ( void );
-		void sharifcup_pre_start ( void );
-		void sharifcup_play ( void );
-		void sharifcup_play_2nd ( void );
-		map<int,int> sharifcup_score_map;
-		void sharifcup_play_3rd ( void );
-		void sharifcup_play_4th ( void );
-		void sharifcup_post_play ( void );
-        void throwin_us_outgir ( void );
 
 	
 			
-		void internalProcessData ( WorldState * worldState , GameSetting * setting );
-		void internalFinalize ( WorldState * worldState , GameSetting * setting , char * commands );
+		void internalProcessData (
+			const Immortals::Data::WorldState &worldState,
+			const Immortals::Data::GameConfig &setting);
+
+		void internalFinalize (
+			const Immortals::Data::WorldState &worldState,
+			const Immortals::Data::GameConfig &setting,
+			Immortals::Data::RobotMessageFrame *const message_frame);
 
 	public:
 		Robot OwnRobot[6];
 		ai09 ( void );
-		void Process ( WorldState * worldState , GameSetting * setting , char * commands );
+		void Process ( 
+			const Immortals::Data::WorldState &worldState,
+			const Immortals::Data::GameConfig &setting,
+			Immortals::Data::RobotMessageFrame *const message_frame);
 		bool read_playBook ( const char* fileName );
 		bool read_playBook_str ( char* buffer , int length );
-		LHP_Frame* getLFrame ( void );
 		void read_sharifcup_config ( void );
 
 };
