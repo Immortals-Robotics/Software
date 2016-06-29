@@ -31,7 +31,7 @@ Vision::Vision (const Immortals::Data::VisionConfig& _config )
 	zmq_publisher = zmq_socket(zmq_context, ZMQ_PUB);
 
 	//"tcp://*:5556"
-	int rc = zmq_bind(zmq_publisher, config.zero_address().c_str());
+	int rc = zmq_bind(zmq_publisher, config.zmq_world_pub().c_str());
 	assert (rc == 0);
 
 	for (int i = 0; i < config.camera_count(); i++)

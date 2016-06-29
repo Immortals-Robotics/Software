@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Common/Vector.h"
+#include "Vector.h"
 //#include "WorldState.h"
 
 #ifndef max

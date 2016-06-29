@@ -6,8 +6,11 @@
 #include <kbhit.h>
 #include <thread>
 #include <mutex>
-#include <protos/messages_robocup_ssl_wrapper.pb.h>
+#include <protos/messages_immortals_wrapper.pb.h>
 #include <math/Random.h>
+#include <com/proto_bridge.h>
+#include <protos/messages_robocup_ssl_wrapper.pb.h>
+#include <protos/messages_immortals_configs.pb.h>
 
 int main()
 {
@@ -26,12 +29,16 @@ int main()
 	setting->side = Right;
 
 	auto config = new Immortals::Data::GameConfig();
+
 	config->set_side(Immortals::Data::FieldSide::Right);
+
 	auto visionConfig = config->mutable_vision_config();
 	visionConfig->set_our_color(Immortals::Data::TeamColor::Blue);
 	visionConfig->set_vision_address("224.5.23.2");
 	visionConfig->set_vision_port(10006);
-	visionConfig->set_zero_address("tcp://*:5556");
+	visionConfig->set_zmq_world_pub("tcp://*:5556");
+	visionConfig->set_zmq_cmd_sub("tcp://localhost:5557");
+	visionConfig->set_zmq_feedback_sub("tcp://localhost:5558");
 	visionConfig->add_camera_enabled(true);
 	visionConfig->add_camera_enabled(true);
 	visionConfig->add_camera_enabled(false);
@@ -49,6 +56,12 @@ int main()
 	visionConfig->set_ball_error_velocity(1960000.0f);
 	visionConfig->set_robot_error_velocity(200000.0f);
 	visionConfig->set_max_ball_2_frames_dis(671.0f);
+
+	auto com_config = config->mutable_com_config();
+	com_config->set_sender_address("224.5.23.3");
+	com_config->set_sender_port(60006);
+	com_config->set_zmq_cmd_sub("tcp://localhost:5557");
+	com_config->set_zmq_feedback_pub("tcp://*:5558");
 
 
 	WorldState state;
@@ -85,7 +98,7 @@ int main()
 	mutex lock;
 	bool exited = false;
 
-	auto ai_func = [&]()
+	auto vision_func = [&]()
 	{
 		while (true)
 		{
@@ -115,8 +128,6 @@ int main()
 			}
 		}
 	};
-
-
 	auto new_ref_func = [&]()
 	{
 		while (!exited && !kbhit())
@@ -131,6 +142,115 @@ int main()
 				//cout << "Referre Boz" << endl;
 			}
 		}
+	};
+
+	auto com_rcv_func = [&]()
+	{
+		Net::UDP udp;
+		if (!udp.open(60006, false, false, true))
+		{
+			fprintf(stderr, "Unable to open UDP network port: %d\n", 60006);
+			fflush(stderr);
+			return(false);
+		}
+
+		Net::Address multiaddr, interf;
+		multiaddr.setHost("224.5.23.3", 60006);
+
+		interf.setAny();
+
+		if (!udp.addMulticast(multiaddr, interf)) {
+			fprintf(stderr, "Unable to setup UDP multicast\n");
+			fflush(stderr);
+			return(false);
+		}
+
+		void *const zmq_context = zmq_ctx_new();
+		void *const zmq_publisher = zmq_socket(zmq_context, ZMQ_PUB);
+
+		int rc = zmq_bind(zmq_publisher, config->com_config().zmq_feedback_pub().c_str());
+		assert(rc == 0);
+
+		const int buffer_size = 65536;
+		uint8_t* buffer = new uint8_t[buffer_size];
+		Immortals::Data::RobotMessage message;
+
+		while (true)
+		{
+			Net::Address src;
+			int r = 0;
+			r = udp.recv(buffer, 65536, src);
+			if (r > 0) {
+				
+				bool result = feedback_bytes_to_proto_feedback(buffer, r, &message);
+				if (!result)
+					continue;
+
+				const int length = message.ByteSize();
+				assert(length < buffer_size);
+
+				message.SerializeToArray(buffer, length);
+
+				zmq_send(zmq_publisher, buffer, length, 0);
+			}
+		}
+
+		zmq_close(zmq_publisher);
+		zmq_ctx_destroy(zmq_context);
+		delete[] buffer;
+	};
+
+	auto com_send_func = [&]()
+	{
+		Net::UDP udp;
+		udp.open();
+
+		Net::Address dest_address;
+		dest_address.setHost(config->com_config().sender_address().c_str(), config->com_config().sender_port());
+
+		void *const zmq_context = zmq_ctx_new();
+		void *const zmq_subscriber = zmq_socket(zmq_context, ZMQ_SUB);
+		int rc = zmq_connect(zmq_subscriber, config->com_config().zmq_cmd_sub().c_str());
+		assert(rc == 0);
+
+		const char *filter = "";
+		rc = zmq_setsockopt(zmq_subscriber, ZMQ_SUBSCRIBE,
+			filter, strlen(filter));
+		assert(rc == 0);
+
+		const int buffer_size = 65536;
+		uint8_t* buffer = new uint8_t[buffer_size];
+
+		Immortals::Data::RobotMessageFrame message_frame;
+
+		while (true)
+		{
+			int received_size = zmq_recv(zmq_subscriber, buffer, buffer_size, 0);
+
+			printf("Received cmd of size %d\n", received_size);
+
+			if (!message_frame.ParseFromArray(buffer, received_size))
+				continue;
+
+			uint8_t payload[20 * (MAX_PAYLOAD_SIZE + 1)];
+
+			const size_t size = proto_msg_frame_to_byte_array(message_frame, payload);
+
+			memset(payload + size, 0, MAX_PAYLOAD_SIZE + 1);
+			payload[size] = 25;
+			payload[size + 1] = 110;
+			payload[size + 2] = 80;
+
+			bool res = udp.send(payload, size + MAX_PAYLOAD_SIZE + 1, dest_address);
+
+			printf("sendto (%lu): %d\n", size, res);
+
+			Sleep(16);
+		}
+
+		zmq_close(zmq_subscriber);
+		zmq_ctx_destroy(zmq_context);
+		delete[] buffer;
 	};
 
 	auto vision_test_send = [&]()
@@ -209,7 +329,7 @@ int main()
 
 	};
 
-	thread ai_thread(ai_func);
+	thread ai_thread(vision_func);
 	thread ref_thread(ref_func);
 	//thread new_ref_thread(new_ref_func);
 	thread vision_test_send_thread(vision_test_send);
