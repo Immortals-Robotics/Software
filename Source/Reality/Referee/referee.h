@@ -1,6 +1,6 @@
 #pragma once
 #include "game_state.h"
-#include "../../Network/PracticalSocket.h"
+#include "../../Network/netraw.h"
 #include "../../Common/Vector.h"
 #include "../Vision/WorldState.h"
 
@@ -20,7 +20,7 @@ private:
 
 	int move_hys;
 
-	UDPSocket * RefUDP;
+	Net::UDP * RefUDP;
 	std::string address;
 	unsigned short port;
 	bool color;

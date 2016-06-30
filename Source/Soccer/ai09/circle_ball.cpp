@@ -33,7 +33,7 @@ void ai09::circle_ball ( int robot_num , float tagret_angle , int shoot_pow , in
     if ( near_dis_override > 0 )
         near_ball_dis = near_dis_override;
 	const float near_angle_tol = 4.0f;
-	const int near_to_kick_hys = 3;
+	const int near_to_kick_hys = 8;
 	const float shmit_coeff = 1.2f;
 	
 	static ball_circling_state state = very_far;

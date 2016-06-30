@@ -21,7 +21,7 @@ void Referee::init ( const std::string & _address , const unsigned short _port ,
 	port = _port;
 	color = _color;
 
-	RefUDP = new UDPSocket ( );
+	RefUDP = new Net::UDP ( );
 
 	gameState -> init ( color );
 
@@ -33,17 +33,29 @@ bool Referee::connect ( void )
 	if ( !initialized )
 		return false;
 
-	try
+	if (!RefUDP->open(port, true, false, true))
 	{
-		RefUDP -> setLocalPort ( port );
-		RefUDP -> joinGroup ( address );
-		connected = true;
-		return true;
-	}catch(...)
-	{
+		fprintf(stderr, "Unable to open UDP network port: %d\n", port);
+		fflush(stderr);
 		connected = false;
 		return false;
 	}
+
+	Net::Address multiaddr, interf;
+	multiaddr.setHost(address.c_str(), port);
+
+	interf.setAny();
+
+	if (!RefUDP->addMulticast(multiaddr, interf)) {
+		fprintf(stderr, "Unable to setup UDP multicast\n");
+		fflush(stderr);
+		connected = false;
+		return(false);
+	}
+
+	connected = true;
+
+	return true;
 }
 void Referee::process ( WorldState * state )
 {
@@ -58,7 +70,7 @@ void Referee::process ( WorldState * state )
 	{
 		LastPlacedBall = state -> ball.Position;
 		packet.cmd_counter = buffer[1];
-		cout << "new cmd" << endl;
+		std::cout << "new cmd" << std::endl;
 	}
 	//cout << packet.cmd << endl;
 
@@ -102,7 +114,8 @@ bool Referee::recieve ( void )
 	if ( ( !initialized ) || ( !connected ) )
 		return false;
 
-	if ( RefUDP -> recv ( buffer , 10 ) == 6 )
+	Net::Address src;
+	if ( RefUDP -> recv ( buffer , 10 , src ) == 6 )
 	{
 		return true;
 	}

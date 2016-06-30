@@ -2,24 +2,28 @@
 
 bool VisionModule::connectToVisionServer ( const std::string & address , const unsigned short port )
 {
-	try
+	VisionUDP = new Net::UDP();
+	if (!VisionUDP->open(port, true, false, true))
 	{
-		VisionUDP = new UDPSocket ( port );
-
-		VisionUDP -> joinGroup ( address );
-
-		connected = true;
-
-		return true;
-
-	}
-
-	catch ( SocketException ex )
-	{
-		connected = false;
-
+		fprintf(stderr, "Unable to open UDP network port: %d\n", port);
+		fflush(stderr);
 		return false;
 	}
+
+	Net::Address multiaddr, interf;
+	multiaddr.setHost(address.c_str(), port);
+
+	interf.setAny();
+
+	if (!VisionUDP->addMulticast(multiaddr, interf)) {
+		fprintf(stderr, "Unable to setup UDP multicast\n");
+		fflush(stderr);
+		return(false);
+	}
+
+	connected = true;
+
+	return true;
 }
 
 bool VisionModule::recievePacket ( void )
@@ -27,15 +31,13 @@ bool VisionModule::recievePacket ( void )
 	if ( ! connected )
 		return false;
 
-	try{
-		int incoming_size = VisionUDP -> recv ( incoming_buffer , MAX_INCOMING_PACKET_SIZE );
+	Net::Address src;
+	int incoming_size = VisionUDP -> recv ( incoming_buffer , MAX_INCOMING_PACKET_SIZE, src );
 
-		packet.ParseFromArray(incoming_buffer,incoming_size);
-	}
-	catch(...)
-	{
+	packet.ParseFromArray(incoming_buffer,incoming_size);
+
+	if (incoming_size <= 0)
 		return false;
-	}
 
 	if ( packet.has_detection ( ) )
 	{

@@ -13,8 +13,5 @@ struct VisionSetting
 	std::string UDP_Adress;
 	short LocalPort;
 
-	std::string GUI_Adress;
-	short GUIPort;
-
     std::vector<bool> use_camera;
 };

@@ -44,8 +44,6 @@ class ai09 : public aiBase
 	
 	int chip_head;
 	
-	int VisionSerialTrans[12];
-	
 	float penaltyAngle;
     
     int oppGK;

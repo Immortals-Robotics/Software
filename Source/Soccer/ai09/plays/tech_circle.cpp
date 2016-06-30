@@ -135,8 +135,8 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 		}
 		else
 		{
-			r = 400.0f;
-			tetta = 32.0f;
+			r = 200.0f;
+			tetta = 20.0f;
 		}
 	}
 
@@ -163,12 +163,20 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 
 	if ((fabs(hehe) < tetta))
 	{
-		OwnRobot[robot_num].target.velocity.x = 2500.0f*cosDeg(angle);
-		OwnRobot[robot_num].target.velocity.y = 2500.0f*sinDeg(angle);
+		OwnRobot[robot_num].target.velocity.x = -2500.0f*cosDeg(angle);
+		OwnRobot[robot_num].target.velocity.y = -2500.0f*sinDeg(angle);
+
+		float ball_dis = DIS(PredictedBall, OwnRobot[attack].State.Position);
+		float dis_factor = 1.0f - min(1.0f, max(0.0f, ball_dis / r));
+
+		TVec2 nav_target = PredictedBall +Vec2(OwnRobot[robot_num].target.velocity.x, OwnRobot[robot_num].target.velocity.y) * 0.305f * pow(1.0f - fabs(hehe / tetta), 15.0f) * dis_factor;
+
+		OwnRobot[robot_num].target.velocity.x = 0;
+		OwnRobot[robot_num].target.velocity.y = 0;
 
 		AddDebugCircle(Vec2(0, 0), 1000, Red);
 		if ((kick) || (chip))
-			ERRTNavigate2Point(robot_num, PredictedBall, 0, 100, &VELOCITY_PROFILE_MAMOOLI);
+			ERRTNavigate2Point(robot_num, nav_target, 0, 100, &VELOCITY_PROFILE_MAMOOLI);
 		else
 			ERRTNavigate2Point(robot_num, CircleAroundPoint(PredictedBall, angle, r), 0, 100);
 	}
@@ -180,10 +188,12 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 
 		hehe = AngleWith(PredictedBall, OwnRobot[robot_num].State.Position) + sgn(hehe) * tetta;
 
-		OwnRobot[robot_num].target.velocity.x = 2500.0f*cosDeg(hehe);
-		OwnRobot[robot_num].target.velocity.y = 2500.0f*sinDeg(hehe);
+		OwnRobot[robot_num].target.velocity.x = -2500.0f*cosDeg(hehe);
+		OwnRobot[robot_num].target.velocity.y = -2500.0f*sinDeg(hehe);
 
-		ERRTNavigate2Point(robot_num, CircleAroundPoint(PredictedBall, hehe, r), 0, 100);
+		TVec2 nav_target = PredictedBall +Vec2(ball.velocity.x, ball.velocity.y) * 0.3f;
+
+		ERRTNavigate2Point(robot_num, CircleAroundPoint(nav_target, hehe, r), 0, 100);
 	}
 	
 	AddDebugCircle(OwnRobot[robot_num].State.Position,90,Blue_Violet);

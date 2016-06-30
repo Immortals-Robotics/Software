@@ -17,7 +17,7 @@
 
 #include "VisionSetting.h"
 
-#include "../../Network/PracticalSocket.h"
+#include "../../Network/netraw.h"
 #include "Kalman/FilteredObject.h"
 #include "../../Common/MedianFilter.h"
 #include "../../Common/MATHS_REGRESSION_PARABOLIC.h"
@@ -81,13 +81,6 @@ class VisionModule
 		void predictRobotsForward( WorldState * );
 		void SendStates ( WorldState * );
 	
-		// Ridemun haie nik injan:
-		void InitANN ( void );
-		void RunANN ( WorldState * );
-		void PredictWithANN ( WorldState * );
-		void TrainANN ( float );
-		//Tamum shod!
-
 		void SendGUIData ( WorldState * , AI_Debug & );
 
 		void ProcessBalls ( WorldState * );
@@ -127,8 +120,7 @@ class VisionModule
 
 		char incoming_buffer[MAX_INCOMING_PACKET_SIZE];
 
-		UDPSocket * VisionUDP;
-		UDPSocket * GUIUDP;
+		Net::UDP * VisionUDP;
 
 		void* gui_zmq_context;
 		void* gui_zmq_publisher;

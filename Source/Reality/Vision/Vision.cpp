@@ -17,8 +17,6 @@ VisionModule::VisionModule ( VisionSetting * _setting ) : connected ( false )
 		connectToVisionServer ( setting -> UDP_Adress , setting -> LocalPort );
 	}
 
-	GUIUDP = new UDPSocket ( );
-
 	gui_zmq_context = zmq_ctx_new ();
 	gui_zmq_publisher = zmq_socket (gui_zmq_context, ZMQ_PUB);
 	int rc = zmq_bind (gui_zmq_publisher, "tcp://*:5556");

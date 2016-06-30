@@ -37,7 +37,7 @@ void ai09::penalty_us_ghuz ( void )
 	
 	if ( ( canKickBall ) && ( timer.time() > 1.0 ) )
 	{
-		PenaltyUs(attack, NormalizeAngle( penaltyAngle), 80 );
+		PenaltyUs(attack, NormalizeAngle( penaltyAngle), 40 );
 		//backPass(attack, NormalizeAngle( penaltyAngle),t_nml);
 	}
 	else

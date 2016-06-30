@@ -5,7 +5,9 @@
 #include <iostream>
 #include "../../Common/timer.h"
 
-#define PREDICT_CMDS 7
+#include "../../Reality/Com/data_lite.h"
+
+#define PREDICT_CMDS 5
 
 class Robot
 {
@@ -13,32 +15,23 @@ class Robot
 
 	public :
 
+	robot_command_msg_t command_msg;
+
     float field_w;
     float field_h;
     
-	bool oldRobot;
 	RobotState State;
 	RobotState target;
 	int shoot , chip , Break , dribbler;
 	int Motor[4];
-	unsigned char data[11];
-	int serial_id,vision_id;
-	bool control_mode;
+	
+	int vision_id;
 	bool halted;
 	
 	TVec3 lastCMDs[11];
 	int CMDindex;
 	
-	TrapezoidPlanner trapezoid;
-	
-	int remainingPIDParams;
-	float p , i , iMax , torque;
-	
 	Robot(void);
-	
-	void sendPID ( float _p , float _i , float _iMax , float _torque );
-	
-	void set_serial_id(unsigned short s_id);
 	
 	void set_vision_id(unsigned short v_id);
 	

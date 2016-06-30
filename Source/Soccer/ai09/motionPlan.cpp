@@ -20,11 +20,10 @@ TVec3 Robot::MotionPlan ( RobotState state , RobotState target , float speed , b
 {
 	Trajectory cmu_traj = goto_point(state, target, velocityProfile);
 
-	if (state.vision_id == 7)
+	/*if (state.vision_id == 1)
 	{
 		printf(" %5.2f | (%7.2f, %7.2f)  | (%7.2f, %7.2f)  ", cmu_traj.eta, cmu_traj.vx, cmu_traj.vy, state.velocity.x, state.velocity.y);
-	}
-
+	}*/
 
 	return Vec3(cmu_traj.vx / 50.0, cmu_traj.vy / 50.0, cmu_traj.va);
 
@@ -40,14 +39,7 @@ TVec3 Robot::MotionPlan ( RobotState state , RobotState target , float speed , b
 	float max_w_acc = velocityProfile->max_w_acc;
 	float max_w_dec = velocityProfile->max_w_dec;
 
-	if ( oldRobot )
-	{
-		max_spd = Vec2 ( 100.0f );
-		max_dec = Vec2 ( 5.2f );
-		max_acc = Vec2 ( 2.6f );
-		max_w_acc = 15.0f;
-		max_w_dec = 200.0f;
-	}
+	
 
 	static TVec3 oldAns[12] = {Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f)};
 
@@ -62,45 +54,6 @@ TVec3 Robot::MotionPlan ( RobotState state , RobotState target , float speed , b
 		ans.Z+=360;
 	}
 	ans.Z /= 5.0f;
-	if ( oldRobot )
-	{
-
-	//ans.Z *= 3.0f;
-
-	ans.Z = sqrt ( 2.0f * max_w_dec * fabs( ans.Z ) ) * sgn ( ans.Z );
-
-	 //ans.X += Vel_offset.X;
-	 if ( ans.Z * oldAns[state.vision_id].Z < 0 )
-	 {
-	 float tmp = oldAns[state.vision_id].Z + max_w_dec * sgn ( ans.Z );
-	 //float tmp = oldAns[state.vision_id].X + 20.0f * max_acc.X * sgn ( ans.X );
-
-	 if ( tmp * ans.Z > 0 )
-	 {
-	 tmp = max_w_acc * sgn ( ans.Z );
-	 if ( fabs ( tmp ) > fabs ( ans.Z ) )
-	 tmp = ans.Z;
-	 }
-
-	 ans.Z = tmp;
-	 }
-	 else
-	 {
-	 if ( fabs ( ans.Z ) > fabs ( oldAns[state.vision_id].Z ) + max_w_acc )
-	 {
-	 ans.Z = ( fabs ( oldAns[state.vision_id].Z ) + max_w_acc ) * sgn ( ans.Z );
-	 }
-	 }
-	 if ( fabs ( ans.Z ) > 180 )
-	 {
-	 ans.Z = 180.0f * sgn ( ans.Z );
-	 }
-
-	 if ( ans.Z > 180 )
-	 ans.Z = 180;
-	 if ( ans.Z < -180 )
-	 ans.Z = -180;
-	}
 
 	target.Position = target.Position - state.Position;
 

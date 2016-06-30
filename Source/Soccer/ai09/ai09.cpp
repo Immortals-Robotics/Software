@@ -43,19 +43,6 @@ ai09::ai09 ( ):maxBallHist(240)
 	//for ( int i = 0 ; i < 5 ; i ++ )
 	//	OwnRobot[i].serial_id = i + 1;
 	
-	VisionSerialTrans[0] = 0;
-	VisionSerialTrans[1] = 1;
-	VisionSerialTrans[2] = 2;
-	VisionSerialTrans[3] = 3;
-	VisionSerialTrans[4] = 4;
-	VisionSerialTrans[5] = 5;
-	VisionSerialTrans[6] = 6;
-	VisionSerialTrans[7] = 7;
-	VisionSerialTrans[8] = 8;
-	VisionSerialTrans[9] = 9;
-	VisionSerialTrans[10] = 10;
-	VisionSerialTrans[11] = 11;
-	
 	gkIntercepting = false;
 	
 	playingAgainstSkuba = false;
@@ -117,10 +104,10 @@ ai09::ai09 ( ):maxBallHist(240)
 	}
 	OwnRobot[gk].set_vision_id(0);
 	OwnRobot[def].set_vision_id(0);
-	OwnRobot[dmf].set_vision_id(0);
-	OwnRobot[lmf].set_vision_id(0);
-	OwnRobot[rmf].set_vision_id(0);
-	OwnRobot[cmf].set_vision_id(2);
+	OwnRobot[dmf].set_vision_id(1);
+	OwnRobot[lmf].set_vision_id(3);
+	OwnRobot[rmf].set_vision_id(4);
+	OwnRobot[cmf].set_vision_id(5);
 	
 	chip_head = 200;
 	
@@ -135,7 +122,7 @@ ai09::ai09 ( ):maxBallHist(240)
 	VELOCITY_PROFILE_AROOM.max_w_acc = 40.0f;
 	VELOCITY_PROFILE_AROOM.max_w_dec = 140.0f;
 	
-	VELOCITY_PROFILE_MAMOOLI.max_spd = Vec2 ( 4000.0f );
+	VELOCITY_PROFILE_MAMOOLI.max_spd = Vec2 ( 5000.0f );
 	VELOCITY_PROFILE_MAMOOLI.max_dec = Vec2 ( 2.0f );
 	VELOCITY_PROFILE_MAMOOLI.max_acc = Vec2 ( 5500.0f );
 	VELOCITY_PROFILE_MAMOOLI.max_w_acc = 40.0f;

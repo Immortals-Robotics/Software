@@ -105,13 +105,9 @@ float getCalibratedChipPow ( int vision_id , float dis_raw )
 
 
 	Robot::Robot(void){
-		oldRobot = false;
-		
 		CMDindex = 0;
 		for ( int i = 0 ; i < 10 ; i ++ )
 			lastCMDs[i] = Vec3 ( 0.0f );
-		
-		trapezoid.init ( Vec2 ( 4500.0f ) , Vec2 ( 1400.0f ) , Vec2 ( 3000.0f ) , 1.0f/61.0f );
 		
 		State.velocity.x = 0.0f;
 		State.velocity.y = 0.0f;
@@ -123,32 +119,12 @@ float getCalibratedChipPow ( int vision_id , float dis_raw )
 		dribbler = 0;
 		Break = false;
 		halted = false;
-		data[0] = 1;
-		data[9] = 200;
 		
 		angleSendTimer.start();
 	}
 	
-	void Robot::sendPID ( float _p , float _i , float _iMax , float _torque )
-	{
-		p = ( _p - 5 ) * 10;
-		i = _i * 500;
-		iMax = _iMax / 4;
-		torque = ( _torque - 1000 ) / 4;
-		remainingPIDParams = 15;
-	}
-	
-	void Robot::set_serial_id(unsigned short s_id){
-		serial_id = s_id;
-	}
-	
 	void Robot::set_vision_id(unsigned short v_id){
 		vision_id = v_id;
-	}
-	
-	void Robot::set_control_mode(bool c_mode)
-	{
-		control_mode=c_mode;
 	}
 	
 	float Robot::dis(float x1,float y1,float x2,float y2){
@@ -195,116 +171,71 @@ float getCalibratedChipPow ( int vision_id , float dis_raw )
 	
 	void Robot::MoveByMotion(TVec3 motion)
 	{
+		static TVec3 prev_motion;
+
 		motion.X = min(100, max(-100, motion.X));
 		motion.Y = min(100, max(-100, motion.Y));
 
-		//motion.X=0;
 		lastCMDs[CMDindex] = motion;
 		lastCMDs[10].X = CMDindex;
 		lastCMDs[10].Y = PREDICT_CMDS;
 
-		CMDindex ++;
-		if ( CMDindex > PREDICT_CMDS - 1 )
+		CMDindex++;
+		if (CMDindex > PREDICT_CMDS - 1)
 			CMDindex = 0;
-				
-		//std::cout << serial_id << "	:	" << CMDindex << std::endl;
-		
-		/*float trans_rad = ( 90.0f - State.Angle ) * ( 3.1415f / 180.0f );
-		motion = Vec3 ( 
-					   cos(trans_rad)*motion.X - sin(trans_rad)*motion.Y , 
-					   sin(trans_rad)*motion.X + cos(trans_rad)*motion.Y ,
-					   motion.Z );*/
-		
-		
-		if ( oldRobot )
-		{
-			
-			Motor[1]=(int)(127.0+motion.Y*0.8-motion.X*0.6-motion.Z/12.0);
-			Motor[0]=(int)(127.0-motion.Y*0.8-motion.X*0.6-motion.Z/12.0);
-			Motor[3]=(int)(127.0-motion.Y*0.707+motion.X*0.707-motion.Z/12.0);
-			Motor[2]=(int)(127.0+motion.Y*0.707+motion.X*0.707-motion.Z/12.0);
-			
-			for(int i=0;i<4;i++)
-			{
-				data[i+2] = Motor[i];
-				if ( data[i+2] == 0 )
-					data[i+2] ++;
-			}
-		}
-		
-		else
-		{
-			motion.X *= 2.55;
-			motion.Y *= 2.55;
-			//motion.Z /= 3.0;
 
-			data[2] = fabs ( motion.X );
-			data[3] = fabs ( motion.Y );
-			data[5] = fabs ( target.Angle );
-			
-			data[10] &= 0x0F;
-			
-			if ( target.Angle < 0 )
-				data[10] |= 128;
-			if ( motion.Y < 0 )
-				data[10] |= 32;
-			if ( motion.X < 0 )
-				data[10] |= 16;
-			
-			data[6] = 2;
-			
-		}
+		motion.X *= 2.50f;
+		motion.Y *= 2.50f;
+
+		command_msg.velocity.x.f32 = motion.X;
+		command_msg.velocity.y.f32 = motion.Y;
+
+		prev_motion = motion;
+
+		command_msg.omega.f32 = motion.Z;
+
+		command_msg.target_orientation.f32 = target.Angle;
 	}
 	
-	void Robot::makeSendingDataReady ( void )
+	void Robot::makeSendingDataReady(void)
 	{
-		if ( oldRobot )
+		command_msg.feedback_request = FEEDBACK_TYPE_DEBUG;
+
+		if ((State.seenState == Seen))//&&( angleSendTimer.time() > 0.3 ))// ((halted)&&(State.seenState==Seen)) ||( angleSendTimer.time() > 1.0 ) )
 		{
-			data[1] = serial_id + ( chip * 2 );
+			command_msg.has_orientation = true;
+			command_msg.orientation.f32 = State.Angle;
 			
-			data[6] = 4 + shoot * 2;
-			data[7] = 2;
-			data[8] = 0;
-			data[9] = 0;
+			angleSendTimer.start();
+
 		}
-		
+		else {
+			command_msg.has_orientation = false;
+			command_msg.orientation.f32 = 0.0f;
+		}
+
+		if (shoot > 0)
+		{
+			command_msg.shoot_type = SHOOT_TYPE_DIRECT;
+			command_msg.shoot_power.f32 = shoot;
+		}
+		else if (chip > 0)
+		{
+			command_msg.shoot_type = SHOOT_TYPE_CHIP;
+			command_msg.shoot_power.f32 = chip;
+		}
 		else
 		{
-			data[0] = serial_id;
-			data[1] = 1; //Set the packet type to "command".
-			if (vision_id==2) {
-				data[1] = 1; //Set the packet type to "feedback".
-			}
-			
-			if ((State.seenState==Seen))//&&( angleSendTimer.time() > 0.3 ))// ((halted)&&(State.seenState==Seen)) ||( angleSendTimer.time() > 1.0 ) )
-			{
-				data[4] = fabs ( State.Angle );
-				if ( State.Angle < 0 )
-					data[10] |= 64;
-				angleSendTimer.start();
-
-			}
-			else {
-				data[4] = 200;
-			}
-			
-			//shoot = chip = 0;
-			//shoot = 80;
-			data[7] = shoot;
-			data[8] = chip;
-			data[9] = 0;
-			
-			data[10] &= 0xF0;
-			
-			if (dribbler>0)
-			{
-				data[10]|= 2;
-			}
-			if (!halted) {
-				data[10] |= 1;
-			}
+			command_msg.shoot_type = SHOOT_TYPE_DIRECT;
+			command_msg.shoot_power.f32 = 0;
 		}
-		
+
+		command_msg.dribbler.f32 = dribbler;
+		command_msg.servo.f32 = 0.0f;
+		command_msg.beep = 0;
+
+		command_msg.halt = halted;
+
 		dribbler = 0;
 		shoot = 0;
 		chip = 0;

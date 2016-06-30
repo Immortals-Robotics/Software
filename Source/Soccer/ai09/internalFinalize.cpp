@@ -1,5 +1,6 @@
 #include <fstream>
 #include "ai09.h"
+#include "../../Reality/Com/writer.h"
 
 void ai09::internalFinalize ( WorldState * worldState , GameSetting * setting , char * commands )
 {
@@ -10,11 +11,9 @@ void ai09::internalFinalize ( WorldState * worldState , GameSetting * setting , 
 	
 	for ( int i = 0 ; i < 6 ; i ++ )
 	{
-		for ( int j = 0 ; j < 11 ; j ++ )
-		{
-			commands[11*i+j] = OwnRobot[i].data[j];
-		}
-		//OwnRobot[i].data[9]=200;
+		commands[i*(MAX_PAYLOAD_SIZE + 1)] = OwnRobot[i].vision_id;
+		commands[i*(MAX_PAYLOAD_SIZE + 1) + 1] = write_robot_command_fixed(reinterpret_cast<uint8_t*>(commands + i*(MAX_PAYLOAD_SIZE + 1) + 2), &OwnRobot[i].command_msg);
+		
 		OwnRobot[i].halted = false;
 	}
 	

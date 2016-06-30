@@ -16,7 +16,7 @@ void NewReferee::init ( const std::string & _address , const unsigned short _por
 	port = _port;
 	color = _color;
     
-	RefUDP = new UDPSocket ( );
+	RefUDP = new Net::UDP ( );
     
 	initialized = true;
 }
@@ -26,17 +26,29 @@ bool NewReferee::connect ( void )
 	if ( !initialized )
 		return false;
     
-	try
+	if (!RefUDP->open(port, true, false, true))
 	{
-		RefUDP -> setLocalPort ( port );
-		RefUDP -> joinGroup ( address );
-		connected = true;
-		return true;
-	}catch(...)
-	{
+		fprintf(stderr, "Unable to open UDP network port: %d\n", port);
+		fflush(stderr);
 		connected = false;
 		return false;
 	}
+
+	Net::Address multiaddr, interf;
+	multiaddr.setHost(address.c_str(), port);
+
+	interf.setAny();
+
+	if (!RefUDP->addMulticast(multiaddr, interf)) {
+		fprintf(stderr, "Unable to setup UDP multicast\n");
+		fflush(stderr);
+		connected = false;
+		return(false);
+	}
+
+	connected = true;
+
+	return true;
 }
 void NewReferee::process ( WorldState * state )
 {
@@ -57,7 +69,8 @@ bool NewReferee::recieve ( void )
 {
 	if ( ( !initialized ) || ( !connected ) )
 		return false;
-    
-	buffer_size = RefUDP -> recv ( buffer , 1000 );
-	return true;
+	
+	Net::Address src;
+	buffer_size = RefUDP -> recv ( buffer , 1000 , src );
+	return buffer_size > 0;
 }

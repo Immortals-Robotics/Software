@@ -6,7 +6,7 @@ void ai09::NewNormalPlay ( void )
 	DefHi(def,NULL, 0);
 	
 	CalcIsDefending();
-	isDefending = false;
+	//isDefending = false;
 	if (isDefending) {
 		NormalPlayDef();
 	}

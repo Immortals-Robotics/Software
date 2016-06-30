@@ -33,7 +33,7 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 			else {
 				currentPlay = "Stop";
 			}
-			currentPlay = "tech_mexico";
+			//currentPlay = "tech_mexico";
 		}
 		else if ( worldState ->refereeState.State->get() == GameState::GAME_ON )
 		{
@@ -59,7 +59,8 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 			
 			currentPlayParam = worldState ->refereeState.State->canKickBall();
 		}
-		else if ( ( worldState ->refereeState.State->ourDirectKick ( ) ) || ( worldState ->refereeState.State->ourIndirectKick ( ) ) )
+		else if ( ( worldState ->refereeState.State->ourDirectKick ( ) ) || 
+			( worldState ->refereeState.State->ourIndirectKick ( ) ) )
 		{
 			if (target_str!=-1) {
 				currentPlay = "strategy_maker";

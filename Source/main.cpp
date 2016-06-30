@@ -11,11 +11,13 @@
 #include "Soccer/ai09/ai09.h"
 #include "Common/kbhit.h"
 #include "Common/timer.h"
-#include "Common/net_log.h"
 #include "Reality/Vision/Protobuf/messages_blob.pb.h"
 #include "Common/Vector.h"
-#include "Network/PracticalSocket.h"
+#include "Network/netraw.h"
 #include "Soccer/aiBase.h"
+
+#include "Reality/Com/defines.h"
+#include "Reality/Com/reader.h"
 
 using namespace std;
 
@@ -71,9 +73,6 @@ void initWorldState ( WorldState * state )
 
 int main ( )
 {
-    //NetLogger* netLogger = new NetLogger("224.5.92.10" , 60090);
-    //netLogger -> Init();
-    
 	if (!ImmortalsIsTheBest) {
 		cout << "ERROR: Immortals is not the best SSL team anymore." << endl;
 		cout << "Shutting down the system..." << endl;
@@ -90,8 +89,6 @@ int main ( )
     setting -> visionSetting -> color = COLOR_BLUE;
     setting -> visionSetting -> UDP_Adress = "224.5.23.2";
     setting -> visionSetting -> LocalPort = 10006;
-    setting -> visionSetting -> GUI_Adress = "224.5.66.6";
-    setting -> visionSetting -> GUIPort = 10009;
     setting -> visionSetting -> use_camera.push_back(true);
     setting -> visionSetting -> use_camera.push_back(true);
     setting -> visionSetting -> use_camera.push_back(false);
@@ -128,21 +125,6 @@ int main ( )
 		return 0;
 	}
 	
-	UDPSocket commUDP;
-	char robot_cmds[90];
-	char zeros[90];
-	
-	for ( int i = 0 ; i < 90 ; i ++ )
-	{
-		zeros[i] = 0;
-		robot_cmds[i]=0;
-	}
-	
-	robot_cmds[66] = 25;
-	robot_cmds[77] = 80;
-	robot_cmds[78] = rf_freq;
-	robot_cmds[84] = rf_freq;
-	
 	bool started = false;
 	
 	aiBase * aii;
@@ -167,6 +149,18 @@ int main ( )
 
 		auto ai_func = [&]()
 		{
+			Net::UDP commUDP;
+			commUDP.open();
+
+			Net::Address dest_address;
+			dest_address.setHost("224.5.92.5", 60005);
+
+			char robot_cmds[7 * (MAX_PAYLOAD_SIZE + 1)];
+			memset(robot_cmds, 0, 7 * (MAX_PAYLOAD_SIZE + 1));
+			robot_cmds[6 * (MAX_PAYLOAD_SIZE + 1)] = 25;
+			robot_cmds[6 * (MAX_PAYLOAD_SIZE + 1) + 1] = 110;
+			robot_cmds[6 * (MAX_PAYLOAD_SIZE + 1) + 2] = 80;
+
 			while ( (! kbhit()) && ( ImmortalsIsTheBest ) )	//Hope it lasts Forever...
 			{
                 //netLogger->SetFrameID(netLogger->GetFrameID()+1);
@@ -178,11 +172,8 @@ int main ( )
                 //while (timer.time()*1000.0f<16.6f);//DELAY(100000);
 				if ( started )
                 {
-                    try {
-                        commUDP.sendTo ( robot_cmds    , 77 , "224.5.92.5" , 60005 );
-                    } catch (...) {
+                    if (commUDP.send ( robot_cmds , 7 * (MAX_PAYLOAD_SIZE + 1), dest_address ) <= 0)
                         cout << "ERROR: failed to send robot packets." << endl;
-                    }
 					
                 }
 				aii -> Process( state , setting , robot_cmds );
@@ -196,8 +187,6 @@ int main ( )
 				started = true;
 			}
 			exited = true;
-			commUDP.sendTo ( zeros , 10 , "localhost" , 60001 );
-			commUDP.sendTo ( zeros , 1 , "localhost" , 60006 );
 		};
 		auto ref_func = [&]()
 		{
@@ -259,114 +248,55 @@ int main ( )
 		zmq_close (subscriber);
 		zmq_ctx_destroy (context);
 	};
-		auto sharifcup_func = [&]()
-		{
-			UDPSocket* blobUDP = new UDPSocket(60022);
-			blobUDP -> joinGroup("224.5.33.35");
-			const int blobBufferMaxSize = 100000;
-			char blobBuffer[blobBufferMaxSize];
-			LHP_Frame* lhp_frame = dynamic_cast<ai09*>(aii)->getLFrame();
-			while ( ( !exited ) && (! kbhit()) && ( ImmortalsIsTheBest ) )	//Hope it lasts Forever...
-			{
-				string blobSrcAdd;
-				unsigned short blobSrcPort;
-				int blobSize = blobUDP->recvFrom(blobBuffer, blobBufferMaxSize, blobSrcAdd, blobSrcPort);
-				lock.lock();
-				lhp_frame->ParseFromArray(blobBuffer, blobSize);
-				lock.unlock();
-				cout << "	XXXXXXXXXXXXXXXXXXXXXXXXXXXX: " << lhp_frame->blob_size() << endl;
-			}
-		};
+		
 		auto str_func = [&]()
 		{
-			UDPSocket* strategyUDP = new UDPSocket(60006);
-			strategyUDP -> joinGroup("224.5.23.3");
+			Net::UDP strategyUDP;
+			if (!strategyUDP.open(60006, true, false, true))
+			{
+				fprintf(stderr, "Unable to open UDP network port: %d\n", 60006);
+				fflush(stderr);
+				return false;
+			}
+
+			Net::Address multiaddr, interf;
+			multiaddr.setHost("224.5.23.3", 60006);
+
+			interf.setAny();
+
+			if (!strategyUDP.addMulticast(multiaddr, interf)) {
+				fprintf(stderr, "Unable to setup UDP multicast\n");
+				fflush(stderr);
+				return(false);
+			}
+
 			const int strategyBufferMaxSize = 100000;
 			char strategyBuffer[strategyBufferMaxSize];
-			while ( ( !exited ) && (! kbhit()) && ( ImmortalsIsTheBest ) )	//Hope it lasts Forever...
+			while ( ( ImmortalsIsTheBest ) )	//Hope it lasts Forever...
 			{
-				string strategySrcAdd;
-				unsigned short strategySrcPort;
-				int strategySize = strategyUDP->recvFrom(strategyBuffer, strategyBufferMaxSize, strategySrcAdd, strategySrcPort);
-				if ( strategySize > 11 )
+				Net::Address src;
+				int strategySize = strategyUDP.recv(strategyBuffer, strategyBufferMaxSize, src);
+				if (strategySize == 32)
 				{
-					cout << "Recieved \"strategy.ims\" with size: " << float(strategySize)/1000.0f << " KB, from " << strategySrcAdd << " on port " << strategySrcPort << "." << endl;
+					/*cout << "Recieved feedback with size: " << float(strategySize) << " B, from " << " " << " on port " << " " << "." << endl;
+					robot_feedback_msg_t feedback_msg;
+					read_robot_feedback_fixed(reinterpret_cast<uint8_t*>(strategyBuffer + 1), strategyBuffer[0], &feedback_msg);
+
+					printf("fault  (%d) : %d\n",
+						feedback_msg.robot_id,
+						feedback_msg.fault);*/
+				}
+				else if ( strategySize > 11 )
+				{
+					cout << "Recieved \"strategy.ims\" with size: " << float(strategySize)/1000.0f << " KB, from " << " " << " on port " << " " << "." << endl;
 					lock.lock();
 					dynamic_cast<ai09*>(aii)->read_playBook_str(strategyBuffer, strategySize);
 					lock.unlock();
-					ofstream strategyFile ( "../../strategy.ims" , ios::out|ios::binary);
+					string strategy_path(DATA_PATH); strategy_path.append("/strategy.ims");
+					ofstream strategyFile (strategy_path, ios::out|ios::binary);
 					strategyFile.write(strategyBuffer, strategySize);
 					strategyFile.close();
 				}
-				else if ( strategySize == 11 )
-				{
-					cout << "Recieved PID configs with size: " << float(strategySize) << " B, from " << strategySrcAdd << " on port " << strategySrcPort << "." << endl;
-					strategyBuffer[0] = pid_det_index;//robot id
-                    pid_det_index = (pid_det_index+1)%MAX_ROBOTS;
-					strategyBuffer[1] = 2;
-					
-					for (int i = 0; i < 11; i ++) {
-						//cout << (int)((unsigned char)strategyBuffer[i]) << endl;
-					}
-					commUDP.sendTo ( strategyBuffer , 11 , "224.5.92.5" , 60005 );
-                    
-                    /*for ( int i = 0 ; i < 20 ; i ++ )
-                    {
-                    strategyBuffer[1] = 1;
-                    strategyBuffer[2] = 60*(min(((float)i)/3.0, 1.0));
-                    strategyBuffer[3] = 60*(min(((float)i)/3.0, 1.0));
-                    strategyBuffer[4] = 0;
-                    strategyBuffer[5] = 0;
-                    strategyBuffer[6] = 0;
-                    strategyBuffer[7] = 0;
-                    strategyBuffer[8] = 0;
-                    strategyBuffer[9] = 0;
-                    strategyBuffer[10] = 1;
-                    commUDP.sendTo ( strategyBuffer , 11 , "224.5.92.5" , 60005 );
-                        timer.start();
-                    while (timer.time()*1000.0f<160.6f);
-                    }
-                    for ( int i = 0 ; i < 18 ; i ++ )
-                    {
-                        strategyBuffer[1] = 1;
-                        strategyBuffer[2] = 60*(min(((float)i)/3.0, 1.0));
-                        strategyBuffer[3] = 60*(min(((float)i)/3.0, 1.0));
-                        strategyBuffer[4] = 0;
-                        strategyBuffer[5] = 0;
-                        strategyBuffer[6] = 0;
-                        strategyBuffer[7] = 0;
-                        strategyBuffer[8] = 0;
-                        strategyBuffer[9] = 0;
-                        strategyBuffer[10] = 49;
-                        commUDP.sendTo ( strategyBuffer , 11 , "224.5.92.5" , 60005 );
-                        timer.start();
-                        while (timer.time()*1000.0f<160.6f);
-                    }*/
-				}
-				
-				else if ( strategySize == 10 )
-				{
-					//cout << "Recieved robot feedback with size: " << float(strategySize) << " B, from " << strategySrcAdd << " on port " << strategySrcPort << "." << endl;
-					/*for (int i = 0 ; i < 10 ; i ++) {
-						cout << (int)strategyBuffer[i] << "	";
-					}*/
-					
-					unsigned int gyroD[2];
-					gyroD[0] = strategyBuffer[0];
-					gyroD[1] = strategyBuffer[7];
-					
-					int tmpGyro = (gyroD[0]<<8) | gyroD[1];
-					if(tmpGyro&0x8000)
-						tmpGyro = -((~tmpGyro+1)&0xFFFF);
-					gyrOff = (gyrOff*offCount)+ (tmpGyro/14.375);
-					offCount ++;
-					gyrOff /= (float)(offCount);
-					
-					cout << gyrOff << "	" << tmpGyro/14.375;
-					
-					cout << endl;
-				}
-
 				else {
 					cout << "Invalid \"strategy.ims\" recieved with size: " << strategySize << " ." << endl;
 				}

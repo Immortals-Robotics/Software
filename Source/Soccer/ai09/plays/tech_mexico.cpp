@@ -25,34 +25,37 @@ float blen(TVec2* p0, TVec2* p1, TVec2* p2)
 
 void ai09::tech_mexico ( void )
 {
-	float angle = Angle(Vec2(-side*field_width, 0) - ball.Position);
-
-	TVec2 angle_v = Vec2(cosDeg(angle), sinDeg(angle));
-
-	TVec2 P0 = Vec2(1000, 2000);
-	TVec2 P2 = ball.Position - angle_v * 60.0f;
-	TVec2 P1 = P2 - angle_v * 500.0f;
-	float t = timer.time() - 3.0f;
-
-	float len = blen(&P0, &P1, &P2);
-
-	float max_t = 1.5f * len / 2500.0f;
-
-	t /= max_t;
-	t = min(t, 1.0f);
-	
-	if (t < 0.0f)
+#if 0
+	if (timer.time() < 3.0f)
 	{
 		OwnRobot[attack].target.Angle = 0;
 		OwnRobot[attack].target.velocity.x = 0;
 		OwnRobot[attack].target.velocity.y = 0;
 
-		ERRTSetObstacles(attack, false);
-		ERRTNavigate2Point(attack, P0, false, 100, &VELOCITY_PROFILE_MAMOOLI);
+		ERRTSetObstacles(attack, true);
+		ERRTNavigate2Point(attack, Vec2(1000, 2000), false, 100, &VELOCITY_PROFILE_MAMOOLI);
 		return;
 	}
 	else
 	{
+		float angle = Angle(Vec2(-side*field_width, 0) - ball.Position);
+
+		TVec2 angle_v = Vec2(cosDeg(angle), sinDeg(angle));
+
+		float d_angle =
+			fabs(NormalizeAngle(Angle(ball.Position - OwnRobot[attack].State.Position) - angle));
+
+		TVec2 P0 = OwnRobot[attack].State.Position;
+		TVec2 P2 = ball.Position + angle_v * 00.0f;
+		TVec2 P1 = P2 - angle_v * 500.0f;
+
+		float len = blen(&P0, &P1, &P2);
+
+		float t = 500.0f / len;
+		t = min(1.0f, max(0.0f, t));
+
+		cout << "d_angle: " << d_angle << endl;
+
 		OwnRobot[attack].target.Angle = angle;
 
 		//P0 = OwnRobot[attack].State.Position;
@@ -61,9 +64,14 @@ void ai09::tech_mexico ( void )
 		/*t = pow(t, 0.8f);*/
 
 		TVec2 B = P0 * pow(1 - t, 2.0f) + P1 * 2 * (1 - t)*t + P2 * pow(t, 2.0f);
+
 		TVec2 V = (P1 - P0) * 2.0f * (1.0f - t) + (P2 - P1) * 2.0f * t;
-		V = Normalize(V) * t * 500.0f;
-		
+
+		if (d_angle < 20)
+			V = ball.Position - OwnRobot[attack].State.Position;
+
+		V = Normalize(V) * 100.0f;
+
 		OwnRobot[attack].target.velocity.x = V.X;
 		OwnRobot[attack].target.velocity.y = V.Y;
 		
@@ -73,7 +81,7 @@ void ai09::tech_mexico ( void )
 
 		return;
 	}
-
+#elif 1
 	float tetta = timer.time() * 0.5f;
 
 	float hhh = sin(tetta);
@@ -91,12 +99,26 @@ void ai09::tech_mexico ( void )
 
 	OwnRobot[attack].target.Angle = 0;
 	OwnRobot[dmf].target.Angle = 0;
-	Navigate2Point(attack, Vec2(2500 + hhh * 1700, -2000));
-	Navigate2Point(dmf, Vec2(2500 + hhh * 1700, -1500));
+
+	for (int i = 0; i < 6; i ++)
+	{
+		OwnRobot[i].target.Angle = 90;
+		Navigate2Point(i, Vec2((i + 1) * 450, 2800 * hhh));
+	}
+
+	/*Navigate2Point(attack, Vec2(2200 + hhh * 2000, -2000));
+	Navigate2Point(dmf, Vec2(2200 + hhh * 2000, -1500));*/
+
+	
 
 	tetta +=0.1f;
 
 	if ( tetta >= 360 )
 		tetta = 0;
 	//tetta = 135;
+#elif 0
+	recievePass(attack, Vec2(500, -1500));
+#elif 0
+	circle_ball(attack, AngleWith(Vec2(-side*field_width, 0), ball.Position), 35, 0, 1.0f);
+#endif
 }

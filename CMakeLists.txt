@@ -104,6 +104,6 @@ foreach(FILE ${SOURCE_FILES})
 endforeach()
 
 if(WIN32)
-  target_link_libraries(immortalsssl wsock32)
+  target_link_libraries(immortalsssl wsock32 ws2_32)
 endif()
 target_link_libraries(immortalsssl ${PROTOBUF_LIBRARIES} ${ZeroMQ_LIBRARIES})
