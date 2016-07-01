@@ -23,17 +23,37 @@ void ai09::kickoff_us_chip ( void )
 	OwnRobot[mid1].face ( Vec2 ( -side*field_width , 0 ) );
 	ERRTSetObstacles ( mid1 , true , true , true , true );
 	ERRTNavigate2Point ( mid1 , Vec2 ( ball.Position.X+side*150 , -(field_height-300) ) );
-	TVec2 chip_target = Vec2(-side*2000, 0);
+
+	TVec2 openAngle = calculateOpenAngleToGoal(ball.Position, attack);
+
+	float target;
+	float shoot_pow = 0;
+	float chip_pow = 0;
+
+	if (openAngle.Y < 6)
+	{
+		TVec2 chip_target = Vec2(-side * 2000, 0);
+		target = AngleWith(chip_target, ball.Position);
+		chip_pow = 105;
+	}
+	else
+	{
+		if (openAngle.Y > 10)
+			target = NormalizeAngle(180 + openAngle.X);
+		else
+			target = AngleWith(Vec2(-side*field_width, 0), ball.Position);
+
+		shoot_pow = 50;
+	}
+
+
 	if ( canKickBall )
 	{
-		float chip_pow = 105;//DIS(chip_target, ball.Position)/11;
-		//tech_circle(attack,90, 0,chip_pow,0,1,0,0);
-		circle_ball(attack, AngleWith ( chip_target , ball.Position ), 0, chip_pow, 1.0f);
+		circle_ball(attack, target, shoot_pow, chip_pow, 1.0f);
 		
 	}
 	else
 	{
-		//tech_circle(attack,AngleWith ( chip_target , ball.Position ),0,0,0,1,0,1);
-		circle_ball(attack, AngleWith(chip_target, ball.Position), 0, 0, 1.0f);
+		circle_ball(attack, target, 0, 0, 1.0f);
 	}
 }
