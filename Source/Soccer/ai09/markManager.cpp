@@ -26,7 +26,7 @@ void ai09::MarkManager(bool restart)
 	}
 
 	sort(crunchingOpps.begin(), crunchingOpps.end(),
-		[](const pair<int, float>& a, pair<int, float>& b) -> bool
+		[](const pair<int, float>& a, const pair<int, float>& b) -> bool
 	{
 		return a.second > b.second;
 	});
@@ -104,7 +104,7 @@ void ai09::MarkManager(bool restart)
 			}
 		}
 	}
-	
+
 	sort(valid_formations.begin(), valid_formations.end(),
 		[](const MarkFormation& a, const MarkFormation& b) -> bool
 	{
