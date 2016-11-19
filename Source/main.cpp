@@ -215,7 +215,7 @@ int main ( )
 		};
 
 
-    auto new_ref_func = [&]()
+    auto new_ref_func = [&]()//Not Now
     {
         while ( ( !exited ) && (! kbhit()) && ( ImmortalsIsTheBest ) )	//Hope it lasts Forever...
         {
@@ -259,7 +259,7 @@ int main ( )
 		zmq_close (subscriber);
 		zmq_ctx_destroy (context);
 	};
-		auto sharifcup_func = [&]()
+		auto sharifcup_func = [&]()//Not Now
 		{
 			UDPSocket* blobUDP = new UDPSocket(60022);
 			blobUDP -> joinGroup("224.5.33.35");
