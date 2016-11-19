@@ -77,9 +77,9 @@ ai09::ai09 ( ):maxBallHist(240)
 
 	lastReferee = GameState::GAME_OFF;
 
-	lmf = 3;
+	lmf = 2;
 	cmf = 0;
-	gk = 2;
+	gk = 3;
 	def = 5;
 	dmf = 4;
 	rmf = 1;
