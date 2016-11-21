@@ -115,12 +115,12 @@ ai09::ai09 ( ):maxBallHist(240)
 		OwnRobot[i].set_vision_id(i+1);
 		//OwnRobot[i].set_serial_id(VisionSerialTrans[i]);
 	}
-    OwnRobot[gk].set_vision_id(6);
-    OwnRobot[def].set_vision_id(2);
-    OwnRobot[dmf].set_vision_id(10);
-    OwnRobot[lmf].set_vision_id(3);
-    OwnRobot[rmf].set_vision_id(1);
-    OwnRobot[cmf].set_vision_id(4);
+    OwnRobot[gk].set_vision_id(4);
+    OwnRobot[def].set_vision_id(10);
+    OwnRobot[dmf].set_vision_id(3);
+    OwnRobot[lmf].set_vision_id(1);
+    OwnRobot[rmf].set_vision_id(6);
+    OwnRobot[cmf].set_vision_id(2);
 
 //	OwnRobot[gk].set_vision_id(4);
 //	OwnRobot[def].set_vision_id(10);
@@ -136,7 +136,7 @@ ai09::ai09 ( ):maxBallHist(240)
 	circleReachedBehindBall = false;
 	PredictedBall = Vec2 ( 0 );
 
-	VELOCITY_PROFILE_AROOM.max_spd = Vec2 ( 40.0f );
+	VELOCITY_PROFILE_AROOM.max_spd = Vec2 ( 30.0f );
 	VELOCITY_PROFILE_AROOM.max_dec = Vec2 ( 1.0f );
 	VELOCITY_PROFILE_AROOM.max_acc = Vec2 ( 0.8f );
 	VELOCITY_PROFILE_AROOM.max_w_acc = 40.0f;

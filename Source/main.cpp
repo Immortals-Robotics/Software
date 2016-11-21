@@ -98,7 +98,7 @@ int main ( )
     setting -> visionSetting -> use_camera.push_back(false);
 
 
-	setting -> side = Right;
+	setting -> side = Left;
 
 	WorldState * state = new WorldState ( );
 	initWorldState ( state );
