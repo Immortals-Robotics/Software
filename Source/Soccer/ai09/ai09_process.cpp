@@ -59,16 +59,22 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 		}
 		else if ( ( worldState ->refereeState.State->ourDirectKick ( ) ) || ( worldState ->refereeState.State->ourIndirectKick ( ) ) )
 		{
-			if (target_str!=-1) {
-				currentPlay = "strategy_maker";
-				currentPlayParam = target_str;
-			}
-			else {
-                //if (side*ball.Position.X<800)
-                //    currentPlay = "throwin_us_outgir";
-                //else
+            if(1)
+            {
+                currentPlay="corner_simple_pass";
+
+            }
+            else {
+                if (target_str != -1) {
+                    currentPlay = "strategy_maker";
+                    currentPlayParam = target_str;
+                } else {
+                    //if (side*ball.Position.X<800)
+                    //    currentPlay = "throwin_us_outgir";
+                    //else
                     currentPlay = "throwin_chip_shoot";
-			}
+                }
+            }
 		}
 		
 		

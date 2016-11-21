@@ -98,13 +98,13 @@ int main ( )
     setting -> visionSetting -> use_camera.push_back(false);
 
 
-	setting -> side = Left;
+	setting -> side = Right;
 
 	WorldState * state = new WorldState ( );
 	initWorldState ( state );
 
 	Referee referee;
-    NewReferee newReferee;
+    //NewReferee newReferee;
 
 	referee.init ( "224.5.23.1" , 10001 , setting -> visionSetting -> color );
 	cout << " Connecting to RefereeBox server at " << "224.5.23.1" << " , on port : 10001 " << endl;
@@ -215,7 +215,7 @@ int main ( )
 		};
 
 
-    auto new_ref_func = [&]()//Not Now
+    /*auto new_ref_func = [&]()//Not Now
     {
         while ( ( !exited ) && (! kbhit()) && ( ImmortalsIsTheBest ) )	//Hope it lasts Forever...
         {
@@ -229,7 +229,7 @@ int main ( )
                 //cout << "Referre Boz" << endl;
             }
         }
-    };
+    };*/
 
 	auto test_dbg_dump = [&]()
 	{
@@ -259,7 +259,7 @@ int main ( )
 		zmq_close (subscriber);
 		zmq_ctx_destroy (context);
 	};
-		auto sharifcup_func = [&]()//Not Now
+		/*auto sharifcup_func = [&]()//Not Now
 		{
 			UDPSocket* blobUDP = new UDPSocket(60022);
 			blobUDP -> joinGroup("224.5.33.35");
@@ -276,7 +276,7 @@ int main ( )
 				lock.unlock();
 				cout << "	XXXXXXXXXXXXXXXXXXXXXXXXXXXX: " << lhp_frame->blob_size() << endl;
 			}
-		};
+		};*/
 		auto str_func = [&]()
 		{
 			UDPSocket* strategyUDP = new UDPSocket(60006);

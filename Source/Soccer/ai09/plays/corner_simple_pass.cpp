@@ -6,6 +6,11 @@ void ai09::corner_simple_pass ( void )
 	GK ( gk , 1 );
 	OneDef ( def );
 	//Halt(dmf);
+
+	static int omidd=0;
+	omidd++;
+	cout<<"__"<<omidd<<"__"<<endl;
+
 	ERRTSetObstacles(dmf, 1, 1, 1, 1, 0);
 	ERRTNavigate2Point(dmf, Vec2(side*1200, 0), 0, 100, &VELOCITY_PROFILE_AROOM);
 	Halt(lmf);
