@@ -3,6 +3,7 @@
 #include <thread>
 #include <mutex>
 #include <string.h>
+#include <zconf.h>
 
 #include "Common/GameSetting.h"
 #include "Reality/Vision/Vision.h"
@@ -164,55 +165,54 @@ int main ( )
 	bool exited = false;
 	mutex lock;
 
+    auto ai_func = [&]()
+    {
+        while ( (! kbhit()) && ( ImmortalsIsTheBest ) )	//Hope it lasts Forever...
+        {
+            //netLogger->SetFrameID(netLogger->GetFrameID()+1);
+            timer.start();
 
-		auto ai_func = [&]()
-		{
-			while ( (! kbhit()) && ( ImmortalsIsTheBest ) )	//Hope it lasts Forever...
-			{
-                //netLogger->SetFrameID(netLogger->GetFrameID()+1);
-				timer.start();
-
-				lock.lock();
-				vision.ProcessVision ( state );
-				//sleep(1);
-                //while (timer.time()*1000.0f<16.6f);//DELAY(100000);
-				if ( started )
-                {
-                    try {
-                        commUDP.sendTo ( robot_cmds    , 77 , "224.5.92.5" , 60005 );
-                    } catch (...) {
-                        cout << "ERROR: failed to send robot packets." << endl;
-                    }
-
+            lock.lock();
+            vision.ProcessVision ( state );
+            //sleep(1);
+            //while (timer.time()*1000.0f<16.6f);//DELAY(100000);
+            if ( started )
+            {
+                try {
+                    commUDP.sendTo ( robot_cmds    , 77 , "224.5.92.5" , 60005 );
+                } catch (...) {
+                    cout << "ERROR: failed to send robot packets." << endl;
                 }
-				aii -> Process( state , setting , robot_cmds );
-				//cout << timer.time() * 1000.0 << endl;
 
-				vision.SendGUIData ( state , aii -> AIDebug );
-				lock.unlock();
+            }
+            aii -> Process( state , setting , robot_cmds );
+            //cout << timer.time() * 1000.0 << endl;
 
-				cout << 1.0/timer.interval() << endl;
+            vision.SendGUIData ( state , aii -> AIDebug );
+            lock.unlock();
 
-				started = true;
-			}
-			exited = true;
-			commUDP.sendTo ( zeros , 10 , "localhost" , 60001 );
-			commUDP.sendTo ( zeros , 1 , "localhost" , 60006 );
-		};
-		auto ref_func = [&]()
-		{
-			while ( ( !exited ) && (! kbhit()) && ( ImmortalsIsTheBest ) )	//Hope it lasts Forever...
-			{
-				if ( referee.recieve() )
-				{
-					//cout << "Referre Boz" << endl;
-					lock.lock();
-					referee.process ( state );
-					lock.unlock();
-					//cout << "Referre Boz" << endl;
-				}
-			}
-		};
+            cout << 1.0/timer.interval() << endl;
+
+            started = true;
+        }
+        exited = true;
+        commUDP.sendTo ( zeros , 10 , "localhost" , 60001 );
+        commUDP.sendTo ( zeros , 1 , "localhost" , 60006 );
+    };
+    auto ref_func = [&]()
+    {
+        while ( ( !exited ) && (! kbhit()) && ( ImmortalsIsTheBest ) )	//Hope it lasts Forever...
+        {
+            if ( referee.recieve() )
+            {
+                //cout << "Referre Boz" << endl;
+                lock.lock();
+                referee.process ( state );
+                lock.unlock();
+                //cout << "Referre Boz" << endl;
+            }
+        }
+    };
 
 
     /*auto new_ref_func = [&]()//Not Now
@@ -277,41 +277,57 @@ int main ( )
 				cout << "	XXXXXXXXXXXXXXXXXXXXXXXXXXXX: " << lhp_frame->blob_size() << endl;
 			}
 		};*/
-		auto str_func = [&]()
-		{
-			UDPSocket* strategyUDP = new UDPSocket(60006);
-			strategyUDP -> joinGroup("224.5.23.3");
-			const int strategyBufferMaxSize = 100000;
-			char strategyBuffer[strategyBufferMaxSize];
-			while ( ( !exited ) && (! kbhit()) && ( ImmortalsIsTheBest ) )	//Hope it lasts Forever...
-			{
-				string strategySrcAdd;
-				unsigned short strategySrcPort;
-				int strategySize = strategyUDP->recvFrom(strategyBuffer, strategyBufferMaxSize, strategySrcAdd, strategySrcPort);
-				if ( strategySize > 11 )
-				{
-					cout << "Recieved \"strategy.ims\" with size: " << float(strategySize)/1000.0f << " KB, from " << strategySrcAdd << " on port " << strategySrcPort << "." << endl;
-					lock.lock();
-					dynamic_cast<ai09*>(aii)->read_playBook_str(strategyBuffer, strategySize);
-					lock.unlock();
-					ofstream strategyFile ( "../../strategy.ims" , ios::out|ios::binary);
-					strategyFile.write(strategyBuffer, strategySize);
-					strategyFile.close();
-				}
-				else if ( strategySize == 11 )
-				{
-					cout << "Recieved PID configs with size: " << float(strategySize) << " B, from " << strategySrcAdd << " on port " << strategySrcPort << "." << endl;
-					strategyBuffer[0] = pid_det_index;//robot id
-                    pid_det_index = (pid_det_index+1)%MAX_ROBOTS;
-					strategyBuffer[1] = 2;
+    auto str_func = [&]()
+    {
+        UDPSocket* strategyUDP = new UDPSocket(60006);
+        strategyUDP -> joinGroup("224.5.23.3");
+        const int strategyBufferMaxSize = 100000;
+        char strategyBuffer[strategyBufferMaxSize];
+        while ( ( !exited ) && (! kbhit()) && ( ImmortalsIsTheBest ) )	//Hope it lasts Forever...
+        {
+            string strategySrcAdd;
+            unsigned short strategySrcPort;
+            int strategySize = strategyUDP->recvFrom(strategyBuffer, strategyBufferMaxSize, strategySrcAdd, strategySrcPort);
+            if ( strategySize > 11 )
+            {
+                cout << "Recieved \"strategy.ims\" with size: " << float(strategySize)/1000.0f << " KB, from " << strategySrcAdd << " on port " << strategySrcPort << "." << endl;
+                lock.lock();
+                dynamic_cast<ai09*>(aii)->read_playBook_str(strategyBuffer, strategySize);
+                lock.unlock();
+                ofstream strategyFile ( "../../strategy.ims" , ios::out|ios::binary);
+                strategyFile.write(strategyBuffer, strategySize);
+                strategyFile.close();
+            }
+            else if ( strategySize == 11 )
+            {
+                cout << "Recieved PID configs with size: " << float(strategySize) << " B, from " << strategySrcAdd << " on port " << strategySrcPort << "." << endl;
+                strategyBuffer[0] = pid_det_index;//robot id
+                pid_det_index = (pid_det_index+1)%MAX_ROBOTS;
+                strategyBuffer[1] = 2;
 
-					for (int i = 0; i < 11; i ++) {
-						//cout << (int)((unsigned char)strategyBuffer[i]) << endl;
-					}
-					commUDP.sendTo ( strategyBuffer , 11 , "224.5.92.5" , 60005 );
+                for (int i = 0; i < 11; i ++) {
+                    //cout << (int)((unsigned char)strategyBuffer[i]) << endl;
+                }
+                commUDP.sendTo ( strategyBuffer , 11 , "224.5.92.5" , 60005 );
 
-                    /*for ( int i = 0 ; i < 20 ; i ++ )
-                    {
+                /*for ( int i = 0 ; i < 20 ; i ++ )
+                {
+                strategyBuffer[1] = 1;
+                strategyBuffer[2] = 60*(min(((float)i)/3.0, 1.0));
+                strategyBuffer[3] = 60*(min(((float)i)/3.0, 1.0));
+                strategyBuffer[4] = 0;
+                strategyBuffer[5] = 0;
+                strategyBuffer[6] = 0;
+                strategyBuffer[7] = 0;
+                strategyBuffer[8] = 0;
+                strategyBuffer[9] = 0;
+                strategyBuffer[10] = 1;
+                commUDP.sendTo ( strategyBuffer , 11 , "224.5.92.5" , 60005 );
+                    timer.start();
+                while (timer.time()*1000.0f<160.6f);
+                }
+                for ( int i = 0 ; i < 18 ; i ++ )
+                {
                     strategyBuffer[1] = 1;
                     strategyBuffer[2] = 60*(min(((float)i)/3.0, 1.0));
                     strategyBuffer[3] = 60*(min(((float)i)/3.0, 1.0));
@@ -321,58 +337,42 @@ int main ( )
                     strategyBuffer[7] = 0;
                     strategyBuffer[8] = 0;
                     strategyBuffer[9] = 0;
-                    strategyBuffer[10] = 1;
+                    strategyBuffer[10] = 49;
                     commUDP.sendTo ( strategyBuffer , 11 , "224.5.92.5" , 60005 );
-                        timer.start();
+                    timer.start();
                     while (timer.time()*1000.0f<160.6f);
-                    }
-                    for ( int i = 0 ; i < 18 ; i ++ )
-                    {
-                        strategyBuffer[1] = 1;
-                        strategyBuffer[2] = 60*(min(((float)i)/3.0, 1.0));
-                        strategyBuffer[3] = 60*(min(((float)i)/3.0, 1.0));
-                        strategyBuffer[4] = 0;
-                        strategyBuffer[5] = 0;
-                        strategyBuffer[6] = 0;
-                        strategyBuffer[7] = 0;
-                        strategyBuffer[8] = 0;
-                        strategyBuffer[9] = 0;
-                        strategyBuffer[10] = 49;
-                        commUDP.sendTo ( strategyBuffer , 11 , "224.5.92.5" , 60005 );
-                        timer.start();
-                        while (timer.time()*1000.0f<160.6f);
-                    }*/
-				}
+                }*/
+            }
 
-				else if ( strategySize == 10 )
-				{
-					//cout << "Recieved robot feedback with size: " << float(strategySize) << " B, from " << strategySrcAdd << " on port " << strategySrcPort << "." << endl;
-					/*for (int i = 0 ; i < 10 ; i ++) {
-						cout << (int)strategyBuffer[i] << "	";
-					}*/
+            else if ( strategySize == 10 )
+            {
+                //cout << "Recieved robot feedback with size: " << float(strategySize) << " B, from " << strategySrcAdd << " on port " << strategySrcPort << "." << endl;
+                /*for (int i = 0 ; i < 10 ; i ++) {
+                    cout << (int)strategyBuffer[i] << "	";
+                }*/
 
-					unsigned int gyroD[2];
-					gyroD[0] = strategyBuffer[0];
-					gyroD[1] = strategyBuffer[7];
+                unsigned int gyroD[2];
+                gyroD[0] = strategyBuffer[0];
+                gyroD[1] = strategyBuffer[7];
 
-					int tmpGyro = (gyroD[0]<<8) | gyroD[1];
-					if(tmpGyro&0x8000)
-						tmpGyro = -((~tmpGyro+1)&0xFFFF);
-					gyrOff = (gyrOff*offCount)+ (tmpGyro/14.375);
-					offCount ++;
-					gyrOff /= (float)(offCount);
+                int tmpGyro = (gyroD[0]<<8) | gyroD[1];
+                if(tmpGyro&0x8000)
+                    tmpGyro = -((~tmpGyro+1)&0xFFFF);
+                gyrOff = (gyrOff*offCount)+ (tmpGyro/14.375);
+                offCount ++;
+                gyrOff /= (float)(offCount);
 
-					cout << gyrOff << "	" << tmpGyro/14.375;
+                cout << gyrOff << "	" << tmpGyro/14.375;
 
-					cout << endl;
-				}
+                cout << endl;
+            }
 
-				else {
-					cout << "Invalid \"strategy.ims\" recieved with size: " << strategySize << " ." << endl;
-				}
+            else {
+                cout << "Invalid \"strategy.ims\" recieved with size: " << strategySize << " ." << endl;
+            }
 
-			}
-		};
+        }
+    };
 
     thread ai_thread(ai_func);
     thread ref_thread(ref_func);

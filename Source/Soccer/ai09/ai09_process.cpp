@@ -48,6 +48,7 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 			//currentPlay = "tech_motion_ann";
 			//if ( timer.time() > 30.0 || ball.seenState == CompletelyOut )
 			//	currentPlay = "sharifcup_post_play";
+            cout<<"IT's NORMALLLLLLLL"<<endl;
 		}
 		else if ( worldState ->refereeState.State->ourKickoff ( ) )
 		{
@@ -61,7 +62,8 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 		{
             if(1)
             {
-                currentPlay="corner_simple_pass";
+                //currentPlay="corner_simple_pass";
+                currentPlay="kickoff_us_zamini";
 
             }
             else {
@@ -123,8 +125,10 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 	
 	if ( AIPlayBook.find(currentPlay) != AIPlayBook.end() )
 		(this->*AIPlayBook[currentPlay])();
-	else
-		HaltAll();
+	else {
+        HaltAll();
+        cout<<"Oh NO!!!"<<endl;
+    }
 	
 	
 	for ( int i = 0 ; i < 6 ; i ++ )
@@ -134,6 +138,6 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 			Halt ( i );
 		}
 	}
-	
+
 	internalFinalize(worldState, setting, commands);
 }

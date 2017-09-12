@@ -237,6 +237,7 @@ class ai09 : public aiBase
 		void sharifcup_play_4th ( void );
 		void sharifcup_post_play ( void );
         void throwin_us_outgir ( void );
+    void Omid_normal_play( void );
 
 	
 			

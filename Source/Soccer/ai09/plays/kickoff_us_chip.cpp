@@ -29,10 +29,12 @@ void ai09::kickoff_us_chip ( void )
 		float chip_pow = DIS(chip_target, ball.Position)/11;
 		tech_circle(attack,AngleWith ( chip_target , ball.Position ), 0,chip_pow,0,1,0,1);
 		//circle_ball(attack, AngleWith ( chip_target , ball.Position ), 100, 0, 1.0f);
+		cout<<"IN THE IFFFFFFFF!!!"<<endl;
 	}
 	else
 	{
 		//tech_circle(attack,AngleWith ( chip_target , ball.Position ),0,0,0,1,0,1);
 		circle_ball(attack, AngleWith ( chip_target , ball.Position ), 0, 0, 1.0f);
+		cout<<"IN THE ELSE!!!"<<endl;
 	}
 }
