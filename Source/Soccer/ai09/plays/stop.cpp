@@ -26,7 +26,7 @@ void ai09::Stop ( void )
                 swap(attack,mid2);
             }
         }
-		if ( side * OwnRobot[mid1].State.Position.Y < side * OwnRobot[mid2].State.Position.Y )
+		if ( side * OwnRobot[mid1].State.Position.Y < side * OwnRobot[mid2].State.Position.Y )//Nice :D
 		{ 
 			swap(mid1, mid2);
 		}

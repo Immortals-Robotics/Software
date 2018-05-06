@@ -3,6 +3,8 @@
 #include "Kalman/FilteredObject.h"
 
 #include <fstream>
+#include <zconf.h>
+
 using namespace std;
 
 VisionModule::VisionModule ( VisionSetting * _setting ) : connected ( false ) 
@@ -69,35 +71,56 @@ VisionModule::~VisionModule()
 	zmq_ctx_destroy (gui_zmq_context);
 }
 
-void VisionModule::ProcessVision ( WorldState * state )
-{
-	if ( !connected )
-	{
+vector<float> POS_X,POS_Y,C_time;
+int recoredCNT = 0;
+float startTime;
+void VisionModule::ProcessVision ( WorldState * state ) {
+	if (!connected) {
 		cout << "	Hey you! Put the LAN cable back in its socket, or ..." << endl;
 		return;
 		//connectToVisionServer ( setting -> UDP_Adress , setting -> LocalPort );
 	}
 
-    bool cams_ready = false;
-    while (!cams_ready)
-    {
-        cams_ready = true;
-        for ( int i = 0 ; i < CAM_COUNT ; i ++ )
-        {
-            bool new_cam_ready = packet_recieved[i] || (!setting -> use_camera[i]);
-            if ( !new_cam_ready )
-            {
-                cams_ready = false;
-                break;
-            }
-        }
-        if ( cams_ready )
-            break;
-        //cout << "bodo dg    " << cams_ready << endl;
-        recievePacket();
-        
-    }
-	
+	bool cams_ready = false;
+	while (!cams_ready) {
+		cams_ready = true;
+		for (int i = 0; i < CAM_COUNT; i++) {
+			bool new_cam_ready = packet_recieved[i] || (!setting->use_camera[i]);
+			if (!new_cam_ready) {
+				cams_ready = false;
+				break;
+			}
+		}
+		if (cams_ready)
+			break;
+		//cout << "bodo dg    " << cams_ready << endl;
+		recievePacket();
+
+	}
+	if(recoredCNT == 0){
+		startTime = frame[1].t_capture();
+	}
+	if(recoredCNT<500){
+		for(int i=0;i<frame[1].balls_size();i++) {
+			POS_X.push_back(frame[1].balls(i).x());
+			POS_Y.push_back(frame[1].balls(i).y());
+			C_time.push_back(frame[1].t_capture() - startTime);
+			recoredCNT++;
+
+		}
+		cout<<"found balls: "<<frame[1].balls_size()<<endl;
+	}
+	else if (recoredCNT != 100000){
+		ofstream myfile;
+		myfile.open ("/home/dot_blue/immortals/sampleData/ballData.txt");
+		for(int i=0;i<recoredCNT;i++) {
+			myfile <<i<< ", "<< POS_X[i] << ", " << POS_Y[i] << ", " << C_time[i] << endl;
+		}
+		myfile.close();
+		recoredCNT = 100000;
+		sleep(2);
+	}
+
 	ProcessBalls ( state );
 	ProcessRobots ( state );
 

@@ -7,12 +7,12 @@ void ai09::internalFinalize ( WorldState * worldState , GameSetting * setting , 
 	
 	for ( int i = 0 ; i < 6 ; i ++ )
 		OwnRobot[i].makeSendingDataReady ( );
-	
+
 	for ( int i = 0 ; i < 6 ; i ++ )
 	{
-		for ( int j = 0 ; j < 11 ; j ++ )
+		for ( int j = 0 ; j < 10; j ++ )
 		{
-			commands[11*i+j] = OwnRobot[i].data[j];
+			commands[i*10 + j] = OwnRobot[5 - i].data[j];
 		}
 		//OwnRobot[i].data[9]=200;
 		OwnRobot[i].halted = false;
@@ -30,7 +30,7 @@ void ai09::internalFinalize ( WorldState * worldState , GameSetting * setting , 
 	{
 		if ( OwnRobot[i].State.seenState == CompletelyOut )
 			continue;
-		for ( int j = 0 ; j < 11 ; j ++ )
+		for ( int j = 0 ; j < 11 ; j ++ )//kheyli tof malie...
 		{
 			worldState -> lastCMDS[OwnRobot[i].State.vision_id][j] = OwnRobot[i].lastCMDs[j];
 		}

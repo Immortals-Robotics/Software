@@ -88,12 +88,12 @@ int main ( )
 	GameSetting * setting = new GameSetting ( );
 
 	setting -> visionSetting = new VisionSetting();
-    setting -> visionSetting -> color = COLOR_BLUE;
+    setting -> visionSetting -> color = COLOR_YELLOW;
     setting -> visionSetting -> UDP_Adress = "224.5.23.2";
     setting -> visionSetting -> LocalPort = 10006;
     setting -> visionSetting -> GUI_Adress = "224.5.66.6";
     setting -> visionSetting -> GUIPort = 10009;
-    setting -> visionSetting -> use_camera.push_back(true);
+    setting -> visionSetting -> use_camera.push_back(false);
     setting -> visionSetting -> use_camera.push_back(true);
     setting -> visionSetting -> use_camera.push_back(false);
     setting -> visionSetting -> use_camera.push_back(false);
@@ -126,11 +126,12 @@ int main ( )
 	if ( ! vision.isConnected ( ) )
 	{
 		cout << "	Hey you! Put the LAN cable back in its socket, or ..." << endl;
-		return 0;
+		//return 0;
 	}
 
 	UDPSocket commUDP;
 	char robot_cmds[90];
+    char s[90];
 	char zeros[90];
 
 	for ( int i = 0 ; i < 90 ; i ++ )
@@ -139,10 +140,52 @@ int main ( )
 		robot_cmds[i]=0;
 	}
 
-	robot_cmds[66] = 25;
-	robot_cmds[77] = 80;
-	robot_cmds[78] = rf_freq;
-	robot_cmds[84] = rf_freq;
+    s[0]=0x02;
+    s[1]=0x07;
+    s[2]=0x05;
+    s[3]=0x05;
+    s[4]=0xFF;
+    s[5]=0xEE;
+    s[6]=0x60;
+
+    char temppow = 0x40;
+    s[7]=0x05;
+    s[8]=0x0A;
+    s[9]=0x04;
+    s[10]=temppow;
+    s[11]=temppow;
+    s[12]=temppow;
+    s[13]=temppow;
+    s[14]=0x09;
+    s[15]=0x00;
+    s[16]=0x00;
+
+    s[17]=0x07;
+    s[18]=0x0A;
+    s[19]=0x04;
+    s[20]=0x19;
+    s[21]=0x00;
+    s[22]=0x00;
+    s[23]=0x00;
+    s[24]=0x00;
+    s[25]=0x00;
+    s[26]=0x00;
+
+    s[27]=0x1F;
+    s[28]=0x00;
+    s[29]=0x00;
+    s[30]=0x00;
+    s[31]=0x00;
+    s[32]=0x00;
+    s[33]=0x00;
+    s[34]=0x10;
+    s[35]=0x00;
+    s[36]=0x00;
+
+//	robot_cmds[66] = 25;
+//	robot_cmds[77] = 80;
+//	robot_cmds[78] = rf_freq;
+//	robot_cmds[84] = rf_freq;
 
 	bool started = false;
 
@@ -174,12 +217,20 @@ int main ( )
 
             lock.lock();
             vision.ProcessVision ( state );
-            //sleep(1);
+//            sleep(1);
             //while (timer.time()*1000.0f<16.6f);//DELAY(100000);
-            if ( started )
+            if ( false && started )
             {
                 try {
-                    commUDP.sendTo ( robot_cmds    , 77 , "224.5.92.5" , 60005 );
+                    commUDP.sendTo ( s    , 90 , "224.5.92.5" , 60005 );
+					for(int i=0;i<70;i++) {
+						if(i%10==0)
+							cout<<dec<<endl<<i<<':'<<endl;
+						cout << hex << (unsigned) s[i] << endl;
+					}
+					cout<<dec;
+
+                    cout<<"sent"<<endl;
                 } catch (...) {
                     cout << "ERROR: failed to send robot packets." << endl;
                 }

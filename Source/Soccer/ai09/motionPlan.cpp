@@ -49,7 +49,7 @@ TVec3 Robot::MotionPlan ( RobotState state , RobotState target , float speed , b
 		ans.Z+=360;
 	}
 	ans.Z /= 5.0f;
-	if ( oldRobot )
+	if ( false && oldRobot )
 	{
 
 	//ans.Z *= 3.0f;

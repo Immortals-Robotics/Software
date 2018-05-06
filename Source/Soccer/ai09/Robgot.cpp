@@ -201,107 +201,76 @@ float getCalibratedChipPow ( int vision_id , float dis_raw )
 		CMDindex ++;
 		if ( CMDindex > PREDICT_CMDS - 1 )
 			CMDindex = 0;
-				
-		//std::cout << serial_id << "	:	" << CMDindex << std::endl;
-		
-		/*float trans_rad = ( 90.0f - State.Angle ) * ( 3.1415f / 180.0f );
-		motion = Vec3 ( 
-					   cos(trans_rad)*motion.X - sin(trans_rad)*motion.Y , 
-					   sin(trans_rad)*motion.X + cos(trans_rad)*motion.Y ,
-					   motion.Z );*/
-		
-		
-		if ( oldRobot )
-		{
-			
-			Motor[1]=(int)(127.0+motion.Y*0.8-motion.X*0.6-motion.Z/12.0);
-			Motor[0]=(int)(127.0-motion.Y*0.8-motion.X*0.6-motion.Z/12.0);
-			Motor[3]=(int)(127.0-motion.Y*0.707+motion.X*0.707-motion.Z/12.0);
-			Motor[2]=(int)(127.0+motion.Y*0.707+motion.X*0.707-motion.Z/12.0);
-			
-			for(int i=0;i<4;i++)
-			{
-				data[i+2] = Motor[i];
-				if ( data[i+2] == 0 )
-					data[i+2] ++;
-			}
-		}
-		
-		else
-		{
-			motion.X *= 2.55;
-			motion.Y *= 2.55;
-			//motion.Z /= 3.0;
 
-			data[2] = fabs ( motion.X );
-			data[3] = fabs ( motion.Y );
-			data[5] = fabs ( target.Angle );
-			
-			data[10] &= 0x0F;
-			
-			if ( target.Angle < 0 )
-				data[10] |= 128;
-			if ( motion.Y < 0 )
-				data[10] |= 32;
-			if ( motion.X < 0 )
-				data[10] |= 16;
-			
-			data[6] = 2;
-			
-		}
+
+		motion.X *= 2.55;
+		motion.Y *= 2.55;
+		//motion.Z /= 3.0;
+
+		int VelX = motion.X;
+		int VelY = motion.Y;
+		int targetAng = target.Angle;
+
+		data[3] = abs(VelX);//VelX
+		data[4] = abs(VelY);//VelY
+
+		data[6] = abs(targetAng);
+
+
+		data[7] = 0x00;//the signes
+
+		if (target.Angle < 0)
+			data[7] |= 0x80;
+		if ( motion.Y < 0 )
+			data[7] |= 0x20;
+		if ( motion.X < 0 )
+			data[7] |= 0x10;
+
+
+
 	}
 	
 	void Robot::makeSendingDataReady ( void )
 	{
-		if ( oldRobot )
-		{
-			data[1] = serial_id + ( chip * 2 );
-			
-			data[6] = 4 + shoot * 2;
-			data[7] = 2;
-			data[8] = 0;
-			data[9] = 0;
-		}
-		
-		else
-		{
-			data[0] = serial_id;
-			data[1] = 1; //Set the packet type to "command".
-			if (vision_id==2) {
-				data[1] = 1; //Set the packet type to "feedback".
-			}
-			
-			if ((State.seenState==Seen))//&&( angleSendTimer.time() > 0.3 ))// ((halted)&&(State.seenState==Seen)) ||( angleSendTimer.time() > 1.0 ) )
-			{
-				data[4] = fabs ( State.Angle );
-				if ( State.Angle < 0 )
-					data[10] |= 64;
-				angleSendTimer.start();
 
-			}
-			else {
-				data[4] = 200;
-			}
-			
-			//shoot = chip = 0;
-            //shoot = 70;
-			data[7] = shoot;
-			data[8] = chip;
-			data[9] = 0;
-			
-			data[10] &= 0xF0;
-			
-			if (dribbler>0)
-			{
-				data[10]|= 2;
-			}
-			if (!halted) {
-				data[10] |= 1;
-			}
+
+		int currAng = State.Angle;
+
+		data[0] = this->vision_id;//Robots ID
+		data[1] = 0x0A;//length=10
+		data[2] = 0x04;//Command to move by Vel
+
+		data[5] = abs(currAng);//Current angle
+
+		if (State.Angle < 0)
+			data[7] |= 0x40;
+
+		if (shoot > 0) {
+			data[8] = shoot;
+			data[9] = 0x00;
+		} else if (chip > 0) {
+			data[8] = 0x00;
+			data[9] = chip;
+		} else {
+			data[8] = 0x00;
+			data[9] = 0x00;
 		}
-		
+
+//		if(halted) {
+//			data[1] = 0x0A;//length=10
+//			data[2] = 0x06;//Command to HALT
+//			data[3] = 0x00;
+//			data[4] = 0x00;
+//			data[5] = 0x00;
+//			data[6] = 0x00;
+//			data[7] = 0x00;
+//			data[8] = 0x00;
+//			data[9] = 0x00;
+//		}
+
 		dribbler = 0;
 		shoot = 0;
 		chip = 0;
 		Break = 0;
+
 	}
