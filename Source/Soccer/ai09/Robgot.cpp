@@ -233,41 +233,53 @@ float getCalibratedChipPow ( int vision_id , float dis_raw )
 	void Robot::makeSendingDataReady ( void )
 	{
 
+        if(halted) {
+            data[1] = 0x0A;//length=10
+            data[2] = 0x06;//Command to HALT
+            data[3] = 0x00;
+            data[4] = 0x00;
+            data[5] = 0x00;
+            data[6] = 0x00;
+            data[7] = 0x00;
+            data[8] = 0x00;
+            data[9] = 0x00;
+        }
+        else {
+            int currAng = State.Angle;
 
-		int currAng = State.Angle;
+            data[0] = this->vision_id;//Robots ID
+            data[1] = 0x0A;//length=10
+            data[2] = 0x04;//Command to move by Vel
 
-		data[0] = this->vision_id;//Robots ID
-		data[1] = 0x0A;//length=10
-		data[2] = 0x04;//Command to move by Vel
+            data[5] = abs(currAng);//Current angle
 
-		data[5] = abs(currAng);//Current angle
+            if (State.Angle < 0)
+                data[7] |= 0x40;
 
-		if (State.Angle < 0)
-			data[7] |= 0x40;
+            if (shoot > 0) {
+                data[8] = shoot;
+                data[9] = 0x00;
+            } else if (chip > 0) {
+                data[8] = 0x00;
+                data[9] = chip;
+            } else {
+                data[8] = 0x00;
+                data[9] = 0x00;
+            }
 
-		if (shoot > 0) {
-			data[8] = shoot;
-			data[9] = 0x00;
-		} else if (chip > 0) {
-			data[8] = 0x00;
-			data[9] = chip;
-		} else {
-			data[8] = 0x00;
-			data[9] = 0x00;
-		}
 
-//		if(halted) {
-//			data[1] = 0x0A;//length=10
-//			data[2] = 0x06;//Command to HALT
-//			data[3] = 0x00;
-//			data[4] = 0x00;
-//			data[5] = 0x00;
-//			data[6] = 0x00;
-//			data[7] = 0x00;
-//			data[8] = 0x00;
-//			data[9] = 0x00;
-//		}
 
+            //data[0]=0x07;
+            //data[1]=0x0A;
+            //data[2]=0x04;
+//            data[3] = 0x10;
+//            data[4] = 0x00;
+//            data[5] = 0x00;
+//            data[6] = 0x00;
+//            data[7] = 0x00;
+//            data[8] = 0x00;
+//            data[9] = 0x00;
+        }
 		dribbler = 0;
 		shoot = 0;
 		chip = 0;
