@@ -102,7 +102,7 @@ struct WorldState
             OwnRobot[i].velocity.x = 0.0f;
             OwnRobot[i].velocity.y = 0.0f;
             OwnRobot[i].vision_id = i;
-            for ( int j = 0 ; j < 10 ; j ++ )
+            for ( int j = 0 ; j < 11 ; j ++ )
             {
                 lastCMDS[i][j] = Vec3 ( 0.0f );
             }

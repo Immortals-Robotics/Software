@@ -25,7 +25,7 @@ void VisionModule::ProcessRobots ( WorldState * state )
 	robots_num = MergeRobots ( robots_num );
 	
 	//The most important part, The Kalman Filter!
-	FilterRobots ( robots_num , setting -> color );
+	FilterRobots ( robots_num , this -> our_color );
 	
 	//Yellow Robots
 	//First we have to extract the robots!
@@ -35,7 +35,7 @@ void VisionModule::ProcessRobots ( WorldState * state )
 	robots_num = MergeRobots ( robots_num );
 	
 	//The most important part, The Kalman Filter!
-	FilterRobots ( robots_num , ! ( setting -> color ) );
+	FilterRobots ( robots_num , !(this -> our_color));
 	
 	//We're almost done, only Prediction remains undone!
 	predictRobotsForward ( state );
@@ -56,7 +56,7 @@ int VisionModule::ExtractBlueRobots ( void )
 	int ans = 0;
 	for ( int i = 0 ; i < CAM_COUNT ; i ++ )
 	{
-		if ( setting -> use_camera[i] )
+		if ( this -> use_camera[i] )
 		{
 			for ( int j = 0 ; j < min ( MAX_ROBOTS , frame[i].robots_blue_size ( ) ) ; j ++ )
 			{
@@ -73,7 +73,7 @@ int VisionModule::ExtractYellowRobots ( void )
 	int ans = 0;
 	for ( int i = 0 ; i < CAM_COUNT ; i ++ )
 	{
-		if ( setting -> use_camera[i] )
+		if ( this -> use_camera[i] )
 		{
 			for ( int j = 0 ; j < min ( MAX_ROBOTS , frame[i].robots_yellow_size ( ) ) ; j ++ )
 			{

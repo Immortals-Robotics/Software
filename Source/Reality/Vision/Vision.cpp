@@ -1,23 +1,73 @@
 #include "Vision.h"
 
 #include "Kalman/FilteredObject.h"
+#include "../../Common/GameSetting.h"
 
 #include <fstream>
 #include <zconf.h>
 
 using namespace std;
 
-VisionModule::VisionModule ( VisionSetting * _setting ) : connected ( false ) 
+VisionModule::VisionModule(GameSetting* _settings,WorldState* _State) : connected ( false )
 {
-	if ( _setting )
-	{
-		setting = _setting;
+    playState = _State;
 
-        while ( setting->use_camera.size() < CAM_COUNT )
-            setting->use_camera.push_back(false);
-        
-		connectToVisionServer ( setting -> UDP_Adress , setting -> LocalPort );
-	}
+    if(_settings == NULL){
+        return;
+    }
+    //Initializing the settings:
+    our_color = _settings->our_color;
+    our_side = _settings->our_side;
+
+    vision_UDP_Address = _settings->vision_UDP_Address;
+    visionPort = _settings->visionPort;
+
+    use_camera = _settings->use_camera;
+    while(use_camera.size() < CAM_COUNT)
+        use_camera.push_back(false);
+
+    for ( int i = 0 ; i < CAM_COUNT ; i ++ )
+        packet_recieved[i] = false;
+
+    for ( int i = 0 ; i < BALL_BUFFER_FRAMES ; i ++ )
+    {
+        ball_pos_buff[i] = Vec2(0.0,0.0);
+    }
+
+    lastRawBall.set_x ( 0.0f );
+    lastRawBall.set_y ( 0.0f );
+
+    string fast_filter_path(DATA_PATH); fast_filter_path.append("/ballFilterFast.txt");
+    string slow_filter_path(DATA_PATH); slow_filter_path.append("/ballFilterSlow.txt");
+
+    ball_kalman.initialize(fast_filter_path.c_str(), slow_filter_path.c_str());
+
+    for ( int i = 0 ; i < MAX_ROBOTS; i++ )
+    {
+        robot_kalman[0][i].initialize (fast_filter_path.c_str(), slow_filter_path.c_str());
+        robot_kalman[1][i].initialize (fast_filter_path.c_str(), slow_filter_path.c_str());
+        rawAngles[0][i] = 0.0f;
+        rawAngles[1][i] = 0.0f;
+    }
+
+    ball_kalman.initialize(fast_filter_path.c_str(), slow_filter_path.c_str());
+
+    //Launching UDP Connections
+    if(!connectToVisionServer()){
+        cout<<"Failed to connect to Vision UDP"<<endl;
+    }
+
+
+
+
+    /*Old Code
+    setting = _settings;
+
+    while ( setting->use_camera.size() < CAM_COUNT )
+        setting->use_camera.push_back(false);
+
+    connectToVisionServer ( setting -> UDP_Adress , setting -> LocalPort );
+
 
 	GUIUDP = new UDPSocket ( );
 
@@ -64,6 +114,8 @@ VisionModule::VisionModule ( VisionSetting * _setting ) : connected ( false )
 		robot_not_seen[0][i] = MAX_ROBOT_NOT_SEEN + 1;
 		robot_not_seen[1][i] = MAX_ROBOT_NOT_SEEN + 1;
 	}
+     */
+
 }
 VisionModule::~VisionModule()
 {
@@ -82,7 +134,7 @@ void VisionModule::ProcessVision ( WorldState * state ) {
 	while (!cams_ready) {
 		cams_ready = true;
 		for (int i = 0; i < CAM_COUNT; i++) {
-			bool new_cam_ready = packet_recieved[i] || (!setting->use_camera[i]);
+			bool new_cam_ready = packet_recieved[i] || (!this->use_camera[i]);
 			if (!new_cam_ready) {
 				cams_ready = false;
 				break;
@@ -103,7 +155,3 @@ void VisionModule::ProcessVision ( WorldState * state ) {
 
 }
 
-VisionSetting * VisionModule::GetSetting ( void )
-{
-	return setting;
-}

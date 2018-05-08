@@ -58,17 +58,17 @@ int main ( )
         cout<<"Connected to RefBox successfully :)"<<endl;
     }else{
         cout << "	Hey you! Put the LAN cable back in its socket, or ..." << endl;
+    }
+
+    cout << " Connecting to Vision server at " << settings->vision_UDP_Address
+         << " , on port : " << settings->visionPort << endl;
+    VisionModule vision ( settings, state );
+    if ( vision.isConnected() ){
+        cout<<"Connected to Vision successfully :)"<<endl;
+    }else{
+        cout << "	Hey you! Put the LAN cable back in its socket, or ..." << endl;
         //return 0;
     }
-    
-
-//	cout << " Connecting to SSL-Vision server at " << "224.5.23.2" << " , on port : 10002 " << endl;
-//	VisionModule vision ( settings -> visionSetting );
-//	if ( ! vision.isConnected ( ) )
-//	{
-//		cout << "	Hey you! Put the LAN cable back in its socket, or ..." << endl;
-//		//return 0;
-//	}
 
 	UDPSocket commUDP;
 	char robot_cmds[90];
@@ -115,14 +115,13 @@ int main ( )
             timer.start();
 
             lock.lock();
-//            vision.ProcessVision ( state );
+            vision.ProcessVision ( state );
 
             aii -> Process( state , settings , robot_cmds );
-            sleep(0.017);
+//            sleep(0.017);
 
             try {
                 commUDP.sendTo ( robot_cmds    , 90 , "224.5.92.5" , 60005 );
-
             } catch (...) {
                 cout << "ERROR: failed to send robot packets." << endl;
             }

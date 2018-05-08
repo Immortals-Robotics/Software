@@ -23,7 +23,7 @@ int VisionModule::ExtractBalls ( void )
 	int ans = 0;
 	for ( int i = 0 ; i < CAM_COUNT ; i ++ )
 	{
-		if ( setting -> use_camera[i] )
+		if ( this -> use_camera[i] )
 		{
 			for ( int j = 0 ; j < frame[i].balls_size ( ) ; j ++ )
 			{

@@ -1,23 +1,15 @@
 #include "Vision.h"
 
-bool VisionModule::connectToVisionServer ( const std::string & address , const unsigned short port )
+bool VisionModule::connectToVisionServer ( void )
 {
-	try
-	{
-		VisionUDP = new UDPSocket ( port );
-
-		VisionUDP -> joinGroup ( address );
-
+	try{
+		visionUDP = new UDPSocket ( visionPort );
+		visionUDP -> joinGroup ( vision_UDP_Address );
 		connected = true;
-
 		return true;
-
 	}
-
-	catch ( ... )
-	{
+	catch ( SocketException ex ){
 		connected = false;
-
 		return false;
 	}
 }
@@ -28,7 +20,7 @@ bool VisionModule::recievePacket ( void )
 		return false;
 
 	try{
-		int incoming_size = VisionUDP -> recv ( incoming_buffer , MAX_INCOMING_PACKET_SIZE );
+		int incoming_size = visionUDP -> recv ( incoming_buffer , MAX_INCOMING_PACKET_SIZE );
 
 		packet.ParseFromArray(incoming_buffer,incoming_size);
 	}

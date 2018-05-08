@@ -15,13 +15,13 @@
 #include "../../Network/Protobuf/messages_robocup_ssl_wrapper.pb.h"
 #include "../../Network/Protobuf/ImmortalsProtocols.pb.h"
 
-#include "VisionSetting.h"
 
 #include "../../Network/PracticalSocket.h"
 #include "Kalman/FilteredObject.h"
 #include "../../Common/MedianFilter.h"
 #include "../../Common/MATHS_REGRESSION_PARABOLIC.h"
 #include "../WorldState.h"
+#include "../../Common/GameSetting.h"
 #include <zmq.h>
 
 #ifndef INT_MAX
@@ -32,7 +32,7 @@
 #define POWED_DIS(a,b,c,d) (((a-c)*(a-c))+((b-d)*(b-d)))
 #endif
 
-#define CAM_COUNT 4
+#define CAM_COUNT 8
 
 #define PREDICT_STEPS 5.0f
 
@@ -48,7 +48,6 @@
 
 #define BALL_BUFFER_FRAMES 30
 
-VisionSetting * _visionSetting ( bool , std::string , short , std::string , short , bool = true , bool = true , bool = true , bool = true );
 
 /**
 Class VisionModule : Captures the vision packet from the network, and sends it to the rest
@@ -61,86 +60,78 @@ Changes include :
 
 class VisionModule
 {
-	public:
+public:
 
-		VisionModule ( VisionSetting * );
-		~VisionModule();
-
-		VisionSetting * GetSetting ( void );
-
-		bool recievePacket ( void );
-		bool connectToVisionServer ( const std::string & , const unsigned short );
-		void ProcessVision ( WorldState * );
-		bool isConnected ( void );
-
-		void ProcessRobots ( WorldState * );
-		int ExtractBlueRobots ( void );
-		int ExtractYellowRobots ( void );
-		int MergeRobots ( int num );
-		void FilterRobots ( int num , bool own );
-		void predictRobotsForward( WorldState * );
-		void SendStates ( WorldState * );
-	
-		// Ridemun haie nik injan:
-		void InitANN ( void );
-		void RunANN ( WorldState * );
-		void PredictWithANN ( WorldState * );
-		void TrainANN ( float );
-		//Tamum shod!
-
-		void SendGUIData ( WorldState * , AI_Debug & );
-
-		void ProcessBalls ( WorldState * );
-		int ExtractBalls ( void );
-		int MergeBalls ( int num );
-		void FilterBalls ( int num , WorldState * );
-		void predictBallForward( WorldState * );
-		void calculateBallHeight ( void );
-
-	private:
-
-		float ballBufferX[BALL_BUFFER_FRAMES];
-		float ballBufferY[BALL_BUFFER_FRAMES];
-		int ballBufferIndex;
-
-		//TVec2 lastShootPosition;
-		//TVec2 prevBallVel;
+    VisionModule(GameSetting* settings,WorldState* State);
+    ~VisionModule();
 
 
-		Parabolic ballParabolic;
+    bool recievePacket ( void );
+    bool connectToVisionServer ( void );
+    void ProcessVision ( WorldState * );
+    bool isConnected ( void );
 
-		FilteredObject ball_kalman;
-		FilteredObject robot_kalman[2][MAX_ROBOTS];
+    void ProcessRobots ( WorldState * );
+    int ExtractBlueRobots ( void );
+    int ExtractYellowRobots ( void );
+    int MergeRobots ( int num );
+    void FilterRobots ( int num , bool own );
+    void predictRobotsForward( WorldState * );
+    void SendStates ( WorldState * );
 
-		MedianFilter<float> AngleFilter[2][MAX_ROBOTS];
-		float rawAngles[2][MAX_ROBOTS];
 
-		VisionSetting * setting;
-		bool connected;
+    void SendGUIData ( WorldState * , AI_Debug & );
 
-		int ball_not_seen;
-		int robot_not_seen[2][MAX_ROBOTS];
+    void ProcessBalls ( WorldState * );
+    int ExtractBalls ( void );
+    int MergeBalls ( int num );
+    void FilterBalls ( int num , WorldState * );
+    void predictBallForward( WorldState * );
+    void calculateBallHeight ( void );
 
-		SSL_DetectionBall lastRawBall;
+private:
+	bool our_color;
+	bool our_side;
 
-		RobotState robotState[2][MAX_ROBOTS];
+	std::string vision_UDP_Address;
+	short visionPort;
 
-		char incoming_buffer[MAX_INCOMING_PACKET_SIZE];
+	std::vector<bool> use_camera;
 
-		UDPSocket * VisionUDP;
-		UDPSocket * GUIUDP;
+	bool connected;
 
-		void* gui_zmq_context;
-		void* gui_zmq_publisher;
+	UDPSocket * visionUDP;
+	UDPSocket * GUIUDP;
 
-		robotDataMsg robotPacket[2][MAX_ROBOTS];
+	WorldState* playState;
 
-		SSL_WrapperPacket packet;
-		SSL_DetectionFrame frame[CAM_COUNT];
-		SSL_DetectionBall d_ball[MAX_BALLS*CAM_COUNT];
-		SSL_DetectionRobot robot[MAX_ROBOTS*CAM_COUNT];
+	bool packet_recieved[CAM_COUNT];
+    TVec2 ball_pos_buff[BALL_BUFFER_FRAMES];
+    char incoming_buffer[MAX_INCOMING_PACKET_SIZE];
 
-		bool packet_recieved[CAM_COUNT];
+//    int ballBufferIndex;
+//    float ballBufferX[BALL_BUFFER_FRAMES];
+//    float ballBufferY[BALL_BUFFER_FRAMES];
 
+    SSL_DetectionBall lastRawBall;//The last position of the locked ball
+    FilteredObject ball_kalman;
+    int ball_not_seen;
+
+    RobotState robotState[2][MAX_ROBOTS];
+    FilteredObject robot_kalman[2][MAX_ROBOTS];
+    int robot_not_seen[2][MAX_ROBOTS];
+
+    MedianFilter<float> AngleFilter[2][MAX_ROBOTS];
+    float rawAngles[2][MAX_ROBOTS];
+
+    void* gui_zmq_context;
+    void* gui_zmq_publisher;
+
+    SSL_WrapperPacket packet;
+    SSL_DetectionFrame frame[CAM_COUNT];
+    SSL_DetectionBall d_ball[MAX_BALLS*CAM_COUNT];
+    SSL_DetectionRobot robot[MAX_ROBOTS*CAM_COUNT];
+
+    robotDataMsg robotPacket[2][MAX_ROBOTS];
 };
 
