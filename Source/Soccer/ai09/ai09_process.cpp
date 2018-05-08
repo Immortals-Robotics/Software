@@ -14,17 +14,17 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 	if ( 0 )
 		currentPlay = "tech_cmu";
 	
-	else if ( worldState ->refereeState.State )
+	else if ( worldState ->refereeState -> State )
 	{
-		if ( lastReferee != worldState ->refereeState.State->get() )
+		if ( lastReferee != worldState ->refereeState -> State->get() )
 		{
 			timer.start();
-			lastReferee = worldState ->refereeState.State->get();
+			lastReferee = worldState ->refereeState -> State->get();
 			randomParam = random.get();
 			target_str = strategy_weight();
 		}
 		
-		if ( worldState ->refereeState.State->get() == GameState::GAME_OFF )
+		if ( worldState ->refereeState -> State->get() == GameState::GAME_OFF )
 		{
 			oppRestarted = false;
 			if (side*ball.Position.X>3000) {
@@ -34,7 +34,7 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 				currentPlay = "Stop";
 			}
 		}
-		else if ( worldState ->refereeState.State->get() == GameState::GAME_ON )
+		else if ( worldState ->refereeState -> State->get() == GameState::GAME_ON )
 		{
 			// Nik Uncomment
 			
@@ -50,15 +50,15 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 			//	currentPlay = "sharifcup_post_play";
             cout<<"IT's NORMALLLLLLLL"<<endl;
 		}
-		else if ( worldState ->refereeState.State->ourKickoff ( ) )
+		else if ( worldState ->refereeState -> State->ourKickoff ( ) )
 		{
 			currentPlay = "kickoff_us_chip";
 			//currentPlay = "kickoff_us_farar";
 			currentPlay = "kickoff_us_pass";
 			
-			currentPlayParam = worldState ->refereeState.State->canKickBall();
+			currentPlayParam = worldState ->refereeState -> State->canKickBall();
 		}
-		else if ( ( worldState ->refereeState.State->ourDirectKick ( ) ) || ( worldState ->refereeState.State->ourIndirectKick ( ) ) )
+		else if ( ( worldState ->refereeState -> State->ourDirectKick ( ) ) || ( worldState ->refereeState -> State->ourIndirectKick ( ) ) )
 		{
             if(1)
             {
@@ -80,29 +80,29 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 		}
 		
 		
-		else if ( worldState ->refereeState.State->ourPenaltyKick ( ) )
+		else if ( worldState ->refereeState -> State->ourPenaltyKick ( ) )
 		{
 			currentPlay = "penalty_us_ghuz";
-			currentPlayParam = worldState ->refereeState.State->canKickBall();
+			currentPlayParam = worldState ->refereeState -> State->canKickBall();
 		}
 		
-		else if ( worldState ->refereeState.State->theirFreeKick() )
+		else if ( worldState ->refereeState -> State->theirFreeKick() )
 		{
 			//currentPlay = "corner_their_mrl";
 			currentPlay = "corner_their_global";
 			//currentPlay = "Stop";
 		}
 		
-		else if ( worldState ->refereeState.State->theirKickoff() )
+		else if ( worldState ->refereeState -> State->theirKickoff() )
 		{
 			currentPlay = "kickoff_their_one_wall";
 		}
 		
-		else if ( worldState ->refereeState.State->theirPenaltyKick() )
+		else if ( worldState ->refereeState -> State->theirPenaltyKick() )
 		{
 			currentPlay = "penalty_their_simple";
 		}
-		else if( worldState ->refereeState.State->get() == GameState::HALTED )
+		else if( worldState ->refereeState -> State->get() == GameState::HALTED )
 		{
 			currentPlay = "HaltAll";
 		}
@@ -111,7 +111,7 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 			currentPlay = "Stop";
 		}
 		
-		if ( worldState->refereeState.State->theirRestart() )
+		if ( worldState->refereeState -> State->theirRestart() )
 		{
 			oppRestarted = true;
 		}

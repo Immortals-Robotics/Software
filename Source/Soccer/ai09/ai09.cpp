@@ -218,11 +218,6 @@ TVec2 ai09::PointOnConnectingLine(TVec2 FirstPoint,TVec2 SecondPoint,float dista
 	return ans;
 }
 
-LHP_Frame* ai09::getLFrame ( void )
-{
-	return &this->lFrame;
-}
-
 void swap ( int & a , int & b )
 {
 	int tmp = a;

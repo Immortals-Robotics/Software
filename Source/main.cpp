@@ -7,13 +7,11 @@
 
 #include "Common/GameSetting.h"
 #include "Reality/Vision/Vision.h"
-#include "Reality/Referee/referee.h"
-#include "Reality/Referee/referee_new.h"
+#include "Reality/Referee_2018/NewReferee.h"
 #include "Soccer/ai09/ai09.h"
 #include "Common/kbhit.h"
 #include "Common/timer.h"
 #include "Common/net_log.h"
-#include "Reality/Vision/Protobuf/messages_blob.pb.h"
 #include "Common/Vector.h"
 #include "Network/PracticalSocket.h"
 #include "Soccer/aiBase.h"
@@ -22,59 +20,8 @@ using namespace std;
 
 #define ImmortalsIsTheBest true
 
-void haltAll ( char * cmds )
-{
-	for ( int i = 0 ; i < 6 ; i ++ )
-	{
-		cmds[11*i+10] = 0;
-	}
-}
-
-void initWorldState ( WorldState * state )
-{
-	state -> ball.Position = Vec2 ( 0.0f );
-	state -> ball.velocity.x = 0.0f;
-	state -> ball.velocity.y = 0.0f;
-	state -> ball.velocity.direction = 0.0f;
-	state -> ball.velocity.magnitude = 0.0f;
-	state -> ball.seenState = CompletelyOut;
-	state -> has_ball = false;
-
-	state -> refereeState.counter = 0;
-	state -> refereeState.goals_blue = 0;
-	state -> refereeState.goals_yellow = 0;
-	state -> refereeState.time_remaining = 0;
-	state -> refereeState.State = NULL;
-
-	state -> ownRobots_num = 0;
-	state -> oppRobots_num = 0;
-
-    state -> oppGK = -1;
-
-	for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
-	{
-		state -> OwnRobot[i].Angle = 0.0f;
-		state -> OwnRobot[i].AngularVelocity = 0.0f;
-		state -> OwnRobot[i].Position = Vec2 ( 0.0f );
-		state -> OwnRobot[i].seenState = CompletelyOut;
-        state -> OwnRobot[i].OutForSubsitute = true;
-		state -> OwnRobot[i].velocity.direction = 0.0f;
-		state -> OwnRobot[i].velocity.magnitude = 0.0f;
-		state -> OwnRobot[i].velocity.x = 0.0f;
-		state -> OwnRobot[i].velocity.y = 0.0f;
-		state -> OwnRobot[i].vision_id = i;
-		for ( int j = 0 ; j < 10 ; j ++ )
-		{
-			state -> lastCMDS[i][j] = Vec3 ( 0.0f );
-		}
-	}
-}
-
 int main ( )
 {
-    //NetLogger* netLogger = new NetLogger("224.5.92.10" , 60090);
-    //netLogger -> Init();
-
 	if (!ImmortalsIsTheBest) {
 		cout << "ERROR: Immortals is not the best SSL team anymore." << endl;
 		cout << "Shutting down the system..." << endl;
@@ -82,51 +29,46 @@ int main ( )
 		return 0;
 	}
 
+    WorldState * state = new WorldState();
+    
+    
+	GameSetting * settings = new GameSetting();
+    settings -> use_camera.push_back(true);
+    settings -> use_camera.push_back(true);
+    settings -> use_camera.push_back(false);
+    settings -> use_camera.push_back(false);
+    
+    settings -> use_camera.push_back(false);
+    settings -> use_camera.push_back(false);
+    settings -> use_camera.push_back(false);
+    settings -> use_camera.push_back(false);
 
-	char rf_freq = 110;
+	settings -> our_color = COLOR_YELLOW;
+    settings -> our_side = RIGHT_SIDE;
+    settings -> referee_UDP_Address = "224.5.23.1";//TODO Default is "224.5.23.1"
+    settings -> refereePort = 10003;
+    settings -> vision_UDP_Address = "224.5.23.2";
+    settings -> visionPort = 10006;
 
-	GameSetting * setting = new GameSetting ( );
 
-	setting -> visionSetting = new VisionSetting();
-    setting -> visionSetting -> color = COLOR_YELLOW;
-    setting -> visionSetting -> UDP_Adress = "224.5.23.2";
-    setting -> visionSetting -> LocalPort = 10006;
-    setting -> visionSetting -> GUI_Adress = "224.5.66.6";
-    setting -> visionSetting -> GUIPort = 10009;
-    setting -> visionSetting -> use_camera.push_back(true);
-    setting -> visionSetting -> use_camera.push_back(true);
-    setting -> visionSetting -> use_camera.push_back(false);
-    setting -> visionSetting -> use_camera.push_back(false);
+    cout << " Connecting to RefereeBox server at " << settings->referee_UDP_Address
+         << " , on port : " << settings->refereePort << endl;
+    NewReferee referee_2018(settings,state);
+    if ( referee_2018.connectToRefBox () ){
+        cout<<"Connected to RefBox successfully :)"<<endl;
+    }else{
+        cout << "	Hey you! Put the LAN cable back in its socket, or ..." << endl;
+        //return 0;
+    }
+    
 
-	setting -> side = Right;
-
-	WorldState * state = new WorldState ( );
-	initWorldState ( state );
-
-	Referee referee;
-    //NewReferee newReferee;
-
-	referee.init ( "224.5.23.1" , 10001 , setting -> visionSetting -> color );
-	cout << " Connecting to RefereeBox server at " << "224.5.23.1" << " , on port : 10001 " << endl;
-	if ( !referee.connect ( ) )
-	{
-		cout << "	Hey you! Put the LAN cable back in its socket, or ..." << endl;
-	}
-
-    /*newReferee.init ( "224.5.23.1" , 64003 , setting -> visionSetting -> color );
-	cout << " Connecting to NEW RefereeBox server at " << "224.5.23.1" << " , on port : 10003 " << endl;
-	if ( !newReferee.connect ( ) )
-	{
-		cout << "	Hey you! Put the LAN cable back in its socket, or ..." << endl;
-	}*/
-
-	cout << " Connecting to SSL-Vision server at " << "224.5.23.2" << " , on port : 10002 " << endl;
-	VisionModule vision ( setting -> visionSetting );
-	if ( ! vision.isConnected ( ) )
-	{
-		cout << "	Hey you! Put the LAN cable back in its socket, or ..." << endl;
-		//return 0;
-	}
+//	cout << " Connecting to SSL-Vision server at " << "224.5.23.2" << " , on port : 10002 " << endl;
+//	VisionModule vision ( settings -> visionSetting );
+//	if ( ! vision.isConnected ( ) )
+//	{
+//		cout << "	Hey you! Put the LAN cable back in its socket, or ..." << endl;
+//		//return 0;
+//	}
 
 	UDPSocket commUDP;
 	char robot_cmds[90];
@@ -169,34 +111,25 @@ int main ( )
     {
         while ( (! kbhit()) && ( ImmortalsIsTheBest ) )	//Hope it lasts Forever...
         {
-            //netLogger->SetFrameID(netLogger->GetFrameID()+1);
+
             timer.start();
 
             lock.lock();
-            vision.ProcessVision ( state );
-//            sleep(1);
-            //while (timer.time()*1000.0f<16.6f);//DELAY(100000);
-            if ( started )
-            {
-                try {
-                    commUDP.sendTo ( robot_cmds    , 90 , "224.5.92.5" , 60005 );
-//					for(int i=0;i<70;i++) {
-//						if(i%10==0)
-//							cout<<dec<<endl<<i<<':'<<endl;
-//						cout << hex << (unsigned) robot_cmds[i] << endl;
-//					}
-//					cout<<dec;
+//            vision.ProcessVision ( state );
 
-                    cout<<"sent"<<endl;
-                } catch (...) {
-                    cout << "ERROR: failed to send robot packets." << endl;
-                }
+            aii -> Process( state , settings , robot_cmds );
+            sleep(0.017);
 
+            try {
+                commUDP.sendTo ( robot_cmds    , 90 , "224.5.92.5" , 60005 );
+
+            } catch (...) {
+                cout << "ERROR: failed to send robot packets." << endl;
             }
-            aii -> Process( state , setting , robot_cmds );
-            //cout << timer.time() * 1000.0 << endl;
 
-            vision.SendGUIData ( state , aii -> AIDebug );
+
+
+            //vision.SendGUIData ( state , aii -> AIDebug );
             lock.unlock();
 
             cout << 1.0/timer.interval() << endl;
@@ -207,37 +140,23 @@ int main ( )
         commUDP.sendTo ( zeros , 10 , "localhost" , 60001 );
         commUDP.sendTo ( zeros , 1 , "localhost" , 60006 );
     };
+
     auto ref_func = [&]()
     {
         while ( ( !exited ) && (! kbhit()) && ( ImmortalsIsTheBest ) )	//Hope it lasts Forever...
         {
-            if ( referee.recieve() )
+            if ( referee_2018.recieve() )
             {
                 //cout << "Referre Boz" << endl;
                 lock.lock();
-                referee.process ( state );
+                referee_2018.process();
                 lock.unlock();
-                //cout << "Referre Boz" << endl;
+//                cout << "Referre Boz "<< referee_2018.command_CNT << endl;
+
             }
         }
     };
 
-
-    /*auto new_ref_func = [&]()//Not Now
-    {
-        while ( ( !exited ) && (! kbhit()) && ( ImmortalsIsTheBest ) )	//Hope it lasts Forever...
-        {
-            if ( newReferee.recieve() )
-            {
-                //cout << "Referre Boz" << endl;
-                lock.lock();
-                newReferee.process ( state );
-                //cout << "OPP GK IS: " << newReferee.oppGK << endl;
-                lock.unlock();
-                //cout << "Referre Boz" << endl;
-            }
-        }
-    };*/
 
 	auto test_dbg_dump = [&]()
 	{
@@ -267,24 +186,7 @@ int main ( )
 		zmq_close (subscriber);
 		zmq_ctx_destroy (context);
 	};
-		/*auto sharifcup_func = [&]()//Not Now
-		{
-			UDPSocket* blobUDP = new UDPSocket(60022);
-			blobUDP -> joinGroup("224.5.33.35");
-			const int blobBufferMaxSize = 100000;
-			char blobBuffer[blobBufferMaxSize];
-			LHP_Frame* lhp_frame = dynamic_cast<ai09*>(aii)->getLFrame();
-			while ( ( !exited ) && (! kbhit()) && ( ImmortalsIsTheBest ) )	//Hope it lasts Forever...
-			{
-				string blobSrcAdd;
-				unsigned short blobSrcPort;
-				int blobSize = blobUDP->recvFrom(blobBuffer, blobBufferMaxSize, blobSrcAdd, blobSrcPort);
-				lock.lock();
-				lhp_frame->ParseFromArray(blobBuffer, blobSize);
-				lock.unlock();
-				cout << "	XXXXXXXXXXXXXXXXXXXXXXXXXXXX: " << lhp_frame->blob_size() << endl;
-			}
-		};*/
+
     auto str_func = [&]()
     {
         UDPSocket* strategyUDP = new UDPSocket(60006);
@@ -396,7 +298,7 @@ int main ( )
     str_thread.join();
 	dbg_dump_thread.join();
 
-	delete setting;
+	delete settings;
 	delete state;
 	delete aii;
 

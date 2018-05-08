@@ -2,9 +2,9 @@
 
 #include "../Common/Vector.h"
 #include "../Common/common_colors.h"
-#include "../Reality/Vision/WorldState.h"
+#include "../Reality/WorldState.h"
 #include "../Common/GameSetting.h"
-#include "../Reality/Vision/Protobuf/aidebug.pb.h"
+#include "../Network/Protobuf/aidebug.pb.h"
 
 class aiBase
 {

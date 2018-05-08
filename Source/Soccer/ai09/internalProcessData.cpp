@@ -2,7 +2,7 @@
 
 void ai09::internalProcessData ( WorldState * worldState , GameSetting * setting )
 {
-    this -> oppGK = worldState -> oppGK;
+    this -> oppGK = worldState -> refereeState -> oppGK;
     
 	this->ball = worldState -> ball;
 	if ( ball.seenState != CompletelyOut )
@@ -17,7 +17,7 @@ void ai09::internalProcessData ( WorldState * worldState , GameSetting * setting
 	{
 		this->OwnRobot[i].State = worldState -> OwnRobot[OwnRobot[i].vision_id];
 		
-		if ( !worldState ->refereeState.State || worldState ->refereeState.State->get() == GameState::GAME_OFF )
+		if ( !worldState ->refereeState -> State || worldState ->refereeState -> State->get() == GameState::GAME_OFF )
 		{
 			if ( OwnRobot[i].State.OutForSubsitute )
 			{
@@ -77,7 +77,7 @@ void ai09::internalProcessData ( WorldState * worldState , GameSetting * setting
 	this->OwnRobotNum = worldState -> ownRobots_num;
 	this->OppRobotNum = worldState -> oppRobots_num;
 	
-	if ( setting -> side == Right )
+	if ( setting -> our_side == RIGHT_SIDE )
 		this->side = 1;
 	else
 		this->side = -1;

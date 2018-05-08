@@ -31,7 +31,9 @@
 #define TEAM_YELLOW true
 #endif
 
-#include "commands.h"
+#include "commands2018.h"
+
+using namespace std;
 
 class GameState {
 public:
@@ -73,19 +75,24 @@ public:
   // This is the state machine transition function.  It takes the last
   // ref_command as input 
   void transition(char ref_command, bool ball_kicked) {
-    if (ref_command == COMM_HALT) { 
+    if (ref_command == COMM_HALT) {
+        //cout<<"COMM_HALT"<<endl;
       state = HALTED; return; }
 
     if (ref_command == COMM_STOP) {
+        //cout<<"COMM_STOP"<<endl;
       state = GAME_OFF; return; }
 
-    if (ref_command == COMM_START) {
+    if (ref_command == COMM_FORCE_START) {
+        //cout<<"We can touch the ball now"<<endl;
       state = GAME_ON; return; }
 
-    if (ref_command == COMM_READY && state & NOTREADY) {
+    if (ref_command == COMM_NORMAL_START && state & NOTREADY) {
+        //cout<<"We can do the action (penalty or indirect)"<<endl;
       state &= ~NOTREADY; state |= READY; return; }
 
     if (state & READY && ball_kicked) {
+        //cout<<"Back to normal"<<endl;
       state = GAME_ON; return; }
 
     if (state == GAME_OFF) {

@@ -8,7 +8,7 @@
 #include "../../Common/timer.h"
 #include "../../Common/linear.h"
 
-#include "../../Reality/Vision/Protobuf/messages_blob.pb.h"
+//#include "../../Network/Protobuf/messages_blob.pb.h"
 
 #include <map>
 
@@ -17,7 +17,7 @@ using namespace std;
 
 #include "Geom.h"
 
-#include "../../Reality/Vision/Protobuf/strategy.pb.h"
+#include "../../Network/Protobuf/strategy.pb.h"
 
 #include "../../Common/MedianFilter.h"
 
@@ -78,8 +78,6 @@ class ai09 : public aiBase
 	int lastReferee;
 	
 	Timer timer;
-	
-	LHP_Frame lFrame;
 
 		bool isDefending;
 		bool oppRestarted;
@@ -250,7 +248,6 @@ class ai09 : public aiBase
 		void Process ( WorldState * worldState , GameSetting * setting , char * commands );
 		bool read_playBook ( const char* fileName );
 		bool read_playBook_str ( char* buffer , int length );
-		LHP_Frame* getLFrame ( void );
 		void read_sharifcup_config ( void );
 
 };

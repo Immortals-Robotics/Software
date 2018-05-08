@@ -10,10 +10,10 @@
 
 #include <iostream>
 
-#include "Protobuf/messages_robocup_ssl_detection.pb.h"
-#include "Protobuf/messages_robocup_ssl_geometry.pb.h"
-#include "Protobuf/messages_robocup_ssl_wrapper.pb.h"
-#include "Protobuf/ImmortalsProtocols.pb.h"
+#include "../../Network/Protobuf/messages_robocup_ssl_detection.pb.h"
+#include "../../Network/Protobuf/messages_robocup_ssl_geometry.pb.h"
+#include "../../Network/Protobuf/messages_robocup_ssl_wrapper.pb.h"
+#include "../../Network/Protobuf/ImmortalsProtocols.pb.h"
 
 #include "VisionSetting.h"
 
@@ -21,7 +21,7 @@
 #include "Kalman/FilteredObject.h"
 #include "../../Common/MedianFilter.h"
 #include "../../Common/MATHS_REGRESSION_PARABOLIC.h"
-#include "WorldState.h"
+#include "../WorldState.h"
 #include <zmq.h>
 
 #ifndef INT_MAX

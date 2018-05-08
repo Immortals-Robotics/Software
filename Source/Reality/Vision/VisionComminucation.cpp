@@ -118,14 +118,14 @@ void VisionModule::SendGUIData ( WorldState * state , AI_Debug & aidebug )
 			}
 		}
 
-		GUIMsg.mutable_gamestate()->set_goalblue ( state -> refereeState.goals_blue );
-		GUIMsg.mutable_gamestate()->set_goalyellow ( state -> refereeState.goals_yellow );
-		GUIMsg.mutable_gamestate()->set_timeremaining ( state -> refereeState.time_remaining );
+		GUIMsg.mutable_gamestate()->set_goalblue ( state -> refereeState -> goals_blue );
+		GUIMsg.mutable_gamestate()->set_goalyellow ( state -> refereeState -> goals_yellow );
+		GUIMsg.mutable_gamestate()->set_timeremaining ( state -> refereeState -> time_remaining );
 		GUIMsg.mutable_gamestate()->set_refcmd ( "a" );
 		GUIMsg.mutable_gamestate()->set_state ( "a" );
 		GUIMsg.mutable_gamestate()->set_probgoalblue ( false );
 		GUIMsg.mutable_gamestate()->set_probgoalyellow ( false );
-		if ( state -> refereeState.State )
+		if ( state -> refereeState -> State )
 		{
 		}
 
