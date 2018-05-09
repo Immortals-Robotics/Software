@@ -43,7 +43,7 @@ void ai09::Stop ( void )
 	ERRTSetObstacles ( dmf , true , true , true , true );
 	OwnRobot[dmf].face(ball.Position);
 	ERRTNavigate2Point ( dmf , PointOnConnectingLine(ball.Position, Vec2(side*field_width, 0), DIS(ball.Position, Vec2(side*field_width, 0))/3.0f) ,0 , 100,&VELOCITY_PROFILE_AROOM);
-	
+
 
 	ERRTSetObstacles ( lmf , true , true , true , true );
 	OwnRobot[lmf].face(Vec2(ball.Position.X,ball.Position.Y));

@@ -30,6 +30,8 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
     penalty_area_r = 1000.0f;
     penalty_area_width = 500.0f;
 
+    REF_playState = _worldState->refereeState->State;
+
     for ( int i = 0 ; i < 8 ; i ++ )
     {
         oneTouchDetector[i].field_w = field_width;

@@ -42,26 +42,12 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 		AddCircle ( side*field_width , -penalty_circle_center_y , penalty_area_r + 100.0f );
         AddCircle ( -side*field_width , -penalty_circle_center_y , penalty_area_r + 50.0f );
 		
-		/*Debug_Circle * dbgCircle = AIDebug.add_circle();
-		dbgCircle -> set_x(side*3020);
-		dbgCircle -> set_y(-170);
-		dbgCircle -> set_r(600);
-		color * col = dbgCircle -> mutable_col();
-		col -> set_r(255);
-		col -> set_g(0);
-		col -> set_b(0);*/
-		
 		AddCircle ( side*field_width , penalty_circle_center_y , penalty_area_r + 100.0f );
         AddCircle ( -side*field_width , penalty_circle_center_y , penalty_area_r + 50.0f );
 
 		AddRectangle ( side*(field_width+85.0f) , -penalty_circle_center_y , 185.0+penalty_area_r , penalty_area_width );
         AddRectangle ( -side*(field_width+85.0f) , -penalty_circle_center_y , 135.0+penalty_area_r , penalty_area_width );
-		
-		/*Debug_Rect * newDebugRect =  AIDebug.add_rect();
-		newDebugRect -> set_x(side*3110);
-		newDebugRect -> set_y(-170);
-		newDebugRect -> set_w(360);
-		newDebugRect -> set_h(690);*/
+
 	}
 	
 	if ( bigPen )

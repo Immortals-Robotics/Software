@@ -29,3 +29,4 @@ bool ai09::attackFuckingAngle ( void )
 	
 	return false;
 }
+

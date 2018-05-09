@@ -244,6 +244,8 @@ private:
         void throwin_us_outgir ( void );
     void Omid_normal_play( void );
 
+    void my_test();
+
 	
 			
 		void internalProcessData ( WorldState * worldState , GameSetting * setting );

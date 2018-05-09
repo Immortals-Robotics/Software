@@ -1,5 +1,8 @@
 #include "Robot.h"
 #include <iostream>
+#include <deque>
+#include <numeric>
+
 using namespace std;
 float getCalibratedShootPow ( int vision_id , float raw_shoot )
 {
@@ -192,6 +195,8 @@ void Robot::Move(bool accurate , float speed , VelocityProfile * velocityProfile
 	//MoveByMotion ( trapezoid.Plan ( &State , &target ) );
 }
 
+deque<int> velXQ,velYQ;
+
 void Robot::MoveByMotion(TVec3 motion)
 {
 	//motion.X=0;
@@ -207,6 +212,7 @@ void Robot::MoveByMotion(TVec3 motion)
 	motion.X *= 2.55;
 	motion.Y *= 2.55;
 	//motion.Z /= 3.0;
+
 
 	int VelX = motion.X;
 	int VelY = motion.Y;
@@ -233,7 +239,7 @@ void Robot::MoveByMotion(TVec3 motion)
 
 void Robot::makeSendingDataReady ( void )
 {
-
+	data[0] = this->vision_id;
 	if(halted) {
 		data[1] = 0x0A;//length=10
 		data[2] = 0x06;//Command to HALT
@@ -248,7 +254,7 @@ void Robot::makeSendingDataReady ( void )
 	else {
 		int currAng = State.Angle;
 
-		data[0] = this->vision_id;//Robots ID
+		//Robots ID
 		data[1] = 0x0A;//length=10
 		data[2] = 0x04;//Command to move by Vel
 
@@ -268,18 +274,6 @@ void Robot::makeSendingDataReady ( void )
 			data[9] = 0x00;
 		}
 
-
-
-		//data[0]=0x07;
-		//data[1]=0x0A;
-		//data[2]=0x04;
-//            data[3] = 0x10;
-//            data[4] = 0x00;
-//            data[5] = 0x00;
-//            data[6] = 0x00;
-//            data[7] = 0x00;
-//            data[8] = 0x00;
-//            data[9] = 0x00;
 	}
 
 	dribbler = 0;
