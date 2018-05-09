@@ -70,6 +70,8 @@ int main ( )
         //return 0;
     }
 
+    Sender* senderBase = new Sender;
+
 	UDPSocket commUDP;
 	char robot_cmds[90];
 	char zeros[90];
@@ -88,8 +90,7 @@ int main ( )
 
 	bool started = false;
 
-	aiBase * aii;
-	aii = new ai09 ( );
+	aiBase * aii = new ai09(state,settings,senderBase);
 
 	Timer timer;
 
@@ -113,8 +114,8 @@ int main ( )
         {
 
             timer.start();
-
             lock.lock();
+
             vision.ProcessVision ( state );
 
             aii -> Process( state , settings , robot_cmds );
@@ -130,9 +131,7 @@ int main ( )
 
             //vision.SendGUIData ( state , aii -> AIDebug );
             lock.unlock();
-
             cout << 1.0/timer.interval() << endl;
-
             started = true;
         }
         exited = true;

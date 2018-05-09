@@ -14,7 +14,12 @@ struct RobotProperty
 	bool hasDribble;
 };
 
-ai09::ai09 ( ):maxBallHist(240)
+ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxBallHist(240),
+																			worldState(_worldState),
+																			settings(_setting),
+																			senderBase(_sender),
+																			cmf(0),rmf(1),lmf(2),gk(3),
+																			dmf(4),def(5),rightARM(6),leftARM(7)
 {
 	std::cout << "	Running Immortals SSL AI module 09" << std::endl << "	Hope us luck :D " << std::endl;
 
@@ -25,7 +30,7 @@ ai09::ai09 ( ):maxBallHist(240)
     penalty_area_r = 1000.0f;
     penalty_area_width = 500.0f;
 
-    for ( int i = 0 ; i < 6 ; i ++ )
+    for ( int i = 0 ; i < 8 ; i ++ )
     {
         oneTouchDetector[i].field_w = field_width;
         oneTouchDetector[i].field_h = field_height;
@@ -39,9 +44,6 @@ ai09::ai09 ( ):maxBallHist(240)
 	InitAIPlayBook();
 	currentPlay = "HaltAll";
 	currentPlayParam = 0;
-
-	//for ( int i = 0 ; i < 5 ; i ++ )
-	//	OwnRobot[i].serial_id = i + 1;
 
 	VisionSerialTrans[0] = 0;
 	VisionSerialTrans[1] = 1;
@@ -77,13 +79,6 @@ ai09::ai09 ( ):maxBallHist(240)
 
 	lastReferee = GameState::GAME_OFF;
 
-	lmf = 2;
-	cmf = 0;
-	gk = 3;
-	def = 5;
-	dmf = 4;
-	rmf = 1;
-
 	attack = cmf;
 	mid1 = rmf;
 	mid2 = lmf;
@@ -99,7 +94,7 @@ ai09::ai09 ( ):maxBallHist(240)
 	stm2AInum[4] = &mid1;
 	stm2AInum[5] = &attack;
 
-	for (int i = 0 ; i < 6 ; i ++ ) {
+	for (int i = 0 ; i < 8 ; i ++ ) {
 		oneTouchDetector[i].bState = &ball;
 		oneTouchDetector[i].rState = &OwnRobot[i].State;
 		oneTouchDetector[i].side = &side;
@@ -110,10 +105,9 @@ ai09::ai09 ( ):maxBallHist(240)
 		allafPos[i] = Vec2(0, 0);
 	}
 
-	for (int i = 0 ; i < 6 ; i ++ )
+	for (int i = 0 ; i < 8 ; i ++ )
 	{
 		OwnRobot[i].set_vision_id(i+1);
-		//OwnRobot[i].set_serial_id(VisionSerialTrans[i]);
 	}
     OwnRobot[gk].set_vision_id(4);
     OwnRobot[def].set_vision_id(1);
@@ -121,20 +115,8 @@ ai09::ai09 ( ):maxBallHist(240)
     OwnRobot[lmf].set_vision_id(6);
     OwnRobot[rmf].set_vision_id(5);
     OwnRobot[cmf].set_vision_id(7);
-
-//    OwnRobot[gk].set_vision_id(4);
-//    OwnRobot[def].set_vision_id(10);
-//    OwnRobot[dmf].set_vision_id(3);
-//    OwnRobot[lmf].set_vision_id(1);
-//    OwnRobot[rmf].set_vision_id(6);
-//    OwnRobot[cmf].set_vision_id(2);
-
-//	OwnRobot[gk].set_vision_id(4);
-//	OwnRobot[def].set_vision_id(10);
-//	OwnRobot[dmf].set_vision_id(1);
-//	OwnRobot[lmf].set_vision_id(3);
-//	OwnRobot[rmf].set_vision_id(6);
-//	OwnRobot[cmf].set_vision_id(2);
+	OwnRobot[rightARM].set_vision_id(10);
+	OwnRobot[leftARM].set_vision_id(11);
 
 	chip_head = 200;
 
@@ -155,20 +137,12 @@ ai09::ai09 ( ):maxBallHist(240)
 	VELOCITY_PROFILE_MAMOOLI.max_w_acc = 40.0f;
 	VELOCITY_PROFILE_MAMOOLI.max_w_dec = 140.0f;
 
-
-	//VELOCITY_PROFILE_KHARAKI.max_spd = Vec2 ( 60.0f );
-	//VELOCITY_PROFILE_KHARAKI.max_dec = Vec2 ( 3.4f );
-	//VELOCITY_PROFILE_KHARAKI.max_acc = Vec2 ( 3.0f );
-	//VELOCITY_PROFILE_KHARAKI.max_w_acc = 40.0f;
-	//VELOCITY_PROFILE_KHARAKI.max_w_dec = 140.0f;
-
 	VELOCITY_PROFILE_KHARAKI.max_spd = Vec2 ( 70.0f );
 	VELOCITY_PROFILE_KHARAKI.max_dec = Vec2 ( 2.7f );
 	VELOCITY_PROFILE_KHARAKI.max_acc = Vec2 ( 1.9f );
 	VELOCITY_PROFILE_KHARAKI.max_w_acc = 40.0f;
 	VELOCITY_PROFILE_KHARAKI.max_w_dec = 140.0f;
 
-    //VELOCITY_PROFILE_KHARAKI = VELOCITY_PROFILE_MAMOOLI;
 
 	playBook = NULL;
 	string strategy_path(DATA_PATH); strategy_path.append("/strategy.ims");

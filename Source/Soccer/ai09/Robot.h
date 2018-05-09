@@ -7,6 +7,8 @@
 
 #define PREDICT_CMDS 7
 
+#ifndef ROBOT_H
+#define ROBOT_H
 class Robot
 {
 	Timer angleSendTimer;
@@ -21,10 +23,11 @@ class Robot
 	RobotState target;
 	int shoot , chip , Break , dribbler;
 	int Motor[4];
-	unsigned char data[11];
+	unsigned char data[32];
 	int serial_id,vision_id;
 	bool control_mode;
 	bool halted;
+	bool new_comm_ready;
 	
 	TVec3 lastCMDs[11];
 	int CMDindex;
@@ -63,3 +66,5 @@ class Robot
 	void makeSendingDataReady ( void );
 	
 };
+
+#endif //ROBOT_H

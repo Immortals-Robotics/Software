@@ -20,10 +20,15 @@ using namespace std;
 #include "../../Network/Protobuf/strategy.pb.h"
 
 #include "../../Common/MedianFilter.h"
+#include "../../Reality/Sender/Sender.h"
 
 class ai09 : public aiBase
 {
-	private:
+private:
+	WorldState* worldState;
+	GameSetting* settings;
+	Sender* senderBase;
+	GameState * REF_playState;
 	
 	Random random;
 
@@ -62,6 +67,8 @@ class ai09 : public aiBase
 	int dmf;
 	int lmf;
 	int cmf;
+	int rightARM;
+	int leftARM;
 	
 	int attack;
 	int mid1;
@@ -82,7 +89,7 @@ class ai09 : public aiBase
 		bool isDefending;
 		bool oppRestarted;
 	
-		MedianFilter<float> freeAngleFilter[6];
+		MedianFilter<float> freeAngleFilter[8];
 	
 		float beta;
 		float gamma;
@@ -96,19 +103,19 @@ class ai09 : public aiBase
 		BallState ball;
 		RobotState OppRobot[12];
 		int OwnRobotNum , OppRobotNum;
-		Planner planner[6];
+		Planner planner[8];
 	
-		OneTouchDetector oneTouchDetector[6];
+		OneTouchDetector oneTouchDetector[8];
 		enum OneTouchType {
 			oneTouch = 0,
 			shirje,
 			gool,
 			allaf
 		};
-		OneTouchType oneTouchType[6];
-		bool oneTouchTypeUsed[6];
+		OneTouchType oneTouchType[8];
+		bool oneTouchTypeUsed[8];
 	
-		bool navigated[6];
+		bool navigated[8];
 		int side;
 	
 		VelocityProfile VELOCITY_PROFILE_AROOM;
@@ -243,8 +250,8 @@ class ai09 : public aiBase
 		void internalFinalize ( WorldState * worldState , GameSetting * setting , char * commands );
 
 	public:
-		Robot OwnRobot[6];
-		ai09 ( void );
+		Robot OwnRobot[8];
+		ai09 (WorldState *_worldState, GameSetting *_setting, Sender* _sender );
 		void Process ( WorldState * worldState , GameSetting * setting , char * commands );
 		bool read_playBook ( const char* fileName );
 		bool read_playBook_str ( char* buffer , int length );
