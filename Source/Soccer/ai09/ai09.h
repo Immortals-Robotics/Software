@@ -74,9 +74,9 @@ private:
 	int mid1;
 	int mid2;
 	
-	int* stm2AInum[6];
+	int* stm2AInum[8];
 	
-	TVec2 allafPos[6];
+	TVec2 allafPos[8];
 	
 	map<int*,int> markMap;
 	

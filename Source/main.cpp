@@ -112,24 +112,16 @@ int main ( )
     {
         while ( (! kbhit()) && ( ImmortalsIsTheBest ) )	//Hope it lasts Forever...
         {
-
             timer.start();
             lock.lock();
 
-            vision.ProcessVision ( state );
-
+            //The vision process
+            vision.ProcessVision();
+            //The AI process
             aii -> Process( state , settings , robot_cmds );
-//            sleep(0.017);
+            //The sending process
+            senderBase->sendAll();
 
-            try {
-                commUDP.sendTo ( robot_cmds    , 90 , "224.5.92.5" , 60005 );
-            } catch (...) {
-                cout << "ERROR: failed to send robot packets." << endl;
-            }
-
-
-
-            //vision.SendGUIData ( state , aii -> AIDebug );
             lock.unlock();
             cout << 1.0/timer.interval() << endl;
             started = true;

@@ -68,7 +68,7 @@ public:
 
     bool recievePacket ( void );
     bool connectToVisionServer ( void );
-    void ProcessVision ( WorldState * );
+    void ProcessVision ( void );
     bool isConnected ( void );
 
     void ProcessRobots ( WorldState * );

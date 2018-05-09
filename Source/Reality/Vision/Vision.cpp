@@ -123,7 +123,7 @@ VisionModule::~VisionModule()
 	zmq_ctx_destroy (gui_zmq_context);
 }
 
-void VisionModule::ProcessVision ( WorldState * state ) {
+void VisionModule::ProcessVision() {
 	if (!connected) {
 		cout << "	Hey you! Put the LAN cable back in its socket, or ..." << endl;
 		return;
@@ -147,8 +147,8 @@ void VisionModule::ProcessVision ( WorldState * state ) {
 
 	}
 
-	ProcessBalls ( state );
-	ProcessRobots ( state );
+	ProcessBalls ( this->playState );
+	ProcessRobots ( this->playState );
 
 	for ( int i = 0 ; i < CAM_COUNT ; i ++ )
         packet_recieved[i] = false;

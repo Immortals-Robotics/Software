@@ -4,7 +4,7 @@
 
 #ifndef CALIBENGINE_SENDER_H
 #define CALIBENGINE_SENDER_H
-#define MAX_BUFF_LEN    100
+#define MAX_BUFF_LEN    200
 
 #include "../../Soccer/ai09/Robot.h"
 
@@ -24,6 +24,7 @@ public:
     bool getCommand(Robot* bot);
     bool appendData(unsigned char* data,int length);
     bool sendAll();
+    void append_demo_data();
 
     Sender();
 };

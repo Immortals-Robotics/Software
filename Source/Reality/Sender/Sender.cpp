@@ -30,7 +30,6 @@ bool Sender::sendAll() {
 
     try {
         commUDP.sendTo ( buffer    , buff_idx , "224.5.92.5" , 60005 );
-        //cout<<"sent"<<endl;
     } catch (...) {
         cout << "ERROR: failed to send robot packets." << endl;
         buff_idx = 0;
@@ -46,4 +45,18 @@ Sender::Sender() {
     for(int i=0;i<MAX_BUFF_LEN;i++){
         buffer[i]=0x00;
     }
+}
+
+void Sender::append_demo_data() {
+    buffer[0 + buff_idx] = 25;
+    buffer[1 + buff_idx] = 0x0A;
+    buffer[2 + buff_idx] = 0x00;
+    buffer[3 + buff_idx] = 0x00;
+    buffer[4 + buff_idx] = 0x00;
+    buffer[5 + buff_idx] = 0x00;
+    buffer[6 + buff_idx] = 0x00;
+    buffer[7 + buff_idx] = 0x00;
+    buffer[8 + buff_idx] = 0x00;
+    buffer[9 + buff_idx] = 0x00;
+    buff_idx += 10;
 }

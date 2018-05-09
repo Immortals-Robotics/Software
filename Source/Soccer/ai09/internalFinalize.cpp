@@ -8,15 +8,14 @@ void ai09::internalFinalize ( WorldState * worldState , GameSetting * setting , 
 	for ( int i = 0 ; i < 6 ; i ++ )
 		OwnRobot[i].makeSendingDataReady ( );
 
+
 	for ( int i = 0 ; i < 6 ; i ++ )
 	{
-		for ( int j = 0 ; j < 10; j ++ )
-		{
-			commands[i*10 + j] = OwnRobot[5 - i].data[j];
-		}
-		//OwnRobot[i].data[9]=200;
+		senderBase->getCommand(&OwnRobot[i]);
 		OwnRobot[i].halted = false;
 	}
+    senderBase->append_demo_data();
+
 	
 	for ( int i = 0 ; i < 12 ; i ++ )
 	{
@@ -35,17 +34,4 @@ void ai09::internalFinalize ( WorldState * worldState , GameSetting * setting , 
 			worldState -> lastCMDS[OwnRobot[i].State.vision_id][j] = OwnRobot[i].lastCMDs[j];
 		}
 	}
-	
-	/*if ( saveKinoData )
-	{
-		ofstream kinoData ( "kino_data.txt" , ios::ate|ios::out|ios::app );
-	
-	kinoData << OwnRobot[cmf].State.velocity.x << " " << OwnRobot[cmf].State.velocity.y << " " << OwnRobot[cmf].State.Angle << "	";
-	kinoData << OwnRobot[cmf].State.Position.X << " " << OwnRobot[cmf].State.Position.Y << " " << OwnRobot[cmf].State.Angle << "	";
-	int cmdIndex = OwnRobot[cmf].lastCMDs[10].X;
-	kinoData << OwnRobot[cmf].lastCMDs[cmdIndex].X << " " << OwnRobot[cmf].lastCMDs[cmdIndex].Y << " " << OwnRobot[cmf].target.Angle << endl;
-	
-	kinoData.close();
-	}*/
-	
 }
