@@ -3,7 +3,8 @@
 void ai09::InitAIPlayBook ( void )
 {
 	AIPlayBook.clear();
-	
+
+	AIPlayBook["my_test"] = &ai09::my_test;
 	AIPlayBook["NormalPlay"] = &ai09::NormalPlay;
 	AIPlayBook["NewNormalPlay"] = &ai09::NewNormalPlay;
 	AIPlayBook["NormalPlayDef"] = &ai09::NormalPlayDef;
