@@ -2,6 +2,10 @@
 #include "../../Common/distance.h"
 #include "helpers.h"
 #include <iostream>
+
+#include "cmu_goto_point.h"
+
+
 using namespace std;
 
 
@@ -15,6 +19,18 @@ TVec2 vdes_ann;
 
 TVec3 Robot::MotionPlan ( RobotState state , RobotState target , float speed , bool accurate , TVec3 * cmd , VelocityProfile * velocityProfile )
 {
+	target.velocity.x = speed;
+	target.velocity.y = speed;
+
+	Trajectory cmu_traj = goto_point(state, target, velocityProfile);
+
+//	if (state.vision_id == 7)
+//	{
+//		cout << cmu_traj.eta << " | " << cmu_traj.vx << ", " << cmu_traj.vy << ", " << cmu_traj.va << endl;
+//	}
+
+    return Vec3(cmu_traj.vx / 50.0, cmu_traj.vy / 50.0, cmu_traj.va);
+
 	/*TVec2 max_spd = Vec2 ( 100.0f );
 	TVec2 max_dec = Vec2 ( 2.3f );
 	TVec2 max_acc = Vec2 ( 1.6f );

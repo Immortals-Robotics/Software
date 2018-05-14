@@ -11,7 +11,7 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 	AddDebugCircle(ball.Position,40,Red);
 	debugDraw = false;
 		
-	if ( 1 ) {
+	if ( 0 ) {
 		currentPlay = "my_test";
 	}
 	else if ( REF_playState )

@@ -20,6 +20,7 @@ public:
 
     unsigned char buffer[MAX_BUFF_LEN];
     int buff_idx;
+    int startup;
 
     bool getCommand(Robot* bot);
     bool appendData(unsigned char* data,int length);

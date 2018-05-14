@@ -27,6 +27,10 @@ bool Sender::appendData(unsigned char* data,int length){
 }
 
 bool Sender::sendAll() {
+    if(startup > 0){
+        startup--;
+        return false;
+    }
 
     try {
         commUDP.sendTo ( buffer    , buff_idx , "224.5.92.5" , 60005 );
@@ -45,6 +49,7 @@ Sender::Sender() {
     for(int i=0;i<MAX_BUFF_LEN;i++){
         buffer[i]=0x00;
     }
+    startup = 5;
 }
 
 void Sender::append_demo_data() {

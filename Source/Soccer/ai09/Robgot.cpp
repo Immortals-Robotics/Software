@@ -160,11 +160,11 @@ float Robot::dis(float x1,float y1,float x2,float y2){
 }
 
 void Robot::Shoot(int pow){
-	chip = getCalibratedShootPow(vision_id, pow);
+    shoot = getCalibratedShootPow(vision_id, pow);
 	//chip = pow;
 }
 void Robot::Chip(int pow){
-	shoot = getCalibratedChipPow(vision_id, pow);
+	chip = getCalibratedChipPow(vision_id, pow);
 	//shoot = pow;
 }
 
@@ -193,12 +193,16 @@ void Robot::Move(bool accurate , float speed , VelocityProfile * velocityProfile
 		speed = 100;
 	MoveByMotion ( MotionPlan ( State , target , speed , accurate , lastCMDs, velocityProfile ) );
 	//MoveByMotion ( trapezoid.Plan ( &State , &target ) );
+	target.velocity.x = 0;
+	target.velocity.y = 0;
 }
 
 deque<int> velXQ,velYQ;
 
 void Robot::MoveByMotion(TVec3 motion)
 {
+	motion.X = min(100, max(-100, motion.X));
+	motion.Y = min(100, max(-100, motion.Y));
 	//motion.X=0;
 	lastCMDs[CMDindex] = motion;
 	lastCMDs[10].X = CMDindex;
@@ -213,6 +217,9 @@ void Robot::MoveByMotion(TVec3 motion)
 	motion.Y *= 2.55;
 	//motion.Z /= 3.0;
 
+//    data_for_sender.velocity.x.f32 = motion.X;
+//    data_for_sender.velocity.y.f32 = motion.Y;
+//    data_for_sender.target_orientation.f32 = target.Angle;
 
 	int VelX = motion.X;
 	int VelY = motion.Y;
@@ -220,6 +227,11 @@ void Robot::MoveByMotion(TVec3 motion)
 
 	data[3] = abs(VelX);//VelX
 	data[4] = abs(VelY);//VelY
+
+    if(vision_id==7) {
+        cout << "speed in X axis: " << (int)data[3] << '-' << motion.X << endl;
+        cout << "speed in Y axis: " << (int)data[4] << '-' << motion.X << endl;
+    }
 
 	data[6] = abs(targetAng);
 
@@ -273,6 +285,7 @@ void Robot::makeSendingDataReady ( void )
 			data[8] = 0x00;
 			data[9] = 0x00;
 		}
+
 
 	}
 

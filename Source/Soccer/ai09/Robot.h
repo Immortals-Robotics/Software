@@ -4,8 +4,9 @@
 #include <math.h>
 #include <iostream>
 #include "../../Common/timer.h"
+#include "../../Reality/Sender/Protocol/writer.h"
 
-#define PREDICT_CMDS 7
+#define PREDICT_CMDS 6
 
 #ifndef ROBOT_H
 #define ROBOT_H
@@ -24,6 +25,7 @@ class Robot
 	int shoot , chip , Break , dribbler;
 	int Motor[4];
 	unsigned char data[32];
+    RobotCommand_V2 data_for_sender;
 	int serial_id,vision_id;
 	bool control_mode;
 	bool halted;
