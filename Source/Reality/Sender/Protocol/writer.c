@@ -100,6 +100,13 @@ void write_uint16(uint8_t* const buffer, size_t* const pos, const uint16_t data)
     *pos += 2;
 }
 
+void write_uint16_in_buff(uint8_t* const buffer, const uint16_t data)
+{
+    buffer[0] = data & 0x00FF;
+    buffer[1] = data >> 8;
+}
+
+
 void write_uint32(uint8_t* const buffer, size_t* const pos, const uint32_t data)
 {
     buffer[*pos] = data & 0x000000FF;
@@ -119,13 +126,13 @@ void write_float(uint8_t* const buffer, size_t* const pos, const union FLOAT_32 
     write_uint32(buffer, pos, data.u32);
 }
 
-void write_v2f_h(uint8_t* const buffer, size_t* const pos, const struct Vector2f* const data)
+void write_v2f_h(uint8_t* const buffer, size_t* const pos, const struct Vector2f_V2* const data)
 {
     write_float_h(buffer, pos, data->x);
     write_float_h(buffer, pos, data->y);
 }
 
-void write_v2f(uint8_t* const buffer, size_t* const pos, const struct Vector2f* const data)
+void write_v2f(uint8_t* const buffer, size_t* const pos, const struct Vector2f_V2* const data)
 {
     write_float(buffer, pos, data->x);
     write_float(buffer, pos, data->y);
@@ -182,10 +189,10 @@ size_t write_robot_command_fixed(uint8_t* const buffer, const struct RobotComman
 
     write_uint8(buffer, &size, data->beep);
 
-    const uint8_t packed_data = 
+    const uint8_t packed_data =
         ((uint8_t)data->shoot_type) |
         ((uint8_t)data->feedback) << 1 |
-        (data->halt << 3) | 
+        (data->halt << 3) |
         (data->has_orientation << 4);;
     write_uint8(buffer, &size, packed_data);
 

@@ -1,6 +1,10 @@
 #ifndef WRITER_H
 #define WRITER_H
 
+#ifdef __cplusplus
+extern "C"{
+#endif
+
 #include <stdint.h>
 #include <stddef.h>
 
@@ -24,9 +28,9 @@ void write_float_h(uint8_t* const buffer, size_t* const pos, const union FLOAT_3
 
 void write_float(uint8_t* const buffer, size_t* const pos, const union FLOAT_32 data);
 
-void write_v2f_h(uint8_t* const buffer, size_t* const pos, const struct Vector2f* const data);
+void write_v2f_h(uint8_t* const buffer, size_t* const pos, const struct Vector2f_V2* const data);
 
-void write_v2f(uint8_t* const buffer, size_t* const pos, const struct Vector2f* const data);
+void write_v2f(uint8_t* const buffer, size_t* const pos, const struct Vector2f_V2* const data);
 
 void write_v3f_h(uint8_t* const buffer, size_t* const pos, const struct Vector3f* const data);
 
@@ -47,5 +51,11 @@ size_t write_robot_matrix_fixed(uint8_t* const buffer, const struct RobotMatrix*
 size_t write_robot_feedback_fixed(uint8_t* const buffer, const struct RobotFeedback* const data);
 
 size_t write_robot_feedback_custom_fixed(uint8_t* const buffer, const struct RobotFeedbackCustom* const data);
+
+void write_uint16_in_buff(uint8_t* const buffer, const uint16_t data);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

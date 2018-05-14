@@ -4,7 +4,7 @@
 
 #ifndef CALIBENGINE_SENDER_H
 #define CALIBENGINE_SENDER_H
-#define MAX_BUFF_LEN    200
+#define MAX_BUFF_LEN    500
 
 #include "../../Soccer/ai09/Robot.h"
 

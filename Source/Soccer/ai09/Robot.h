@@ -25,7 +25,8 @@ class Robot
 	int shoot , chip , Break , dribbler;
 	int Motor[4];
 	unsigned char data[32];
-    RobotCommand_V2 data_for_sender;
+    uint8_t* temp_data;
+    struct RobotCommand_V2* data_for_sender;
 	int serial_id,vision_id;
 	bool control_mode;
 	bool halted;

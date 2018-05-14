@@ -3,7 +3,7 @@
 
 #include "half.h"
 
-struct Vector2f
+struct Vector2f_V2
 {
     union  FLOAT_32 x;
     union  FLOAT_32 y;
@@ -115,7 +115,7 @@ enum ShootType
 struct RobotCommand
 {
     // commands
-    struct  Vector2f   velocity;
+    struct  Vector2f_V2   velocity;
     union  FLOAT_32    omega;
     union  FLOAT_32    target_orientation;
 
@@ -137,7 +137,7 @@ struct RobotCommand
 struct RobotCommand_V2
 {
     // commands
-    struct  Vector2f   velocity;
+    struct  Vector2f_V2   velocity;
     union  FLOAT_32    omega;
     union  FLOAT_32    target_orientation;
 

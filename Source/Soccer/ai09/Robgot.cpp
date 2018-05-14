@@ -131,6 +131,9 @@ Robot::Robot(void){
 	data[9] = 200;
 
 	angleSendTimer.start();
+
+    data_for_sender = new RobotCommand_V2;
+    temp_data = new uint8_t[32];
 }
 
 void Robot::sendPID ( float _p , float _i , float _iMax , float _torque )
@@ -217,33 +220,33 @@ void Robot::MoveByMotion(TVec3 motion)
 	motion.Y *= 2.55;
 	//motion.Z /= 3.0;
 
-//    data_for_sender.velocity.x.f32 = motion.X;
-//    data_for_sender.velocity.y.f32 = motion.Y;
-//    data_for_sender.target_orientation.f32 = target.Angle;
+    data_for_sender->velocity.x.f32 = motion.X;
+    data_for_sender->velocity.y.f32 = motion.Y;
+    data_for_sender->target_orientation.f32 = target.Angle;
 
-	int VelX = motion.X;
-	int VelY = motion.Y;
-	int targetAng = target.Angle;
-
-	data[3] = abs(VelX);//VelX
-	data[4] = abs(VelY);//VelY
-
-    if(vision_id==7) {
-        cout << "speed in X axis: " << (int)data[3] << '-' << motion.X << endl;
-        cout << "speed in Y axis: " << (int)data[4] << '-' << motion.X << endl;
-    }
-
-	data[6] = abs(targetAng);
-
-
-	data[7] = 0x00;//the signes
-
-	if (target.Angle < 0)
-		data[7] |= 0x80;
-	if ( motion.Y < 0 )
-		data[7] |= 0x20;
-	if ( motion.X < 0 )
-		data[7] |= 0x10;
+//	int VelX = motion.X;
+//	int VelY = motion.Y;
+//	int targetAng = target.Angle;
+//
+//	data[3] = abs(VelX);//VelX
+//	data[4] = abs(VelY);//VelY
+//
+//    if(vision_id==7) {
+//        cout << "speed in X axis: " << (int)data[3] << '-' << motion.X << endl;
+//        cout << "speed in Y axis: " << (int)data[4] << '-' << motion.X << endl;
+//    }
+//
+//	data[6] = abs(targetAng);
+//
+//
+//	data[7] = 0x00;//the signes
+//
+//	if (target.Angle < 0)
+//		data[7] |= 0x80;
+//	if ( motion.Y < 0 )
+//		data[7] |= 0x20;
+//	if ( motion.X < 0 )
+//		data[7] |= 0x10;
 
 
 
@@ -251,8 +254,10 @@ void Robot::MoveByMotion(TVec3 motion)
 
 void Robot::makeSendingDataReady ( void )
 {
+
+
 	data[0] = this->vision_id;
-	if(halted) {
+    if(halted) {
 		data[1] = 0x0A;//length=10
 		data[2] = 0x06;//Command to HALT
 		data[3] = 0x00;
@@ -264,30 +269,31 @@ void Robot::makeSendingDataReady ( void )
 		data[9] = 0x00;
 	}
 	else {
-		int currAng = State.Angle;
 
-		//Robots ID
-		data[1] = 0x0A;//length=10
-		data[2] = 0x04;//Command to move by Vel
-
-		data[5] = abs(currAng);//Current angle
-
-		if (State.Angle < 0)
-			data[7] |= 0x40;
-
-		if (shoot > 0) {
-			data[8] = shoot;
-			data[9] = 0x00;
-		} else if (chip > 0) {
-			data[8] = 0x00;
-			data[9] = chip;
-		} else {
-			data[8] = 0x00;
-			data[9] = 0x00;
-		}
+        data_for_sender->orientation.f32 = State.Angle;
+        if (shoot > 0) {
+            data_for_sender->direct_power = shoot;
+            data_for_sender->chip_power = 0x00;
+        } else if (chip > 0) {
+            data_for_sender->direct_power = 0x00;
+            data_for_sender->chip_power = chip;
+        } else {
+            data_for_sender->direct_power = 0x00;
+            data_for_sender->chip_power = 0x00;
+        }
 
 
-	}
+        data[1] = 20;//length=20
+        data[2] = 12;//Command to move by new protocol
+        cout<<"vel is:"<<data_for_sender->velocity.x.f32<<endl;
+        write_robot_command_fixed_V2(temp_data,this->data_for_sender);
+
+        for(int i=0;i<20;i++)
+            data[i+3] = temp_data[i];
+
+
+
+    }
 
 	dribbler = 0;
 	shoot = 0;
