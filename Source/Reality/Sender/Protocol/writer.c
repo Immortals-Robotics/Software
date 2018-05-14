@@ -121,6 +121,13 @@ void write_float_h(uint8_t* const buffer, size_t* const pos, const union FLOAT_3
     write_uint16(buffer, pos, half_from_float(data.u32));
 }
 
+void convert_float_to_2x_buff(uint8_t* const buffer, const float data)
+{
+    union FLOAT_32 tempF;
+    tempF.f32 = data;
+    write_uint16_in_buff(buffer, half_from_float(tempF.u32));
+}
+
 void write_float(uint8_t* const buffer, size_t* const pos, const union FLOAT_32 data)
 {
     write_uint32(buffer, pos, data.u32);

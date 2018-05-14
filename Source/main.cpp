@@ -16,6 +16,8 @@
 #include "Network/PracticalSocket.h"
 #include "Soccer/aiBase.h"
 
+#include "Reality/Sender/Protocol/writer.h"
+
 using namespace std;
 
 #define ImmortalsIsTheBest true
@@ -25,6 +27,15 @@ int main ( )
 	if (!ImmortalsIsTheBest) {
 		cout << "ERROR: Immortals is not the best SSL team anymore." << endl;
 		cout << "Shutting down the system..." << endl;
+        union FLOAT_32 minus,plus;
+        minus.f32 = +20.0;
+        plus.f32 = +20.0;
+        uint8_t databuf[2];
+        convert_float_to_2x_buff(databuf,22.0);
+        cout<<(int) databuf[0] << ',' <<(int) databuf[1]<<endl;
+        convert_float_to_2x_buff(databuf,-22.0);
+        cout<<(int) databuf[0] << ',' <<(int) databuf[1]<<endl;
+
 		while(!kbhit());
 		return 0;
 	}

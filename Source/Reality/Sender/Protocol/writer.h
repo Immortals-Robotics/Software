@@ -54,6 +54,8 @@ size_t write_robot_feedback_custom_fixed(uint8_t* const buffer, const struct Rob
 
 void write_uint16_in_buff(uint8_t* const buffer, const uint16_t data);
 
+void convert_float_to_2x_buff(uint8_t* const buffer, const float data);
+
 #ifdef __cplusplus
 }
 #endif
