@@ -17,6 +17,7 @@
 #include "Soccer/aiBase.h"
 
 #include "Reality/Sender/Protocol/writer.h"
+#include "Reality/Sender/Protocol/reader.h"
 
 using namespace std;
 
@@ -30,11 +31,15 @@ int main ( )
         union FLOAT_32 minus,plus;
         minus.f32 = +20.0;
         plus.f32 = +20.0;
-        uint8_t databuf[2];
-        convert_float_to_2x_buff(databuf,22.0);
+        float output;
+        uint8_t databuf[32];
+        convert_float_to_2x_buff(databuf+1,110);
+        convert_float_to_2x_buff(databuf+3,343);
         cout<<(int) databuf[0] << ',' <<(int) databuf[1]<<endl;
-        convert_float_to_2x_buff(databuf,-22.0);
-        cout<<(int) databuf[0] << ',' <<(int) databuf[1]<<endl;
+        read_float_h_from_2x_buf(databuf+1,&output);
+        cout<<output<<endl;
+//        convert_float_to_2x_buff(databuf,-22.0);
+//        cout<<(int) databuf[0] << ',' <<(int) databuf[1]<<endl;
 
 		while(!kbhit());
 		return 0;

@@ -218,9 +218,9 @@ void Robot::MoveByMotion(TVec3 motion)
 	//motion.Z /= 3.0;
     if(true) {//new protocol
 
-        velocity.x.f32 = motion.X;
-        velocity.y.f32 = motion.Y;
-        target_orientation.f32 = target.Angle;
+//        velocity.x.f32 = motion.X;
+//        velocity.y.f32 = motion.Y;
+//        target_orientation.f32 = target.Angle;
         convert_float_to_2x_buff(data + 3,motion.X);
         convert_float_to_2x_buff(data + 5,motion.Y);
         convert_float_to_2x_buff(data + 7,target.Angle);
@@ -274,7 +274,7 @@ void Robot::makeSendingDataReady ( void )
 	}
 	else {
         if (true){//new protocol
-            data[1] = 13;//length=10
+            data[1] = 15;//length=10
             data[2] = 12;//Command to move with new protocol
 
             convert_float_to_2x_buff(data + 9,State.Angle);
@@ -288,6 +288,8 @@ void Robot::makeSendingDataReady ( void )
                 data[11] = 0x00;
                 data[12] = 0x00;
             }
+//            data[11] = 0x00;
+//            data[12] = 0x30;
         }
         else{
 
