@@ -15,17 +15,17 @@ void ai09::my_test() {
 
     if(time_dis.time()<4.0){
         OwnRobot[cmf].target.Angle = 90;
-        Navigate2Point(cmf,Vec2(-2000,-1000),0,80,&VELOCITY_PROFILE_MAMOOLI);
-        cout<<"first part"<<endl;
+        Navigate2Point(cmf,Vec2(-2000,-1000),0,80,&VELOCITY_PROFILE_AROOM);
+        //cout<<"first part"<<endl;
     }
     else if(time_dis.time()<8.0){
         OwnRobot[cmf].target.Angle = 90;
-        Navigate2Point(cmf,Vec2(-2000,1000),0,80,&VELOCITY_PROFILE_MAMOOLI);
+        Navigate2Point(cmf,Vec2(-2000,1000),0,80,&VELOCITY_PROFILE_AROOM);
     }
     else {
         time_dis.start();
     }
-    cout<<time_dis.time()<<endl;
+    //cout<<time_dis.time()<<endl;
 
 
 

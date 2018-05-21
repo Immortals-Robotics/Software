@@ -5,6 +5,8 @@ using namespace std;
 #include "helpers.h"
 #include <stdlib.h>
 
+
+
 struct RobotProperty
 {
 	int serialID;
@@ -23,12 +25,22 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 {
 	std::cout << "	Running Immortals SSL AI module 09" << std::endl << "	Hope us luck :D " << std::endl;
 
+#ifndef NEW_FIELD_2018
     field_width = 4500.0f;
     field_height = 3000.0f;
     goal_width = 1000.0f;
 
     penalty_area_r = 1000.0f;
     penalty_area_width = 500.0f;
+#else
+	field_width = 4500.0f;
+    field_height = 3000.0f;
+    goal_width = 1000.0f;
+
+    penalty_area_r = 1200.0f;
+    penalty_area_width = 2400.0f;
+#endif
+
 
     REF_playState = _worldState->refereeState->State;
 
@@ -127,21 +139,21 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 	circleReachedBehindBall = false;
 	PredictedBall = Vec2 ( 0 );
 
-	VELOCITY_PROFILE_AROOM.max_spd = Vec2 ( 30.0f );
+	VELOCITY_PROFILE_AROOM.max_spd = Vec2 ( 1500.0f );
 	VELOCITY_PROFILE_AROOM.max_dec = Vec2 ( 1.0f );
-	VELOCITY_PROFILE_AROOM.max_acc = Vec2 ( 0.8f );
+	VELOCITY_PROFILE_AROOM.max_acc = Vec2 ( 4000.0f );
 	VELOCITY_PROFILE_AROOM.max_w_acc = 40.0f;
 	VELOCITY_PROFILE_AROOM.max_w_dec = 140.0f;
 
-	VELOCITY_PROFILE_MAMOOLI.max_spd = Vec2 ( 70.0f );
+	VELOCITY_PROFILE_MAMOOLI.max_spd = Vec2 ( 4000.0f );
 	VELOCITY_PROFILE_MAMOOLI.max_dec = Vec2 ( 2.0f );
-	VELOCITY_PROFILE_MAMOOLI.max_acc = Vec2 ( 1.3f );
+	VELOCITY_PROFILE_MAMOOLI.max_acc = Vec2 ( 5500.0f );
 	VELOCITY_PROFILE_MAMOOLI.max_w_acc = 40.0f;
 	VELOCITY_PROFILE_MAMOOLI.max_w_dec = 140.0f;
 
-	VELOCITY_PROFILE_KHARAKI.max_spd = Vec2 ( 70.0f );
+	VELOCITY_PROFILE_KHARAKI.max_spd = Vec2 ( 5000.0f );
 	VELOCITY_PROFILE_KHARAKI.max_dec = Vec2 ( 2.7f );
-	VELOCITY_PROFILE_KHARAKI.max_acc = Vec2 ( 1.9f );
+	VELOCITY_PROFILE_KHARAKI.max_acc = Vec2 ( 6500.0f );
 	VELOCITY_PROFILE_KHARAKI.max_w_acc = 40.0f;
 	VELOCITY_PROFILE_KHARAKI.max_w_dec = 140.0f;
 

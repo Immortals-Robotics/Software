@@ -2,8 +2,8 @@
 
 TVec2 ai09::CalculatePassPos ( int robot_num , const TVec2& target , const TVec2& statPos , float bar )
 {
-	//Line ball_line = Line::makeLineFromPositionAndAngle ( VecPosition ( ball.Position.X , ball.Position.Y ) , ball.velocity.direction );
-	Line ball_line ( 1.0 , -ballLine.getSlope() , -ballLine.getIntercept() );
+	Line ball_line = Line::makeLineFromPositionAndAngle ( VecPosition ( ball.Position.X , ball.Position.Y ) , ball.velocity.direction );
+	//Line ball_line ( 1.0 , -ballLine.getSlope() , -ballLine.getIntercept() );
 	
 	if (chip_head<180) {
 		ball_line = Line::makeLineFromPositionAndAngle ( VecPosition ( ball.Position.X , ball.Position.Y ) , chip_head );

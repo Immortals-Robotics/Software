@@ -19,6 +19,8 @@
 #include "Reality/Sender/Protocol/writer.h"
 #include "Reality/Sender/Protocol/reader.h"
 
+#include "Reality/Debugger/debuggerBase.h"
+
 using namespace std;
 
 #define ImmortalsIsTheBest true
@@ -60,11 +62,13 @@ int main ( )
     settings -> use_camera.push_back(false);
 
 	settings -> our_color = COLOR_YELLOW;
-    settings -> our_side = RIGHT_SIDE;
+    settings -> our_side = LEFT_SIDE;
     settings -> referee_UDP_Address = "224.5.23.1";//TODO Default is "224.5.23.1"
     settings -> refereePort = 10003;
     settings -> vision_UDP_Address = "224.5.23.2";
     settings -> visionPort = 10006;
+    settings -> GUI_UDP_Address = "127.0.0.1";
+    settings -> GUIPort = 10066;
 
 
     cout << " Connecting to RefereeBox server at " << settings->referee_UDP_Address
@@ -108,6 +112,8 @@ int main ( )
 
 	aiBase * aii = new ai09(state,settings,senderBase);
 
+    debuggerBase * debugger = new debuggerBase(settings,&aii->AIDebug);
+
 	Timer timer;
 
 	cout << " Now it is time, lets rock..." << endl;
@@ -137,6 +143,9 @@ int main ( )
             aii -> Process( state , settings , robot_cmds );
             //The sending process
             senderBase->sendAll();
+
+            //debugging:
+            debugger->send();
 
             lock.unlock();
             cout << 1.0/timer.interval() << endl;

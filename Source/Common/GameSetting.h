@@ -23,7 +23,7 @@ struct GameSetting
 	std::string referee_UDP_Address;
 	short refereePort;
 
-	std::string GUI_UDP_Adress;
+	std::string GUI_UDP_Address;
 	short GUIPort;
 
 	std::vector<bool> use_camera;

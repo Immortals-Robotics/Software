@@ -174,8 +174,8 @@ void compute_motion_1d(float x0, float v0, float v1,
 
     // We follow OPTION 2 if t_a is less than a FRAME_PERIOD making it
     // difficult to transition to decelerating and stopping exactly.
-    if (0 && a_to_v1_at_x0 < a_max && a_to_v1_at_x0 > 0.0 &&
-        t_to_v1_at_x0 < 2.0 / 61.0 && 0) {
+    if (a_to_v1_at_x0 < a_max && a_to_v1_at_x0 > 0.0 &&
+        t_to_v1_at_x0 < 2.0 / 61.0) {
 
         // OPTION 2
         // Use option 1 time, even though we're not following it.
@@ -271,8 +271,8 @@ Trajectory goto_point(RobotState state,
 {
     static TVec3 oldAns[12] = { Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f) };
 
-    const float a_max = 5000.0f;
-    const float v_max = 2000.0f;
+    const float a_max = profile->max_acc.X;
+    const float v_max = profile->max_spd.X;
     const float ang_a_max = 700.0;
     const float ang_v_max = 300.0;
 

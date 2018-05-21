@@ -22,6 +22,8 @@ using namespace std;
 #include "../../Common/MedianFilter.h"
 #include "../../Reality/Sender/Sender.h"
 
+#define NEW_FIELD_2018
+
 class ai09 : public aiBase
 {
 private:

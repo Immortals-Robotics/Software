@@ -2,15 +2,26 @@
 
 void ai09::Process ( WorldState * worldState , GameSetting * setting , char * commands )
 {
+    static int PRCS_CNT = 0;
 	AIDebug.Clear();
+
+
+
+    PRCS_CNT++;
+    AIDebug.set_frame_id(PRCS_CNT);
+
 	debugDraw = false;
 	
 	internalProcessData(worldState, setting);
 	
 	debugDraw = true;
 	AddDebugCircle(ball.Position,40,Red);
+//    AddDebugLine(ball.Position,Vec2(0,0),Cyan);
+//    AddDebugRect(ball.Position,ball.Position.X,ball.Position.Y,Orange);
+//    AddDebugPoint(ball.Position + Vec2(0,200),White);
 	debugDraw = false;
-		
+
+
 	if ( 0 ) {
 		currentPlay = "my_test";
 	}
@@ -127,7 +138,7 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 		(this->*AIPlayBook[currentPlay])();
 	else {
         HaltAll();
-        cout<<"Oh NO!!!"<<endl;
+        //cout<<"Oh NO!!!"<<endl;
     }
 	
 	
