@@ -145,11 +145,12 @@ int main ( )
             senderBase->sendAll();
 
             //debugging:
-            debugger->send();
+//            debugger->send();
 
             lock.unlock();
-            cout << 1.0/timer.interval() << endl;
+//            cout << 1.0/timer.interval() << endl;
             started = true;
+            sleep(0.0001);
         }
         exited = true;
         commUDP.sendTo ( zeros , 10 , "localhost" , 60001 );
@@ -162,7 +163,7 @@ int main ( )
         {
             if ( referee_2018.recieve() )
             {
-                //cout << "Referre Boz" << endl;
+//                cout << "Referre Boz" << endl;
                 lock.lock();
                 referee_2018.process();
                 lock.unlock();

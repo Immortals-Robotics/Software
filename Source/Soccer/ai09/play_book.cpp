@@ -9,7 +9,6 @@ void ai09::InitAIPlayBook ( void )
 	AIPlayBook["NewNormalPlay"] = &ai09::NewNormalPlay;
 	AIPlayBook["NormalPlayDef"] = &ai09::NormalPlayDef;
 	AIPlayBook["NormalPlayAtt"] = &ai09::NormalPlayAtt;
-    AIPlayBook["Omid_normal_play"] = &ai09::Omid_normal_play;//
 	AIPlayBook["Stop"] = &ai09::Stop;
 	AIPlayBook["tech_challenge"] = &ai09::tech_challenge;
 	AIPlayBook["tech_cmu"] = &ai09::tech_cmu;
@@ -51,4 +50,5 @@ void ai09::InitAIPlayBook ( void )
 	AIPlayBook["sharifcup_play_2nd"] = &ai09::sharifcup_play_2nd;
 	AIPlayBook["sharifcup_post_play"] = &ai09::sharifcup_post_play;
     AIPlayBook["throwin_us_outgir"] = &ai09::throwin_us_outgir;
+	AIPlayBook["our_place_ball"] = &ai09::our_place_ball;
 }

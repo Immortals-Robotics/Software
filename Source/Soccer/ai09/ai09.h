@@ -46,6 +46,9 @@ private:
 	uint32_t currentPlayParam;
 
 	void InitAIPlayBook ( void );
+
+	int FUNC_state = 0;
+	int FUNC_CNT = 0;
 	
 	bool gkIntercepting;
 	
@@ -87,6 +90,7 @@ private:
 	int lastReferee;
 	
 	Timer timer;
+	TVec2* targetBallPlacement;
 
 		bool isDefending;
 		bool oppRestarted;
@@ -119,7 +123,8 @@ private:
 	
 		bool navigated[8];
 		int side;
-	
+
+		VelocityProfile BALL_PLACE_KHEYLI_SOOSKI;
 		VelocityProfile VELOCITY_PROFILE_AROOM;
 		VelocityProfile VELOCITY_PROFILE_KHARAKI;
 		VelocityProfile VELOCITY_PROFILE_MAMOOLI;
@@ -244,7 +249,7 @@ private:
 		void sharifcup_play_4th ( void );
 		void sharifcup_post_play ( void );
         void throwin_us_outgir ( void );
-    void Omid_normal_play( void );
+		void our_place_ball ( void );
 
     void my_test();
 

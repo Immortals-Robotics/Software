@@ -33,6 +33,8 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 			lastReferee = REF_playState->get();
 			randomParam = random.get();
 			target_str = strategy_weight();
+			FUNC_state = 0;
+			FUNC_CNT = 0;
 		}
 		
 		if ( REF_playState->get() == GameState::GAME_OFF )
@@ -51,15 +53,17 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 			
 			//currentPlay = "strategy_maker";
 			//currentPlayParam = playBook->strategy_size()-1;
+
 			
-			//   
-			
-			currentPlay = "NewNormalPlay";
+//			currentPlay = "NewNormalPlay";
 			//currentPlay = "tech_mexico";
 			//currentPlay = "tech_motion_ann";
 			//if ( timer.time() > 30.0 || ball.seenState == CompletelyOut )
 			//	currentPlay = "sharifcup_post_play";
-            cout<<"IT's NORMALLLLLLLL"<<endl;
+            targetBallPlacement->X = -3700;
+            targetBallPlacement->Y = -2500;
+            currentPlay = "our_place_ball";
+//            cout<<"IT's NORMALLLLLLLL"<<endl;
 		}
 		else if ( REF_playState->ourKickoff ( ) )
 		{

@@ -56,6 +56,7 @@ struct RefereeState
 	unsigned short goals_blue;
 	unsigned short goals_yellow;
 	unsigned char counter;
+    TVec2 placeBallTargetPosition;
     int oppGK;
 };
 
@@ -74,6 +75,7 @@ struct WorldState
 
 	RefereeState* refereeState;
 
+
     WorldState(){
         ball.Position = Vec2 ( 0.0f );
         ball.velocity.x = 0.0f;
@@ -89,6 +91,7 @@ struct WorldState
         refereeState->goals_blue = 0;
         refereeState->goals_yellow = 0;
         refereeState->counter = 0;
+        refereeState->placeBallTargetPosition = Vec2( 0.0f );
 
         ownRobots_num = 0;
         for ( int i = 0 ; i < MAX_ROBOTS ; i ++ ){

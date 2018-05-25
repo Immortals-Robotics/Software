@@ -77,7 +77,7 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
         AddDebugRect( Vec2(-side*(field_width+85.0f) , -top_corner), side*(135.0+penalty_area_r) , penalty_area_width,Cyan);
 
 #endif
-        cout<<"-------------------------------AVOIDED"<<endl;
+       // cout<<"-------------------------------AVOIDED"<<endl;
 	}
 	
 	if ( bigPen )

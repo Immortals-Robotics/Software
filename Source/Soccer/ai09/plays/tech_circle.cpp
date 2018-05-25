@@ -88,7 +88,7 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 	if (gameRestart&&(chip>0)) {
 		chip_head = OwnRobot[robot_num].State.Angle;
 	}
-	
+
 	
 	
 	if (1)// ( fabs(NormalizeAngle(lastBallDirection-ball.velocity.direction) ) > 5 ) || ( fabs(lastBallMagnitude-ball.velocity.magnitude) > 80 ) || ( ball.velocity.magnitude < 100 ) || ( DIS(ball.Position, PredictedBall) < 150) )

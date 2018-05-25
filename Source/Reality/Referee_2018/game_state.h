@@ -52,6 +52,8 @@ public:
 
   static const int READY =    (1 << 10);
   static const int NOTREADY = (1 << 11);
+
+  static const int PLACE_BALL = (1 << 12);
   
   int state;
 
@@ -117,6 +119,11 @@ public:
       case COMM_INDIRECT_YELLOW: 
 	state = INDIRECT | YELLOW | READY; return;
 
+      case COMM_PLACEBALL_BLUE:
+    state = PLACE_BALL | BLUE | NOTREADY; return;
+      case COMM_PLACEBALL_YELLOW:
+    state = PLACE_BALL | YELLOW | NOTREADY; return;
+
       default: break;
       }
     }
@@ -143,6 +150,10 @@ public:
   bool indirectKick() { return (state & INDIRECT); }
   bool ourIndirectKick() { return indirectKick() && (state & color); }
   bool theirIndirectKick() { return indirectKick() && ! (state & color); }
+
+  bool placeBall() { return (state & PLACE_BALL); }
+  bool ourPlaceBall() { return placeBall() && (state & color); }
+  bool theirPlaceBall() { return placeBall() && ! (state & color); }
 
   bool freeKick() { return directKick() || indirectKick(); }
   bool ourFreeKick() { return ourDirectKick() || ourIndirectKick(); }

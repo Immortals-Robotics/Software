@@ -44,6 +44,9 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 
     REF_playState = _worldState->refereeState->State;
 
+	targetBallPlacement = new TVec2;//TODO it has to be read from the ref State
+	*targetBallPlacement = Vec2(0.0,0.0);
+
     for ( int i = 0 ; i < 8 ; i ++ )
     {
         oneTouchDetector[i].field_w = field_width;
@@ -124,10 +127,10 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 		OwnRobot[i].set_vision_id(i+1);
 	}
     OwnRobot[gk].set_vision_id(4);
-    OwnRobot[def].set_vision_id(1);
+    OwnRobot[def].set_vision_id(5);
     OwnRobot[dmf].set_vision_id(2);
     OwnRobot[lmf].set_vision_id(6);
-    OwnRobot[rmf].set_vision_id(5);
+    OwnRobot[rmf].set_vision_id(1);
     OwnRobot[cmf].set_vision_id(7);
 	OwnRobot[rightARM].set_vision_id(10);
 	OwnRobot[leftARM].set_vision_id(11);
@@ -138,6 +141,13 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 	lastBallMagnitude = 0;
 	circleReachedBehindBall = false;
 	PredictedBall = Vec2 ( 0 );
+
+
+    BALL_PLACE_KHEYLI_SOOSKI.max_spd = Vec2 ( 500.0f );
+    BALL_PLACE_KHEYLI_SOOSKI.max_dec = Vec2 ( 1.0f );
+    BALL_PLACE_KHEYLI_SOOSKI.max_acc = Vec2 ( 3000.0f );
+    BALL_PLACE_KHEYLI_SOOSKI.max_w_acc = 40.0f;
+    BALL_PLACE_KHEYLI_SOOSKI.max_w_dec = 140.0f;
 
 	VELOCITY_PROFILE_AROOM.max_spd = Vec2 ( 1500.0f );
 	VELOCITY_PROFILE_AROOM.max_dec = Vec2 ( 1.0f );

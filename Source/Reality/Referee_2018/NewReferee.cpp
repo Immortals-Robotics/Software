@@ -43,6 +43,13 @@ void NewReferee::process ()
 {
     if ( !pSSLRef.ParseFromArray(incoming_buffer, buffer_size) )
         return;
+	if(pSSLRef.has_designated_position()){
+		cout<<"HAS POSITION!!!!!"<<endl;
+		cout<<"BALL TARGET POSITION IS:"<<pSSLRef.designated_position().x()<<'_'<<pSSLRef.designated_position().y()<<endl;
+        RefState->placeBallTargetPosition = Vec2(pSSLRef.designated_position().x(),pSSLRef.designated_position().y());
+	}
+//	else
+//		cout<<"no new packet received"<<endl;
 
 	if(command_CNT != pSSLRef.command_counter()) {//Update only when there is a new command
 		command_CNT = pSSLRef.command_counter();
