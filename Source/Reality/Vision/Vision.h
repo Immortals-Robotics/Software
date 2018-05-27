@@ -22,6 +22,7 @@
 #include "../../Common/MATHS_REGRESSION_PARABOLIC.h"
 #include "../WorldState.h"
 #include "../../Common/GameSetting.h"
+#include "../../Common/poly_find.h"
 #include <zmq.h>
 
 #ifndef INT_MAX
@@ -133,5 +134,8 @@ private:
     SSL_DetectionRobot robot[MAX_ROBOTS*CAM_COUNT];
 
     robotDataMsg robotPacket[2][MAX_ROBOTS];
+
+	poly_find* XPos_t;
+	poly_find* YPos_t;
 };
 

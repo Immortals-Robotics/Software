@@ -73,6 +73,8 @@ void VisionModule::FilterBalls ( int num , WorldState * state )
 			id = i;
 		}
 	}
+	cout << d_ball[id].x() <<endl
+		 << d_ball[id].y() <<endl;
 
 	if ( dis < MAX_BALL_2FRAMES_DISTANCE )
 	{

@@ -52,7 +52,7 @@ int main ( )
     
 	GameSetting * settings = new GameSetting();
     settings -> use_camera.push_back(true);
-    settings -> use_camera.push_back(true);
+    settings -> use_camera.push_back(false);
     settings -> use_camera.push_back(false);
     settings -> use_camera.push_back(false);
     
@@ -145,7 +145,7 @@ int main ( )
             senderBase->sendAll();
 
             //debugging:
-//            debugger->send();
+            debugger->send();
 
             lock.unlock();
 //            cout << 1.0/timer.interval() << endl;

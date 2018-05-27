@@ -16,13 +16,14 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 	
 	debugDraw = true;
 	AddDebugCircle(ball.Position,40,Red);
+	AddDebugLine(ball.Position,Vec2(ball.velocity.x,ball.velocity.y) + ball.Position, Black);
 //    AddDebugLine(ball.Position,Vec2(0,0),Cyan);
 //    AddDebugRect(ball.Position,ball.Position.X,ball.Position.Y,Orange);
 //    AddDebugPoint(ball.Position + Vec2(0,200),White);
 	debugDraw = false;
 
 
-	if ( 0 ) {
+	if ( 1 ) {
 		currentPlay = "my_test";
 	}
 	else if ( REF_playState )
@@ -55,14 +56,14 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 			//currentPlayParam = playBook->strategy_size()-1;
 
 			
-//			currentPlay = "NewNormalPlay";
+			currentPlay = "NewNormalPlay";
 			//currentPlay = "tech_mexico";
 			//currentPlay = "tech_motion_ann";
 			//if ( timer.time() > 30.0 || ball.seenState == CompletelyOut )
 			//	currentPlay = "sharifcup_post_play";
-            targetBallPlacement->X = -3700;
-            targetBallPlacement->Y = -2500;
-            currentPlay = "our_place_ball";
+//            targetBallPlacement->X = -3700;
+//            targetBallPlacement->Y = -2500;
+//            currentPlay = "our_place_ball";
 //            cout<<"IT's NORMALLLLLLLL"<<endl;
 		}
 		else if ( REF_playState->ourKickoff ( ) )
@@ -73,13 +74,13 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 			
 			currentPlayParam = worldState ->refereeState -> State->canKickBall();
 		}
-		else if ( ( REF_playState->ourDirectKick ( ) ) || ( worldState ->refereeState -> State->ourIndirectKick ( ) ) )
+		else if ( ( REF_playState->ourDirectKick ( ) ) || ( REF_playState->ourIndirectKick ( ) ) )
 		{
             if(1)
             {
                 //currentPlay="corner_simple_pass";
                 currentPlay="kickoff_us_zamini";
-
+				currentPlayParam = REF_playState->canKickBall();
             }
             else {
                 if (target_str != -1) {
