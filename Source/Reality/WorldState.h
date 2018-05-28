@@ -3,6 +3,7 @@
 #include <iostream>
 #include "../Reality/Referee_2018/game_state.h"
 #include "../Common/Vector.h"
+#include "../Common/poly_find.h"
 #include <math.h>
 
 #define MAX_ROBOTS 12//The variety of standard patterns that we can have is 12
@@ -43,6 +44,10 @@ struct BallState
 
 	SeenState seenState;
 
+    double t_capture;
+    poly_find* Xpos_t;
+    poly_find* Ypos_t;
+
     friend std::ostream &operator<< ( std::ostream & oo , const BallState & state ) {
         oo << "Ball " << state.seenState << "		X : " << (int)state.Position.X << "		Y : " << (int)state.Position.Y << std::endl;
         return oo;
@@ -82,6 +87,9 @@ struct WorldState
         ball.velocity.y = 0.0f;
         ball.velocity.direction = 0.0f;
         ball.velocity.magnitude = 0.0f;
+        ball.t_capture = 0.0f;
+        ball.Xpos_t = new poly_find(2);
+        ball.Ypos_t = new poly_find(2);
         ball.seenState = CompletelyOut;
         has_ball = false;
 

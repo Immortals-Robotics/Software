@@ -18,6 +18,7 @@ void VisionModule::ProcessBalls ( WorldState * state )
 	predictBallForward ( state );
 
 }
+
 int VisionModule::ExtractBalls ( void )
 {
 	int ans = 0;
@@ -28,6 +29,7 @@ int VisionModule::ExtractBalls ( void )
 			for ( int j = 0 ; j < frame[i].balls_size ( ) ; j ++ )
 			{
 				d_ball[ans] = frame[i].balls ( j );
+                t_capture_buff[ans] = frame[i].t_capture();
 
 				ans ++;
 			}
@@ -49,7 +51,10 @@ int VisionModule::MergeBalls ( int num )
 				if ( d_ball[i].has_z ( ) )
 					d_ball[i].set_z ( ( d_ball[i].z ( ) + d_ball[j].z ( ) ) / (float)2.0 );
 
+                t_capture_buff[i] = (t_capture_buff[i]+t_capture_buff[j]) / (float)2.0;
+
 				d_ball[j] = d_ball[num-1];
+                t_capture_buff[j] = t_capture_buff[num-1];
 				num --;
 
 				j --;
@@ -73,8 +78,8 @@ void VisionModule::FilterBalls ( int num , WorldState * state )
 			id = i;
 		}
 	}
-	cout << d_ball[id].x() <<endl
-		 << d_ball[id].y() <<endl;
+//	cout << d_ball[id].x() <<endl
+//		 << d_ball[id].y() <<endl;
 
 	if ( dis < MAX_BALL_2FRAMES_DISTANCE )
 	{
@@ -93,6 +98,7 @@ void VisionModule::FilterBalls ( int num , WorldState * state )
 		state -> ball.Position.Y = filtout[1][0] ;
 		state -> ball.velocity.x = filtout[0][1] ;
 		state -> ball.velocity.y = filtout[1][1] ;
+        state -> ball.t_capture = t_capture_buff[id];
 
 		ball_not_seen = 0;
 		state -> has_ball = true;
@@ -110,7 +116,7 @@ void VisionModule::FilterBalls ( int num , WorldState * state )
 				float filtout[2][2];
 				float filtpos[2] = { d_ball[id].x() / (float)10.0 , d_ball[id].y() / (float)10.0 };
 				lastRawBall.CopyFrom ( d_ball[id] );
-				ball_kalman.initializePos ( filtpos );
+                ball_kalman.initializePos ( filtpos );
 				
 				ball_kalman.updatePosition ( filtpos , filtout );
 
@@ -118,10 +124,15 @@ void VisionModule::FilterBalls ( int num , WorldState * state )
 				state -> ball.Position.Y = filtout[1][0];
 				state -> ball.velocity.x = filtout[0][1];
 				state -> ball.velocity.y = filtout[1][1];
+                state -> ball.t_capture = t_capture_buff[id];
 
-				ball_not_seen = 0;
+
+                ball_not_seen = 0;
 				state -> has_ball = true;
 				state -> ball.seenState = Seen;
+
+                ball_XPos_t->reset();
+                ball_YPos_t->reset();
 			}
 			else
 			{
@@ -216,7 +227,20 @@ void VisionModule::predictBallForward( WorldState * state )
 	while(state -> ball.velocity.direction<-180)
 		state -> ball.velocity.direction+=360;
 	state -> ball.velocity.magnitude = sqrt ( ( state -> ball.velocity.x * state -> ball.velocity.x ) + ( state -> ball.velocity.y * state -> ball.velocity.y ) );
-	
+
+    static double o_point_t;
+    if(state -> ball.velocity.magnitude > 10 && state -> ball.seenState == Seen) {
+        ball_XPos_t->add_point(state->ball.t_capture - o_point_t, state->ball.Position.X);
+        ball_YPos_t->add_point(state->ball.t_capture - o_point_t, state->ball.Position.Y);
+        state->ball.t_capture = state->ball.t_capture - o_point_t;
+
+    }else{
+        ball_XPos_t->reset();
+        ball_YPos_t->reset();
+        o_point_t = state->ball.t_capture;
+        cout<<"Ball is stationary"<<endl;
+    }
+
 }
 
 void VisionModule::calculateBallHeight ( void )

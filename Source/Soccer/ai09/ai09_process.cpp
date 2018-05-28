@@ -16,7 +16,16 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 	
 	debugDraw = true;
 	AddDebugCircle(ball.Position,40,Red);
-	AddDebugLine(ball.Position,Vec2(ball.velocity.x,ball.velocity.y) + ball.Position, Black);
+//	AddDebugLine(ball.Position,Vec2(ball.velocity.x,ball.velocity.y) + ball.Position, Black);
+    worldState->ball.Xpos_t->calculate();
+    worldState->ball.Ypos_t->calculate();
+    if(worldState->ball.Ypos_t->is_valid() && worldState->ball.Xpos_t->is_valid()) {
+//        AddDebugCircle(Vec2(worldState->ball.Xpos_t->give_Y_by_X(worldState->ball.t_capture + 0.5),
+//                            worldState->ball.Ypos_t->give_Y_by_X(worldState->ball.t_capture + 0.5)), 40, Blue);
+        TVec2 spd_v= Vec2(worldState->ball.Xpos_t->give_derivedY_by_X(worldState->ball.t_capture + 0.5), worldState->ball.Ypos_t->give_derivedY_by_X(worldState->ball.t_capture + 0.5));
+        AddDebugLine(ball.Position,spd_v + ball.Position, Black);
+
+    }
 //    AddDebugLine(ball.Position,Vec2(0,0),Cyan);
 //    AddDebugRect(ball.Position,ball.Position.X,ball.Position.Y,Orange);
 //    AddDebugPoint(ball.Position + Vec2(0,200),White);

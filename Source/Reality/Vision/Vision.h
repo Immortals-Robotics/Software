@@ -135,7 +135,8 @@ private:
 
     robotDataMsg robotPacket[2][MAX_ROBOTS];
 
-	poly_find* XPos_t;
-	poly_find* YPos_t;
+	double t_capture_buff[MAX_BALLS*CAM_COUNT];
+	poly_find* ball_XPos_t;
+	poly_find* ball_YPos_t;
 };
 
