@@ -1,4 +1,6 @@
 #include "Vision.h"
+#include "../../Soccer/ai09/helpers.h"
+
 #define MAX_BALL_2FRAMES_DISTANCE 450000.0f
 
 void VisionModule::ProcessBalls ( WorldState * state )
@@ -131,9 +133,8 @@ void VisionModule::FilterBalls ( int num , WorldState * state )
 				state -> has_ball = true;
 				state -> ball.seenState = Seen;
 
-                ball_XPos_t->reset();
-                ball_YPos_t->reset();
-			}
+                state->ball.First_Pos_when_shooted = state->ball.Position;
+            }
 			else
 			{
 				state -> ball.velocity.x = 0;
@@ -228,17 +229,21 @@ void VisionModule::predictBallForward( WorldState * state )
 		state -> ball.velocity.direction+=360;
 	state -> ball.velocity.magnitude = sqrt ( ( state -> ball.velocity.x * state -> ball.velocity.x ) + ( state -> ball.velocity.y * state -> ball.velocity.y ) );
 
-    static double o_point_t;
-    if(state -> ball.velocity.magnitude > 10 && state -> ball.seenState == Seen) {
-        ball_XPos_t->add_point(state->ball.t_capture - o_point_t, state->ball.Position.X);
-        ball_YPos_t->add_point(state->ball.t_capture - o_point_t, state->ball.Position.Y);
-        state->ball.t_capture = state->ball.t_capture - o_point_t;
 
-    }else{
-        ball_XPos_t->reset();
-        ball_YPos_t->reset();
-        o_point_t = state->ball.t_capture;
-        cout<<"Ball is stationary"<<endl;
+    float tempAngdelta = NormalizeAngle(Angle(state->ball.path_dir) - state -> ball.velocity.direction);
+    if(tempAngdelta != tempAngdelta)//tempAngdelta is NaN (Don't erase it)
+        tempAngdelta = 0.0;
+    if(fabs(tempAngdelta) > 15){
+        cout<<"NEW ANGLE____________"<<tempAngdelta<<endl;
+    }
+
+    if(state -> ball.velocity.magnitude > 10 && state -> ball.seenState == Seen && fabs(tempAngdelta) <= 15) {
+        state->ball.path_dir = (state->ball.Position - state->ball.First_Pos_when_shooted);
+        cout<<"we got here"<<endl;
+
+    }else if(state -> ball.seenState != TemprolilyOut){
+        state->ball.First_Pos_when_shooted = state->ball.Position;
+        cout<<"SEE: "<<fabs(tempAngdelta)<<endl;
     }
 
 }

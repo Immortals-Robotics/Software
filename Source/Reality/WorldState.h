@@ -44,9 +44,9 @@ struct BallState
 
 	SeenState seenState;
 
+    TVec2 First_Pos_when_shooted;
+    TVec2 path_dir;
     double t_capture;
-    poly_find* Xpos_t;
-    poly_find* Ypos_t;
 
     friend std::ostream &operator<< ( std::ostream & oo , const BallState & state ) {
         oo << "Ball " << state.seenState << "		X : " << (int)state.Position.X << "		Y : " << (int)state.Position.Y << std::endl;
@@ -88,8 +88,6 @@ struct WorldState
         ball.velocity.direction = 0.0f;
         ball.velocity.magnitude = 0.0f;
         ball.t_capture = 0.0f;
-        ball.Xpos_t = new poly_find(2);
-        ball.Ypos_t = new poly_find(2);
         ball.seenState = CompletelyOut;
         has_ball = false;
 

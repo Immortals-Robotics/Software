@@ -57,9 +57,6 @@ VisionModule::VisionModule(GameSetting* _settings,WorldState* _State) : connecte
         cout<<"Failed to connect to Vision UDP"<<endl;
     }
 
-    ball_XPos_t = _State->ball.Xpos_t;
-    ball_YPos_t = _State->ball.Ypos_t;
-
 }
 VisionModule::~VisionModule()
 {
