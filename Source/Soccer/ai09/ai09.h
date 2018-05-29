@@ -243,14 +243,7 @@ private:
 		void tech_khers_pass ( void );
 		void tech_khers_def ( void );
 		void tech_motion_ann ( void );
-		void sharifcup_pre_start ( void );
-		void sharifcup_play ( void );
-		void sharifcup_play_2nd ( void );
-		map<int,int> sharifcup_score_map;
-		void sharifcup_play_3rd ( void );
-		void sharifcup_play_4th ( void );
-		void sharifcup_post_play ( void );
-        void throwin_us_outgir ( void );
+		void throwin_us_outgir ( void );
 		void our_place_ball ( void );
 
     void my_test();
@@ -266,6 +259,5 @@ private:
 		void Process ( WorldState * worldState , GameSetting * setting , char * commands );
 		bool read_playBook ( const char* fileName );
 		bool read_playBook_str ( char* buffer , int length );
-		void read_sharifcup_config ( void );
 
 };

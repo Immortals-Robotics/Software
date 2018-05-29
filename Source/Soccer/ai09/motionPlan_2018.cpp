@@ -19,34 +19,43 @@ double minimum_move_dist(double V0,double V1,double a_max){
 
 TVec3 Robot::MotionPlan_2018 ( RobotState state , RobotState target , float speed , VelocityProfile * velocityProfile ){
 
-    static PID_Controller Pos(0.02,3, 0, 328, -328);
     static double lastVel = 0.0;
 
     TVec2 deltaPos = target.Position - state.Position;
     TVec3 output;
 
-    if(Magnitude(deltaPos)< 100) {
-        lastVel *= 0.5;
-        output.X = lastVel * deltaPos.X/Magnitude(deltaPos);
-        output.Y = lastVel * deltaPos.Y/Magnitude(deltaPos);
-        return output;
+    double max_a = 1.2;
+    double max_v = 120;
+    double max_dec = -1.0;
+    double distance = Magnitude(deltaPos);
+
+    double tempVel;
+
+    if(distance < 40) {
+        tempVel = lastVel + max_dec * 2;
+        cout<<"first PART!!!!!"<<endl;
     }
-//    Xvels.add_data(State.velocity.x);
-//    Yvels.add_data(State.velocity.y);
-//    cout<<"X is:"<<Xvels.get_output()<<endl
-//        <<"Y is:"<<Yvels.get_output()<<endl;
-    if(State.seenState != Seen)
-        cout<<"Oh my god!!!!"<<endl;
+    else if(distance <= minimum_move_dist(state.velocity.magnitude/35,0.0,max_dec)){
+        tempVel = lastVel + max_dec;
+        cout<<"trying to stop!!!!!"<<endl;
+    }
+    else if(distance <= minimum_move_dist(state.velocity.magnitude/35,0.0,max_dec) + 300){
+        tempVel = lastVel;
+    }
+    else
+        tempVel = lastVel + max_a;
+    cout<<"dist is: "<<distance<<endl;
 
-    double tempVel = Pos.calcPI(DIS(state.Position,target.Position));
+//    if(State.seenState != Seen)
+//        cout<<"Oh my god!!!!"<<endl;
 
-    if (tempVel - lastVel > 3)//SPEED UP
-        tempVel = tempVel + 3;
-    else if (tempVel - lastVel < -1)//BREAK
-        tempVel = tempVel - 1;
 
-    if (tempVel > 30)
-        tempVel = 30;
+
+    if (tempVel > max_v)
+        tempVel = max_v;
+
+    if (tempVel < 0)
+        tempVel = 0;
 
     lastVel = tempVel;
 

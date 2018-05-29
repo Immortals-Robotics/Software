@@ -32,6 +32,7 @@ void ai09::ERRTNavigate2Point ( int robot_num , TVec2 dest , bool accurate , int
 		OwnRobot[robot_num].target.velocity.x = v.X;
 		OwnRobot[robot_num].target.velocity.y = v.Y;
 		Navigate2Point(robot_num, wayp, accurate, speed, velocityProfile);
+//        Navigate2Point_2018(robot_num, wayp, speed, velocityProfile);
 	}
 }
 

@@ -223,9 +223,3 @@ void swap ( int & a , int & b )
 	b = tmp;
 }
 
-void ai09::read_sharifcup_config ( void )
-{
-	sharifcup_score_map[1] = 10;
-	sharifcup_score_map[13] = 7;
-	sharifcup_score_map[5] = -9;
-}

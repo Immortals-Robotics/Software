@@ -43,12 +43,6 @@ void ai09::InitAIPlayBook ( void )
 	AIPlayBook["corner_their_skuba"] = &ai09::corner_their_skuba;
 	AIPlayBook["corner_their_mrl"] = &ai09::corner_their_mrl;
 	AIPlayBook["tech_motion_ann"] = &ai09::tech_motion_ann;
-	AIPlayBook["sharifcup_pre_start"] = &ai09::sharifcup_pre_start;
-	AIPlayBook["sharifcup_play"] = &ai09::sharifcup_play;
-	AIPlayBook["sharifcup_play_4th"] = &ai09::sharifcup_play_4th;
-	AIPlayBook["sharifcup_play_3rd"] = &ai09::sharifcup_play_3rd;
-	AIPlayBook["sharifcup_play_2nd"] = &ai09::sharifcup_play_2nd;
-	AIPlayBook["sharifcup_post_play"] = &ai09::sharifcup_post_play;
     AIPlayBook["throwin_us_outgir"] = &ai09::throwin_us_outgir;
 	AIPlayBook["our_place_ball"] = &ai09::our_place_ball;
 }
