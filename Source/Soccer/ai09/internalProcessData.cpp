@@ -9,7 +9,7 @@ void ai09::internalProcessData ( WorldState * worldState , GameSetting * setting
 		this->ballHist.push_back(this->ball);
 	if ( this->ballHist.size() > maxBallHist )
 		this->ballHist.pop_front();
-	debugDraw = true;
+	//debugDraw = true;
 	CalculateBallTrajectory();
 	debugDraw = false;
 	

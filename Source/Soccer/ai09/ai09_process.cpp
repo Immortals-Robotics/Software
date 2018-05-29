@@ -19,19 +19,16 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 //	AddDebugLine(ball.Position,Vec2(ball.velocity.x,ball.velocity.y) + ball.Position, Black);
 
     TVec2 spd_v= worldState->ball.path_dir;
-    AddDebugLine(ball.Position,spd_v + ball.Position, Black);
-    AddDebugLine(ball.Position,Vec2(ball.velocity.x,ball.velocity.y) + ball.Position, Yellow);
-
-
-//    AddDebugLine(ball.Position,Vec2(0,0),Cyan);
-//    AddDebugRect(ball.Position,ball.Position.X,ball.Position.Y,Orange);
-//    AddDebugPoint(ball.Position + Vec2(0,200),White);
+    AddDebugLine(ball.Position,spd_v + ball.Position, Yellow);
+//    AddDebugLine(ball.Position,Vec2(ball.velocity.x,ball.velocity.y) + ball.Position, Yellow);
 	debugDraw = false;
 
 
 	if ( 1 ) {
 		currentPlay = "my_test";
-	}
+//        GKHi(gk, 1, 0);
+//        currentPlay = "Stop";
+    }
 	else if ( REF_playState )
 	{
 		if ( lastReferee != REF_playState->get() )

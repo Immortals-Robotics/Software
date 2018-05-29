@@ -133,7 +133,7 @@ void VisionModule::FilterBalls ( int num , WorldState * state )
 				state -> has_ball = true;
 				state -> ball.seenState = Seen;
 
-                state->ball.First_Pos_when_shooted = state->ball.Position;
+                ball_dir_buff.clear();
             }
 			else
 			{
@@ -230,21 +230,46 @@ void VisionModule::predictBallForward( WorldState * state )
 	state -> ball.velocity.magnitude = sqrt ( ( state -> ball.velocity.x * state -> ball.velocity.x ) + ( state -> ball.velocity.y * state -> ball.velocity.y ) );
 
 
-    float tempAngdelta = NormalizeAngle(Angle(state->ball.path_dir) - state -> ball.velocity.direction);
-    if(tempAngdelta != tempAngdelta)//tempAngdelta is NaN (Don't erase it)
-        tempAngdelta = 0.0;
-    if(fabs(tempAngdelta) > 15){
-        cout<<"NEW ANGLE____________"<<tempAngdelta<<endl;
-    }
+//    static int CNT = 0;
+//    CNT++;
+//    if(CNT%20 == 0) {
+//        ball_dir_buff.push_back(state->ball.Position);
+//        CNT = 0;
+//    }
+//
+//    float tempAng,lastAng;
+//    if(ball_dir_buff.size()) {
+//        deque<TVec2>::iterator delete_until_here = ball_dir_buff.begin();
+//        for (deque<TVec2>::iterator it = ball_dir_buff.begin(), it2 = ball_dir_buff.begin() + 1;
+//             it2 != ball_dir_buff.end(); ++it, ++it2) {
+//            tempAng = Angle(*it2 - *it);
+//            if (it != ball_dir_buff.begin() && fabs(tempAng - lastAng) > 5) {
+//                delete_until_here = it;
+//            }
+//            lastAng = tempAng;
+//        }
+//
+//        while (delete_until_here != ball_dir_buff.begin())
+//            ball_dir_buff.pop_front();
+//		if(ball_dir_buff.size() >=2)
+//        	state->ball.path_dir = ( ball_dir_buff.back() - ball_dir_buff.front());
+//    }
 
-    if(state -> ball.velocity.magnitude > 10 && state -> ball.seenState == Seen && fabs(tempAngdelta) <= 15) {
-        state->ball.path_dir = (state->ball.Position - state->ball.First_Pos_when_shooted);
-        cout<<"we got here"<<endl;
-
-    }else if(state -> ball.seenState != TemprolilyOut){
-        state->ball.First_Pos_when_shooted = state->ball.Position;
-        cout<<"SEE: "<<fabs(tempAngdelta)<<endl;
-    }
+//    float tempAngdelta = NormalizeAngle(Angle(state->ball.path_dir) - state -> ball.velocity.direction);
+//    if(tempAngdelta != tempAngdelta)//tempAngdelta is NaN (Don't erase it)
+//        tempAngdelta = 0.0;
+//    if(fabs(tempAngdelta) > 15){
+//        cout<<"NEW ANGLE____________"<<tempAngdelta<<endl;
+//    }
+//
+//    if(state -> ball.velocity.magnitude > 10 && state -> ball.seenState == Seen && fabs(tempAngdelta) <= 15) {
+//        state->ball.path_dir = (ball_dir_buff.front() - ball_dir_buff.back());
+//        cout<<"we got here"<<endl;
+//
+//    }else if(state -> ball.seenState != TemprolilyOut){
+//        state->ball.First_Pos_when_shooted = state->ball.Position;
+//        cout<<"SEE: "<<fabs(tempAngdelta)<<endl;
+//    }
 
 }
 

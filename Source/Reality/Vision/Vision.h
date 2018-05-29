@@ -24,6 +24,7 @@
 #include "../../Common/GameSetting.h"
 #include "../../Common/poly_find.h"
 #include <zmq.h>
+#include <deque>
 
 #ifndef INT_MAX
 #define INT_MAX       2147483647    /* maximum (signed) int value */
@@ -136,5 +137,6 @@ private:
     robotDataMsg robotPacket[2][MAX_ROBOTS];
 
 	double t_capture_buff[MAX_BALLS*CAM_COUNT];
+    deque<TVec2> ball_dir_buff;
 };
 

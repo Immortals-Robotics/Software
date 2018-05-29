@@ -52,7 +52,7 @@ int main ( )
     
 	GameSetting * settings = new GameSetting();
     settings -> use_camera.push_back(true);
-    settings -> use_camera.push_back(false);
+    settings -> use_camera.push_back(true);
     settings -> use_camera.push_back(false);
     settings -> use_camera.push_back(false);
     
@@ -62,7 +62,7 @@ int main ( )
     settings -> use_camera.push_back(false);
 
 	settings -> our_color = COLOR_YELLOW;
-    settings -> our_side = LEFT_SIDE;
+    settings -> our_side = RIGHT_SIDE;
     settings -> referee_UDP_Address = "224.5.23.1";//TODO Default is "224.5.23.1"
     settings -> refereePort = 10003;
     settings -> vision_UDP_Address = "224.5.23.2";
@@ -148,7 +148,7 @@ int main ( )
             debugger->send();
 
             lock.unlock();
-//            cout << 1.0/timer.interval() << endl;
+            cout << 1.0/timer.interval() << endl;
             started = true;
             sleep(0.0001);
         }

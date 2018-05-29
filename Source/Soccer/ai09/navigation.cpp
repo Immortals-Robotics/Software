@@ -34,3 +34,17 @@ void ai09::ERRTNavigate2Point ( int robot_num , TVec2 dest , bool accurate , int
 		Navigate2Point(robot_num, wayp, accurate, speed, velocityProfile);
 	}
 }
+
+
+void ai09::Navigate2Point_2018 ( int robot_num , TVec2 dest , int speed, VelocityProfile * velocityProfile )
+{
+	OwnRobot[robot_num].target.Position.X = dest.X;
+	OwnRobot[robot_num].target.Position.Y = dest.Y;
+
+	if ( velocityProfile == NULL )
+		velocityProfile = &this->VELOCITY_PROFILE_MAMOOLI;
+
+	OwnRobot[robot_num].Move_2018(speed,velocityProfile);
+
+	navigated[robot_num] = true;
+}

@@ -197,6 +197,25 @@ void Robot::Move(bool accurate , float speed , VelocityProfile * velocityProfile
 	target.velocity.y = 0;
 }
 
+void Robot::Move_2018( float speed , VelocityProfile * velocityProfile ){
+
+
+	if ( fabs ( target.Position.X ) > field_w + 150.0 )
+		target.Position.X = sgn ( target.Position.X ) * (field_w + 150.0);
+
+	if ( fabs ( target.Position.Y ) > field_h + 150.0 )
+		target.Position.Y = sgn ( target.Position.Y ) * (field_h + 150.0);
+	target.Angle = NormalizeAngle ( target.Angle );
+	if ( speed < 0 )
+		speed = 0;
+	if ( speed > 100 )
+		speed = 100;
+	MoveByMotion ( MotionPlan_2018 ( State , target , speed , velocityProfile ) );
+	//MoveByMotion ( trapezoid.Plan ( &State , &target ) );
+	target.velocity.x = 0;
+	target.velocity.y = 0;
+}
+
 deque<int> velXQ,velYQ;
 
 void Robot::MoveByMotion(TVec3 motion)

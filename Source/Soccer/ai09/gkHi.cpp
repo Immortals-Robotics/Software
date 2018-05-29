@@ -43,11 +43,18 @@ void ai09::GKHi ( int robot_num , int defence_num , bool stop )
 		else
 		{
             float cornerStartMul = pow(max(0,1.2-timer.time()),1.1);
-			TVec2 target = GK_Ghuz(cornerStartMul*0.4, cornerStartMul>0?(1+0.2*(1-cornerStartMul)):1,1);
+			TVec2 target = GK_Ghuz_2018(cornerStartMul*0.4, cornerStartMul>0?(1+0.2*(1-cornerStartMul)):1,1);
 			
 			OwnRobot[robot_num].face(ball.Position);
 			ERRTSetObstacles(robot_num, stop , false, false, false, false);
 			ERRTNavigate2Point(robot_num, target, 0, 100, &VELOCITY_PROFILE_KHARAKI);
+
+			double R_robot = DIS(Vec2(-field_width, 0),OwnRobot[robot_num].State.Position);
+			double alpha_robot = AngleWith(Vec2(-field_width, 0),OwnRobot[robot_num].State.Position);
+//			alpha_robot = min(90, max(-90, alpha_robot));
+//			cout<<"GOALIE teta: "<<alpha_robot<<endl;
+//			cout<<"GOALIE R: "<<R_robot<<endl;
+//			cout<<"______________________"<<endl;
 			
 		}
 	}

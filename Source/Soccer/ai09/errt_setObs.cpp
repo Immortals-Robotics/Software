@@ -7,9 +7,9 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 	
 	robot_num = min(5,max(0,robot_num));
 	clear_map ( );
-	if(OwnRobot[robot_num].State.vision_id == DBG_tracking_robot_ID)
-		debugDraw = true;
-	else
+//	if(OwnRobot[robot_num].State.vision_id == DBG_tracking_robot_ID)
+//		debugDraw = true;
+//	else
 		debugDraw = false;
 	if ( own )
 	{
@@ -32,7 +32,7 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 			if ( OppRobot[i].seenState != CompletelyOut )
 			{
 				AddCircle ( OppRobot[i].Position.X , OppRobot[i].Position.Y , 90.0f + (!dribble)*90.0f );
-				AddDebugCircle(OppRobot[i].Position,90.0f + (!dribble)*90.0f,Cyan);
+//				AddDebugCircle(OppRobot[i].Position,90.0f + (!dribble)*90.0f,Cyan);
 			}
 			//obstacle[obs_num].circle.setCenter ( VecPosition ( OppRobot[i].Position.X , OppRobot[i].Position.Y ) );
 			//obstacle[obs_num].circle.setRadius ( 400 );
@@ -73,8 +73,8 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
         AddRectangle ( -side*(field_width+85.0f) , -top_corner , side*(135.0+penalty_area_r) , penalty_area_width );
 
 
-        AddDebugRect( Vec2(side*(field_width+85.0f) , -top_corner) , -side*(185.0+penalty_area_r) , penalty_area_width,Cyan );
-        AddDebugRect( Vec2(-side*(field_width+85.0f) , -top_corner), side*(135.0+penalty_area_r) , penalty_area_width,Cyan);
+//        AddDebugRect( Vec2(side*(field_width+85.0f) , -top_corner) , -side*(185.0+penalty_area_r) , penalty_area_width,Cyan );
+//        AddDebugRect( Vec2(-side*(field_width+85.0f) , -top_corner), side*(135.0+penalty_area_r) , penalty_area_width,Cyan);
 
 #endif
        // cout<<"-------------------------------AVOIDED"<<endl;

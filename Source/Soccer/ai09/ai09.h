@@ -132,6 +132,7 @@ private:
 		// Helpers
 		TVec2 PointOnConnectingLine(TVec2 FirstPoint,TVec2 SecondPoint,float distance);
 		TVec2 GK_Ghuz ( float predictBallT , float rMul , int def_count = 2);
+		TVec2 GK_Ghuz_2018 ( float predictBallT , float rMul , int def_count = 2);
 		TVec2 DefGhuz ( TVec2 * defendTarget = NULL );
 		TVec2 CalculatePassPos ( int robot_num , const TVec2& target , const TVec2& statPos , float bar = 89.0f );
 		void CalculateBallTrajectory ( void );
@@ -173,7 +174,8 @@ private:
 	
 		// Skills
 		void Navigate2Point ( int robot_num , TVec2 dest , bool accurate = false , int speed = 80 , VelocityProfile * velocityProfile = NULL );
-		void ERRTNavigate2Point ( int robot_num , TVec2 dest , bool accurate = false , int speed = 80 , VelocityProfile * velocityProfile = NULL );
+        void Navigate2Point_2018 ( int robot_num , TVec2 dest , int speed = 80 ,VelocityProfile * velocityProfile = NULL );
+        void ERRTNavigate2Point ( int robot_num , TVec2 dest , bool accurate = false , int speed = 80 , VelocityProfile * velocityProfile = NULL );
 		void ERRTSetObstacles ( int robot_num , bool bll = false , bool field = true , bool own = true , bool opp = false , bool dribble = false , bool bigPen = false );
         void AddOppObs ( int mask1 = -1, int mask2 = -1 );
 		void Mark(int robot_num, int opp, float dist = 220.0f);
