@@ -27,17 +27,38 @@ public:
     }
 
     float get_output(){
-        deque<float> temp=buff;
+        deque<float> temp(buff);
         sort(temp.begin(), temp.end(),
                   [](float const &a, float const &b) {
                       return a < b;
                   }
         );
         int buff_size;
-        if(buff_size = temp.size() > 0)
-            return temp.at(buff_size/len);
-        else
+        if((buff_size = temp.size()) > 0)
+            return temp.at(buff_size/2);
+        else {
+            cout<<"median: ERROR the buff is empty!!!"<<endl;
             return 0.0;
+        }
+    }
+
+    void print_all(){
+        deque<float> temp(buff);
+        sort(temp.begin(), temp.end(),
+             [](float const &a, float const &b) {
+                 return a < b;
+             }
+        );
+        for(deque<float>::iterator it = temp.begin();it!=temp.end();it++) {
+
+            cout<<*it<<"_";
+
+        }
+        cout<<endl;
+        for(int i=0;i<temp.size();i++){
+            cout<<temp.at(i)<<'=';
+        }
+        cout<<endl;
     }
 
 };
