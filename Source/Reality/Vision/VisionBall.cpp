@@ -100,7 +100,6 @@ void VisionModule::FilterBalls ( int num , WorldState * state )
 		state -> ball.Position.Y = filtout[1][0] ;
 		state -> ball.velocity.x = filtout[0][1] ;
 		state -> ball.velocity.y = filtout[1][1] ;
-//        state -> ball.t_capture = t_capture_buff[id];
 
 		ball_not_seen = 0;
 		state -> has_ball = true;
@@ -126,14 +125,12 @@ void VisionModule::FilterBalls ( int num , WorldState * state )
 				state -> ball.Position.Y = filtout[1][0];
 				state -> ball.velocity.x = filtout[0][1];
 				state -> ball.velocity.y = filtout[1][1];
-//                state -> ball.t_capture = t_capture_buff[id];
 
 
                 ball_not_seen = 0;
 				state -> has_ball = true;
 				state -> ball.seenState = Seen;
 
-//                ball_dir_buff.clear();
             }
 			else
 			{
