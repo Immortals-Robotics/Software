@@ -62,7 +62,7 @@ int main ( )
     settings -> use_camera.push_back(false);
 
 	settings -> our_color = COLOR_YELLOW;
-    settings -> our_side = RIGHT_SIDE;
+    settings -> our_side = LEFT_SIDE;
     settings -> referee_UDP_Address = "224.5.23.1";//TODO Default is "224.5.23.1"
     settings -> refereePort = 10003;
     settings -> vision_UDP_Address = "224.5.23.2";
