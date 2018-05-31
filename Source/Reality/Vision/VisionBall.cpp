@@ -31,7 +31,7 @@ int VisionModule::ExtractBalls ( void )
 			for ( int j = 0 ; j < frame[i].balls_size ( ) ; j ++ )
 			{
 				d_ball[ans] = frame[i].balls ( j );
-                t_capture_buff[ans] = frame[i].t_capture();
+//                t_capture_buff[ans] = frame[i].t_capture();
 
 				ans ++;
 			}
@@ -53,10 +53,10 @@ int VisionModule::MergeBalls ( int num )
 				if ( d_ball[i].has_z ( ) )
 					d_ball[i].set_z ( ( d_ball[i].z ( ) + d_ball[j].z ( ) ) / (float)2.0 );
 
-                t_capture_buff[i] = (t_capture_buff[i]+t_capture_buff[j]) / (float)2.0;
+//                t_capture_buff[i] = (t_capture_buff[i]+t_capture_buff[j]) / (float)2.0;
 
 				d_ball[j] = d_ball[num-1];
-                t_capture_buff[j] = t_capture_buff[num-1];
+//                t_capture_buff[j] = t_capture_buff[num-1];
 				num --;
 
 				j --;
@@ -100,7 +100,7 @@ void VisionModule::FilterBalls ( int num , WorldState * state )
 		state -> ball.Position.Y = filtout[1][0] ;
 		state -> ball.velocity.x = filtout[0][1] ;
 		state -> ball.velocity.y = filtout[1][1] ;
-        state -> ball.t_capture = t_capture_buff[id];
+//        state -> ball.t_capture = t_capture_buff[id];
 
 		ball_not_seen = 0;
 		state -> has_ball = true;
@@ -126,14 +126,14 @@ void VisionModule::FilterBalls ( int num , WorldState * state )
 				state -> ball.Position.Y = filtout[1][0];
 				state -> ball.velocity.x = filtout[0][1];
 				state -> ball.velocity.y = filtout[1][1];
-                state -> ball.t_capture = t_capture_buff[id];
+//                state -> ball.t_capture = t_capture_buff[id];
 
 
                 ball_not_seen = 0;
 				state -> has_ball = true;
 				state -> ball.seenState = Seen;
 
-                ball_dir_buff.clear();
+//                ball_dir_buff.clear();
             }
 			else
 			{
@@ -173,13 +173,13 @@ void VisionModule::predictBallForward( WorldState * state )
 	float k = 0.25f; //velocity derate every sec(units (m/s)/s)
 	float frame_rate = 61.0f;
 	float tsample = (float)1.0f/(float)frame_rate;
-  
+
 	float vx_vision = state -> ball.velocity.x; 
 	float vy_vision = state -> ball.velocity.y;
-  
+
 	float xpos_vision = state -> ball.Position.X;
 	float ypos_vision = state -> ball.Position.Y;
-  
+
 	float vball_vision = float(sqrt(vx_vision*vx_vision + vy_vision*vy_vision));
   
 	float t;

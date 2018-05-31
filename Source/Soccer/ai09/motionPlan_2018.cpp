@@ -28,6 +28,8 @@ TVec3 Robot::MotionPlan_2018 ( RobotState state , RobotState target , float spee
 
     TVec2 deltaPos = target.Position - state.Position;
     TVec3 output;
+    float path_ang = AngleWith(state.Position,target.Position);
+    cout<<path_ang<<endl;
 
     double max_a = 1.2;
     double max_v = 120;
@@ -48,7 +50,7 @@ TVec3 Robot::MotionPlan_2018 ( RobotState state , RobotState target , float spee
         tempVel = lastVel + max_dec;
         cout<<"first PART!!!!!"<<endl;
     }
-    else if(distance <= minimum_move_dist(visionVel,0.0,max_dec)*2){
+    else if(distance <= minimum_move_dist(visionVel,0.0,max_dec)*2.3){
         tempVel = lastVel + max_dec;
         cout<<"trying to stop!!!!!"<<endl;
     }

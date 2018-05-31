@@ -136,7 +136,7 @@ private:
 
     robotDataMsg robotPacket[2][MAX_ROBOTS];
 
-	double t_capture_buff[MAX_BALLS*CAM_COUNT];
-    deque<TVec2> ball_dir_buff;
+//	double t_capture_buff[MAX_BALLS*CAM_COUNT];
+//    deque<TVec2> ball_dir_buff;
 };
 

@@ -243,15 +243,18 @@ void compute_motion_2d(TVec2 x0, TVec2 v0, TVec2 v1,
                           traj_accel.X, time_x);
         compute_motion_1d(x0.Y, v0.Y, v1.Y, a_max * ry, v_max * ry, a_factor,
                           traj_accel.Y, time_y);
+//        cout<<"STEP111"<<endl;
     }
     else {
-        if (time_x < time_y * 1.5) {
-            float rx_a = pow(time_x / (time_y * 1.5), 2.0);
-            float rx_v = time_x / (time_y * 1.5);
-
-            compute_motion_1d(x0.X, v0.X, v1.X, a_max * rx_a, v_max * rx_v, a_factor,
-                              traj_accel.X, time_x);
-        }
+//        if (time_x < time_y * 1.5) {
+//            float rx_a = pow(time_x / (time_y * 1.5), 2.0);
+//            float rx_v = time_x / (time_y * 1.5);
+//
+//            compute_motion_1d(x0.X, v0.X, v1.X, a_max * rx_a, v_max * rx_v, a_factor,
+//                              traj_accel.X, time_x);
+//            cout<<"STEP222"<<endl;
+//        }
+//        cout<<"STEP333"<<endl;
     }
 
     traj_accel = Rotate(traj_accel, rotangle);
@@ -305,7 +308,7 @@ Trajectory goto_point(RobotState state,
     } while (factor_a<1.0 && time_a>time);
     // printf("factor_a = %f\n",factor_a);
 
-    v += a / 61.0;
+    v += a/61.0;
     ang_v += ang_a / 61.0;
 
     if (Magnitude(v) > v_max)

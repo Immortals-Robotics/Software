@@ -140,7 +140,7 @@ void VisionModule::FilterRobots ( int num , bool own )
 					//robot[j].set_orientation ( robot[j].orientation() + 0.135 );
 				
 				AngleFilter[own][i].AddData ( ( robot[j].orientation ( ) - rawAngles[own][i] ) * 61.0f );
-				rawAngles[0][i] = robot[j].orientation ( );
+				rawAngles[own][i] = robot[j].orientation ( );
 				//if ( fabs ( (AngleFilter[own][i].GetCurrent()*180.0f/3.1415f) - robotState[own][i].AngularVelocity ) > 30.0f )
 				//	AngleFilter[own][i].reset();
 				//else

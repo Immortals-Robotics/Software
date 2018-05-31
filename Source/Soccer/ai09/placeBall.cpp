@@ -16,6 +16,10 @@ void ai09::our_place_ball(void) {
     static float t_ang,t_opp_ang;
     static VelocityProfile TEMP_VEL_PRO = BALL_PLACE_KHEYLI_SOOSKI;
 
+    OwnRobot[cmf].target.velocity.x = 0.0;//TODO added these but never tested
+    OwnRobot[cmf].target.velocity.y = 0.0;//TODO added these but never tested
+    OwnRobot[rmf].target.velocity.x = 0.0;//TODO added these but never tested
+    OwnRobot[rmf].target.velocity.y = 0.0;//TODO added these but never tested
     clear_map ( );
     if(FUNC_state == 0) {
         OwnRobot[cmf].target.Angle = temp_opp_ang;

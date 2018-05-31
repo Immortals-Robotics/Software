@@ -155,9 +155,9 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 	VELOCITY_PROFILE_AROOM.max_w_acc = 40.0f;
 	VELOCITY_PROFILE_AROOM.max_w_dec = 140.0f;
 
-	VELOCITY_PROFILE_MAMOOLI.max_spd = Vec2 ( 4000.0f );
+	VELOCITY_PROFILE_MAMOOLI.max_spd = Vec2 ( 3000.0f );
 	VELOCITY_PROFILE_MAMOOLI.max_dec = Vec2 ( 2.0f );
-	VELOCITY_PROFILE_MAMOOLI.max_acc = Vec2 ( 5500.0f );
+	VELOCITY_PROFILE_MAMOOLI.max_acc = Vec2 ( 3000.0f );
 	VELOCITY_PROFILE_MAMOOLI.max_w_acc = 40.0f;
 	VELOCITY_PROFILE_MAMOOLI.max_w_dec = 140.0f;
 

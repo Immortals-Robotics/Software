@@ -22,12 +22,30 @@ TVec3 Robot::MotionPlan ( RobotState state , RobotState target , float speed , b
 	target.velocity.x = speed;
 	target.velocity.y = speed;
 
+
 	Trajectory cmu_traj = goto_point(state, target, velocityProfile);
 
-//	if (state.vision_id == 7)
-//	{
-//		cout << cmu_traj.eta << " | " << cmu_traj.vx << ", " << cmu_traj.vy << ", " << cmu_traj.va << endl;
-//	}
+
+//    if (state.vision_id == 7) {
+//        cout << "____" << state.Angle << "____" << target.Angle << "____" << endl;
+//    }
+
+//        if(fabs(NormalizeAngle(state.Angle - target.Angle)) < 1.0)
+//            target.Angle = state.Angle;
+//        else
+//            cout<<"ANG_POBLEM"<<endl;
+
+//    cout<<fabs(NormalizeAngle(state.Angle - target.Angle))<<endl;
+
+    if(DIS(state.Position,target.Position)<10) {
+        cmu_traj.vx = 0.0;
+        cmu_traj.vy = 0.0;
+    }
+//    else
+//        cout<<"POS_POBLEM"<<endl;
+
+//    cout<<"POS IS:"<<DIS(state.Position,target.Position)<<endl;
+
 
     return Vec3(cmu_traj.vx / 50.0, cmu_traj.vy / 50.0, cmu_traj.va);
 

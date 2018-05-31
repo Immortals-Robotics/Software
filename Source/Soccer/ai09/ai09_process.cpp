@@ -18,13 +18,13 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 	AddDebugCircle(ball.Position,40,Red);
 //	AddDebugLine(ball.Position,Vec2(ball.velocity.x,ball.velocity.y) + ball.Position, Black);
 
-    TVec2 spd_v= worldState->ball.path_dir;
-    AddDebugLine(ball.Position,spd_v + ball.Position, Yellow);
+//    TVec2 spd_v= worldState->ball.path_dir;
+//    AddDebugLine(ball.Position,spd_v + ball.Position, Yellow);
 //    AddDebugLine(ball.Position,Vec2(ball.velocity.x,ball.velocity.y) + ball.Position, Yellow);
 	debugDraw = false;
 
 
-	if ( 1 ) {
+	if ( 0 ) {
 		currentPlay = "my_test";
 //        GKHi(gk, 1, 0);
 //        currentPlay = "Stop";
