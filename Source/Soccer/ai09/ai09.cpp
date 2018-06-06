@@ -44,8 +44,8 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 
     REF_playState = _worldState->refereeState->State;
 
-	targetBallPlacement = new TVec2;//TODO it has to be read from the ref State
-	*targetBallPlacement = Vec2(0.0,0.0);
+	targetBallPlacement = &_worldState->refereeState->placeBallTargetPosition; //new TVec2;//TODO it has to be read from the ref State
+//	*targetBallPlacement = Vec2(0.0,0.0);
 
     for ( int i = 0 ; i < 8 ; i ++ )
     {
@@ -129,11 +129,11 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 		OwnRobot[i].set_vision_id(i+1);
 	}
     OwnRobot[gk].set_vision_id(4);
-    OwnRobot[def].set_vision_id(5);
+    OwnRobot[def].set_vision_id(1);
     OwnRobot[dmf].set_vision_id(2);
     OwnRobot[lmf].set_vision_id(6);
-    OwnRobot[rmf].set_vision_id(1);
-    OwnRobot[cmf].set_vision_id(7);
+    OwnRobot[rmf].set_vision_id(7);
+    OwnRobot[cmf].set_vision_id(8);
 	OwnRobot[rightARM].set_vision_id(10);
 	OwnRobot[leftARM].set_vision_id(11);
 

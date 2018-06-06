@@ -63,10 +63,9 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 			//currentPlay = "tech_mexico";
 			//currentPlay = "tech_motion_ann";
 
-//            targetBallPlacement->X = -3700;
-//            targetBallPlacement->Y = -2500;
-//            currentPlay = "our_place_ball";
-//            cout<<"IT's NORMALLLLLLLL"<<endl;
+//            targetBallPlacement->X = -2500;
+//            targetBallPlacement->Y = -1500;
+            cout<<"IT's NORMALLLLLLLL"<<endl;
 		}
 		else if ( REF_playState->ourKickoff ( ) )
 		{
@@ -103,6 +102,12 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 			currentPlay = "penalty_us_ghuz";
 			currentPlayParam = worldState ->refereeState -> State->canKickBall();
 		}
+        else if(REF_playState->ourPlaceBall())
+        {
+//            targetBallPlacement->X = -2500;
+//            targetBallPlacement->Y = -1500;
+            currentPlay = "our_place_ball_shoot";
+        }
 		
 		else if ( REF_playState->theirFreeKick() )
 		{
@@ -120,6 +125,10 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 		{
 			currentPlay = "penalty_their_simple";
 		}
+        else if(REF_playState->theirPlaceBall())
+        {
+
+        }
 		else if( REF_playState->get() == GameState::HALTED )
 		{
 			currentPlay = "HaltAll";

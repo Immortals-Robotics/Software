@@ -63,7 +63,7 @@ int main ( )
 
 	settings -> our_color = COLOR_YELLOW;
     settings -> our_side = RIGHT_SIDE;
-    settings -> referee_UDP_Address = "224.5.23.1";//TODO Default is "224.5.23.1"
+    settings -> referee_UDP_Address = "224.5.25.25";//TODO Default is "224.5.23.1"
     settings -> refereePort = 10003;
     settings -> vision_UDP_Address = "224.5.23.2";
     settings -> visionPort = 10006;
@@ -184,7 +184,8 @@ int main ( )
 		assert (rc == 0);
 
 		//  Subscribe to zipcode, default is NYC, 10001
-		char *filter = "";
+//		char *filter = "";
+        char *filter = new char[100];
 		rc = zmq_setsockopt (subscriber, ZMQ_SUBSCRIBE,
 							 filter, strlen (filter));
 		assert (rc == 0);

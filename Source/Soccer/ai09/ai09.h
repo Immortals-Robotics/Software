@@ -199,10 +199,11 @@ private:
 		void backPass ( int robot_num , float target , float t );
 		void dribble ( int robot_num , TVec2 target );
 		void circle_ball ( int robot_num , float tagret_angle , int shoot_pow , int chip_pow , float precision, float near_dis_override = -1.0f );
-	
+        void circle_ball_free ( int robot_num , float tagret_angle , int shoot_pow , int chip_pow , float precision, float near_dis_override = -1.0f );
 
 
-		// Plays
+
+    // Plays
 		void Stop ( );
 		void Stop_def ( );
 		void stop_ajor ( );
@@ -245,6 +246,8 @@ private:
 		void tech_motion_ann ( void );
 		void throwin_us_outgir ( void );
 		void our_place_ball ( void );
+		void our_place_ball_shoot ( void );
+        void their_place_ball ( void );
 
     void my_test();
 
