@@ -127,7 +127,7 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 		}
         else if(REF_playState->theirPlaceBall())
         {
-
+            currentPlay = "their_place_ball";
         }
 		else if( REF_playState->get() == GameState::HALTED )
 		{
