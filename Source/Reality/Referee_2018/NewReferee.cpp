@@ -63,6 +63,7 @@ void NewReferee::process ()
 
         move_hys = 0;//TODO maybe it needs to be commented
 
+
 //		cout << "command: " << pSSLRef.command() << endl;
 //		cout << "command_CNT: " << pSSLRef.command_counter() << endl;
 	}
@@ -83,6 +84,7 @@ bool NewReferee::isKicked ( TVec2 ballPos )
 			requiredDis = 150.0f;
 		}
 	}
+//	cout<<"the distance: "<<DIS ( ballPos , LastPlacedBall )<<endl;
 	if ( DIS ( ballPos , LastPlacedBall ) > requiredDis )
 	{
 		move_hys ++;

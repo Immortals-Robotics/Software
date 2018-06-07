@@ -77,23 +77,16 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 		}
 		else if ( ( REF_playState->ourDirectKick ( ) ) || ( REF_playState->ourIndirectKick ( ) ) )
 		{
-            if(1)
-            {
-                //currentPlay="corner_simple_pass";
-                currentPlay="kickoff_us_zamini";
-				currentPlayParam = REF_playState->canKickBall();
+            if (target_str != -1) {
+                currentPlay = "strategy_maker";
+                currentPlayParam = target_str;
+            } else {
+//                if (side*ball.Position.X<800)
+//                    currentPlay = "throwin_us_outgir";
+//                else
+                currentPlay = "throwin_chip_shoot";
             }
-            else {
-                if (target_str != -1) {
-                    currentPlay = "strategy_maker";
-                    currentPlayParam = target_str;
-                } else {
-                    //if (side*ball.Position.X<800)
-                    //    currentPlay = "throwin_us_outgir";
-                    //else
-                    currentPlay = "throwin_chip_shoot";
-                }
-            }
+            cout<<"_____"<<target_str<<endl;
 		}
 		
 		

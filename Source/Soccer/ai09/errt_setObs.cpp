@@ -1,6 +1,6 @@
 #include "ai09.h"
 
-int DBG_tracking_robot_ID = -1;
+int DBG_tracking_robot_ID = 7;
 
 void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own , bool opp , bool dribble , bool bigPen )
 {
@@ -10,7 +10,7 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 //	if(OwnRobot[robot_num].State.vision_id == DBG_tracking_robot_ID)
 //		debugDraw = true;
 //	else
-		debugDraw = false;
+	debugDraw = false;
 	if ( own )
 	{
 		for ( int i = 0 ; i < 6 ; i ++ )
@@ -69,12 +69,12 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 		AddDebugRect( Vec2(-side*(field_width+85.0f) , -penalty_circle_center_y), side*(135.0+penalty_area_r) , penalty_area_width,Cyan);
 #else
         float top_corner = penalty_area_width/2.0;
-        AddRectangle ( side*(field_width+85.0f) , -top_corner , -side*(185.0+penalty_area_r) , penalty_area_width );
-        AddRectangle ( -side*(field_width+85.0f) , -top_corner , side*(135.0+penalty_area_r) , penalty_area_width );
+        AddRectangle ( side*(field_width+185.0f) , -top_corner , -side*(285.0+penalty_area_r) , penalty_area_width );
+        AddRectangle ( -side*(field_width+185.0f) , -top_corner -85, side*(270.0+penalty_area_r) , penalty_area_width + 170 );
 
 
-//        AddDebugRect( Vec2(side*(field_width+85.0f) , -top_corner) , -side*(185.0+penalty_area_r) , penalty_area_width,Cyan );
-//        AddDebugRect( Vec2(-side*(field_width+85.0f) , -top_corner), side*(135.0+penalty_area_r) , penalty_area_width,Cyan);
+        AddDebugRect( Vec2(side*(field_width+185.0f) , -top_corner ) , -side*(285.0+penalty_area_r) , penalty_area_width,Cyan );
+        AddDebugRect( Vec2(-side*(field_width+185.0f) , -top_corner - 85), side*(270.0+penalty_area_r) , penalty_area_width + 170,Cyan);
 
 #endif
        // cout<<"-------------------------------AVOIDED"<<endl;
@@ -85,11 +85,16 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 		float big_penalty_area_r  = penalty_area_r + 240.0f;
         float penalty_circle_center_y = penalty_area_width / 2.0f;
         
-		AddCircle ( -side*field_width , -penalty_circle_center_y , big_penalty_area_r);
+//		AddCircle ( -side*field_width , -penalty_circle_center_y , big_penalty_area_r);
+//
+//		AddCircle ( -side*field_width , penalty_circle_center_y , big_penalty_area_r);
 		
-		AddCircle ( -side*field_width , penalty_circle_center_y , big_penalty_area_r);
-		
-		AddRectangle ( -side*(field_width+85.0f) , -penalty_circle_center_y , 85.0f+big_penalty_area_r , penalty_area_width );
+		AddRectangle ( -side*(field_width+185.0f) , -penalty_circle_center_y , 385.0f+big_penalty_area_r , penalty_area_width );
+
+		AddDebugRect( Vec2(-side*(field_width+185.0f) , -penalty_circle_center_y - 200) , 385.0f+big_penalty_area_r , penalty_area_width + 400,Purple );
+//		AddDebugCircle( Vec2(-side*field_width , -penalty_circle_center_y) , big_penalty_area_r,Purple);
+//		AddDebugCircle( Vec2(-side*field_width , penalty_circle_center_y) , big_penalty_area_r,Purple);
+
 	}
 	
 	/*if (robot_num == 0) {

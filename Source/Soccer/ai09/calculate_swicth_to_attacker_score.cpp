@@ -11,7 +11,7 @@ float ai09::calculateSwicthToAttackerScore(int robot_num)
 	if (!isDefending && oneTouchDetector[robot_num].IsArriving(45, 150))
 		return -1;
 
-	float currAttBallDis = DIS(OwnRobot[robot_num].State.Position, ball.Position);
+	float currAttBallDis = DIS(OwnRobot[robot_num].State.Position, ball.Position);//TODO shouldn't this be DIS(OwnRobot[attack]...
 
 	if (OwnRobot[attack].State.seenState == CompletelyOut)
 		currAttBallDis = 10000;

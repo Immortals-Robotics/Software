@@ -147,11 +147,14 @@ void ai09::strategy_maker ( void )
 		else if (*stm2AInum[i]==attack) {
 			int shoot = 0;
 			int chip = 0;
+            cout<<"ATTACK: ";
 			if (strategy.role(i).path(step[i]).type() == 0 ) {
 				shoot = strategy.role(i).path(step[i]).tolerance();
+                cout<<shoot<<endl;
 			}
 			else {
 				chip = strategy.role(i).path(step[i]).tolerance();
+                cout<<chip<<endl;
 			}
 			
 			//cout << "	daram mirinam: " << shoot << "	" << chip << endl;

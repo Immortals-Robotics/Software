@@ -4,7 +4,7 @@ Timer activeShootTimer;
 
 void ai09::NormalPlayAtt ( void )
 {
-	ManageAttRoles ( );
+	ManageAttRoles ( );//sets the mid1, mid2, attack
 	
 	debugDraw=true;
 	recievePass(dmf,PointOnConnectingLine(ball.Position, Vec2(side*field_width, 0), 2500));
