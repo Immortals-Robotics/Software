@@ -14,15 +14,15 @@ void ai09::their_place_ball ( void ){
     OwnRobot[dmf].face(ball.Position);
     ERRTNavigate2Point ( dmf , PointOnConnectingLine(ball.Position, Vec2(side*field_width, 0), DIS(ball.Position, Vec2(side*field_width, 0))/3.0f) ,0 , 100,&VELOCITY_PROFILE_AROOM);
 
-    ERRTSetObstacles ( rightARM , false , true , true , true );
+    ERRTSetObstacles ( rw , false , true , true , true );
     AddCircle ( ball.Position.X , ball.Position.Y , 1010.0f );
-    OwnRobot[rightARM].face(ball.Position);
-    ERRTNavigate2Point ( rightARM ,Vec2(0,-100) + PointOnConnectingLine(ball.Position, Vec2(side*field_width, 0), DIS(ball.Position, Vec2(side*field_width, 0))/3.0f) ,0 , 100,&VELOCITY_PROFILE_AROOM);
+    OwnRobot[rw].face(ball.Position);
+    ERRTNavigate2Point ( rw ,Vec2(0,-100) + PointOnConnectingLine(ball.Position, Vec2(side*field_width, 0), DIS(ball.Position, Vec2(side*field_width, 0))/3.0f) ,0 , 100,&VELOCITY_PROFILE_AROOM);
 
-    ERRTSetObstacles ( leftARM , false , true , true , true );
+    ERRTSetObstacles ( lw , false , true , true , true );
     AddCircle ( ball.Position.X , ball.Position.Y , 1010.0f );
-    OwnRobot[leftARM].face(ball.Position);
-    ERRTNavigate2Point ( leftARM ,Vec2(0,100) + PointOnConnectingLine(ball.Position, Vec2(side*field_width, 0), DIS(ball.Position, Vec2(side*field_width, 0))/3.0f) ,0 , 100,&VELOCITY_PROFILE_AROOM);
+    OwnRobot[lw].face(ball.Position);
+    ERRTNavigate2Point ( lw ,Vec2(0,100) + PointOnConnectingLine(ball.Position, Vec2(side*field_width, 0), DIS(ball.Position, Vec2(side*field_width, 0))/3.0f) ,0 , 100,&VELOCITY_PROFILE_AROOM);
 
 
     ERRTSetObstacles ( lmf , false , true , true , true );

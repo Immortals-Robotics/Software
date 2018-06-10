@@ -44,8 +44,8 @@ void NewReferee::process ()
     if ( !pSSLRef.ParseFromArray(incoming_buffer, buffer_size) )
         return;
 	if(pSSLRef.has_designated_position()){
-		cout<<"HAS POSITION!!!!!"<<endl;
-		cout<<"BALL TARGET POSITION IS:"<<pSSLRef.designated_position().x()<<'_'<<pSSLRef.designated_position().y()<<endl;
+//		cout<<"HAS POSITION!!!!!"<<endl;
+//		cout<<"BALL TARGET POSITION IS:"<<pSSLRef.designated_position().x()<<'_'<<pSSLRef.designated_position().y()<<endl;
         RefState->placeBallTargetPosition = Vec2(pSSLRef.designated_position().x(),pSSLRef.designated_position().y());
 	}
 //	else

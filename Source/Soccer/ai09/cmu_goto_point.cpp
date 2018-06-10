@@ -275,7 +275,7 @@ Trajectory goto_point(RobotState state,
     static TVec3 oldAns[12] = { Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f),Vec3(0.0f) };
 
     const float a_max = profile->max_acc.X;
-    const float v_max = profile->max_spd.X;
+    const float v_max = profile->max_spd.X;// * (target.velocity.x/100.0f);//TODO added this for a better use of speed
     const float ang_a_max = 700.0;
     const float ang_v_max = 300.0;
 

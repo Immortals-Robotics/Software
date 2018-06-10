@@ -72,8 +72,8 @@ private:
 	int dmf;
 	int lmf;
 	int cmf;
-	int rightARM;
-	int leftARM;
+	int rw;//Right wing
+	int lw;//Left wing
 	
 	int attack;
 	int mid1;
@@ -171,8 +171,13 @@ private:
 		float calculateMarkCost(int robot_num, int opp);
 		float calculateSwicthToAttackerScore(int robot_num);
 
-	
-		// Skills
+        //These functions make sure the required robots are present (in case if any of the robots got out):
+        void want_this_robot(int robot_num);//First we tell which robot we need
+        bool position_robots(bool avoid_GK = true,bool avoid_DEF=true);//now we swap the apsent robots (TRUE if it succeeds)
+        bool requiredRobots[MAX_TEAM_ROBOTS];
+
+
+    // Skills
 		void Navigate2Point ( int robot_num , TVec2 dest , bool accurate = false , int speed = 80 , VelocityProfile * velocityProfile = NULL );
         void Navigate2Point_2018 ( int robot_num , TVec2 dest , int speed = 80 ,VelocityProfile * velocityProfile = NULL );
         void ERRTNavigate2Point ( int robot_num , TVec2 dest , bool accurate = false , int speed = 80 , VelocityProfile * velocityProfile = NULL );
@@ -201,9 +206,11 @@ private:
 		void circle_ball ( int robot_num , float tagret_angle , int shoot_pow , int chip_pow , float precision, float near_dis_override = -1.0f );
         void circle_ball_free ( int robot_num , float tagret_angle , int shoot_pow , int chip_pow , float precision, float near_dis_override = -1.0f );
 
+		void DefMid ( int robot_num , TVec2 * defendTarget = NULL , bool stop = false );
 
 
-    // Plays
+
+	// Plays
 		void Stop ( );
 		void Stop_def ( );
 		void stop_ajor ( );

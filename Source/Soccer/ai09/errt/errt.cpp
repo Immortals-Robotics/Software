@@ -337,6 +337,7 @@ TVec2 Planner::Plan ( void )
 			ans.Y = waypoint[0].Y;
 		}
 
+
 	return ans;
 }
 

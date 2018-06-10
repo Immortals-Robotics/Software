@@ -7,6 +7,7 @@
 #include <math.h>
 
 #define MAX_ROBOTS 12//The variety of standard patterns that we can have is 12
+#define MAX_TEAM_ROBOTS 8
 
 enum SeenState { Seen , CompletelyOut , TemprolilyOut };
 

@@ -21,7 +21,7 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 																			settings(_setting),
 																			senderBase(_sender),
 																			cmf(0),rmf(1),lmf(2),gk(3),
-																			dmf(4),def(5),rightARM(6),leftARM(7)
+																			dmf(4),def(5),rw(6),lw(7)
 {
 	std::cout << "	Running Immortals SSL AI module 09" << std::endl << "	Hope us luck :D " << std::endl;
 
@@ -110,8 +110,10 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 	stm2AInum[3] = &mid2;
 	stm2AInum[4] = &mid1;
 	stm2AInum[5] = &attack;
-    stm2AInum[6] = &rightARM;
-    stm2AInum[7] = &leftARM;
+    stm2AInum[6] = &rw;
+    stm2AInum[7] = &lw;
+//    cout<<"THE GK_pointer: "<<&gk <<endl;
+//    cout<<"THE GK_pointer: "<<stm2AInum[0] <<endl;
 
 	for (int i = 0 ; i < 8 ; i ++ ) {
 		oneTouchDetector[i].bState = &ball;
@@ -131,11 +133,11 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
     OwnRobot[gk].set_vision_id(4);
     OwnRobot[def].set_vision_id(1);
     OwnRobot[dmf].set_vision_id(2);
-    OwnRobot[lmf].set_vision_id(6);
+    OwnRobot[lmf].set_vision_id(8);
     OwnRobot[rmf].set_vision_id(7);
-    OwnRobot[cmf].set_vision_id(8);
-	OwnRobot[rightARM].set_vision_id(10);
-	OwnRobot[leftARM].set_vision_id(11);
+    OwnRobot[cmf].set_vision_id(5);
+	OwnRobot[rw].set_vision_id(10);
+	OwnRobot[lw].set_vision_id(11);
 
 	chip_head = 200;
 
@@ -144,6 +146,8 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 	circleReachedBehindBall = false;
 	PredictedBall = Vec2 ( 0 );
 
+	for(int i=0;i<MAX_TEAM_ROBOTS;i++)
+		requiredRobots[i]= false;
 
     BALL_PLACE_KHEYLI_SOOSKI.max_spd = Vec2 ( 500.0f );
     BALL_PLACE_KHEYLI_SOOSKI.max_dec = Vec2 ( 1.0f );

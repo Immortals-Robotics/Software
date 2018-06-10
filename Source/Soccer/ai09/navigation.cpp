@@ -23,6 +23,11 @@ void ai09::ERRTNavigate2Point ( int robot_num , TVec2 dest , bool accurate , int
 	{
 		planner[robot_num].init ( OwnRobot[robot_num].State.Position , dest , 90.0f );
 		TVec2 wayp = planner[robot_num].Plan ( );
+//		debugDraw = true;
+//		for(int i=1;i<planner[robot_num].waypoints;i++){
+//			AddDebugLine(planner[robot_num].waypoint[i-1],planner[robot_num].waypoint[i],Red);
+//		}
+//		debugDraw = false;
 		TVec2 v;
 
 		if ( planner[robot_num].GetWayPointNum ( ) <= 2 )
@@ -32,6 +37,7 @@ void ai09::ERRTNavigate2Point ( int robot_num , TVec2 dest , bool accurate , int
 		OwnRobot[robot_num].target.velocity.x = v.X;
 		OwnRobot[robot_num].target.velocity.y = v.Y;
 		Navigate2Point(robot_num, wayp, accurate, speed, velocityProfile);
+
 //        Navigate2Point_2018(robot_num, wayp, speed, velocityProfile);
 	}
 }

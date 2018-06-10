@@ -19,8 +19,16 @@ TVec2 vdes_ann;
 
 TVec3 Robot::MotionPlan ( RobotState state , RobotState target , float speed , bool accurate , TVec3 * cmd , VelocityProfile * velocityProfile )
 {
-	target.velocity.x = speed;
-	target.velocity.y = speed;
+
+//    if(speed < 10) {
+//        target.velocity.x = 10;
+//        target.velocity.y = 10;
+//    }else{
+//        target.velocity.x = speed;
+//        target.velocity.y = speed;
+//    }
+    target.velocity.x = speed;
+    target.velocity.y = speed;
 
 
 	Trajectory cmu_traj = goto_point(state, target, velocityProfile);
