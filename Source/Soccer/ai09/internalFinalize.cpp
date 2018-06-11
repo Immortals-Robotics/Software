@@ -5,11 +5,11 @@ void ai09::internalFinalize ( WorldState * worldState , GameSetting * setting , 
 {
 	//bool saveKinoData = !OwnRobot[cmf].halted;
 	
-	for ( int i = 0 ; i < 6 ; i ++ )
+	for ( int i = 0 ; i < 8 ; i ++ )
 		OwnRobot[i].makeSendingDataReady ( );
 
 
-	for ( int i = 0 ; i < 6 ; i ++ )
+	for ( int i = 0 ; i < 8 ; i ++ )
 	{
 		senderBase->getCommand(&OwnRobot[i]);
 		OwnRobot[i].halted = false;
@@ -25,7 +25,7 @@ void ai09::internalFinalize ( WorldState * worldState , GameSetting * setting , 
 		}
 	}
 	
-	for ( int i = 0 ; i < 6 ; i ++ )
+	for ( int i = 0 ; i < 8 ; i ++ )
 	{
 		if ( OwnRobot[i].State.seenState == CompletelyOut )
 			continue;

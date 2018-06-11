@@ -65,6 +65,7 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 
 //            targetBallPlacement->X = -2500;
 //            targetBallPlacement->Y = -1500;
+//			currentPlay = "Stop";
             cout<<"IT's NORMALLLLLLLL"<<endl;
 		}
 		else if ( REF_playState->ourKickoff ( ) )
@@ -151,7 +152,7 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
     }
 	
 	
-	for ( int i = 0 ; i < 6 ; i ++ )
+	for ( int i = 0 ; i < 8 ; i ++ )
 	{
 		if ( ( OwnRobot[i].State.seenState == CompletelyOut ) || ( !navigated[i] ) )
 		{

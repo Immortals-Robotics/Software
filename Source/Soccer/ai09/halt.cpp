@@ -13,7 +13,7 @@ void ai09::Halt ( int robot_num )
 
 void ai09::HaltAll ( void )
 {
-	for ( int i = 0 ; i < 6 ; i ++ )
+	for ( int i = 0 ; i < 8 ; i ++ )
 	{
 		Halt(i);
 	}

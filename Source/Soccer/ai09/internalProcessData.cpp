@@ -13,7 +13,7 @@ void ai09::internalProcessData ( WorldState * worldState , GameSetting * setting
 	CalculateBallTrajectory();
 	debugDraw = false;
 	
-	for ( int i = 0 ; i < 6 ; i ++ )
+	for ( int i = 0 ; i < 8 ; i ++ )
 	{
 		bool halt_this_robot_for_now = false;
 		this->OwnRobot[i].State = worldState -> OwnRobot[OwnRobot[i].vision_id];
@@ -27,7 +27,7 @@ void ai09::internalProcessData ( WorldState * worldState , GameSetting * setting
 					if ( ( worldState -> OwnRobot[j].seenState == Seen ) && ( fabs(worldState->OwnRobot[j].Position.X)<field_width ) && ( fabs(worldState->OwnRobot[j].Position.Y)<field_height ) )
 					{
 						bool suitable = true;
-						for ( int k = 0 ; k < 6 ; k ++ )
+						for ( int k = 0 ; k < 8 ; k ++ )
 						{
 							if ( OwnRobot[k].vision_id == j )
 							{

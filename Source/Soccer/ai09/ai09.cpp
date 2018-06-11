@@ -131,13 +131,13 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 		OwnRobot[i].set_vision_id(i+1);
 	}
     OwnRobot[gk].set_vision_id(4);
-    OwnRobot[def].set_vision_id(1);
+    OwnRobot[def].set_vision_id(7);
     OwnRobot[dmf].set_vision_id(2);
-    OwnRobot[lmf].set_vision_id(8);
-    OwnRobot[rmf].set_vision_id(7);
-    OwnRobot[cmf].set_vision_id(5);
-	OwnRobot[rw].set_vision_id(10);
-	OwnRobot[lw].set_vision_id(11);
+    OwnRobot[lmf].set_vision_id(10);
+    OwnRobot[rmf].set_vision_id(1);
+    OwnRobot[cmf].set_vision_id(11);
+	OwnRobot[rw].set_vision_id(8);
+	OwnRobot[lw].set_vision_id(5);
 
 	chip_head = 200;
 

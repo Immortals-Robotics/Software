@@ -206,11 +206,14 @@ private:
 		void circle_ball ( int robot_num , float tagret_angle , int shoot_pow , int chip_pow , float precision, float near_dis_override = -1.0f );
         void circle_ball_free ( int robot_num , float tagret_angle , int shoot_pow , int chip_pow , float precision, float near_dis_override = -1.0f );
 
-		void DefMid ( int robot_num , TVec2 * defendTarget = NULL , bool stop = false );
+        void DefMid ( int &robot_num ,int &rightdef_num ,int &leftdef_num , TVec2 * defendTarget = NULL , bool stop = false );
+        void DefBy3 ( int robot_num ,int rightdef_num ,int leftdef_num , TVec2 * defendTarget = NULL , bool stop = false );
+        void DefBy2 ( int rightdef_num ,int leftdef_num , TVec2 * defendTarget = NULL , bool stop = false );
+        void DefBy1 ( int thelastdef_num , TVec2 * defendTarget = NULL , bool stop = false );
+		void runningDef ( int robot_num ,TVec2 target, TVec2 * defendTarget,bool stop);
 
 
-
-	// Plays
+    // Plays
 		void Stop ( );
 		void Stop_def ( );
 		void stop_ajor ( );

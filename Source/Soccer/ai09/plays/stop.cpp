@@ -32,7 +32,8 @@ void ai09::Stop ( void )
 		}
 	}
 	GKHi( gk , 1 , true );
-	DefHi(def,NULL, true);
+//	DefHi(def,NULL, true);
+	DefMid(def, lw, rw, NULL, true);
 	
 	//GK (gk , 1 , true );
 	//OneDef(def1,NULL, true);
