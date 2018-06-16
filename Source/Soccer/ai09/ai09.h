@@ -264,12 +264,12 @@ private:
 	
 			
 		void internalProcessData ( WorldState * worldState , GameSetting * setting );
-		void internalFinalize ( WorldState * worldState , GameSetting * setting , char * commands );
+		void internalFinalize ( WorldState * worldState , GameSetting * setting );
 
 	public:
-		Robot OwnRobot[8];
+		Robot OwnRobot[MAX_TEAM_ROBOTS];
 		ai09 (WorldState *_worldState, GameSetting *_setting, Sender* _sender );
-		void Process ( WorldState * worldState , GameSetting * setting , char * commands );
+		void Process ( WorldState * worldState , GameSetting * setting );
 		bool read_playBook ( const char* fileName );
 		bool read_playBook_str ( char* buffer , int length );
 

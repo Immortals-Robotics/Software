@@ -1,15 +1,15 @@
 #include <fstream>
 #include "ai09.h"
 
-void ai09::internalFinalize ( WorldState * worldState , GameSetting * setting , char * commands )
+void ai09::internalFinalize ( WorldState * worldState , GameSetting * setting )
 {
 	//bool saveKinoData = !OwnRobot[cmf].halted;
 	
-	for ( int i = 0 ; i < 8 ; i ++ )
+	for ( int i = 0 ; i < MAX_TEAM_ROBOTS ; i ++ )
 		OwnRobot[i].makeSendingDataReady ( );
 
 
-	for ( int i = 0 ; i < 8 ; i ++ )
+	for ( int i = 0 ; i < MAX_TEAM_ROBOTS ; i ++ )
 	{
 		senderBase->getCommand(&OwnRobot[i]);
 		OwnRobot[i].halted = false;

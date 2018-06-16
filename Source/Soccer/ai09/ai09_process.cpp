@@ -1,6 +1,6 @@
 #include "ai09.h"
 
-void ai09::Process ( WorldState * worldState , GameSetting * setting , char * commands )
+void ai09::Process ( WorldState * worldState , GameSetting * setting )
 {
     static int PRCS_CNT = 0;
 	AIDebug.Clear();
@@ -160,5 +160,5 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 		}
 	}
 
-	internalFinalize(worldState, setting, commands);
+	internalFinalize(worldState, setting);
 }

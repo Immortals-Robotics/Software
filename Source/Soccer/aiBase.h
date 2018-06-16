@@ -18,6 +18,6 @@ class aiBase
 	
 	
 	public:
-		virtual void Process ( WorldState * worldState , GameSetting * setting , char * commands ) = 0;
+		virtual void Process ( WorldState * worldState , GameSetting * setting ) = 0;
 		AI_Debug AIDebug;
 };

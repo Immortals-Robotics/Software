@@ -20,6 +20,7 @@
 #include "Reality/Sender/Protocol/reader.h"
 
 #include "Reality/Debugger/debuggerBase.h"
+#include "grsim_fwd.h"
 
 using namespace std;
 
@@ -63,7 +64,10 @@ int main ( )
 
 	settings -> our_color = COLOR_YELLOW;
     settings -> our_side = LEFT_SIDE;
-    settings -> referee_UDP_Address = "224.5.25.25";//TODO Default is "224.5.23.1"
+
+    const char *const xbox_ref_ip = "224.5.25.25";
+    const char *const real_ref_ip = "224.5.23.1";
+    settings -> referee_UDP_Address = xbox_ref_ip;
     settings -> refereePort = 10003;
     settings -> vision_UDP_Address = "224.5.23.2";
     settings -> visionPort = 10006;
@@ -92,27 +96,13 @@ int main ( )
 
     Sender* senderBase = new Sender;
 
-	UDPSocket commUDP;
-	char robot_cmds[90];
-	char zeros[90];
-
-	for ( int i = 0 ; i < 90 ; i ++ )
-	{
-		zeros[i] = 0;
-		robot_cmds[i]=0;
-	}
-
-
-//	robot_cmds[66] = 25;
-//	robot_cmds[77] = 80;
-//	robot_cmds[78] = rf_freq;
-//	robot_cmds[84] = rf_freq;
-
 	bool started = false;
 
 	aiBase * aii = new ai09(state,settings,senderBase);
 
     debuggerBase * debugger = new debuggerBase(settings,&aii->AIDebug);
+
+    auto grsim_fwd = new GrsimForwarder("127.0.0.1", 20011);
 
 	Timer timer;
 
@@ -123,10 +113,6 @@ int main ( )
 	float gyrOff = 0;
 	int offCount = 0;
 
-	float vy = 0.0f;
-	float sgnvy = 1.5f;
-
-	int tid;
 	bool exited = false;
 	mutex lock;
 
@@ -140,12 +126,14 @@ int main ( )
             //The vision process
             vision.ProcessVision();
             //The AI process
-            aii -> Process( state , settings , robot_cmds );
+            aii -> Process( state , settings );
             //The sending process
             senderBase->sendAll();
 
             //debugging:
             debugger->send();
+
+            grsim_fwd->SendData((reinterpret_cast<ai09*>(aii))->OwnRobot, MAX_TEAM_ROBOTS, settings->our_color);
 
             lock.unlock();
             cout << 1.0/timer.interval() << endl;
@@ -153,8 +141,6 @@ int main ( )
             sleep(0.0001);
         }
         exited = true;
-        commUDP.sendTo ( zeros , 10 , "localhost" , 60001 );
-        commUDP.sendTo ( zeros , 1 , "localhost" , 60006 );
     };
 
     auto ref_func = [&]()
@@ -236,7 +222,6 @@ int main ( )
                 for (int i = 0; i < 11; i ++) {
                     //cout << (int)((unsigned char)strategyBuffer[i]) << endl;
                 }
-                commUDP.sendTo ( strategyBuffer , 11 , "224.5.92.5" , 60005 );
 
                 /*for ( int i = 0 ; i < 20 ; i ++ )
                 {
