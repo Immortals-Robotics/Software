@@ -47,8 +47,8 @@ bool ai09::read_playBook_str ( char* buffer , int length )
 	return true;
 }
 
-int step[6] = {0,0,0,0,0,0};
-float lastAdv[6] = {0,0,0,0,0,0};
+int step[8] = {0,0,0,0,0,0,0,0};
+float lastAdv[8] = {0,0,0,0,0,0,0,0};
 static int curr_str_id = -1;
 
 bool recievers_reached = false;
@@ -79,7 +79,7 @@ void ai09::strategy_maker ( void )
 	//cout << timer.time() << endl;
 	if ( timer.time() < 1.0 )
 	{
-		for (int i = 0 ; i < 6 ; i ++ ) {
+		for (int i = 0 ; i < 8 ; i ++ ) {
 			step[i] = 0;
 			lastAdv[i] = timer.time();
 			//cout << "zeroed: " << i << endl;
@@ -125,8 +125,8 @@ void ai09::strategy_maker ( void )
 	}
 	
     bool new_recievers_reached = true;
-    
-	for (int i = 0 ; i < 6 ; i ++ ) {
+	DefMid(def,rw,lw,NULL,false,false);
+	for (int i = 0 ; i < 8 ; i ++ ) {
 		//if ((*stm2AInum[i]==gk)||(*stm2AInum[i]==def)) {
 		//	continue;
 		//}
@@ -135,10 +135,20 @@ void ai09::strategy_maker ( void )
 		{
             if (*stm2AInum[i]==gk)
                 GKHi(gk);
-            else if (*stm2AInum[i]==def)
-            {
-                DefHi(def);
-            }
+			else if(*stm2AInum[i]==def && *stm2AInum[i]==lw && *stm2AInum[i]==rw)//No need to halt these guys
+				continue;
+//            else if (*stm2AInum[i]==def)
+//            {
+//				DefMid(def,rw,lw,NULL,false,false);
+//            }
+//			else if (*stm2AInum[i]==lw)
+//			{
+//				DefMid(def,rw,lw,NULL,false,false);
+//			}
+//			else if (*stm2AInum[i]==rw)
+//			{
+//				DefMid(def,rw,lw,NULL,false,false);
+//			}
             else
                 Halt(*stm2AInum[i]);
 			continue;

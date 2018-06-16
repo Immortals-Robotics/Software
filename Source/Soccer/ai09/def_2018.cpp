@@ -298,7 +298,7 @@ void ai09::DefBy3 ( int middef_num ,int rightdef_num ,int leftdef_num , TVec2 * 
 
 }
 
-void ai09::DefMid ( int &middef_num ,int &rightdef_num ,int &leftdef_num , TVec2 * defendTarget , bool stop ) {
+void ai09::DefMid ( int &middef_num ,int &rightdef_num ,int &leftdef_num , TVec2 * defendTarget , bool stop , bool replace ) {
 
     double alpha = AngleWith(Vec2(side * field_width, 0), ball.Position);
     alpha = min(90, max(-90, alpha));
@@ -309,7 +309,7 @@ void ai09::DefMid ( int &middef_num ,int &rightdef_num ,int &leftdef_num , TVec2
         defendTarget = &(ball.Position);
 
     //make sure the def is present:
-    if(OwnRobot[middef_num].State.seenState == CompletelyOut){
+    if(OwnRobot[middef_num].State.seenState == CompletelyOut && replace){
         if(OwnRobot[rightdef_num].State.seenState != CompletelyOut){
             swap(middef_num,rightdef_num);
         }else if(OwnRobot[leftdef_num].State.seenState != CompletelyOut){

@@ -33,8 +33,8 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
     penalty_area_r = 1000.0f;
     penalty_area_width = 500.0f;
 #else
-	field_width = 4500.0f;// The new field is here:
-    field_height = 3000.0f;
+	field_width = 6000.0f;// The new field is here:
+    field_height = 4500.0f;
     goal_width = 1000.0f;
 
     penalty_area_r = 1200.0f;
@@ -130,14 +130,14 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 	{
 		OwnRobot[i].set_vision_id(i+1);
 	}
-    OwnRobot[gk].set_vision_id(4);
-    OwnRobot[def].set_vision_id(7);
-    OwnRobot[dmf].set_vision_id(2);
+    OwnRobot[gk].set_vision_id(7);
+    OwnRobot[def].set_vision_id(0);
+    OwnRobot[dmf].set_vision_id(1);
     OwnRobot[lmf].set_vision_id(10);
-    OwnRobot[rmf].set_vision_id(1);
-    OwnRobot[cmf].set_vision_id(11);
-	OwnRobot[rw].set_vision_id(8);
-	OwnRobot[lw].set_vision_id(5);
+    OwnRobot[rmf].set_vision_id(8);
+    OwnRobot[cmf].set_vision_id(4);
+	OwnRobot[rw].set_vision_id(11);
+	OwnRobot[lw].set_vision_id(3);
 
 	chip_head = 200;
 
