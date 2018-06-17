@@ -336,9 +336,6 @@ void Robot::makeSendingDataReady ( void )
         }
     }
 
-	dribbler = 0;
-	shoot = 0;
-	chip = 0;
-	Break = 0;
+
 	new_comm_ready = true;
 }

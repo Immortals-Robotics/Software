@@ -13,7 +13,7 @@ void ai09::internalProcessData ( WorldState * worldState , GameSetting * setting
 	CalculateBallTrajectory();
 	debugDraw = false;
 	
-	for ( int i = 0 ; i < 8 ; i ++ )
+	for ( int i = 0 ; i < MAX_TEAM_ROBOTS ; i ++ )
 	{
 		bool halt_this_robot_for_now = false;
 		this->OwnRobot[i].State = worldState -> OwnRobot[OwnRobot[i].vision_id];
@@ -50,7 +50,12 @@ void ai09::internalProcessData ( WorldState * worldState , GameSetting * setting
 		//this->OwnRobot[i].oldRobot = true;
 		//if ( ( i != gk ) && ( i != def1 ) )
 		//this->OwnRobot[i].oldRobot = false;
-		
+
+		this->OwnRobot[i].shoot = 0;
+		this->OwnRobot[i].dribbler = 0;
+		this->OwnRobot[i].shoot = 0;
+		this->OwnRobot[i].chip = 0;
+		this->OwnRobot[i].Break = 0;
 		this->navigated[i] = false;
 
 		//if ((OwnRobot[i].vision_id==7)||(OwnRobot[i].vision_id==4)||(OwnRobot[i].vision_id==0)) {
