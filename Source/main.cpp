@@ -121,6 +121,9 @@ int main ( )
         while ( (! kbhit()) && ( ImmortalsIsTheBest ) )	//Hope it lasts Forever...
         {
             timer.start();
+
+            vision.recieveAllCameras();
+
             lock.lock();
 
             //The vision process
@@ -138,7 +141,6 @@ int main ( )
             lock.unlock();
             cout << 1.0/timer.interval() << endl;
             started = true;
-            sleep(0.0001);
         }
         exited = true;
     };

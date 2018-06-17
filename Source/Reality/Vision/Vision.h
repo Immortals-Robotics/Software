@@ -70,6 +70,7 @@ public:
 
     bool recievePacket ( void );
     bool connectToVisionServer ( void );
+    void recieveAllCameras( void );
     void ProcessVision ( void );
     bool isConnected ( void );
 

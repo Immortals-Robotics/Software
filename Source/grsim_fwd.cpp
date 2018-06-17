@@ -40,7 +40,7 @@ void GrsimForwarder::SendData(const Robot *const robots, const int robot_count, 
 
         command->set_veltangent(new_VelY / 20.0);
         command->set_velnormal(-new_VelX / 20.0);
-        command->set_velangular(motion.Z / 35.0);
+        command->set_velangular(motion.Z / 50.0);
         //command->set_velangular(0);
 
         command->set_kickspeedx(robot->shoot);

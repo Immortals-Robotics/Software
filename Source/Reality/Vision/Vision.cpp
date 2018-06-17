@@ -64,30 +64,34 @@ VisionModule::~VisionModule()
 	zmq_ctx_destroy (gui_zmq_context);
 }
 
-void VisionModule::ProcessVision() {
-	if (!connected) {
-		cout << "	Hey you! Put the LAN cable back in its socket, or ..." << endl;
-		return;
-		//connectToVisionServer ( setting -> UDP_Adress , setting -> LocalPort );
-	}
+void VisionModule::recieveAllCameras( void )
+{
+    if (!connected) {
+        cout << "	Hey you! Put the LAN cable back in its socket, or ..." << endl;
+        return;
+        //connectToVisionServer ( setting -> UDP_Adress , setting -> LocalPort );
+    }
 
-	bool cams_ready = false;
-	while (!cams_ready) {
-		cams_ready = true;
-		for (int i = 0; i < CAM_COUNT; i++) {
-			bool new_cam_ready = packet_recieved[i] || (!this->use_camera[i]);
-			if (!new_cam_ready) {
-				cams_ready = false;
-				break;
-			}
-		}
-		if (cams_ready)
-			break;
-		//cout << "bodo dg    " << cams_ready << endl;
-		recievePacket();
+    bool cams_ready = false;
+    while (!cams_ready) {
+        cams_ready = true;
+        for (int i = 0; i < CAM_COUNT; i++) {
+            bool new_cam_ready = packet_recieved[i] || (!this->use_camera[i]);
+            if (!new_cam_ready) {
+                cams_ready = false;
+                break;
+            }
+        }
+        if (cams_ready)
+            break;
+        //cout << "bodo dg    " << cams_ready << endl;
+        recievePacket();
 
-	}
+    }
+}
 
+void VisionModule::ProcessVision()
+{
 	ProcessBalls ( this->playState );
 	ProcessRobots ( this->playState );
 
