@@ -54,13 +54,13 @@ void ai09::runningDef(int robot_num,TVec2 target,TVec2 * defendTarget ,bool stop
     ballIsToGoal = ballIsGoaling();
     ballIsToGoal = false;
 
-    cout << "interceptNear:	"<<interceptNear <<endl;
+    /*cout << "interceptNear:	"<<interceptNear <<endl;
     cout << "assholeHasBall: " << assholeHasBall<<endl;
     cout << "ballMovingFast: " << ballMovingFast <<endl;
     cout << "ownAttackHasBall: " << ownAttackHasBall<<endl;
     cout << "ballMovingFast: " << ballMovingFast <<endl;
     cout << "ballIsToGoal: " << ballIsToGoal << endl;
-    cout << "gkIntercepting: "<< gkIntercepting << endl;
+    cout << "gkIntercepting: "<< gkIntercepting << endl;*/
 
     if (
             ( interceptNear ) &&

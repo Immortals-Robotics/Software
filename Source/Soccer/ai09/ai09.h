@@ -54,14 +54,9 @@ private:
 	
 	int chip_head;
 	
-	int VisionSerialTrans[12];
-	
 	float penaltyAngle;
     
     int oppGK;
-	
-	bool playingAgainstSkuba;
-	int marchingDefender;
 	
 	float randomParam;
 	int target_str;
@@ -72,20 +67,18 @@ private:
 	int dmf;
 	int lmf;
 	int cmf;
-	int rw;//Right wing
-	int lw;//Left wing
+	int rw;
+	int lw;
 	
 	int attack;
 	int mid1;
 	int mid2;
 	
-	int* stm2AInum[8];
+	int* stm2AInum[MAX_TEAM_ROBOTS];
 	
-	TVec2 allafPos[8];
+	TVec2 allafPos[MAX_TEAM_ROBOTS];
 	
 	map<int*,int> markMap;
-	
-	int hys;
 	
 	int lastReferee;
 	
@@ -94,8 +87,6 @@ private:
 
 		bool isDefending;
 		bool oppRestarted;
-	
-		MedianFilter<float> freeAngleFilter[8];
 	
 		float beta;
 		float gamma;
@@ -107,21 +98,21 @@ private:
 		deque<BallState> ballHist;
 		Linear ballLine;
 		BallState ball;
-		RobotState OppRobot[12];
+		RobotState OppRobot[MAX_ROBOTS];
 		int OwnRobotNum , OppRobotNum;
-		Planner planner[8];
+		Planner planner[MAX_TEAM_ROBOTS];
 	
-		OneTouchDetector oneTouchDetector[8];
+		OneTouchDetector oneTouchDetector[MAX_TEAM_ROBOTS];
 		enum OneTouchType {
 			oneTouch = 0,
 			shirje,
 			gool,
 			allaf
 		};
-		OneTouchType oneTouchType[8];
-		bool oneTouchTypeUsed[8];
+		OneTouchType oneTouchType[MAX_TEAM_ROBOTS];
+		bool oneTouchTypeUsed[MAX_TEAM_ROBOTS];
 	
-		bool navigated[8];
+		bool navigated[MAX_TEAM_ROBOTS];
 		int side;
 
 		VelocityProfile BALL_PLACE_KHEYLI_SOOSKI;
@@ -189,7 +180,7 @@ private:
 		void Halt ( int robot_num );
 		void GK ( int robot_num = 0 , int defence_num = 2 , bool stop = false );
 		void GK_shirje ( int robot_num = 0 );
-		void GKHi ( int robot_num = 0 , int defence_num = 2 , bool stop = false );
+		void GKHi ( int robot_num = 0 , bool stop = false );
 		void OneDef ( int robot_num = 1 , TVec2 * defendTarget = NULL , bool stop = false );
 		void TwoDef ( int robot_num1 = 1 , int robot_num2 = 2 , TVec2 * defendTarget = NULL );
 		void DefHi ( int robot_num , TVec2 * defendTarget = NULL , bool stop = false );
@@ -216,7 +207,6 @@ private:
     // Plays
 		void Stop ( );
 		void Stop_def ( );
-		void stop_ajor ( );
 		void NormalPlay ( void );
 		void NewNormalPlay ( void );
 		void NormalPlayDef ( void );
@@ -238,7 +228,6 @@ private:
 		void penalty_their_simple ( void );
 		void penalty_their_gool ( void );
 		void throwin_their_khafan ( void );
-		void corner_their_khafan ( void );
 		void corner_their_two_markers ( void );
 		void corner_their_marker_ajor ( void );
 		void corner_their_marker_karkas ( void );

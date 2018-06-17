@@ -2,7 +2,7 @@
 
 void ai09::throwin_us_outgir ( void )
 {
-    GKHi(gk, 1, 0);
+    GKHi(gk, 0);
 	DefHi(def,NULL, 0);
 
 	ERRTSetObstacles(dmf, 1, 1, 1, 1, 0);

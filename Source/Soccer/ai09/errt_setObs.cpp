@@ -5,7 +5,7 @@ int DBG_tracking_robot_ID = 7;
 void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own , bool opp , bool dribble , bool bigPen )
 {
 	
-	robot_num = min(5,max(0,robot_num));
+	//robot_num = min(5,max(0,robot_num));
 	clear_map ( );
 //	if(OwnRobot[robot_num].State.vision_id == DBG_tracking_robot_ID)
 //		debugDraw = true;
@@ -13,7 +13,7 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 		debugDraw = true;
 	if ( own )
 	{
-		for ( int i = 0 ; i < 6 ; i ++ )
+		for ( int i = 0 ; i < MAX_TEAM_ROBOTS ; i ++ )
 		{
 			if ( ( OwnRobot[i].State.seenState != CompletelyOut ) && ( i != robot_num ) && ( OwnRobot[i].State.vision_id != OwnRobot[robot_num].State.vision_id ) )
 			{
@@ -68,13 +68,12 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 		AddDebugRect( Vec2(side*(field_width+85.0f) , -penalty_circle_center_y) , -side*(185.0+penalty_area_r) , penalty_area_width,Cyan );
 		AddDebugRect( Vec2(-side*(field_width+85.0f) , -penalty_circle_center_y), side*(135.0+penalty_area_r) , penalty_area_width,Cyan);
 #else
-        float top_corner = penalty_area_width/2.0;
-        AddRectangle ( side*(field_width+185.0f) , -top_corner , -side*(285.0+penalty_area_r) , penalty_area_width );
-        AddRectangle ( -side*(field_width+245.0f) , -top_corner - 40, side*(270.0+penalty_area_r) , penalty_area_width + 80 );
+        float penalty_area_half_width = penalty_area_width / 2.0f;
+        AddRectangle ( -(field_width + 185.0f) , -(penalty_area_half_width + 100.f) , +(285.0f + penalty_area_r) , penalty_area_width + 200.f );
+		AddRectangle ( +(field_width + 185.0f) , -(penalty_area_half_width + 100.f) , -(285.0f + penalty_area_r) , penalty_area_width + 200.f );
 
-
-        AddDebugRect( Vec2(side*(field_width+185.0f) , -top_corner ) , -side*(285.0+penalty_area_r) , penalty_area_width,Cyan );
-        AddDebugRect( Vec2(-side*(field_width+225.0f) , -top_corner - 40), side*(270.0+penalty_area_r) , penalty_area_width + 80 ,Cyan);
+        // AddDebugRect( Vec2(side*(field_width+185.0f) , -top_corner ) , -side*(285.0+penalty_area_r) , penalty_area_width,Cyan );
+        // AddDebugRect( Vec2(-side*(field_width+225.0f) , -top_corner - 40), side*(270.0+penalty_area_r) , penalty_area_width + 80 ,Cyan);
 
 #endif
        // cout<<"-------------------------------AVOIDED"<<endl;
@@ -83,9 +82,10 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 	if ( bigPen )
 	{
 		float big_penalty_area_r  = penalty_area_r + 240.0f;
-        float penalty_circle_center_y = penalty_area_width / 2.0f;
+		float big_penalty_area_w  = penalty_area_width + 240.0f;
+        float penalty_area_half_width = big_penalty_area_w / 2.0f;
 
-		AddRectangle ( -side*(field_width+185.0f) , -penalty_circle_center_y , side*(385.0f+big_penalty_area_r) , penalty_area_width );//TODO fixed a side problem
+		AddRectangle ( -side * (field_width + 185.0f) , -(penalty_area_half_width + 100.f) , side * (285.0f + big_penalty_area_r) , big_penalty_area_w + 200.f );
 
 //		AddDebugRect( Vec2(-side*(field_width+185.0f) , -penalty_circle_center_y - 200) , side*(385.0f+big_penalty_area_r) , penalty_area_width + 400,Purple );
 

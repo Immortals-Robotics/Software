@@ -1,11 +1,8 @@
 #include "ai09.h"
 #include <math.h>
 
-#define world2mapX(a) min(729,max(0,((a/10)+364)))
-#define world2mapY(a) min(529,max(0,((a/10)+264)))
-
 static int my_hys=0;
-void ai09::GKHi ( int robot_num , int defence_num , bool stop )
+void ai09::GKHi ( int robot_num, bool stop )
 {
 	gkIntercepting = false;
 

@@ -68,7 +68,6 @@ void ai09::corner_switch_pass ( void )
 	}
 	else
 	{
-		hys = 0;
 		OwnRobot[rmf].face ( Vec2 ( -side*2995 , 0 ) );
 		ERRTSetObstacles ( rmf );
 		if ( timer.time() < 1.5 )

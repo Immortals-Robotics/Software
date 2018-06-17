@@ -40,11 +40,38 @@ void GrsimForwarder::SendData(const Robot *const robots, const int robot_count, 
 
         command->set_veltangent(new_VelY / 20.0);
         command->set_velnormal(-new_VelX / 20.0);
-        command->set_velangular(motion.Z / 50.0);
+
+        float w = robot->target.Angle - robot->State.Angle;
+        while (w > 180)
+        {
+            w -= 360;
+        }
+        while (w < -180)
+        {
+            w += 360;
+        }
+        w /= 10.0f;
+
+        command->set_velangular(w);
         //command->set_velangular(0);
 
-        command->set_kickspeedx(robot->shoot);
-        command->set_kickspeedz(robot->chip);
+        if (robot->shoot > 0)
+        {
+            command->set_kickspeedx(robot->shoot/2);
+            command->set_kickspeedz(0);
+        }
+        else if (robot->chip > 0)
+        {
+            float chip = robot->chip / 25.0f;
+            command->set_kickspeedx(chip * 0.707f);
+            command->set_kickspeedz(chip / 0.707f);
+        }
+        else
+        {
+            command->set_kickspeedx(.0f);
+            command->set_kickspeedz(.0f);
+        }
+
         command->set_spinner(robot->dribbler);
 
         const size_t dgram_len = packet.ByteSize();

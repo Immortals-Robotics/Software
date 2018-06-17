@@ -18,7 +18,7 @@ void ObsMap::AddCircle ( float _x , float _y , float _r )
 }
 void ObsMap::AddRectangle ( float _x , float _y , float _w , float _h )
 {
-	if ( ( _w > 0 ) && ( _h > 0 ) && ( obsNum < maxObs ) )
+	if ( obsNum < maxObs )
 	{
 		obstacle[obsNum++] = new RectangleObstacle ( _x , _y , _w , _h );
 	}
