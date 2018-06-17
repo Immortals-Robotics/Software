@@ -20,7 +20,8 @@
     including MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
   ------------------------------------------------------------------------- */
 
-#include "helpers.h"#include "Robot.h"
+#include "helpers.h"
+#include "Robot.h"
 #include "VelocityProfile.h"
 #include "../../Reality/WorldState.h"
 

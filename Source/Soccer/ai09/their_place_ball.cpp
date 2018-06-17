@@ -5,7 +5,7 @@
 #include "ai09.h"
 
 void ai09::their_place_ball ( void ){
-    GKHi( gk , 1 , true );
+    GKHi( gk , true );
     DefHi(def,NULL, true);
 
 

@@ -3,7 +3,7 @@
 void ai09::kickoff_us_pass ( void )
 {
 	bool canKickBall = bool(currentPlayParam);
-	GKHi(gk, 1, 0);
+	GKHi(gk, 0);
 	DefHi(def);
 	
 	ERRTSetObstacles ( dmf , true , true , true , true );

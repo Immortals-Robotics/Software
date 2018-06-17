@@ -27,9 +27,7 @@ void ai09::InitAIPlayBook ( void )
 	AIPlayBook["corner_their_marker_karkas"] = &ai09::corner_their_marker_karkas;
 	AIPlayBook["corner_their_def_karkas"] = &ai09::corner_their_def_karkas;
 	AIPlayBook["corner_their_def_ajor"] = &ai09::corner_their_def_ajor;
-	AIPlayBook["corner_their_khafan"] = &ai09::corner_their_khafan;
 	AIPlayBook["throwin_their_khafan"] = &ai09::throwin_their_khafan;
-	AIPlayBook["stop_ajor"] = &ai09::stop_ajor;
 	AIPlayBook["Stop_def"] = &ai09::Stop_def;
 	AIPlayBook["strategy_maker"] = &ai09::strategy_maker;
 	AIPlayBook["penalty_us_ghuz"] = &ai09::penalty_us_ghuz;

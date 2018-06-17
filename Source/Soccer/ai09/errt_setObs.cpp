@@ -69,8 +69,8 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 		AddDebugRect( Vec2(-side*(field_width+85.0f) , -penalty_circle_center_y), side*(135.0+penalty_area_r) , penalty_area_width,Cyan);
 #else
         float penalty_area_half_width = penalty_area_width / 2.0f;
-        AddRectangle ( -(field_width + 185.0f) , -(penalty_area_half_width + 10.f) , +(285.0f + penalty_area_r) , penalty_area_width + 20.f );
-		AddRectangle ( +(field_width + 185.0f) , -(penalty_area_half_width + 10.f) , -(285.0f + penalty_area_r) , penalty_area_width + 20.f );
+        AddRectangle ( -(field_width + 185.0f) , -(penalty_area_half_width + 100.f) , +(285.0f + penalty_area_r) , penalty_area_width + 200.f );
+		AddRectangle ( +(field_width + 185.0f) , -(penalty_area_half_width + 100.f) , -(285.0f + penalty_area_r) , penalty_area_width + 200.f );
 
         // AddDebugRect( Vec2(side*(field_width+185.0f) , -top_corner ) , -side*(285.0+penalty_area_r) , penalty_area_width,Cyan );
         // AddDebugRect( Vec2(-side*(field_width+225.0f) , -top_corner - 40), side*(270.0+penalty_area_r) , penalty_area_width + 80 ,Cyan);
@@ -82,9 +82,10 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 	if ( bigPen )
 	{
 		float big_penalty_area_r  = penalty_area_r + 240.0f;
-        float penalty_circle_center_y = penalty_area_width / 2.0f;
+		float big_penalty_area_w  = penalty_area_width + 240.0f;
+        float penalty_area_half_width = big_penalty_area_w / 2.0f;
 
-		AddRectangle ( -side*(field_width+185.0f) , -penalty_circle_center_y , side*(385.0f+big_penalty_area_r) , penalty_area_width );//TODO fixed a side problem
+		AddRectangle ( -side * (field_width + 185.0f) , -(penalty_area_half_width + 100.f) , side * (285.0f + big_penalty_area_r) , big_penalty_area_w + 200.f );
 
 //		AddDebugRect( Vec2(-side*(field_width+185.0f) , -penalty_circle_center_y - 200) , side*(385.0f+big_penalty_area_r) , penalty_area_width + 400,Purple );
 

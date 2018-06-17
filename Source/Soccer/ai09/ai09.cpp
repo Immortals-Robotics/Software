@@ -43,9 +43,7 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 
 
     REF_playState = _worldState->refereeState->State;
-
-	targetBallPlacement = &_worldState->refereeState->placeBallTargetPosition; //new TVec2;//TODO it has to be read from the ref State
-//	*targetBallPlacement = Vec2(0.0,0.0);
+	targetBallPlacement = &_worldState->refereeState->placeBallTargetPosition;
 
     for ( int i = 0 ; i < 8 ; i ++ )
     {
@@ -62,28 +60,10 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 	currentPlay = "HaltAll";
 	currentPlayParam = 0;
 
-	VisionSerialTrans[0] = 0;
-	VisionSerialTrans[1] = 1;
-	VisionSerialTrans[2] = 2;
-	VisionSerialTrans[3] = 3;
-	VisionSerialTrans[4] = 4;
-	VisionSerialTrans[5] = 5;
-	VisionSerialTrans[6] = 6;
-	VisionSerialTrans[7] = 7;
-	VisionSerialTrans[8] = 8;
-	VisionSerialTrans[9] = 9;
-	VisionSerialTrans[10] = 10;
-	VisionSerialTrans[11] = 11;
-
 	gkIntercepting = false;
-
-	playingAgainstSkuba = false;
-	marchingDefender = 0;
 
 	randomParam = 0.0f;
 	target_str = -1;
-
-	hys = 0;
 
 	reached = false;
 
@@ -130,12 +110,12 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 	{
 		OwnRobot[i].set_vision_id(i+1);
 	}
-    OwnRobot[gk].set_vision_id(7);
+    OwnRobot[gk].set_vision_id(2);
     OwnRobot[def].set_vision_id(0);
     OwnRobot[dmf].set_vision_id(1);
     OwnRobot[lmf].set_vision_id(10);
     OwnRobot[rmf].set_vision_id(8);
-    OwnRobot[cmf].set_vision_id(4);
+    OwnRobot[cmf].set_vision_id(7);
 	OwnRobot[rw].set_vision_id(11);
 	OwnRobot[lw].set_vision_id(3);
 

@@ -5,7 +5,7 @@ void ai09::corner_simple_chip ( void )
 	//GK ( gk , 1 );
 	//OneDef ( def );
 	
-	GKHi(gk, 1, 0);
+	GKHi(gk, 0);
 	DefHi(def, NULL, false);
 	
 	ERRTSetObstacles ( dmf , false , true , true , true );

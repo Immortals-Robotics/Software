@@ -15,7 +15,7 @@ void ai09::corner_their_global ( void )
 	}
 	else
 	{
-		GKHi(gk, 1, 0);
+		GKHi(gk, 0);
 		DefHi(def, NULL, true);
 	}
 

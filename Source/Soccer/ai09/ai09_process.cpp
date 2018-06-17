@@ -4,11 +4,7 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting )
 {
     static int PRCS_CNT = 0;
 	AIDebug.Clear();
-
-
-
-    PRCS_CNT++;
-    AIDebug.set_frame_id(PRCS_CNT);
+    AIDebug.set_frame_id(PRCS_CNT++);
 
 	debugDraw = false;
 	
@@ -24,12 +20,7 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting )
 	debugDraw = false;
 
 
-	if ( 0 ) {
-		currentPlay = "my_test";
-//        GKHi(gk, 1, 0);
-//        currentPlay = "Stop";
-    }
-	else if ( REF_playState )
+	if ( REF_playState )
 	{
 		if ( lastReferee != REF_playState->get() )
 		{
@@ -44,7 +35,7 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting )
 		if ( REF_playState->get() == GameState::GAME_OFF )
 		{
 			oppRestarted = false;
-			if (side*ball.Position.X>3000) {
+			if (side * ball.Position.X > field_width * 0.7f ) {
 				currentPlay = "Stop_def";
 			}
 			else {
@@ -53,48 +44,32 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting )
 		}
 		else if ( REF_playState->get() == GameState::GAME_ON )
 		{
-			// Nik Uncomment
-			
-			//currentPlay = "strategy_maker";
-			//currentPlayParam = playBook->strategy_size()-1;
-
-			
 			currentPlay = "NewNormalPlay";
-			//currentPlay = "tech_mexico";
-			//currentPlay = "tech_motion_ann";
-
-//            targetBallPlacement->X = -2500;
-//            targetBallPlacement->Y = -1500;
-//			currentPlay = "Stop";
-            cout<<"IT's NORMALLLLLLLL"<<endl;
 		}
 		else if ( REF_playState->ourKickoff ( ) )
 		{
 			currentPlay = "kickoff_us_chip";
 			//currentPlay = "kickoff_us_farar";
-			currentPlay = "kickoff_us_pass";
+			//currentPlay = "kickoff_us_pass";
 			
-			currentPlayParam = worldState ->refereeState -> State->canKickBall();
+			currentPlayParam = static_cast<uint32_t>(worldState ->refereeState -> State->canKickBall());
 		}
 		else if ( ( REF_playState->ourDirectKick ( ) ) || ( REF_playState->ourIndirectKick ( ) ) )
 		{
             if (target_str != -1) {
                 currentPlay = "strategy_maker";
-                currentPlayParam = target_str;
+                currentPlayParam = static_cast<uint32_t>(target_str);
             } else {
 //                if (side*ball.Position.X<800)
 //                    currentPlay = "throwin_us_outgir";
 //                else
                 currentPlay = "throwin_chip_shoot";
             }
-            cout<<"_____"<<target_str<<endl;
 		}
-		
-		
 		else if ( REF_playState->ourPenaltyKick ( ) )
 		{
 			currentPlay = "penalty_us_ghuz";
-			currentPlayParam = worldState ->refereeState -> State->canKickBall();
+			currentPlayParam = static_cast<uint32_t>(worldState ->refereeState -> State->canKickBall());
 		}
         else if(REF_playState->ourPlaceBall())
         {
@@ -102,19 +77,15 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting )
 //            targetBallPlacement->Y = -1500;
             currentPlay = "our_place_ball_shoot";
         }
-		
 		else if ( REF_playState->theirFreeKick() )
 		{
 			//currentPlay = "corner_their_mrl";
 			currentPlay = "corner_their_global";
-			//currentPlay = "Stop";
 		}
-		
 		else if ( REF_playState->theirKickoff() )
 		{
 			currentPlay = "kickoff_their_one_wall";
 		}
-		
 		else if ( REF_playState->theirPenaltyKick() )
 		{
 			currentPlay = "penalty_their_simple";

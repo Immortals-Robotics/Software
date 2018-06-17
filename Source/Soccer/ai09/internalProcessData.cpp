@@ -46,7 +46,7 @@ void ai09::internalProcessData ( WorldState * worldState , GameSetting * setting
 		}
 		//cout << OwnRobot[i].vision_id << "	";
 		
-		this->OwnRobot[i].set_serial_id(VisionSerialTrans[OwnRobot[i].vision_id]);
+		this->OwnRobot[i].set_serial_id(OwnRobot[i].vision_id);
 		//this->OwnRobot[i].oldRobot = true;
 		//if ( ( i != gk ) && ( i != def1 ) )
 		//this->OwnRobot[i].oldRobot = false;
