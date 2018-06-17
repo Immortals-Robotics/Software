@@ -11,10 +11,10 @@ float ai09::calculateSwicthToAttackerScore(int robot_num)
 	if (!isDefending && oneTouchDetector[robot_num].IsArriving(45, 150))
 		return -1;
 
-	float currAttBallDis = DIS(OwnRobot[robot_num].State.Position, ball.Position);//TODO shouldn't this be DIS(OwnRobot[attack]...
+	float currAttBallDis = DIS(OwnRobot[attack].State.Position, ball.Position);
 
 	if (OwnRobot[attack].State.seenState == CompletelyOut)
-		currAttBallDis = 10000;
+		currAttBallDis = 20000;
 
 	auto marked_id = -1;
 	for (auto it = markMap.begin(); it != markMap.end(); ++it)

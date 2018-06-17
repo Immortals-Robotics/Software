@@ -2,6 +2,10 @@
 
 void ai09::Stop_def ( void )
 {
+	for (map<int*, int>::const_iterator i = markMap.begin(); i != markMap.end(); ++i) {
+		markMap[i->first] = -1;
+	}
+
 	//attack = cmf;
 	//mid1 = rmf;
 	//mid2 = lmf;

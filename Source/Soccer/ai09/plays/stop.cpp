@@ -6,6 +6,10 @@ using namespace std;
 
 void ai09::Stop ( void )
 {
+	for (map<int*, int>::const_iterator i = markMap.begin(); i != markMap.end(); ++i) {
+		markMap[i->first] = -1;
+	}
+
 	debugDraw = true;
 	AddDebugCircle(ball.Position,500,Red);
 	debugDraw = false;
