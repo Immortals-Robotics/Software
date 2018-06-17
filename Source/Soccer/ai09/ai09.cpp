@@ -83,6 +83,8 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 	markMap[&dmf] = -1;
 	markMap[&mid1] = -1;
 	markMap[&mid2] = -1;
+	markMap[&lw] = -1;
+	markMap[&rw] = -1;
 
 	stm2AInum[0] = &gk;
 	stm2AInum[1] = &def;

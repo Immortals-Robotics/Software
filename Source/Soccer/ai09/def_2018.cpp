@@ -319,11 +319,14 @@ void ai09::DefMid ( int &middef_num ,int &rightdef_num ,int &leftdef_num , TVec2
         }
     }
 
-    if(OwnRobot[rightdef_num].State.seenState == CompletelyOut && OwnRobot[leftdef_num].State.seenState == CompletelyOut){
+    bool leftdef_available = OwnRobot[leftdef_num].State.seenState != CompletelyOut && markMap[&leftdef_num] == -1;
+    bool rightdef_available = OwnRobot[rightdef_num].State.seenState != CompletelyOut && markMap[&leftdef_num] == -1;
+
+    if(!leftdef_available && !rightdef_available){
         DefBy1(middef_num,defendTarget,stop);
-    }else if(OwnRobot[rightdef_num].State.seenState == CompletelyOut){
+    }else if(!rightdef_available){
         DefBy2(middef_num,leftdef_num,defendTarget,stop);
-    }else if(OwnRobot[leftdef_num].State.seenState == CompletelyOut){
+    }else if(!leftdef_available){
         DefBy2(rightdef_num,middef_num,defendTarget,stop);
     }else {
         DefBy3(middef_num,rightdef_num,leftdef_num,defendTarget,stop);
