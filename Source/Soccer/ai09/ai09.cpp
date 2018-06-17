@@ -149,27 +149,27 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 	for(int i=0;i<MAX_TEAM_ROBOTS;i++)
 		requiredRobots[i]= false;
 
-    BALL_PLACE_KHEYLI_SOOSKI.max_spd = Vec2 ( 500.0f );
+    BALL_PLACE_KHEYLI_SOOSKI.max_spd = Vec2 ( 10.0f );
     BALL_PLACE_KHEYLI_SOOSKI.max_dec = Vec2 ( 1.0f );
-    BALL_PLACE_KHEYLI_SOOSKI.max_acc = Vec2 ( 3000.0f );
+    BALL_PLACE_KHEYLI_SOOSKI.max_acc = Vec2 ( 0.6f );
     BALL_PLACE_KHEYLI_SOOSKI.max_w_acc = 40.0f;
     BALL_PLACE_KHEYLI_SOOSKI.max_w_dec = 140.0f;
 
-	VELOCITY_PROFILE_AROOM.max_spd = Vec2 ( 1500.0f );
+	VELOCITY_PROFILE_AROOM.max_spd = Vec2 ( 30.0f );
 	VELOCITY_PROFILE_AROOM.max_dec = Vec2 ( 1.0f );
-	VELOCITY_PROFILE_AROOM.max_acc = Vec2 ( 4000.0f );
+	VELOCITY_PROFILE_AROOM.max_acc = Vec2 ( 0.8f );
 	VELOCITY_PROFILE_AROOM.max_w_acc = 40.0f;
 	VELOCITY_PROFILE_AROOM.max_w_dec = 140.0f;
 
-	VELOCITY_PROFILE_MAMOOLI.max_spd = Vec2 ( 3000.0f );
+	VELOCITY_PROFILE_MAMOOLI.max_spd = Vec2 ( 70.0f );
 	VELOCITY_PROFILE_MAMOOLI.max_dec = Vec2 ( 2.0f );
-	VELOCITY_PROFILE_MAMOOLI.max_acc = Vec2 ( 3000.0f );
+	VELOCITY_PROFILE_MAMOOLI.max_acc = Vec2 ( 1.3f );
 	VELOCITY_PROFILE_MAMOOLI.max_w_acc = 40.0f;
 	VELOCITY_PROFILE_MAMOOLI.max_w_dec = 140.0f;
 
-	VELOCITY_PROFILE_KHARAKI.max_spd = Vec2 ( 5000.0f );
+	VELOCITY_PROFILE_KHARAKI.max_spd = Vec2 ( 70.0f );
 	VELOCITY_PROFILE_KHARAKI.max_dec = Vec2 ( 2.7f );
-	VELOCITY_PROFILE_KHARAKI.max_acc = Vec2 ( 6500.0f );
+	VELOCITY_PROFILE_KHARAKI.max_acc = Vec2 ( 1.9f );
 	VELOCITY_PROFILE_KHARAKI.max_w_acc = 40.0f;
 	VELOCITY_PROFILE_KHARAKI.max_w_dec = 140.0f;
 

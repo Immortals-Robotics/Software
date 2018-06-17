@@ -130,13 +130,14 @@ int main ( )
             vision.ProcessVision();
             //The AI process
             aii -> Process( state , settings );
+
+            grsim_fwd->SendData((reinterpret_cast<ai09*>(aii))->OwnRobot, MAX_TEAM_ROBOTS, settings->our_color);
+
             //The sending process
             senderBase->sendAll();
 
             //debugging:
             debugger->send();
-
-            grsim_fwd->SendData((reinterpret_cast<ai09*>(aii))->OwnRobot, MAX_TEAM_ROBOTS, settings->our_color);
 
             lock.unlock();
             cout << 1.0/timer.interval() << endl;

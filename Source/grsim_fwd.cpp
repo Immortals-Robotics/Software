@@ -40,7 +40,19 @@ void GrsimForwarder::SendData(const Robot *const robots, const int robot_count, 
 
         command->set_veltangent(new_VelY / 20.0);
         command->set_velnormal(-new_VelX / 20.0);
-        command->set_velangular(motion.Z / 50.0);
+
+        float w = robot->target.Angle - robot->State.Angle;
+        while (w > 180)
+        {
+            w -= 360;
+        }
+        while (w < -180)
+        {
+            w += 360;
+        }
+        w /= 10.0f;
+
+        command->set_velangular(w);
         //command->set_velangular(0);
 
         if (robot->shoot > 0)
