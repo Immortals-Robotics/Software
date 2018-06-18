@@ -127,14 +127,14 @@ void ai09::NormalPlayAtt ( void )
 		recievePass(mid1, Vec2 ( -side*250 , 0 ));
 	}
 	else {
-		recievePass(mid1, Vec2 ( -side*(field_width-1300) , field_height-1300 ));
+		recievePass(mid1, Vec2 ( -side*(field_width-800) , field_height-800 ));
 	}
 	
 	if (ball.Position.Y<-600) {
 		recievePass(mid2, Vec2 ( -side*250 , 0 ));
 	}
 	else {
-		recievePass(mid2, Vec2 ( -side*(field_width-1300) ,-field_height+1300 ));
+		recievePass(mid2, Vec2 ( -side*(field_width-800) ,-field_height+800 ));
 	}
 
 }

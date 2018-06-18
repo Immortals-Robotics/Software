@@ -30,7 +30,7 @@ void ai09::throwin_chip_shoot ( void )
 	
 	if (timer.time()>4 ) {
 		//tech_circle(dmf,AngleWith ( Vec2 ( -side*2995 , 0 ) , ball.Position ) ,0,30,0,1);
-		circle_ball(dmf, AngleWith ( Vec2 ( -side*field_width , sgn(ball.Position.Y)*2200.0f ) , ball.Position ), 0, 500, 1.0f);
+		circle_ball(dmf, AngleWith ( Vec2 ( -side*field_width , sgn(ball.Position.Y)*2200.0f ) , ball.Position ), 0, 50, 1.0f);
 	}
 	else
 	{

@@ -16,7 +16,7 @@ bool ai09::position_robots(bool avoid_GK, bool avoid_DEF){
 
 
     for(int j=0;j<MAX_TEAM_ROBOTS;j++) {
-        cout<<"j is: "<<j<<endl;
+//        cout<<"j is: "<<j<<endl;
         if (requiredRobots[*stm2AInum[j]] && OwnRobot[*stm2AInum[j]].State.seenState == CompletelyOut) {//Find the robot that needs to be replaced
 
             int i;

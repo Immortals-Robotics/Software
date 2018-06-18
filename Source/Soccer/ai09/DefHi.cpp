@@ -88,14 +88,14 @@ void ai09::DefHi ( int robot_num , TVec2 * defendTarget , bool stop )
 	ballIsToGoal = ballIsGoaling();
 	ballIsToGoal = false;
 	
-	cout << "interceptNear:	"<<interceptNear <<endl;
-    cout << "assholeHasBall: " << assholeHasBall<<endl;
-    cout << "ballMovingFast: " << ballMovingFast <<endl;
-    cout<<"ownAttackHasBall: " << ownAttackHasBall<<endl;
-    cout<< "ballMovingFast: " << ballMovingFast <<endl;
-    cout<< "ownAttackHasBall: " << ownAttackHasBall <<endl;
-    cout<< "ballIsToGoal: " << ballIsToGoal << endl;
-    cout<<"gkIntercepting: "<< gkIntercepting << endl;
+//	cout << "interceptNear:	"<<interceptNear <<endl;
+//    cout << "assholeHasBall: " << assholeHasBall<<endl;
+//    cout << "ballMovingFast: " << ballMovingFast <<endl;
+//    cout<<"ownAttackHasBall: " << ownAttackHasBall<<endl;
+//    cout<< "ballMovingFast: " << ballMovingFast <<endl;
+//    cout<< "ownAttackHasBall: " << ownAttackHasBall <<endl;
+//    cout<< "ballIsToGoal: " << ballIsToGoal << endl;
+//    cout<<"gkIntercepting: "<< gkIntercepting << endl;
 
 	if ( 
 		( false ) &&

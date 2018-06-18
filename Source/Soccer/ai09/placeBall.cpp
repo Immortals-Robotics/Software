@@ -142,6 +142,8 @@ void ai09::our_place_ball(void) {
 }
 void ai09::our_place_ball_shoot(void) {
 
+    GKHi(gk,true);
+    DefMid(def,rw,lw,NULL,true);
 
     static float move_angle,temp_opp_ang;
     if( DIS(ball.Position,*targetBallPlacement)>100) {
@@ -160,13 +162,35 @@ void ai09::our_place_ball_shoot(void) {
     position_robots();
     cout<<"AFTER: "<<mid1<<"_"<<mid2<<endl;
 
+    ERRTSetObstacles ( dmf , false , true , true , true );
+    AddCircle ( ball.Position.X , ball.Position.Y , 1010.0f );
+    OwnRobot[dmf].face(ball.Position);
+    ERRTNavigate2Point ( dmf , PointOnConnectingLine(ball.Position, Vec2(side*field_width, 0), DIS(ball.Position, Vec2(side*field_width, 0))/3.0f) ,0 , 100,&VELOCITY_PROFILE_AROOM);
+
+    ERRTSetObstacles ( rw , false , true , true , true );
+    AddCircle ( ball.Position.X , ball.Position.Y , 1010.0f );
+    OwnRobot[rw].face(ball.Position);
+    ERRTNavigate2Point ( rw ,Vec2(0,-100) + PointOnConnectingLine(ball.Position, Vec2(side*field_width, 0), DIS(ball.Position, Vec2(side*field_width, 0))/3.0f) ,0 , 100,&VELOCITY_PROFILE_AROOM);
+
+    ERRTSetObstacles ( lw , false , true , true , true );
+    AddCircle ( ball.Position.X , ball.Position.Y , 1010.0f );
+    OwnRobot[lw].face(ball.Position);
+    ERRTNavigate2Point ( lw ,Vec2(0,100) + PointOnConnectingLine(ball.Position, Vec2(side*field_width, 0), DIS(ball.Position, Vec2(side*field_width, 0))/3.0f) ,0 , 100,&VELOCITY_PROFILE_AROOM);
+
+    ERRTSetObstacles ( mid2 , false , true , true , true );
+    AddCircle ( ball.Position.X , ball.Position.Y , 1010.0f );
+    OwnRobot[mid2].face(Vec2(ball.Position.X,ball.Position.Y));
+    ERRTNavigate2Point ( mid2 , CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(AngleWith(ball.Position , Vec2(side*field_width,0))),1090) ,0 , 100,&VELOCITY_PROFILE_AROOM);
+
+
+
 
     OwnRobot[attack].target.velocity.x = 0.0;
     OwnRobot[attack].target.velocity.y = 0.0;
     OwnRobot[mid1].target.velocity.x = 0.0;
     OwnRobot[mid1].target.velocity.y = 0.0;
 //    clear_map ( );
-    if(timer.time()>1 && FUNC_state < 2){//What the hell are you waiting for?!?!
+    if(timer.time()>7 && FUNC_state < 2){//What the hell are you waiting for?!?!
         FUNC_state = 3;
         FUNC_CNT = 0;
     }
@@ -375,3 +399,191 @@ void ai09::our_place_ball_shoot(void) {
 
 
 }
+
+void ai09::our_place_ball_shoot_taki(void) {
+
+    GKHi(gk,true);
+    DefMid(def,rw,lw,NULL,true);
+
+    static float move_angle,opp_ang;
+    if( DIS(ball.Position,*targetBallPlacement)>150) {
+        move_angle = AngleWith(*targetBallPlacement, ball.Position);
+        opp_ang = NormalizeAngle(move_angle + 180);
+    }
+
+    static float t_ang,t_opp_ang;
+    static TVec2 t_pos;
+    static VelocityProfile TEMP_VEL_PRO = BALL_PLACE_KHEYLI_SOOSKI;
+    static Timer temp_time;
+
+    cout<<"BEFORE: "<<mid1<<"_"<<mid2<<endl;
+    want_this_robot(attack);
+    want_this_robot(mid1);
+    position_robots();
+    cout<<"AFTER: "<<mid1<<"_"<<mid2<<endl;
+
+    ERRTSetObstacles ( dmf , false , true , true , true );
+    AddCircle ( ball.Position.X , ball.Position.Y , 1010.0f );
+    OwnRobot[dmf].face(ball.Position);
+    ERRTNavigate2Point ( dmf , PointOnConnectingLine(ball.Position, Vec2(side*field_width, 0), DIS(ball.Position, Vec2(side*field_width, 0))/3.0f) ,0 , 100,&VELOCITY_PROFILE_AROOM);
+
+    ERRTSetObstacles ( rw , false , true , true , true );
+    AddCircle ( ball.Position.X , ball.Position.Y , 1010.0f );
+    OwnRobot[rw].face(ball.Position);
+    ERRTNavigate2Point ( rw ,Vec2(0,-100) + PointOnConnectingLine(ball.Position, Vec2(side*field_width, 0), DIS(ball.Position, Vec2(side*field_width, 0))/3.0f) ,0 , 100,&VELOCITY_PROFILE_AROOM);
+
+    ERRTSetObstacles ( lw , false , true , true , true );
+    AddCircle ( ball.Position.X , ball.Position.Y , 1010.0f );
+    OwnRobot[lw].face(ball.Position);
+    ERRTNavigate2Point ( lw ,Vec2(0,100) + PointOnConnectingLine(ball.Position, Vec2(side*field_width, 0), DIS(ball.Position, Vec2(side*field_width, 0))/3.0f) ,0 , 100,&VELOCITY_PROFILE_AROOM);
+
+    ERRTSetObstacles ( mid2 , false , true , true , true );
+    AddCircle ( ball.Position.X , ball.Position.Y , 1010.0f );
+    OwnRobot[mid2].face(Vec2(ball.Position.X,ball.Position.Y));
+    ERRTNavigate2Point ( mid2 , CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(AngleWith(ball.Position , Vec2(side*field_width,0))),1090) ,0 , 100,&VELOCITY_PROFILE_AROOM);
+
+
+
+
+    OwnRobot[attack].target.velocity.x = 0.0;
+    OwnRobot[attack].target.velocity.y = 0.0;
+    OwnRobot[mid1].target.velocity.x = 0.0;
+    OwnRobot[mid1].target.velocity.y = 0.0;
+//    clear_map ( );
+
+    if(FUNC_state == 0) {
+        if(DIS(ball.Position,*targetBallPlacement) < 95){
+            FUNC_state = 7;
+            FUNC_CNT = 0;
+            t_ang = 0;
+            t_opp_ang = 180;
+        }
+        else if(DIS(ball.Position,*targetBallPlacement) < 1000) {
+            FUNC_state = 3;
+            FUNC_CNT = 0;
+        }
+
+//        OwnRobot[attack].target.Angle = temp_opp_ang;
+        OwnRobot[mid1].target.Angle = move_angle;
+//        ERRTSetObstacles(attack,0,0,1,1,0,0);
+//        AddCircle(ball.Position.X, ball.Position.Y, 150.0f);
+//        ERRTNavigate2Point(attack, CircleAroundPoint(ball.Position, move_angle, 250), 0, 40, &VELOCITY_PROFILE_AROOM);
+
+        ERRTSetObstacles(mid1,0,0,1,1,0,0);
+        AddCircle(ball.Position.X, ball.Position.Y, 150.0f);
+        ERRTNavigate2Point(mid1, CircleAroundPoint(*targetBallPlacement, opp_ang, 250), 0, 40, &VELOCITY_PROFILE_AROOM);
+
+        clear_map ( );
+        circle_ball_free(attack,move_angle,0,0,0.0);
+        cout<<":::"<<OwnRobot[attack].State.velocity.magnitude<<endl<<OwnRobot[mid1].State.velocity.magnitude<<endl;
+        if(OwnRobot[attack].State.velocity.magnitude < 20 &&
+           OwnRobot[mid1].State.velocity.magnitude < 20){
+            FUNC_CNT++;
+        }
+        if(FUNC_CNT >= 10 ){
+            FUNC_state = 1;
+            FUNC_CNT = 0;
+        }
+
+    }
+    else if(FUNC_state == 1) {
+
+        circle_ball_free(attack,move_angle,60,0,0.0);
+        WaitForPass(mid1,false,&OwnRobot[attack].State.Position);
+//        OwnRobot[mid1].target.Angle = 90;
+        if(DIS(OwnRobot[attack].State.Position,ball.Position) > 400){
+            FUNC_CNT++;
+        }
+        if(FUNC_CNT >= 20 ){
+            FUNC_state = 2;
+            FUNC_CNT = 0;
+            temp_time.start();
+        }
+
+    }
+    else if(FUNC_state == 2){
+
+        WaitForPass(mid1,false,&OwnRobot[attack].State.Position);
+//        OwnRobot[mid1].target.Angle = 90;
+
+        if(temp_time.time() > 2){
+            FUNC_CNT++;
+        }
+        if(FUNC_CNT >= 10 ){
+            FUNC_state = 3;
+            FUNC_CNT = 0;
+            temp_time.start();
+        }
+    }
+    else if(FUNC_state == 3){
+
+//        OwnRobot[attack].target.Angle = move_angle;
+//        ERRTSetObstacles(attack,0,0,1,1,0,0);
+//        AddCircle(ball.Position.X, ball.Position.Y, 150.0f);
+        VelocityProfile temp_vel = BALL_PLACE_KHEYLI_SOOSKI;
+        temp_vel.max_spd = Vec2(10.0);
+        if(DIS(ball.Position,*targetBallPlacement) < 350)
+            temp_vel.max_spd = Vec2(3.0);
+//        circle_ball_free_V2(attack,move_angle,1,0,0,temp_vel);
+
+        OwnRobot[attack].target.Angle = move_angle;
+        OwnRobot[mid1].target.Angle = opp_ang;
+        Navigate2Point(attack, CircleAroundPoint(t_pos, opp_ang, 75), 0, 20, &temp_vel);
+
+        Navigate2Point(mid1, CircleAroundPoint(*targetBallPlacement, move_angle, 75), 0, 20, &BALL_PLACE_KHEYLI_SOOSKI);
+
+
+//        float angle_to_face = AngleWith(*targetBallPlacement,OwnRobot[attack].State.Position);
+//        OwnRobot[mid1].target.Angle = angle_to_face;
+//        ERRTSetObstacles(mid1,0,0,1,1,0,0);
+////        TEMP_VEL_PRO.max_spd
+//        ERRTNavigate2Point(mid1, CircleAroundPoint(*targetBallPlacement, angle_to_face + 180, 100), 0, 5, &BALL_PLACE_KHEYLI_SOOSKI);
+
+        if(DIS(ball.Position,*targetBallPlacement) < 100 && ball.velocity.magnitude < 10){
+
+            FUNC_CNT++;
+        }
+        if(FUNC_CNT >= 10 ){
+            FUNC_state = 4;
+            FUNC_CNT = 0;
+        }
+    }
+    else{
+//        OwnRobot[attack].face(ball.Position);
+//        Navigate2Point(attack,OwnRobot[attack].State.Position,false,0,&BALL_PLACE_KHEYLI_SOOSKI);
+        OwnRobot[attack].face(ball.Position);//TODO test this
+        ERRTSetObstacles(attack,1,1,1,1);
+        ERRTNavigate2Point(attack, CircleAroundPoint(*targetBallPlacement, t_opp_ang, 550), 0, 20, &BALL_PLACE_KHEYLI_SOOSKI);
+        OwnRobot[mid1].face(ball.Position);
+        ERRTSetObstacles(mid1,1,1,1,1);
+        ERRTNavigate2Point(mid1, CircleAroundPoint(*targetBallPlacement, t_ang, 550), 0, 20, &BALL_PLACE_KHEYLI_SOOSKI);
+
+//        OwnRobot[attack].target.Angle = 0;
+//        OwnRobot[mid1].target.Angle = 0;
+//        t_ang = NormalizeAngle(OwnRobot[attack].State.Angle + 180);
+//        Navigate2Point(attack, CircleAroundPoint(ball.Position, t_ang, 170), 0, 20, &BALL_PLACE_KHEYLI_SOOSKI);
+//        t_ang = NormalizeAngle(OwnRobot[mid1].State.Angle + 180);
+//        Navigate2Point(mid1, CircleAroundPoint(ball.Position, t_ang, 170), 0, 20, &BALL_PLACE_KHEYLI_SOOSKI);
+
+        bool success = DIS(*targetBallPlacement ,ball.Position) < 100.0;
+
+        cout<<"______IN___STATE_DONE_____"
+            <<endl
+            <<targetBallPlacement->X - ball.Position.X
+            <<endl
+            <<targetBallPlacement->Y - ball.Position.Y
+            <<endl;
+        if(success){
+            cout<<"MADE it!!!"<<endl;
+        }else{
+            cout<<"lost it!!!"<<endl;
+        }
+    }
+    cout<<"______IN___STATE_"<< FUNC_state <<"_____"<<endl;
+
+
+    cout<<"___DIS___"<<DIS(*targetBallPlacement ,ball.Position)<<endl;
+
+
+}
+
