@@ -35,7 +35,7 @@ void ai09::GKHi ( int robot_num, bool stop )
 
 			ERRTSetObstacles ( robot_num , 0 , 0 , 1 , 0 , 0 );
 			//tech_circle(robot_num,sgn(ball.Position.Y)*side*60 ,0,15,false);
-			tech_circle(robot_num,AngleWith ( ball.Position , Vec2 ( side * (field_width+110) , 0 ) ) ,0,150,false,0,0,0);
+			tech_circle(robot_num,AngleWith ( ball.Position , Vec2 ( side * (field_width+110) , 0 ) ) ,0,80,false,0,0,0);
 		}
 		else
 		{
@@ -45,7 +45,7 @@ void ai09::GKHi ( int robot_num, bool stop )
 			
 			OwnRobot[robot_num].face(ball.Position);
 			ERRTSetObstacles(robot_num, stop , false, false, false, false);
-			ERRTNavigate2Point(robot_num, target, 0, 100, &VELOCITY_PROFILE_KHARAKI);
+			ERRTNavigate2Point(robot_num, target, 0, 100, stop ? &VELOCITY_PROFILE_AROOM : &VELOCITY_PROFILE_KHARAKI);
 
 //			double R_robot = DIS(Vec2(-field_width, 0),OwnRobot[robot_num].State.Position);
 //			double alpha_robot = AngleWith(Vec2(-field_width, 0),OwnRobot[robot_num].State.Position);

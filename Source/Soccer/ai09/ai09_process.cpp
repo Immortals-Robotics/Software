@@ -9,7 +9,9 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting )
 	debugDraw = false;
 	
 	internalProcessData(worldState, setting);
-	
+
+	dss->Reset();
+
 	debugDraw = true;
 	AddDebugCircle(ball.Position,40,Red);
 //	AddDebugLine(ball.Position,Vec2(ball.velocity.x,ball.velocity.y) + ball.Position, Black);
@@ -113,7 +115,6 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting )
         currentPlay = "Stop";
 		//currentPlay = "HaltAll";
 	}
-	
 	
 	if ( AIPlayBook.find(currentPlay) != AIPlayBook.end() )
 		(this->*AIPlayBook[currentPlay])();

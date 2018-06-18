@@ -62,14 +62,14 @@ class Robot
 	
 	TVec3 MotionPlan ( RobotState state , RobotState target , float speed , bool accurate , TVec3 * cmd , VelocityProfile * velocityProfile );
 
-	TVec3 MotionPlan_2018 ( RobotState state , RobotState target , float speed , VelocityProfile * velocityProfile );
-
 	void Move(bool accurate , float speed , VelocityProfile * velocityProfile );
 
-	void Move_2018(float speed , VelocityProfile * velocityProfile );
-
 	void MoveByMotion(TVec3 motion);
-	
+
+	TVec3 ComputeMotionCommand( bool accurate , float speed , VelocityProfile * velocityProfile );
+
+	TVec3 GetCurrentMotionCommand( void ) const;
+
 	void makeSendingDataReady ( void );
 	
 };

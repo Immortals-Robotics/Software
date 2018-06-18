@@ -7,8 +7,14 @@ void ai09::Navigate2Point ( int robot_num , TVec2 dest , bool accurate , int spe
 	
 	if ( velocityProfile == NULL )
 		velocityProfile = &this->VELOCITY_PROFILE_MAMOOLI;
-	
-	OwnRobot[robot_num].Move ( accurate , speed , velocityProfile );
+
+	TVec3 motion_cmd = OwnRobot[robot_num].ComputeMotionCommand ( accurate , speed , velocityProfile );
+
+	const TVec2 safe_motion_cmd = dss->ComputeSafeMotion(robot_num, Vec2(motion_cmd.X, motion_cmd.Y));
+	motion_cmd.X = safe_motion_cmd.X;
+	motion_cmd.Y = safe_motion_cmd.Y;
+
+	OwnRobot[robot_num].MoveByMotion(motion_cmd);
 	
 	navigated[robot_num] = true;
 }

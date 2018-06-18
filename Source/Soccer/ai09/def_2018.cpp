@@ -4,6 +4,8 @@
 
 #include "ai09.h"
 
+#define DEF_VEL_PROFILE (stop ? &VELOCITY_PROFILE_AROOM : &VELOCITY_PROFILE_MAMOOLI)
+
 void ai09::runningDef(int robot_num,TVec2 target,TVec2 * defendTarget ,bool stop) {
 
 
@@ -74,12 +76,12 @@ void ai09::runningDef(int robot_num,TVec2 target,TVec2 * defendTarget ,bool stop
     {
         ERRTSetObstacles ( robot_num , 0 , 1 , 1 , 0 , 0 );
         //tech_circle(robot_num,sgn(ball.Position.Y)*side*60 ,0,15,false);
-        tech_circle(robot_num,AngleWith ( ball.Position , Vec2 ( side * (field_width+110) , 0 ) ) ,0,500,true,0,0,0);
+        tech_circle(robot_num,AngleWith ( ball.Position , Vec2 ( side * (field_width+110) , 0 ) ) ,0,80,true,0,0,0);
     }
     else {
         ERRTSetObstacles ( robot_num , stop , true , true , false );
         OwnRobot[robot_num].face ( Vec2 ( (*defendTarget).X , (*defendTarget).Y ) );
-        ERRTNavigate2Point(robot_num, target, 0, 100, &VELOCITY_PROFILE_MAMOOLI);
+        ERRTNavigate2Point(robot_num, target, 0, 100, DEF_VEL_PROFILE);
     }
 }
 
@@ -104,7 +106,7 @@ void ai09::DefBy1(int thelastdef_num, TVec2 *defendTarget, bool stop){
 
         OwnRobot[thelastdef_num].target.Angle = 85.0 + 90 +side*90;
         ERRTSetObstacles(thelastdef_num, stop, 1, 1, 0, 0, 0);
-        ERRTNavigate2Point(thelastdef_num, fans, 1, 100, &VELOCITY_PROFILE_KHARAKI);
+        ERRTNavigate2Point(thelastdef_num, fans, 1, 100, DEF_VEL_PROFILE);
     }else if(alpha >= 45.0){
         Line ball_line = Line::makeLineFromTwoPoints ( VecPosition ( ball.Position.X , ball.Position.Y ) , VecPosition ( side*field_width , 0.0 ) );
         Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, -side * (penalty_area_r + 100)), 0.0);
@@ -120,7 +122,7 @@ void ai09::DefBy1(int thelastdef_num, TVec2 *defendTarget, bool stop){
 
         OwnRobot[thelastdef_num].target.Angle = -85.0 + 90 + side * 90;
         ERRTSetObstacles(thelastdef_num, stop, 1, 1, 0, 0, 0);
-        ERRTNavigate2Point(thelastdef_num, fans, 1, 100, &VELOCITY_PROFILE_KHARAKI);
+        ERRTNavigate2Point(thelastdef_num, fans, 1, 100, DEF_VEL_PROFILE);
     }else if(alpha <= -45.0){
         Line ball_line = Line::makeLineFromTwoPoints ( VecPosition ( ball.Position.X , ball.Position.Y ) , VecPosition ( side*field_width , 0.0 ) );
         Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, side * (penalty_area_r + 100)), 0.0);
@@ -146,7 +148,7 @@ void ai09::DefBy2(int rightdef_num ,int leftdef_num, TVec2 * defendTarget , bool
 
         OwnRobot[rightdef_num].target.Angle = -85.0 + 90 + side * 90;
         ERRTSetObstacles(rightdef_num, stop, 1, 1, 0, 0, 0);
-        ERRTNavigate2Point(rightdef_num, fans, 1, 100, &VELOCITY_PROFILE_KHARAKI);
+        ERRTNavigate2Point(rightdef_num, fans, 1, 100, DEF_VEL_PROFILE);
     }else if (alpha < -48.0) {
         Line ball_line = Line::makeLineFromTwoPoints ( VecPosition ( ball.Position.X , ball.Position.Y ) , VecPosition ( side*field_width , 0.0 ) );
         Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, side * (penalty_area_r + 100)), 0.0);
@@ -171,7 +173,7 @@ void ai09::DefBy2(int rightdef_num ,int leftdef_num, TVec2 * defendTarget , bool
 
         OwnRobot[rightdef_num].target.Angle = 90 +side*90;
         ERRTSetObstacles(rightdef_num, stop, 1, 1, 0, 0, 0);
-        ERRTNavigate2Point(rightdef_num, fans, 1, 100, &VELOCITY_PROFILE_KHARAKI);
+        ERRTNavigate2Point(rightdef_num, fans, 1, 100, DEF_VEL_PROFILE);
     }
 
     //leftdef_num
@@ -183,7 +185,7 @@ void ai09::DefBy2(int rightdef_num ,int leftdef_num, TVec2 * defendTarget , bool
 
         OwnRobot[leftdef_num].target.Angle = 85.0 + 90 +side*90;
         ERRTSetObstacles(leftdef_num, stop, 1, 1, 0, 0, 0);
-        ERRTNavigate2Point(leftdef_num, fans, 1, 100, &VELOCITY_PROFILE_KHARAKI);
+        ERRTNavigate2Point(leftdef_num, fans, 1, 100, DEF_VEL_PROFILE);
     }else if (alpha > 48.0) {
         Line ball_line = Line::makeLineFromTwoPoints ( VecPosition ( ball.Position.X , ball.Position.Y ) , VecPosition ( side*field_width , 0.0 ) );
         Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, -side * (penalty_area_r + 100)), 0.0);
@@ -208,7 +210,7 @@ void ai09::DefBy2(int rightdef_num ,int leftdef_num, TVec2 * defendTarget , bool
 
         OwnRobot[leftdef_num].target.Angle = 90 +side*90;
         ERRTSetObstacles(leftdef_num, stop, 1, 1, 0, 0, 0);
-        ERRTNavigate2Point(leftdef_num, fans, 1, 100, &VELOCITY_PROFILE_KHARAKI);
+        ERRTNavigate2Point(leftdef_num, fans, 1, 100, DEF_VEL_PROFILE);
     }
 }
 
@@ -236,7 +238,7 @@ void ai09::DefBy3 ( int middef_num ,int rightdef_num ,int leftdef_num , TVec2 * 
 
         OwnRobot[middef_num].target.Angle = alphaSgn * 43.0 + 90 + side * 90;
         ERRTSetObstacles(middef_num,stop, 1, 1, 0, 0, 0);
-        ERRTNavigate2Point(middef_num, fans, 1, 100, &VELOCITY_PROFILE_KHARAKI);
+        ERRTNavigate2Point(middef_num, fans, 1, 100, DEF_VEL_PROFILE);
     }
 
     //rightdef_num
@@ -248,7 +250,7 @@ void ai09::DefBy3 ( int middef_num ,int rightdef_num ,int leftdef_num , TVec2 * 
 
         OwnRobot[rightdef_num].target.Angle = -85.0 + 90 + side * 90;
         ERRTSetObstacles(rightdef_num, stop, 1, 1, 0, 0, 0);
-        ERRTNavigate2Point(rightdef_num, fans, 1, 100, &VELOCITY_PROFILE_KHARAKI);
+        ERRTNavigate2Point(rightdef_num, fans, 1, 100, DEF_VEL_PROFILE);
     } else if (alpha < -48.0) {
         Line ball_line = Line::makeLineFromTwoPoints(VecPosition(ball.Position.X, ball.Position.Y),
                                                      VecPosition(side * field_width, 0.0));
@@ -265,7 +267,7 @@ void ai09::DefBy3 ( int middef_num ,int rightdef_num ,int leftdef_num , TVec2 * 
 
         OwnRobot[rightdef_num].target.Angle = -48.0 + 90 + side * 90;
         ERRTSetObstacles(rightdef_num, stop, 1, 1, 0, 0, 0);
-        ERRTNavigate2Point(rightdef_num, fans, 1, 100, &VELOCITY_PROFILE_KHARAKI);
+        ERRTNavigate2Point(rightdef_num, fans, 1, 100, DEF_VEL_PROFILE);
     }
 
     //leftdef_num
@@ -277,7 +279,7 @@ void ai09::DefBy3 ( int middef_num ,int rightdef_num ,int leftdef_num , TVec2 * 
 
         OwnRobot[leftdef_num].target.Angle = 85.0 + 90 +side*90;
         ERRTSetObstacles(leftdef_num, stop, 1, 1, 0, 0, 0);
-        ERRTNavigate2Point(leftdef_num, fans, 1, 100, &VELOCITY_PROFILE_KHARAKI);
+        ERRTNavigate2Point(leftdef_num, fans, 1, 100, DEF_VEL_PROFILE);
     }else if (alpha > 48.0) {
         Line ball_line = Line::makeLineFromTwoPoints ( VecPosition ( ball.Position.X , ball.Position.Y ) , VecPosition ( side*field_width , 0.0 ) );
         Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, -side * (penalty_area_r + 100)), 0.0);
@@ -293,7 +295,7 @@ void ai09::DefBy3 ( int middef_num ,int rightdef_num ,int leftdef_num , TVec2 * 
 
         OwnRobot[leftdef_num].target.Angle = 48.0 + 90 +side*90;
         ERRTSetObstacles(leftdef_num, stop, 1, 1, 0, 0, 0);
-        ERRTNavigate2Point(leftdef_num, fans, 1, 100, &VELOCITY_PROFILE_KHARAKI);
+        ERRTNavigate2Point(leftdef_num, fans, 1, 100, DEF_VEL_PROFILE);
     }
 
 }

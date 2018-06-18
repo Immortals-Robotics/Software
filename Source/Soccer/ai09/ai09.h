@@ -21,6 +21,7 @@ using namespace std;
 
 #include "../../Common/MedianFilter.h"
 #include "../../Reality/Sender/Sender.h"
+#include "dss/Dss.h"
 
 #define NEW_FIELD_2018
 
@@ -101,6 +102,7 @@ private:
 		RobotState OppRobot[MAX_ROBOTS];
 		int OwnRobotNum , OppRobotNum;
 		Planner planner[MAX_TEAM_ROBOTS];
+		Dss *dss;
 	
 		OneTouchDetector oneTouchDetector[MAX_TEAM_ROBOTS];
 		enum OneTouchType {

@@ -22,14 +22,18 @@ void ai09::penalty_their_simple ( void )
 		OwnRobot[gk].face(ball.Position);
 		Navigate2Point ( gk , Vec2 ( side * penalty_x , gkp_y ) );
 	}
+	ERRTSetObstacles ( lw , true , true , true , true );
+	ERRTNavigate2Point ( lw , Vec2 ( side*2000 , 500 ), false, 80, &VELOCITY_PROFILE_AROOM );
+	ERRTSetObstacles ( rw , true , true , true , true );
+	ERRTNavigate2Point ( rw , Vec2 ( side*2000 , -500 ), false, 80, &VELOCITY_PROFILE_AROOM );
 	ERRTSetObstacles ( def , true , true , true , true );
-	ERRTNavigate2Point ( def , Vec2 ( side*2000 , 500 ) );
+	ERRTNavigate2Point ( def , Vec2 ( side*2000 , 800 ), false, 80, &VELOCITY_PROFILE_AROOM );
 	ERRTSetObstacles ( dmf , true , true , true , true );
-	ERRTNavigate2Point ( dmf , Vec2 ( side*2000 , -500 ) );
+	ERRTNavigate2Point ( dmf , Vec2 ( side*2000 , -800 ), false, 80, &VELOCITY_PROFILE_AROOM );
 	ERRTSetObstacles ( mid1 , true , true , true , true );
-	ERRTNavigate2Point ( mid1, Vec2 ( side*2000 , -800 ) );
+	ERRTNavigate2Point ( mid1, Vec2 ( side*2000 , -1500 ), false, 80, &VELOCITY_PROFILE_AROOM );
 	ERRTSetObstacles ( mid2 , true , true , true , true );
-	ERRTNavigate2Point ( mid2, Vec2 ( side*2000 , 800 ) );
+	ERRTNavigate2Point ( mid2, Vec2 ( side*2000 , 1500 ), false, 80, &VELOCITY_PROFILE_AROOM );
 	ERRTSetObstacles ( attack , true , true , true , true );
-	ERRTNavigate2Point ( attack , Vec2 ( side*2000 , 0 ) );
+	ERRTNavigate2Point ( attack , Vec2 ( side*2000 , 0 ), false, 80, &VELOCITY_PROFILE_AROOM );
 }
