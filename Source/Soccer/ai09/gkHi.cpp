@@ -45,7 +45,7 @@ void ai09::GKHi ( int robot_num, bool stop )
 			
 			OwnRobot[robot_num].face(ball.Position);
 			ERRTSetObstacles(robot_num, stop , false, false, false, false);
-			ERRTNavigate2Point(robot_num, target, 0, 100, &VELOCITY_PROFILE_KHARAKI);
+			ERRTNavigate2Point(robot_num, target, 0, 100, &VELOCITY_PROFILE_MAMOOLI);
 
 //			double R_robot = DIS(Vec2(-field_width, 0),OwnRobot[robot_num].State.Position);
 //			double alpha_robot = AngleWith(Vec2(-field_width, 0),OwnRobot[robot_num].State.Position);

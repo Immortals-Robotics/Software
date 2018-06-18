@@ -40,7 +40,7 @@ void ai09::NormalPlayDef ( void )
 				}
 			}
 			else {
-				Mark(own, opp, 180);
+				Mark(own, opp, 280);
 			}
 		}
 	}
@@ -65,12 +65,12 @@ void ai09::NormalPlayDef ( void )
 		chip_pow = 1;
 	}
 	if (goal_blocked(ball.Position, 200, 90)) {
-		chip_pow = 150;
+		chip_pow = 60;
 	}
 	
 	if (!goal_blocked(ball.Position, 3000, 130)) {
 		shoot_pow = 0;
-		chip_pow = 200;
+		chip_pow = 60;
 	}
 	
     if (attackFuckingAngle() && findKickerOpp(-1)) {

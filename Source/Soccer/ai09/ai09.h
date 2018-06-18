@@ -195,9 +195,10 @@ private:
 		void backPass ( int robot_num , float target , float t );
 		void dribble ( int robot_num , TVec2 target );
 		void circle_ball ( int robot_num , float tagret_angle , int shoot_pow , int chip_pow , float precision, float near_dis_override = -1.0f );
-        void circle_ball_free ( int robot_num , float tagret_angle , int shoot_pow , int chip_pow , float precision, float near_dis_override = -1.0f );
+		void circle_ball_free ( int robot_num , float tagret_angle , int shoot_pow , int chip_pow , float precision, float near_dis_override = -1.0f );
+		void circle_ball_free_V2 ( int robot_num , float tagret_angle , int shoot_pow , int chip_pow , float precision, VelocityProfile temp_vel, float near_dis_override = -1.0f );
 
-        void DefMid ( int &robot_num ,int &rightdef_num ,int &leftdef_num , TVec2 * defendTarget = NULL , bool stop = false , bool replace = true);
+		void DefMid ( int &robot_num ,int &rightdef_num ,int &leftdef_num , TVec2 * defendTarget = NULL , bool stop = false , bool replace = true);
         void DefBy3 ( int robot_num ,int rightdef_num ,int leftdef_num , TVec2 * defendTarget = NULL , bool stop = false );
         void DefBy2 ( int rightdef_num ,int leftdef_num , TVec2 * defendTarget = NULL , bool stop = false );
         void DefBy1 ( int thelastdef_num , TVec2 * defendTarget = NULL , bool stop = false );
@@ -246,6 +247,7 @@ private:
 		void throwin_us_outgir ( void );
 		void our_place_ball ( void );
 		void our_place_ball_shoot ( void );
+		void our_place_ball_shoot_taki ( void );
         void their_place_ball ( void );
         void far_penalty_shoot( void );
 

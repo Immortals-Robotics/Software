@@ -39,7 +39,7 @@ void ai09::corner_their_global ( void )
 			ERRTNavigate2Point(own, static_pos[own], 0, 100, &VELOCITY_PROFILE_MAMOOLI);
 		}
 		else {
-			Mark(own, opp, 180);
+			Mark(own, opp, 280);
 		}
 	}
 }

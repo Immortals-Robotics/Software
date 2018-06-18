@@ -31,7 +31,7 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 		{
 			if ( OppRobot[i].seenState != CompletelyOut )
 			{
-				AddCircle ( OppRobot[i].Position.X , OppRobot[i].Position.Y , 90.0f + (!dribble)*90.0f );
+				AddCircle ( OppRobot[i].Position.X , OppRobot[i].Position.Y , 150.0f + (!dribble)*90.0f );
 //				AddDebugCircle(OppRobot[i].Position,90.0f + (!dribble)*90.0f,Cyan);
 			}
 			//obstacle[obs_num].circle.setCenter ( VecPosition ( OppRobot[i].Position.X , OppRobot[i].Position.Y ) );

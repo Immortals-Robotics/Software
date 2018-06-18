@@ -112,14 +112,14 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 	{
 		OwnRobot[i].set_vision_id(i+1);
 	}
-    OwnRobot[gk].set_vision_id(2);
-    OwnRobot[def].set_vision_id(0);
-    OwnRobot[dmf].set_vision_id(1);
-    OwnRobot[lmf].set_vision_id(10);
+    OwnRobot[gk].set_vision_id(0);
+    OwnRobot[def].set_vision_id(1);
+    OwnRobot[dmf].set_vision_id(2);
+    OwnRobot[lmf].set_vision_id(4);
     OwnRobot[rmf].set_vision_id(8);
-    OwnRobot[cmf].set_vision_id(7);
-	OwnRobot[rw].set_vision_id(11);
-	OwnRobot[lw].set_vision_id(3);
+    OwnRobot[cmf].set_vision_id(5);
+	OwnRobot[rw].set_vision_id(3);
+	OwnRobot[lw].set_vision_id(7);
 
 	chip_head = 200;
 
@@ -137,21 +137,21 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
     BALL_PLACE_KHEYLI_SOOSKI.max_w_acc = 40.0f;
     BALL_PLACE_KHEYLI_SOOSKI.max_w_dec = 140.0f;
 
-	VELOCITY_PROFILE_AROOM.max_spd = Vec2 ( 30.0f );
+	VELOCITY_PROFILE_AROOM.max_spd = Vec2 ( 20.0f );
 	VELOCITY_PROFILE_AROOM.max_dec = Vec2 ( 1.0f );
 	VELOCITY_PROFILE_AROOM.max_acc = Vec2 ( 0.8f );
 	VELOCITY_PROFILE_AROOM.max_w_acc = 40.0f;
 	VELOCITY_PROFILE_AROOM.max_w_dec = 140.0f;
 
-	VELOCITY_PROFILE_MAMOOLI.max_spd = Vec2 ( 70.0f );
-	VELOCITY_PROFILE_MAMOOLI.max_dec = Vec2 ( 2.0f );
-	VELOCITY_PROFILE_MAMOOLI.max_acc = Vec2 ( 1.3f );
+	VELOCITY_PROFILE_MAMOOLI.max_spd = Vec2 ( 30.0f );
+	VELOCITY_PROFILE_MAMOOLI.max_dec = Vec2 ( 1.3f );
+	VELOCITY_PROFILE_MAMOOLI.max_acc = Vec2 ( 1.0f );
 	VELOCITY_PROFILE_MAMOOLI.max_w_acc = 40.0f;
 	VELOCITY_PROFILE_MAMOOLI.max_w_dec = 140.0f;
 
-	VELOCITY_PROFILE_KHARAKI.max_spd = Vec2 ( 70.0f );
-	VELOCITY_PROFILE_KHARAKI.max_dec = Vec2 ( 2.7f );
-	VELOCITY_PROFILE_KHARAKI.max_acc = Vec2 ( 1.9f );
+	VELOCITY_PROFILE_KHARAKI.max_spd = Vec2 ( 30.0f );
+	VELOCITY_PROFILE_KHARAKI.max_dec = Vec2 ( 1.3f );
+	VELOCITY_PROFILE_KHARAKI.max_acc = Vec2 ( 1.0f );
 	VELOCITY_PROFILE_KHARAKI.max_w_acc = 40.0f;
 	VELOCITY_PROFILE_KHARAKI.max_w_dec = 140.0f;
 

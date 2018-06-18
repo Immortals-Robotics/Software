@@ -4,13 +4,16 @@
 int ai09::strategy_weight ( void )
 {
 	if (!playBook) {
+		cout<<"strategy_weight__+:  444"<<endl;
 		return -1;
 	}
 	
 	if (playBook->strategy_size() == 0) {
+		cout<<"strategy_weight__+:  555"<<endl;
 		return -1;
 	}
-	
+	cout<<"strategy_weight__+:  333"<<endl;
+
 	map<int,float> good_strs;
 	
 	float sigma_w = 0;

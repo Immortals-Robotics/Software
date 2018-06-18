@@ -59,12 +59,14 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting )
             if (target_str != -1) {
                 currentPlay = "strategy_maker";
                 currentPlayParam = static_cast<uint32_t>(target_str);
+
             } else {
 //                if (side*ball.Position.X<800)
 //                    currentPlay = "throwin_us_outgir";
 //                else
                 currentPlay = "throwin_chip_shoot";
             }
+			cout<<currentPlay<<endl;
 		}
 		else if ( REF_playState->ourPenaltyKick ( ) )
 		{
@@ -76,6 +78,7 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting )
 //            targetBallPlacement->X = -2500;
 //            targetBallPlacement->Y = -1500;
             currentPlay = "our_place_ball_shoot";
+			currentPlay = "our_place_ball_shoot_taki";
         }
 		else if ( REF_playState->theirFreeKick() )
 		{
@@ -113,7 +116,7 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting )
         currentPlay = "Stop";
 		//currentPlay = "HaltAll";
 	}
-	
+	//currentPlay = "Stop";
 	
 	if ( AIPlayBook.find(currentPlay) != AIPlayBook.end() )
 		(this->*AIPlayBook[currentPlay])();
