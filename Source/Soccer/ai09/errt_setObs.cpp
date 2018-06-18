@@ -11,16 +11,18 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 //		debugDraw = true;
 //	else
 		debugDraw = true;
+
+	const float base_robot_r = 90.0f;
+	float robot_r = base_robot_r;
+
 	if ( own )
 	{
 		for ( int i = 0 ; i < MAX_TEAM_ROBOTS ; i ++ )
 		{
 			if ( ( OwnRobot[i].State.seenState != CompletelyOut ) && ( i != robot_num ) && ( OwnRobot[i].State.vision_id != OwnRobot[robot_num].State.vision_id ) )
 			{
-				//obstacle[obs_num].circle.setCenter ( VecPosition ( OwnRobot[i].Position.X , OwnRobot[i].Position.Y ) );
-				//obstacle[obs_num].circle.setRadius ( 400 );
-				AddCircle ( OwnRobot[i].State.Position.X , OwnRobot[i].State.Position.Y , 90.0f + (!dribble)*90.0f );
-				//AddDebugCircle(OwnRobot[i].State.Position,90.0f + (!dribble)*90.0f,Cyan);
+				float other_r = base_robot_r;
+				AddCircle ( OwnRobot[i].State.Position.X , OwnRobot[i].State.Position.Y , robot_r + other_r );
 			}
 		}
 	}
@@ -31,18 +33,15 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 		{
 			if ( OppRobot[i].seenState != CompletelyOut )
 			{
-				AddCircle ( OppRobot[i].Position.X , OppRobot[i].Position.Y , 90.0f + (!dribble)*90.0f );
-//				AddDebugCircle(OppRobot[i].Position,90.0f + (!dribble)*90.0f,Cyan);
+				float other_r = base_robot_r;
+				AddCircle ( OppRobot[i].Position.X , OppRobot[i].Position.Y , robot_r + other_r );
 			}
-			//obstacle[obs_num].circle.setCenter ( VecPosition ( OppRobot[i].Position.X , OppRobot[i].Position.Y ) );
-			//obstacle[obs_num].circle.setRadius ( 400 );
-
 		}
 	}
 
 	if ( bll )
 	{
-		AddCircle ( ball.Position.X , ball.Position.Y , 510.0f );
+		AddCircle ( ball.Position.X , ball.Position.Y , 420.0f + robot_r );
 	}
 
 	if ( field )
@@ -69,14 +68,9 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 		AddDebugRect( Vec2(-side*(field_width+85.0f) , -penalty_circle_center_y), side*(135.0+penalty_area_r) , penalty_area_width,Cyan);
 #else
         float penalty_area_half_width = penalty_area_width / 2.0f;
-        AddRectangle ( -(field_width + 185.0f) , -(penalty_area_half_width + 100.f) , +(285.0f + penalty_area_r) , penalty_area_width + 200.f );
-		AddRectangle ( +(field_width + 185.0f) , -(penalty_area_half_width + 100.f) , -(285.0f + penalty_area_r) , penalty_area_width + 200.f );
-
-        // AddDebugRect( Vec2(side*(field_width+185.0f) , -top_corner ) , -side*(285.0+penalty_area_r) , penalty_area_width,Cyan );
-        // AddDebugRect( Vec2(-side*(field_width+225.0f) , -top_corner - 40), side*(270.0+penalty_area_r) , penalty_area_width + 80 ,Cyan);
-
+        AddRectangle ( -(field_width + 185.0f) , -(penalty_area_half_width + robot_r) , +(185.0f + penalty_area_r + robot_r) , penalty_area_width + 2.0f * robot_r );
+		AddRectangle ( +(field_width + 185.0f) , -(penalty_area_half_width + robot_r) , -(185.0f + penalty_area_r + robot_r) , penalty_area_width + 2.0f * robot_r );
 #endif
-       // cout<<"-------------------------------AVOIDED"<<endl;
 	}
 	
 	if ( bigPen )
@@ -85,33 +79,8 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 		float big_penalty_area_w  = penalty_area_width + 240.0f;
         float penalty_area_half_width = big_penalty_area_w / 2.0f;
 
-		AddRectangle ( -side * (field_width + 185.0f) , -(penalty_area_half_width + 100.f) , side * (285.0f + big_penalty_area_r) , big_penalty_area_w + 200.f );
-
-//		AddDebugRect( Vec2(-side*(field_width+185.0f) , -penalty_circle_center_y - 200) , side*(385.0f+big_penalty_area_r) , penalty_area_width + 400,Purple );
-
+		AddRectangle ( -side * (field_width + 185.0f) , -(penalty_area_half_width + robot_r) , side * (185.0f + big_penalty_area_r + robot_r) , big_penalty_area_w + 2.0f * robot_r );
 	}
-	
-	/*if (robot_num == 0) {
-		for ( int i = 1000 ; i < 3025 ; i += 10 )
-		{
-			for ( int j = -2025 ; j < 2025 ; j += 10 )
-			{
-				if ( IsInObstacle(Vec2(i,j)) )
-				{
-					Debug_Point * newDbgPoint = AIDebug.add_point();
-					newDbgPoint -> set_x(i);
-					newDbgPoint -> set_y(j);
-				}
-			}
-		}
-	}*/
-
-	//AddRectangle ( -3260 , -440 , 34 , 88 );
-	//AddRectangle ( 2940 , -440 , 34 , 88 );
-
-	//AddRectangle ( 0 , 0 , 38 , 730 );
-
-	//AddCircle ( world2mapX ( ball.Position.X ) , world2mapY ( ball.Position.Y ) , 7 );
 	debugDraw = false;
 }
 
