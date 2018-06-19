@@ -4,7 +4,7 @@ void ai09::kickoff_us_chip ( void )
 {
 	bool canKickBall = bool(currentPlayParam);
 	GKHi ( gk );
-	DefHi ( def );
+	DefMid(def, rw, lw, NULL, false);
 	
 	ERRTSetObstacles ( dmf , true , true , true , true );
 	OwnRobot[dmf].face(ball.Position);
@@ -27,7 +27,7 @@ void ai09::kickoff_us_chip ( void )
 	if ( canKickBall )
 	{
 		float chip_pow = DIS(chip_target, ball.Position)/11;
-		tech_circle(attack,AngleWith ( chip_target , ball.Position ), 0,chip_pow,0,1,0,1);
+		tech_circle(attack,AngleWith ( chip_target , ball.Position ), 0,80,0,1,0,1);
 		//circle_ball(attack, AngleWith ( chip_target , ball.Position ), 100, 0, 1.0f);
 		cout<<"IN THE IFFFFFFFF!!!"<<endl;
 	}

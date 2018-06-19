@@ -66,19 +66,22 @@ void ai09::NormalPlayAtt ( void )
                 if ( mid1Suitable )
                 {
                     passAngle = AngleWith ( OwnRobot[mid1].State.Position , ball.Position );
-                    chip_pow = 50.0 * DIS(OwnRobot[mid1].State.Position, ball.Position) / 2000.0f;
+                    chip_pow = 50.f * DIS(OwnRobot[mid1].State.Position, ball.Position) / 4000.0f;
+                    chip_pow = min(50.f, chip_pow);
                 }
                 else if ( mid2Suitable )
                 {
                     passAngle = AngleWith ( OwnRobot[mid2].State.Position , ball.Position );
-                    chip_pow = 50.0 * DIS(OwnRobot[mid2].State.Position, ball.Position) / 2000.0f;
+                    chip_pow = 50.f * DIS(OwnRobot[mid2].State.Position, ball.Position) / 4000.0f;
+                    chip_pow = min(50.f, chip_pow);
                 }
                 else
                 {
                     passAngle = AngleWith ( Vec2 ( -side*1700 , -sgn ( ball.Position.Y ) * 1700 ) , ball.Position );
-                    chip_pow = 1;
+                    chip_pow = 0;
                 }
-                tech_circle(attack, passAngle, 0, chip_pow, 1, 0, 0, 1);
+                //tech_circle(attack, passAngle, 0, chip_pow, 1, 0, 0, 1);
+                circle_ball(attack, passAngle, 0, chip_pow, 1);
             }
             else {
 

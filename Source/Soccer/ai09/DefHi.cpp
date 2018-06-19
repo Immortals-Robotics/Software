@@ -127,7 +127,7 @@ void ai09::DefHi ( int robot_num , TVec2 * defendTarget , bool stop )
 	else {
 		ERRTSetObstacles ( robot_num , stop , true , true , false );
 		OwnRobot[robot_num].face ( Vec2 ( (*defendTarget).X , (*defendTarget).Y ) );
-		ERRTNavigate2Point(robot_num, target, 0, 100, &VELOCITY_PROFILE_MAMOOLI);
+		ERRTNavigate2Point(robot_num, target, 0, 100, stop ? &VELOCITY_PROFILE_AROOM : &VELOCITY_PROFILE_MAMOOLI);
 	}
 	//side = -side;
 }

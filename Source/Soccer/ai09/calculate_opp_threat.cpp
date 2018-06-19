@@ -11,8 +11,8 @@ float ai09::calculateOppThreat(int opp, bool restart)
 		((DIS(OwnRobot[attack].State.Position, ball.Position) < 400) || restart))
 		return -1;
 
-	if (OppRobot[opp].Position.X*side < -1500 && fabs(OppRobot[opp].Position.X - ball.Position.X) > 9000)
-		return 0;
+	if (OppRobot[opp].Position.X*side < 1000 && fabs(OppRobot[opp].Position.X - ball.Position.X) > 6000)
+		return -1;
 
 
 	float oppDisToGoal = DIS(OppRobot[opp].Position, Vec2(side*field_width, 0));

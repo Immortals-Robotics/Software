@@ -13,5 +13,5 @@ void ai09::Mark2Ball ( int robot_num , int opp , float dist )
 
 	OwnRobot[robot_num].face(ball.Position);
 	ERRTSetObstacles(robot_num, shouldAvoidBall, 1, 1, 1, 0, 0);
-	ERRTNavigate2Point(robot_num, target, 0, 100, &VELOCITY_PROFILE_KHARAKI);
+	ERRTNavigate2Point(robot_num, target, 0, 100, &VELOCITY_PROFILE_MAMOOLI);
 }

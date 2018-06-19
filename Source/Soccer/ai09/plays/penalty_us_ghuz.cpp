@@ -9,7 +9,7 @@ void ai09::penalty_us_ghuz ( void )
 		t_nml = timer.time();
 	}
 	GKHi(gk);
-	DefHi(def);	
+	DefMid(def, rw, lw, NULL, false);
 	
 	/*side=-side;
 	{

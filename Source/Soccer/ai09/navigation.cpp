@@ -1,6 +1,6 @@
 #include "ai09.h"
 
-void ai09::Navigate2Point ( int robot_num , TVec2 dest , bool accurate , int speed , VelocityProfile * velocityProfile )
+void ai09::Navigate2Point ( int robot_num , TVec2 dest , bool accurate , int speed , VelocityProfile * velocityProfile, bool use_dss )
 {
 	OwnRobot[robot_num].target.Position.X = dest.X;
 	OwnRobot[robot_num].target.Position.Y = dest.Y;
@@ -10,10 +10,12 @@ void ai09::Navigate2Point ( int robot_num , TVec2 dest , bool accurate , int spe
 
 	TVec3 motion_cmd = OwnRobot[robot_num].ComputeMotionCommand ( accurate , speed , velocityProfile );
 
-	const TVec2 safe_motion_cmd = dss->ComputeSafeMotion(robot_num, Vec2(motion_cmd.X, motion_cmd.Y));
-	motion_cmd.X = safe_motion_cmd.X;
-	motion_cmd.Y = safe_motion_cmd.Y;
-
+	if (use_dss)
+	{
+		const TVec2 safe_motion_cmd = dss->ComputeSafeMotion(robot_num, Vec2(motion_cmd.X, motion_cmd.Y));
+		motion_cmd.X = safe_motion_cmd.X;
+		motion_cmd.Y = safe_motion_cmd.Y;
+	}
 	OwnRobot[robot_num].MoveByMotion(motion_cmd);
 	
 	navigated[robot_num] = true;
@@ -44,7 +46,7 @@ void ai09::ERRTNavigate2Point ( int robot_num , TVec2 dest , bool accurate , int
 		}
 
 		//if ( planner[robot_num].GetWayPointNum ( ) <= 2 )
-			Navigate2Point ( robot_num , wayp , accurate , speed , velocityProfile );
+			Navigate2Point ( robot_num , wayp , accurate , speed , velocityProfile, true );
 		//else
 		//	Navigate2Point ( robot_num , wayp , false , speed , velocityProfile );
 		//Navigate2Point ( robot_num , dest , accurate , speed );

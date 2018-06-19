@@ -126,7 +126,7 @@ void ai09::strategy_maker ( void )
 	
     bool new_recievers_reached = true;
 	DefMid(def,rw,lw,NULL,false,false);
-	for (int i = 0 ; i < 8 ; i ++ ) {
+	for (int i = 0 ; i < MAX_TEAM_ROBOTS ; i ++ ) {
 		//if ((*stm2AInum[i]==gk)||(*stm2AInum[i]==def)) {
 		//	continue;
 		//}
@@ -213,12 +213,22 @@ void ai09::strategy_maker ( void )
 					profile = &VELOCITY_PROFILE_MAMOOLI;
 					break;
 			}
-            float dis_to_reach = DIS(OwnRobot[*stm2AInum[i]].State.Position, Vec2(strategy.role(i).path(step[i]).x(),strategy.role(i).path(step[i]).y()));
-            //if ((step[i]>=strategy.role(i).path_size()-2) || (dis_to_reach < 500))
-                OwnRobot[*stm2AInum[i]].face(Vec2(-side*field_width, 0));
-            //else
-            //    OwnRobot[*stm2AInum[i]].face(Vec2(strategy.role(i).path(step[i]).x(),strategy.role(i).path(step[i]).y()));
-			ERRTNavigate2Point(*stm2AInum[i], Vec2(strategy.role(i).path(step[i]).x()*xSgn, strategy.role(i).path(step[i]).y()*ySgn), 0, strategy.role(i).path(step[i]).speed() , profile);
+			if (step[i]!=strategy.role(i).path_size()-1)
+			{
+				//float dis_to_reach = DIS(OwnRobot[*stm2AInum[i]].State.Position, Vec2(strategy.role(i).path(step[i]).x(),strategy.role(i).path(step[i]).y()));
+				//if ((step[i]>=strategy.role(i).path_size()-2) || (dis_to_reach < 500))
+				OwnRobot[*stm2AInum[i]].face(Vec2(-side * field_width, 0));
+				//else
+				//    OwnRobot[*stm2AInum[i]].face(Vec2(strategy.role(i).path(step[i]).x(),strategy.role(i).path(step[i]).y()));
+				ERRTNavigate2Point(*stm2AInum[i], Vec2(strategy.role(i).path(step[i]).x() * xSgn,
+													   strategy.role(i).path(step[i]).y() * ySgn), 0,
+								   strategy.role(i).path(step[i]).speed(), profile);
+			}
+			else
+			{
+				recievePass(*stm2AInum[i], Vec2(strategy.role(i).path(step[i]).x() * xSgn,
+												strategy.role(i).path(step[i]).y() * ySgn));
+			}
 		}
 		
 		switch (strategy.role(i).afterlife()) {

@@ -40,7 +40,7 @@ void ai09::NormalPlayDef ( void )
 				}
 			}
 			else {
-				Mark(own, opp, 280);
+				Mark(own, opp, 500);
 			}
 		}
 	}

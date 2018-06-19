@@ -13,7 +13,7 @@ void ai09::corner_their_global ( void )
 	else
 	{
 		GKHi(gk, 0);
-		DefHi(def, NULL, true);
+		DefMid(def, rw, lw, NULL, false);
 	}
 
 	isDefending = true;
@@ -39,7 +39,7 @@ void ai09::corner_their_global ( void )
 			}
 		}
 		else {
-			Mark(own, opp, 280);
+			Mark(own, opp, 500);
 		}
 	}
 }

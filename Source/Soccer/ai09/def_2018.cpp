@@ -86,52 +86,62 @@ void ai09::runningDef(int robot_num,TVec2 target,TVec2 * defendTarget ,bool stop
 }
 
 void ai09::DefBy1(int thelastdef_num, TVec2 *defendTarget, bool stop){
-    double alpha = NormalizeAngle(AngleWith(Vec2(side * field_width, 0), ball.Position) + (90 +side*90));
-    alpha = min(90, max(-90, alpha));
-    int alphaSgn = sgn(alpha);
+    if (thelastdef_num != -1)
+    {
+        double alpha = NormalizeAngle(AngleWith(Vec2(side * field_width, 0), ball.Position) + (90 + side * 90));
+        alpha = min(90, max(-90, alpha));
+        int alphaSgn = sgn(alpha);
 
-    if (fabs(alpha) < 45.0) {
-        Line ball_line = Line::makeLineFromTwoPoints ( VecPosition ( ball.Position.X , ball.Position.Y ) , VecPosition ( side*field_width , 0.0 ) );
-        Line Front_line = Line::makeLineFromPositionAndAngle(
-                VecPosition(side * (field_width - penalty_area_r - 100), 0), 90.0);
-        VecPosition ans = ball_line.getIntersection(Front_line);
-        TVec2 target = Vec2(ans.getX(), ans.getY());
+        if (fabs(alpha) < 45.0)
+        {
+            Line ball_line = Line::makeLineFromTwoPoints(VecPosition(ball.Position.X, ball.Position.Y),
+                                                         VecPosition(side * field_width, 0.0));
+            Line Front_line = Line::makeLineFromPositionAndAngle(
+                    VecPosition(side * (field_width - penalty_area_r - 100), 0), 90.0);
+            VecPosition ans = ball_line.getIntersection(Front_line);
+            TVec2 target = Vec2(ans.getX(), ans.getY());
 
-        runningDef(thelastdef_num, target, defendTarget, stop);
-    }else if(alpha > 85.0){
-        Line ball_line = Line::makeLineFromPositionAndAngle(VecPosition(side * field_width, 0.0), 85.0);
-        Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, -side * (penalty_area_r + 100)), 0.0);
-        VecPosition ans = ball_line.getIntersection(Front_line);
-        TVec2 fans = Vec2(ans.getX(), ans.getY());
+            runningDef(thelastdef_num, target, defendTarget, stop);
+        } else if (alpha > 85.0)
+        {
+            Line ball_line = Line::makeLineFromPositionAndAngle(VecPosition(side * field_width, 0.0), 85.0);
+            Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, -side * (penalty_area_r + 100)), 0.0);
+            VecPosition ans = ball_line.getIntersection(Front_line);
+            TVec2 fans = Vec2(ans.getX(), ans.getY());
 
-        OwnRobot[thelastdef_num].target.Angle = 85.0 + 90 +side*90;
-        ERRTSetObstacles(thelastdef_num, stop, 1, 1, 0, 0, 0);
-        ERRTNavigate2Point(thelastdef_num, fans, 1, 100, DEF_VEL_PROFILE);
-    }else if(alpha >= 45.0){
-        Line ball_line = Line::makeLineFromTwoPoints ( VecPosition ( ball.Position.X , ball.Position.Y ) , VecPosition ( side*field_width , 0.0 ) );
-        Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, -side * (penalty_area_r + 100)), 0.0);
-        VecPosition ans = ball_line.getIntersection(Front_line);
-        TVec2 target = Vec2(ans.getX(), ans.getY());
+            OwnRobot[thelastdef_num].target.Angle = 85.0 + 90 + side * 90;
+            ERRTSetObstacles(thelastdef_num, stop, 1, 1, 0, 0, 0);
+            ERRTNavigate2Point(thelastdef_num, fans, 1, 100, DEF_VEL_PROFILE);
+        } else if (alpha >= 45.0)
+        {
+            Line ball_line = Line::makeLineFromTwoPoints(VecPosition(ball.Position.X, ball.Position.Y),
+                                                         VecPosition(side * field_width, 0.0));
+            Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, -side * (penalty_area_r + 100)), 0.0);
+            VecPosition ans = ball_line.getIntersection(Front_line);
+            TVec2 target = Vec2(ans.getX(), ans.getY());
 
-        runningDef(thelastdef_num, target, defendTarget, stop);
-    }else if(alpha < -85.0){
-        Line ball_line = Line::makeLineFromPositionAndAngle(VecPosition(side * field_width, 0.0), -85.0);
-        Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, side * (penalty_area_r + 100)), 0.0);
-        VecPosition ans = ball_line.getIntersection(Front_line);
-        TVec2 fans = Vec2(ans.getX(), ans.getY());
+            runningDef(thelastdef_num, target, defendTarget, stop);
+        } else if (alpha < -85.0)
+        {
+            Line ball_line = Line::makeLineFromPositionAndAngle(VecPosition(side * field_width, 0.0), -85.0);
+            Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, side * (penalty_area_r + 100)), 0.0);
+            VecPosition ans = ball_line.getIntersection(Front_line);
+            TVec2 fans = Vec2(ans.getX(), ans.getY());
 
-        OwnRobot[thelastdef_num].target.Angle = -85.0 + 90 + side * 90;
-        ERRTSetObstacles(thelastdef_num, stop, 1, 1, 0, 0, 0);
-        ERRTNavigate2Point(thelastdef_num, fans, 1, 100, DEF_VEL_PROFILE);
-    }else if(alpha <= -45.0){
-        Line ball_line = Line::makeLineFromTwoPoints ( VecPosition ( ball.Position.X , ball.Position.Y ) , VecPosition ( side*field_width , 0.0 ) );
-        Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, side * (penalty_area_r + 100)), 0.0);
-        VecPosition ans = ball_line.getIntersection(Front_line);
-        TVec2 target = Vec2(ans.getX(), ans.getY());
+            OwnRobot[thelastdef_num].target.Angle = -85.0 + 90 + side * 90;
+            ERRTSetObstacles(thelastdef_num, stop, 1, 1, 0, 0, 0);
+            ERRTNavigate2Point(thelastdef_num, fans, 1, 100, DEF_VEL_PROFILE);
+        } else if (alpha <= -45.0)
+        {
+            Line ball_line = Line::makeLineFromTwoPoints(VecPosition(ball.Position.X, ball.Position.Y),
+                                                         VecPosition(side * field_width, 0.0));
+            Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, side * (penalty_area_r + 100)), 0.0);
+            VecPosition ans = ball_line.getIntersection(Front_line);
+            TVec2 target = Vec2(ans.getX(), ans.getY());
 
-        runningDef(thelastdef_num, target, defendTarget, stop);
+            runningDef(thelastdef_num, target, defendTarget, stop);
+        }
     }
-
 }
 
 void ai09::DefBy2(int rightdef_num ,int leftdef_num, TVec2 * defendTarget , bool stop){
@@ -139,78 +149,96 @@ void ai09::DefBy2(int rightdef_num ,int leftdef_num, TVec2 * defendTarget , bool
     alpha = min(90, max(-90, alpha));
     int alphaSgn = sgn(alpha);
 
-    //rightdef_num
-    if (alpha < -85.0){
-        Line ball_line = Line::makeLineFromPositionAndAngle(VecPosition(side * field_width, 0.0), -85.0);
-        Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, side * (penalty_area_r + 100)), 0.0);
-        VecPosition ans = ball_line.getIntersection(Front_line);
-        TVec2 fans = Vec2(ans.getX(), ans.getY());
+    if (rightdef_num != -1)
+    {
+        //rightdef_num
+        if (alpha < -85.0)
+        {
+            Line ball_line = Line::makeLineFromPositionAndAngle(VecPosition(side * field_width, 0.0), -85.0);
+            Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, side * (penalty_area_r + 100)), 0.0);
+            VecPosition ans = ball_line.getIntersection(Front_line);
+            TVec2 fans = Vec2(ans.getX(), ans.getY());
 
-        OwnRobot[rightdef_num].target.Angle = -85.0 + 90 + side * 90;
-        ERRTSetObstacles(rightdef_num, stop, 1, 1, 0, 0, 0);
-        ERRTNavigate2Point(rightdef_num, fans, 1, 100, DEF_VEL_PROFILE);
-    }else if (alpha < -48.0) {
-        Line ball_line = Line::makeLineFromTwoPoints ( VecPosition ( ball.Position.X , ball.Position.Y ) , VecPosition ( side*field_width , 0.0 ) );
-        Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, side * (penalty_area_r + 100)), 0.0);
-        VecPosition ans = ball_line.getIntersection(Front_line);
-        TVec2 target = Vec2(ans.getX(), ans.getY());
+            OwnRobot[rightdef_num].target.Angle = -85.0 + 90 + side * 90;
+            ERRTSetObstacles(rightdef_num, stop, 1, 1, 0, 0, 0);
+            ERRTNavigate2Point(rightdef_num, fans, 1, 100, DEF_VEL_PROFILE);
+        } else if (alpha < -48.0)
+        {
+            Line ball_line = Line::makeLineFromTwoPoints(VecPosition(ball.Position.X, ball.Position.Y),
+                                                         VecPosition(side * field_width, 0.0));
+            Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, side * (penalty_area_r + 100)), 0.0);
+            VecPosition ans = ball_line.getIntersection(Front_line);
+            TVec2 target = Vec2(ans.getX(), ans.getY());
 
-        runningDef(rightdef_num, target, defendTarget, stop);
-    } else if(alpha < -3.5){
-        Line ball_line = Line::makeLineFromTwoPoints ( VecPosition ( ball.Position.X , ball.Position.Y ) , VecPosition ( side*field_width , 0.0 ) );
-        Line Front_line = Line::makeLineFromPositionAndAngle(
-                VecPosition(side * (field_width - penalty_area_r - 100), 0), 90.0);
-        VecPosition ans = ball_line.getIntersection(Front_line);
-        TVec2 target = Vec2(ans.getX(), ans.getY());
+            runningDef(rightdef_num, target, defendTarget, stop);
+        } else if (alpha < -3.5)
+        {
+            Line ball_line = Line::makeLineFromTwoPoints(VecPosition(ball.Position.X, ball.Position.Y),
+                                                         VecPosition(side * field_width, 0.0));
+            Line Front_line = Line::makeLineFromPositionAndAngle(
+                    VecPosition(side * (field_width - penalty_area_r - 100), 0), 90.0);
+            VecPosition ans = ball_line.getIntersection(Front_line);
+            TVec2 target = Vec2(ans.getX(), ans.getY());
 
-        runningDef(rightdef_num, target, defendTarget, stop);
-    } else {
-        Line ball_line = Line::makeLineFromPositionAndAngle(VecPosition(side * field_width, 0.0), -3.5);
-        Line Front_line = Line::makeLineFromPositionAndAngle(
-                VecPosition(side * (field_width - penalty_area_r - 100), 0), 90.0);
-        VecPosition ans = ball_line.getIntersection(Front_line);
-        TVec2 fans = Vec2(ans.getX(), ans.getY());
+            runningDef(rightdef_num, target, defendTarget, stop);
+        } else
+        {
+            Line ball_line = Line::makeLineFromPositionAndAngle(VecPosition(side * field_width, 0.0), -3.5);
+            Line Front_line = Line::makeLineFromPositionAndAngle(
+                    VecPosition(side * (field_width - penalty_area_r - 100), 0), 90.0);
+            VecPosition ans = ball_line.getIntersection(Front_line);
+            TVec2 fans = Vec2(ans.getX(), ans.getY());
 
-        OwnRobot[rightdef_num].target.Angle = 90 +side*90;
-        ERRTSetObstacles(rightdef_num, stop, 1, 1, 0, 0, 0);
-        ERRTNavigate2Point(rightdef_num, fans, 1, 100, DEF_VEL_PROFILE);
+            OwnRobot[rightdef_num].target.Angle = 90 + side * 90;
+            ERRTSetObstacles(rightdef_num, stop, 1, 1, 0, 0, 0);
+            ERRTNavigate2Point(rightdef_num, fans, 1, 100, DEF_VEL_PROFILE);
+        }
     }
 
-    //leftdef_num
-    if(alpha > 85.0){
-        Line ball_line = Line::makeLineFromPositionAndAngle(VecPosition(side * field_width, 0.0), 85.0);
-        Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, -side * (penalty_area_r + 100)), 0.0);
-        VecPosition ans = ball_line.getIntersection(Front_line);
-        TVec2 fans = Vec2(ans.getX(), ans.getY());
+    if (leftdef_num != -1)
+    {
+        //leftdef_num
+        if (alpha > 85.0)
+        {
+            Line ball_line = Line::makeLineFromPositionAndAngle(VecPosition(side * field_width, 0.0), 85.0);
+            Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, -side * (penalty_area_r + 100)), 0.0);
+            VecPosition ans = ball_line.getIntersection(Front_line);
+            TVec2 fans = Vec2(ans.getX(), ans.getY());
 
-        OwnRobot[leftdef_num].target.Angle = 85.0 + 90 +side*90;
-        ERRTSetObstacles(leftdef_num, stop, 1, 1, 0, 0, 0);
-        ERRTNavigate2Point(leftdef_num, fans, 1, 100, DEF_VEL_PROFILE);
-    }else if (alpha > 48.0) {
-        Line ball_line = Line::makeLineFromTwoPoints ( VecPosition ( ball.Position.X , ball.Position.Y ) , VecPosition ( side*field_width , 0.0 ) );
-        Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, -side * (penalty_area_r + 100)), 0.0);
-        VecPosition ans = ball_line.getIntersection(Front_line);
-        TVec2 target = Vec2(ans.getX(), ans.getY());
+            OwnRobot[leftdef_num].target.Angle = 85.0 + 90 + side * 90;
+            ERRTSetObstacles(leftdef_num, stop, 1, 1, 0, 0, 0);
+            ERRTNavigate2Point(leftdef_num, fans, 1, 100, DEF_VEL_PROFILE);
+        } else if (alpha > 48.0)
+        {
+            Line ball_line = Line::makeLineFromTwoPoints(VecPosition(ball.Position.X, ball.Position.Y),
+                                                         VecPosition(side * field_width, 0.0));
+            Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, -side * (penalty_area_r + 100)), 0.0);
+            VecPosition ans = ball_line.getIntersection(Front_line);
+            TVec2 target = Vec2(ans.getX(), ans.getY());
 
-        runningDef(leftdef_num, target, defendTarget, stop);
-    } else if(alpha > 3.5){
-        Line ball_line = Line::makeLineFromTwoPoints ( VecPosition ( ball.Position.X , ball.Position.Y ) , VecPosition ( side*field_width , 0.0 ) );
-        Line Front_line = Line::makeLineFromPositionAndAngle(
-                VecPosition(side * (field_width - penalty_area_r - 100), 0), 90.0);
-        VecPosition ans = ball_line.getIntersection(Front_line);
-        TVec2 target = Vec2(ans.getX(), ans.getY());
+            runningDef(leftdef_num, target, defendTarget, stop);
+        } else if (alpha > 3.5)
+        {
+            Line ball_line = Line::makeLineFromTwoPoints(VecPosition(ball.Position.X, ball.Position.Y),
+                                                         VecPosition(side * field_width, 0.0));
+            Line Front_line = Line::makeLineFromPositionAndAngle(
+                    VecPosition(side * (field_width - penalty_area_r - 100), 0), 90.0);
+            VecPosition ans = ball_line.getIntersection(Front_line);
+            TVec2 target = Vec2(ans.getX(), ans.getY());
 
-        runningDef(leftdef_num, target, defendTarget, stop);
-    } else {
-        Line ball_line = Line::makeLineFromPositionAndAngle(VecPosition(side * field_width, 0.0), 3.5);
-        Line Front_line = Line::makeLineFromPositionAndAngle(
-                VecPosition(side * (field_width - penalty_area_r - 100), 0), 90.0);
-        VecPosition ans = ball_line.getIntersection(Front_line);
-        TVec2 fans = Vec2(ans.getX(), ans.getY());
+            runningDef(leftdef_num, target, defendTarget, stop);
+        } else
+        {
+            Line ball_line = Line::makeLineFromPositionAndAngle(VecPosition(side * field_width, 0.0), 3.5);
+            Line Front_line = Line::makeLineFromPositionAndAngle(
+                    VecPosition(side * (field_width - penalty_area_r - 100), 0), 90.0);
+            VecPosition ans = ball_line.getIntersection(Front_line);
+            TVec2 fans = Vec2(ans.getX(), ans.getY());
 
-        OwnRobot[leftdef_num].target.Angle = 90 +side*90;
-        ERRTSetObstacles(leftdef_num, stop, 1, 1, 0, 0, 0);
-        ERRTNavigate2Point(leftdef_num, fans, 1, 100, DEF_VEL_PROFILE);
+            OwnRobot[leftdef_num].target.Angle = 90 + side * 90;
+            ERRTSetObstacles(leftdef_num, stop, 1, 1, 0, 0, 0);
+            ERRTNavigate2Point(leftdef_num, fans, 1, 100, DEF_VEL_PROFILE);
+        }
     }
 }
 
@@ -220,84 +248,101 @@ void ai09::DefBy3 ( int middef_num ,int rightdef_num ,int leftdef_num , TVec2 * 
     int alphaSgn = sgn(alpha);
 
 
-    if (fabs(alpha) < 43.0) {
-        Line Front_line = Line::makeLineFromPositionAndAngle(
-                VecPosition(side * (field_width - penalty_area_r - 100), 0), 90.0);
-        Line ball_line = Line::makeLineFromTwoPoints(VecPosition(ball.Position.X, ball.Position.Y),
-                                                     VecPosition(side * field_width, 0.0));
-        VecPosition ans = ball_line.getIntersection(Front_line);
-        TVec2 target = Vec2(ans.getX(), ans.getY());
+    if (middef_num != -1)
+    {
+        if (fabs(alpha) < 43.0)
+        {
+            Line Front_line = Line::makeLineFromPositionAndAngle(
+                    VecPosition(side * (field_width - penalty_area_r - 100), 0), 90.0);
+            Line ball_line = Line::makeLineFromTwoPoints(VecPosition(ball.Position.X, ball.Position.Y),
+                                                         VecPosition(side * field_width, 0.0));
+            VecPosition ans = ball_line.getIntersection(Front_line);
+            TVec2 target = Vec2(ans.getX(), ans.getY());
 
-        runningDef(middef_num, target, defendTarget, stop);
-    } else {
-        Line ball_line = Line::makeLineFromPositionAndAngle(VecPosition(side * field_width, 0.0), alphaSgn * 43.0);
-        Line Front_line = Line::makeLineFromPositionAndAngle(
-                VecPosition(side * (field_width - penalty_area_r - 100), 0), 90.0);
-        VecPosition ans = ball_line.getIntersection(Front_line);
-        TVec2 fans = Vec2(ans.getX(), ans.getY());
+            runningDef(middef_num, target, defendTarget, stop);
+        } else
+        {
+            Line ball_line = Line::makeLineFromPositionAndAngle(VecPosition(side * field_width, 0.0), alphaSgn * 43.0);
+            Line Front_line = Line::makeLineFromPositionAndAngle(
+                    VecPosition(side * (field_width - penalty_area_r - 100), 0), 90.0);
+            VecPosition ans = ball_line.getIntersection(Front_line);
+            TVec2 fans = Vec2(ans.getX(), ans.getY());
 
-        OwnRobot[middef_num].target.Angle = alphaSgn * 43.0 + 90 + side * 90;
-        ERRTSetObstacles(middef_num,stop, 1, 1, 0, 0, 0);
-        ERRTNavigate2Point(middef_num, fans, 1, 100, DEF_VEL_PROFILE);
+            OwnRobot[middef_num].target.Angle = alphaSgn * 43.0 + 90 + side * 90;
+            ERRTSetObstacles(middef_num, stop, 1, 1, 0, 0, 0);
+            ERRTNavigate2Point(middef_num, fans, 1, 100, DEF_VEL_PROFILE);
+        }
     }
 
-    //rightdef_num
-    if (alpha < -85.0) {
-        Line ball_line = Line::makeLineFromPositionAndAngle(VecPosition(side * field_width, 0.0), -85.0);
-        Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, side * (penalty_area_r + 100)), 0.0);
-        VecPosition ans = ball_line.getIntersection(Front_line);
-        TVec2 fans = Vec2(ans.getX(), ans.getY());
+    if (rightdef_num != -1)
+    {
+        //rightdef_num
+        if (alpha < -85.0)
+        {
+            Line ball_line = Line::makeLineFromPositionAndAngle(VecPosition(side * field_width, 0.0), -85.0);
+            Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, side * (penalty_area_r + 100)), 0.0);
+            VecPosition ans = ball_line.getIntersection(Front_line);
+            TVec2 fans = Vec2(ans.getX(), ans.getY());
 
-        OwnRobot[rightdef_num].target.Angle = -85.0 + 90 + side * 90;
-        ERRTSetObstacles(rightdef_num, stop, 1, 1, 0, 0, 0);
-        ERRTNavigate2Point(rightdef_num, fans, 1, 100, DEF_VEL_PROFILE);
-    } else if (alpha < -48.0) {
-        Line ball_line = Line::makeLineFromTwoPoints(VecPosition(ball.Position.X, ball.Position.Y),
-                                                     VecPosition(side * field_width, 0.0));
-        Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, side * (penalty_area_r + 100)), 0.0);
-        VecPosition ans = ball_line.getIntersection(Front_line);
-        TVec2 target = Vec2(ans.getX(), ans.getY());
+            OwnRobot[rightdef_num].target.Angle = -85.0 + 90 + side * 90;
+            ERRTSetObstacles(rightdef_num, stop, 1, 1, 0, 0, 0);
+            ERRTNavigate2Point(rightdef_num, fans, 1, 100, DEF_VEL_PROFILE);
+        } else if (alpha < -48.0)
+        {
+            Line ball_line = Line::makeLineFromTwoPoints(VecPosition(ball.Position.X, ball.Position.Y),
+                                                         VecPosition(side * field_width, 0.0));
+            Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, side * (penalty_area_r + 100)), 0.0);
+            VecPosition ans = ball_line.getIntersection(Front_line);
+            TVec2 target = Vec2(ans.getX(), ans.getY());
 
-        runningDef(rightdef_num,target,defendTarget,stop);
-    } else {
-        Line ball_line = Line::makeLineFromPositionAndAngle(VecPosition(side * field_width, 0.0), -48.0);
-        Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, side * (penalty_area_r + 100)), 0.0);
-        VecPosition ans = ball_line.getIntersection(Front_line);
-        TVec2 fans = Vec2(ans.getX(), ans.getY());
+            runningDef(rightdef_num, target, defendTarget, stop);
+        } else
+        {
+            Line ball_line = Line::makeLineFromPositionAndAngle(VecPosition(side * field_width, 0.0), -48.0);
+            Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, side * (penalty_area_r + 100)), 0.0);
+            VecPosition ans = ball_line.getIntersection(Front_line);
+            TVec2 fans = Vec2(ans.getX(), ans.getY());
 
-        OwnRobot[rightdef_num].target.Angle = -48.0 + 90 + side * 90;
-        ERRTSetObstacles(rightdef_num, stop, 1, 1, 0, 0, 0);
-        ERRTNavigate2Point(rightdef_num, fans, 1, 100, DEF_VEL_PROFILE);
+            OwnRobot[rightdef_num].target.Angle = -48.0 + 90 + side * 90;
+            ERRTSetObstacles(rightdef_num, stop, 1, 1, 0, 0, 0);
+            ERRTNavigate2Point(rightdef_num, fans, 1, 100, DEF_VEL_PROFILE);
+        }
     }
 
-    //leftdef_num
-    if (alpha > 85.0){
-        Line ball_line = Line::makeLineFromPositionAndAngle(VecPosition(side * field_width, 0.0), 85.0);
-        Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, -side * (penalty_area_r + 100)), 0.0);
-        VecPosition ans = ball_line.getIntersection(Front_line);
-        TVec2 fans = Vec2(ans.getX(), ans.getY());
+    if (leftdef_num != -1)
+    {
+        //leftdef_num
+        if (alpha > 85.0)
+        {
+            Line ball_line = Line::makeLineFromPositionAndAngle(VecPosition(side * field_width, 0.0), 85.0);
+            Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, -side * (penalty_area_r + 100)), 0.0);
+            VecPosition ans = ball_line.getIntersection(Front_line);
+            TVec2 fans = Vec2(ans.getX(), ans.getY());
 
-        OwnRobot[leftdef_num].target.Angle = 85.0 + 90 +side*90;
-        ERRTSetObstacles(leftdef_num, stop, 1, 1, 0, 0, 0);
-        ERRTNavigate2Point(leftdef_num, fans, 1, 100, DEF_VEL_PROFILE);
-    }else if (alpha > 48.0) {
-        Line ball_line = Line::makeLineFromTwoPoints ( VecPosition ( ball.Position.X , ball.Position.Y ) , VecPosition ( side*field_width , 0.0 ) );
-        Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, -side * (penalty_area_r + 100)), 0.0);
-        VecPosition ans = ball_line.getIntersection(Front_line);
-        TVec2 target = Vec2(ans.getX(), ans.getY());
+            OwnRobot[leftdef_num].target.Angle = 85.0 + 90 + side * 90;
+            ERRTSetObstacles(leftdef_num, stop, 1, 1, 0, 0, 0);
+            ERRTNavigate2Point(leftdef_num, fans, 1, 100, DEF_VEL_PROFILE);
+        } else if (alpha > 48.0)
+        {
+            Line ball_line = Line::makeLineFromTwoPoints(VecPosition(ball.Position.X, ball.Position.Y),
+                                                         VecPosition(side * field_width, 0.0));
+            Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, -side * (penalty_area_r + 100)), 0.0);
+            VecPosition ans = ball_line.getIntersection(Front_line);
+            TVec2 target = Vec2(ans.getX(), ans.getY());
 
-        runningDef(leftdef_num,target,defendTarget,stop);
-    } else {
-        Line ball_line = Line::makeLineFromPositionAndAngle(VecPosition(side * field_width, 0.0), 48.0);
-        Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, -side * (penalty_area_r + 100)), 0.0);
-        VecPosition ans = ball_line.getIntersection(Front_line);
-        TVec2 fans = Vec2(ans.getX(), ans.getY());
+            runningDef(leftdef_num, target, defendTarget, stop);
+        } else
+        {
+            Line ball_line = Line::makeLineFromPositionAndAngle(VecPosition(side * field_width, 0.0), 48.0);
+            Line Front_line = Line::makeLineFromPositionAndAngle(VecPosition(0, -side * (penalty_area_r + 100)), 0.0);
+            VecPosition ans = ball_line.getIntersection(Front_line);
+            TVec2 fans = Vec2(ans.getX(), ans.getY());
 
-        OwnRobot[leftdef_num].target.Angle = 48.0 + 90 +side*90;
-        ERRTSetObstacles(leftdef_num, stop, 1, 1, 0, 0, 0);
-        ERRTNavigate2Point(leftdef_num, fans, 1, 100, DEF_VEL_PROFILE);
+            OwnRobot[leftdef_num].target.Angle = 48.0 + 90 + side * 90;
+            ERRTSetObstacles(leftdef_num, stop, 1, 1, 0, 0, 0);
+            ERRTNavigate2Point(leftdef_num, fans, 1, 100, DEF_VEL_PROFILE);
+        }
     }
-
 }
 
 void ai09::DefMid ( int &middef_num ,int &rightdef_num ,int &leftdef_num , TVec2 * defendTarget , bool stop , bool replace ) {
@@ -324,21 +369,25 @@ void ai09::DefMid ( int &middef_num ,int &rightdef_num ,int &leftdef_num , TVec2
     bool leftdef_available = OwnRobot[leftdef_num].State.seenState != CompletelyOut && markMap[&leftdef_num] == -1;
     bool rightdef_available = OwnRobot[rightdef_num].State.seenState != CompletelyOut && markMap[&leftdef_num] == -1;
 
-    if(!leftdef_available && !rightdef_available){
-        DefBy1(middef_num,defendTarget,stop);
-    }else if(!rightdef_available){
-        DefBy2(middef_num,leftdef_num,defendTarget,stop);
-    }else if(!leftdef_available){
-        DefBy2(rightdef_num,middef_num,defendTarget,stop);
-    }else {
-        DefBy3(middef_num,rightdef_num,leftdef_num,defendTarget,stop);
+    DefHi(middef_num, defendTarget, stop);
+
+    if(!leftdef_available && !rightdef_available)
+    {
+        DefBy1(-1,defendTarget,stop);
+    }
+    else if(!rightdef_available)
+    {
+        DefBy2(-1,leftdef_num,defendTarget,stop);
+    }
+    else if(!leftdef_available)
+    {
+        DefBy2(rightdef_num,-1,defendTarget,stop);
+    }
+    else
+    {
+        DefBy3(-1,rightdef_num,leftdef_num,defendTarget,stop);
     }
 
 //    cout<<"the alpha: "<<alpha<<endl;
 
 }
-
-
-
-
-

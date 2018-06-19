@@ -7,7 +7,7 @@ void ai09::NewNormalPlay ( void )
 	GKHi(gk, 0);
 //	DefHi(def,NULL, 0);
 	DefMid(def, rw, lw, NULL, false);
-	
+
 	CalcIsDefending();
 	
 	if (isDefending) {

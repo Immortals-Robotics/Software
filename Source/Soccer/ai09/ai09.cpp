@@ -74,7 +74,7 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 
 	beta = 0.4;	//Damping factor
 	gamma = 0.14;	//Reflect factor
-	shootK = 7000.0f;
+	shootK = 4000.0f;
 
 	lastReferee = GameState::GAME_OFF;
 
@@ -145,15 +145,15 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 	VELOCITY_PROFILE_AROOM.max_w_acc = 40.0f;
 	VELOCITY_PROFILE_AROOM.max_w_dec = 140.0f;
 
-	VELOCITY_PROFILE_MAMOOLI.max_spd = Vec2 ( 60.0f );
+	VELOCITY_PROFILE_MAMOOLI.max_spd = Vec2 ( 40.0f );
 	VELOCITY_PROFILE_MAMOOLI.max_dec = Vec2 ( 1.5f );
 	VELOCITY_PROFILE_MAMOOLI.max_acc = Vec2 ( 1.0f );
 	VELOCITY_PROFILE_MAMOOLI.max_w_acc = 40.0f;
 	VELOCITY_PROFILE_MAMOOLI.max_w_dec = 140.0f;
 
-	VELOCITY_PROFILE_KHARAKI.max_spd = Vec2 ( 60.0f );
-	VELOCITY_PROFILE_KHARAKI.max_dec = Vec2 ( 2.0f );
-	VELOCITY_PROFILE_KHARAKI.max_acc = Vec2 ( 1.5f );
+	VELOCITY_PROFILE_KHARAKI.max_spd = Vec2 ( 40.0f );
+	VELOCITY_PROFILE_KHARAKI.max_dec = Vec2 ( 1.8f );
+	VELOCITY_PROFILE_KHARAKI.max_acc = Vec2 ( 1.3f );
 	VELOCITY_PROFILE_KHARAKI.max_w_acc = 40.0f;
 	VELOCITY_PROFILE_KHARAKI.max_w_dec = 140.0f;
 

@@ -171,7 +171,7 @@ private:
 
 
     // Skills
-		void Navigate2Point ( int robot_num , TVec2 dest , bool accurate = false , int speed = 80 , VelocityProfile * velocityProfile = NULL );
+		void Navigate2Point ( int robot_num , TVec2 dest , bool accurate = false , int speed = 80 , VelocityProfile * velocityProfile = NULL, bool use_dss = false );
         void Navigate2Point_2018 ( int robot_num , TVec2 dest , int speed = 80 ,VelocityProfile * velocityProfile = NULL );
         void ERRTNavigate2Point ( int robot_num , TVec2 dest , bool accurate = false , int speed = 80 , VelocityProfile * velocityProfile = NULL );
 		void ERRTSetObstacles ( int robot_num , bool bll = false , bool field = true , bool own = true , bool opp = false , bool dribble = false , bool bigPen = false );

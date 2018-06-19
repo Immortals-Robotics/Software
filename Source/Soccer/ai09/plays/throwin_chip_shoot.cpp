@@ -6,7 +6,7 @@ void ai09::throwin_chip_shoot ( void )
 	//swap(attack, gk);
 	
 	GKHi(gk);
-	DefHi(def);
+	DefMid(def, rw, lw, NULL, false);
 	
 	/*ERRTSetObstacles ( mid2 , true , true , true , true );
 	OwnRobot[mid2].face(ball.Position);

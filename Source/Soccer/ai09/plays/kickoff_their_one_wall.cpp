@@ -4,7 +4,7 @@ void ai09::kickoff_their_one_wall ( void )
 {
 	//swap(dmf, lmf);
 	GKHi ( gk , 1 );
-	DefHi ( def );
+	DefMid(def, rw, lw, NULL, false);
 	
 	ERRTSetObstacles ( dmf , true , true , true , true );
 	OwnRobot[dmf].face(ball.Position);

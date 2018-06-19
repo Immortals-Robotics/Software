@@ -160,12 +160,12 @@ float Robot::dis(float x1,float y1,float x2,float y2){
 }
 
 void Robot::Shoot(int pow){
-    shoot = getCalibratedShootPow(vision_id, pow);
-	//chip = pow;
+    //shoot = getCalibratedShootPow(vision_id, pow);
+	shoot = pow;
 }
 void Robot::Chip(int pow){
-	chip = getCalibratedChipPow(vision_id, pow);
-	//shoot = pow;
+	//chip = getCalibratedChipPow(vision_id, pow);
+	chip = pow;
 }
 
 void Robot::Dribble(int pow){
