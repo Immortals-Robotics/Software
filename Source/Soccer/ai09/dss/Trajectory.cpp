@@ -3,6 +3,7 @@
 //
 
 #include "Trajectory.h"
+#include <float.h>
 
 Trajectory Trajectory::MakeTrajectory(const RobotState &state, const TVec2 &a_acc, const float a_dec, const float a_dt)
 {
@@ -84,7 +85,7 @@ Trajectory Trajectory::MakeOpponentTrajectory(const RobotState &state, const flo
     const TVec2 a2 = Vec2(0.f, 0.f);
 
     trajectory.stopped.t0 = t2;
-    trajectory.stopped.t1 = MAXFLOAT;
+    trajectory.stopped.t1 = FLT_MAX;
     trajectory.stopped.p = p2;
     trajectory.stopped.v = v2;
     trajectory.stopped.a = a2;
