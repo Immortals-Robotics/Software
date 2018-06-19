@@ -156,7 +156,8 @@ TVec2 Dss::ComputeSafeMotion(const int robot_num, const TVec2 &motion)
     TVec2 a_cmd;
     const RobotState &state = own_robots[robot_num].State;
 
-    if (IsInObstacle(state.Position))
+    if (state.seenState == CompletelyOut ||
+        IsInObstacle(state.Position))
     {
         a_cmd = target_a_cmd;
     }
@@ -199,7 +200,7 @@ TVec2 Dss::ComputeSafeMotion(const int robot_num, const TVec2 &motion)
     const float error = ComputeError(target_a_cmd, a_cmd);
     //if (error > 0 && state.seenState != CompletelyOut)
     {
-        cout << "dss changed motion: " << state.vision_id << ", error: " << error << endl;
+        //cout << "dss changed motion: " << state.vision_id << ", error: " << error << endl;
     }
     computed_motions[robot_num] = a_cmd;
     const TVec2 safe_motion = GetMotionFromAcc(robot_num, a_cmd);
