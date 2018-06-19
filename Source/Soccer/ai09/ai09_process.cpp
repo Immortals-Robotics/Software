@@ -78,7 +78,7 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting )
 //            targetBallPlacement->X = -2500;
 //            targetBallPlacement->Y = -1500;
             currentPlay = "our_place_ball_shoot";
-			currentPlay = "our_place_ball_shoot_taki";
+//			currentPlay = "our_place_ball_shoot_taki";
         }
 		else if ( REF_playState->theirFreeKick() )
 		{

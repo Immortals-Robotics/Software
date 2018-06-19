@@ -260,7 +260,7 @@ void ai09::our_place_ball_shoot(void) {
     }
     else if(FUNC_state == 3){
 
-        if(fabs(OwnRobot[attack].target.Angle - move_angle) > 90)
+        if(fabs(NormalizeAngle(OwnRobot[attack].target.Angle - move_angle)) > 90)
             swap(move_angle,temp_opp_ang);
         OwnRobot[attack].target.Angle = move_angle;
         OwnRobot[mid1].target.Angle = temp_opp_ang;
@@ -284,8 +284,10 @@ void ai09::our_place_ball_shoot(void) {
             t_pos = ball.Position;
         }
     }else if(FUNC_state == 4){
-        if(fabs(OwnRobot[attack].target.Angle - move_angle) > 90)
+        if(fabs(NormalizeAngle(OwnRobot[attack].target.Angle - move_angle)) > 90)
             swap(move_angle,temp_opp_ang);
+
+//        if(AngleWith(OwnRobot[attack].State.Position,OwnRobot[mid1].State.Position))
 
         OwnRobot[attack].target.Angle = move_angle;
         OwnRobot[mid1].target.Angle = temp_opp_ang;
