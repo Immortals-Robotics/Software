@@ -21,7 +21,7 @@ void ai09::PenaltyUs ( int robot_num , float angle , int kick , int chip )
 	float hehe = AngleWith ( PredictedBall , OwnRobot[robot_num].State.Position );
 	hehe = NormalizeAngle ( angle - hehe );
 
-	ERRTSetObstacles ( robot_num, false, false );
+	ERRTSetObstacles ( robot_num, false, false, true, true );
 
 	if ( fabs ( hehe ) < tetta )
 	{

@@ -9,7 +9,7 @@ void ai09::penalty_us_ghuz ( void )
 		t_nml = timer.time();
 	}
 	GKHi(gk);
-	DefMid(def, rw, lw, NULL, false);
+	DefMid(def, rw, lw, NULL, true);
 	
 	/*side=-side;
 	{
@@ -24,20 +24,20 @@ void ai09::penalty_us_ghuz ( void )
 	side=-side;*/
 	
 	OwnRobot[dmf].face ( Vec2 ( -side*field_width , 0 ) );
-	ERRTSetObstacles ( dmf );
-	ERRTNavigate2Point ( dmf , Vec2 ( 0 , 0 ) );
+	ERRTSetObstacles ( dmf, true, true, true, true );
+	ERRTNavigate2Point ( dmf , Vec2 ( 0 , 0 ), false, 80, &VELOCITY_PROFILE_AROOM );
 	
 	OwnRobot[mid1].face ( Vec2 ( -side*field_width , 0 ) );
-	ERRTSetObstacles ( mid1 );
-	ERRTNavigate2Point ( mid1 , Vec2 ( -side*1000 , -500 ) );
+	ERRTSetObstacles ( mid1, true, true, true, true );
+	ERRTNavigate2Point ( mid1 , Vec2 ( -side*1000 , -500 ), false, 80, &VELOCITY_PROFILE_AROOM );
 	
 	OwnRobot[mid2].face ( Vec2 ( -side*field_width , 0 ) );
-	ERRTSetObstacles ( mid2 );
-	ERRTNavigate2Point ( mid2 , Vec2 ( -side*1000 , 500 ) );
+	ERRTSetObstacles ( mid2, true, true, true, true );
+	ERRTNavigate2Point ( mid2 , Vec2 ( -side*1000 , 500 ), false, 80, &VELOCITY_PROFILE_AROOM );
 	
 	if ( ( canKickBall ) && ( timer.time() > 1.0 ) )
 	{
-		PenaltyUs(attack, NormalizeAngle( penaltyAngle), 80 );
+		PenaltyUs(attack, NormalizeAngle( penaltyAngle), 28 );
 		//backPass(attack, NormalizeAngle( penaltyAngle),t_nml);
 	}
 	else
@@ -46,7 +46,7 @@ void ai09::penalty_us_ghuz ( void )
 		
 		TVec2 shootPoint;
 		
-        float shootDelta = (goal_width/2.0) - 100.0f;
+        float shootDelta = (goal_width/2.0) - 50.0f;
         
 		if ( randomParam < 0.5 )
 		{

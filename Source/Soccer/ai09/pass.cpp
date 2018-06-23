@@ -44,7 +44,7 @@ void ai09::WaitForPass ( int robot_num , bool chip , TVec2* target , TVec2* stat
 	
 	//OwnRobot[robot_num].target.Angle=-90;
 
-	ERRTSetObstacles ( robot_num ,0,1,1,0,0,0);
+	ERRTSetObstacles ( robot_num ,0,1,1,1,0,0);
 	ERRTNavigate2Point ( robot_num ,pos,0,100,&VELOCITY_PROFILE_KHARAKI );
 	
 	if ( target == NULL )

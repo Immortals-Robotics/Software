@@ -12,6 +12,6 @@ void ai09::Mark2Ball ( int robot_num , int opp , float dist )
 	auto shouldAvoidBall = ballToOppDis > 500;
 
 	OwnRobot[robot_num].face(ball.Position);
-	ERRTSetObstacles(robot_num, shouldAvoidBall, 1, 1, 1, 0, 0);
+	ERRTSetObstacles(robot_num, shouldAvoidBall, 1, 1, 1, 1, 0);
 	ERRTNavigate2Point(robot_num, target, 0, 100, &VELOCITY_PROFILE_MAMOOLI);
 }
