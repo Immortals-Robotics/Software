@@ -49,6 +49,7 @@ if(MSVC)
   endif()
 
   set(_zmq_versions
+	 "4_3_1"
      "4_1_4" "4_1_3" "4_1_2" "4_1_1" "4_1_0"
      "4_0_8" "4_0_7" "4_0_6" "4_0_5" "4_0_4" "4_0_3" "4_0_2" "4_0_1" "4_0_0"
      "3_2_5" "3_2_4" "3_2_3" "3_2_2"  "3_2_1" "3_2_0" "3_1_0")
@@ -56,10 +57,10 @@ if(MSVC)
   set(_zmq_release_names)
   set(_zmq_debug_names)
   foreach( ver ${_zmq_versions})
-    list(APPEND _zmq_release_names "libzmq${_zmq_TOOLSET}-mt-${ver}")
+    list(APPEND _zmq_release_names "libzmq-mt-s-${ver}")
   endforeach()
   foreach( ver ${_zmq_versions})
-    list(APPEND _zmq_debug_names "libzmq${_zmq_TOOLSET}-mt-gd-${ver}")
+    list(APPEND _zmq_debug_names "libzmq-mt-sgd-${ver}")
   endforeach()
 
   #now try to find the release and debug version
