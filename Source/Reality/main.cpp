@@ -14,48 +14,47 @@
 
 int main()
 {
-	GameSetting * setting = new GameSetting();
+	GameSetting setting{};
 
-	setting->visionSetting = new VisionSetting();
-	setting->visionSetting->color = COLOR_BLUE;
-	setting->visionSetting->UDP_Adress = "224.5.23.2";
-	setting->visionSetting->LocalPort = 10006;
-	setting->visionSetting->ZmqPort = 5556;
-	setting->visionSetting->use_camera.push_back(true);
-	setting->visionSetting->use_camera.push_back(false);
-	setting->visionSetting->use_camera.push_back(false);
-	setting->visionSetting->use_camera.push_back(false);
-
-	setting->side = Right;
+	setting.visionSetting = new VisionSetting();
+	setting.visionSetting->color = COLOR_BLUE;
+	setting.visionSetting->UDP_Adress = "224.5.23.2";
+	setting.visionSetting->LocalPort = 10006;
+	setting.visionSetting->ZmqPort = 5556;
+	setting.visionSetting->use_camera.push_back(true);
+	setting.visionSetting->use_camera.push_back(false);
+	setting.visionSetting->use_camera.push_back(false);
+	setting.visionSetting->use_camera.push_back(false);
+	setting.side = Right;
 
 	auto config = new Immortals::Data::GameConfig();
 
 	config->set_side(Immortals::Data::FieldSide::Right);
 
-	auto visionConfig = config->mutable_vision_config();
-	visionConfig->set_our_color(Immortals::Data::TeamColor::Blue);
-	visionConfig->set_vision_address("224.5.23.2");
-	visionConfig->set_vision_port(10006);
-	visionConfig->set_zmq_world_pub("tcp://*:5556");
-	visionConfig->set_zmq_cmd_sub("tcp://localhost:5557");
-	visionConfig->set_zmq_feedback_sub("tcp://localhost:5558");
-	visionConfig->add_camera_enabled(true);
-	visionConfig->add_camera_enabled(true);
-	visionConfig->add_camera_enabled(false);
-	visionConfig->add_camera_enabled(false);
-	visionConfig->set_camera_count(4);
-	visionConfig->set_predict_steps(5.0f);
-	visionConfig->set_max_balls(10);
-	visionConfig->set_max_ball_not_seen(40);
-	visionConfig->set_max_robots(12);
-	visionConfig->set_max_robot_not_seen(600);
-	visionConfig->set_max_robot_subsitute(60);
-	visionConfig->set_merge_distance(70.0f);
-	visionConfig->set_ball_buffer_frames(30);
-	visionConfig->set_ignore_prediction(0.045f);
-	visionConfig->set_ball_error_velocity(1960000.0f);
-	visionConfig->set_robot_error_velocity(200000.0f);
-	visionConfig->set_max_ball_2_frames_dis(671.0f);
+	auto vision_config = config->mutable_vision_config();
+	vision_config->set_our_color(Immortals::Data::TeamColor::Blue);
+	vision_config->set_vision_address("224.5.23.2");
+	vision_config->set_vision_port(10006);
+	vision_config->set_zmq_world_pub("tcp://*:5556");
+	vision_config->set_zmq_cmd_sub("tcp://localhost:5557");
+	vision_config->set_zmq_feedback_sub("tcp://localhost:5558");
+	vision_config->add_camera_enabled(true);
+	vision_config->add_camera_enabled(false);
+	vision_config->add_camera_enabled(false);
+	vision_config->add_camera_enabled(false);
+	vision_config->set_camera_count(4);
+	vision_config->set_predict_steps(5.0f);
+	vision_config->set_max_balls(10);
+	vision_config->set_max_ball_not_seen(40);
+	vision_config->set_max_robots(12);
+	vision_config->set_max_robot_not_seen(600);
+	vision_config->set_max_robot_subsitute(60);
+	vision_config->set_merge_distance(70.0f);
+	vision_config->set_ball_buffer_frames(30);
+	vision_config->set_ignore_prediction(0.045f);
+	vision_config->set_ball_error_velocity(1960000.0f);
+	vision_config->set_robot_error_velocity(200000.0f);
+	vision_config->set_max_ball_2_frames_dis(671.0f);
 
 	auto com_config = config->mutable_com_config();
 	com_config->set_sender_address("224.5.23.3");
@@ -63,13 +62,12 @@ int main()
 	com_config->set_zmq_cmd_sub("tcp://localhost:5557");
 	com_config->set_zmq_feedback_pub("tcp://*:5558");
 
-
 	WorldState state;
 
 	Referee referee;
 	NewReferee newReferee;
 
-	referee.Init("224.5.23.1", 10001, setting->visionSetting->color);
+	referee.Init("224.5.23.1", 10001, setting.visionSetting->color);
 	cout << " Connecting to RefereeBox server at " << "224.5.23.1" << " , on port : 10001 " << endl;
 	if (!referee.Open())
 	{
@@ -245,7 +243,7 @@ int main()
 
 			printf("sendto (%lu): %d\n", size, res);
 
-			Sleep(16);
+			//Sleep(16);
 		}
 
 		zmq_close(zmq_subscriber);
@@ -325,6 +323,15 @@ int main()
 					_port,
 					buffer.length());
 			}
+			else
+			{
+				/*fprintf(stderr,
+					"Sent UDP datagram to %s:%d "
+					"Size was: %lu byte(s)\n",
+					_net_address.c_str(),
+					_port,
+					buffer.length());*/
+			}
 		}
 
 	};
@@ -332,14 +339,12 @@ int main()
 	thread ai_thread(vision_func);
 	thread ref_thread(ref_func);
 	//thread new_ref_thread(new_ref_func);
-	thread vision_test_send_thread(vision_test_send);
+	//thread vision_test_send_thread(vision_test_send);
 
 	ai_thread.join();
 	ref_thread.join();
 	//new_ref_thread.join();
-	vision_test_send_thread.join();
+	//vision_test_send_thread.join();
 
-	delete setting;
-	
 	return 0;
 }

@@ -34,7 +34,10 @@ bool Vision::Receive(void)
 	int incoming_size = VisionUDP->recv(incoming_buffer, MAX_INCOMING_PACKET_SIZE, src);
 
 	if (incoming_size <= 0)
+	{
+		cerr << "received a packet of size 0" << endl;
 		return false;
+	}
 
 	SSL_WrapperPacket packet;
 	packet.ParseFromArray(incoming_buffer, incoming_size);
