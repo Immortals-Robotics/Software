@@ -22,6 +22,7 @@
 #include "WorldState.h"
 #include <zmq.h>
 #include <protos/messages_immortals_world_state.pb.h>
+#include "IdGenerator.h"
 
 #ifndef INT_MAX
 #define INT_MAX       2147483647    /* maximum (signed) int value */
@@ -69,6 +70,9 @@ class Vision
 
 		FilteredObject ball_kalman;
 		FilteredObject* robot_kalman[2];
+
+		IdGenerator blue_id_generator;
+		IdGenerator yellow_id_generator;
 
 		MedianFilter<float>* AngleFilter[2];
 		float* rawAngles[2];

@@ -11,7 +11,10 @@ void Vision::ProcessRobots (WorldState & state)
 	
 	//Now lets merge them!
 	robots_num = MergeRobots ( robots_num );
-	
+
+	// Generate Ids
+	blue_id_generator.Update(robot, robots_num, frame[0].t_capture());
+
 	//The most important part, The Kalman Filter!
 	FilterRobots ( robots_num , config.our_color() == Immortals::Data::TeamColor::Blue);
 	
@@ -21,6 +24,9 @@ void Vision::ProcessRobots (WorldState & state)
 	
 	//Now lets merge them!
 	robots_num = MergeRobots ( robots_num );
+
+	// Generate Ids
+	yellow_id_generator.Update(robot, robots_num, frame[0].t_capture());
 	
 	//The most important part, The Kalman Filter!
 	FilterRobots ( robots_num , config.our_color() == Immortals::Data::TeamColor::Yellow );
@@ -75,8 +81,8 @@ int Vision::MergeRobots ( int num )
 		{
 			if ( DIS( robot[i].x() , robot[i].y() , robot[j].x() , robot[j].y() ) < config.merge_distance() )
 			{
-				robot[i].set_x ( ( robot[i].x ( ) + robot[j].x ( ) ) / (float)2.0 );
-				robot[i].set_y ( ( robot[i].y ( ) + robot[j].y ( ) ) / (float)2.0 );
+				robot[i].set_x ( ( robot[i].x ( ) + robot[j].x ( ) ) / 2.0f );
+				robot[i].set_y ( ( robot[i].y ( ) + robot[j].y ( ) ) / 2.0f );
 				
 				robot[j] = robot[num-1];
 				num --;
