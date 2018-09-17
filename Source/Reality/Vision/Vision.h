@@ -25,10 +25,6 @@
 #include "IdGenerator.h"
 #include <memory>
 
-#ifndef INT_MAX
-#define INT_MAX       2147483647    /* maximum (signed) int value */
-#endif
-
 /**
 Class Vision : Captures the vision packet from the network, and sends it to the rest
 of the AI class.
@@ -70,13 +66,13 @@ class Vision
 		void ComputeBallHeight(void);
 
 		FilteredObject ball_kalman;
-		FilteredObject* robot_kalman[2];
+		std::vector<FilteredObject> robot_kalman[2];
 
 		std::unique_ptr<IdGenerator> blue_id_generator;
 		std::unique_ptr<IdGenerator> yellow_id_generator;
 
-		MedianFilter<float>* AngleFilter[2];
-		float* rawAngles[2];
+		std::vector<MedianFilter<float>> AngleFilter[2];
+		std::vector<float> rawAngles[2];
 
 		const Immortals::Data::VisionConfig& config;
 		bool connected;
@@ -84,21 +80,21 @@ class Vision
 		unsigned long frameId;
 
 		int ball_not_seen;
-		int* robot_not_seen[2];
+		std::vector<int> robot_not_seen[2];
 
 		SSL_DetectionBall lastRawBall;
 
-		RobotState* robotState[2];
+		std::vector<RobotState> robotState[2];
 
-		Net::UDP * VisionUDP;
+		std::unique_ptr<Net::UDP> VisionUDP;
 
 		void* zmq_context;
 		void* zmq_publisher;
 
-		SSL_DetectionFrame* frame;
-		SSL_DetectionBall* d_ball;
-		SSL_DetectionRobot* robot;
+		std::vector<SSL_DetectionFrame> frame;
+		std::vector<SSL_DetectionBall> d_ball;
+		std::vector<SSL_DetectionRobot> robot;
 
-		bool* packet_received;
+		std::vector<bool> packet_received;
 };
 

@@ -23,7 +23,7 @@ void IdGenerator::ClearExpiredMappings(const double t_capture)
 	}
 }
 
-void IdGenerator::Update(SSL_DetectionRobot *const robots, const int robots_count, double t_capture)
+void IdGenerator::Update(std::vector<SSL_DetectionRobot>& robots, const int robots_count, double t_capture)
 {
 	if (use_constant_elapsed)
 	{
@@ -40,14 +40,14 @@ void IdGenerator::Update(SSL_DetectionRobot *const robots, const int robots_coun
 	// First pass: try to match new robots to the previously labeled ones
 	for (int robot_idx = 0; robot_idx < robots_count; ++robot_idx)
 	{
-		SSL_DetectionRobot *const robot = robots + robot_idx;
+		SSL_DetectionRobot& robot = robots[robot_idx];
 
-		if (robot->has_robot_id())
+		if (robot.has_robot_id())
 		{
 			continue;
 		}
 
-		const TVec2 current_pos{ robot->x(), robot->y() };
+		const TVec2 current_pos{ robot.x(), robot.y() };
 
 		float min_dis = std::numeric_limits<float>::max();
 		int min_dis_id = -1;
@@ -78,24 +78,24 @@ void IdGenerator::Update(SSL_DetectionRobot *const robots, const int robots_coun
 		}
 
 		matched_ids.insert(min_dis_id);
-		robot->set_robot_id(min_dis_id);
+		robot.set_robot_id(min_dis_id);
 		mappings[min_dis_id] = CachedState{ t_capture, current_pos };
 	}
 
 	// Second pass: assign new ids to the remaining unmatched robots
 	for (int robot_idx = 0; robot_idx < robots_count; ++robot_idx)
 	{
-		SSL_DetectionRobot *const robot = robots + robot_idx;
+		SSL_DetectionRobot& robot = robots[robot_idx];
 
-		if (robot->has_robot_id())
+		if (robot.has_robot_id())
 		{
 			continue;
 		}
 
 		const int id = GenerateNewId();
-		robot->set_robot_id(id);
+		robot.set_robot_id(id);
 
-		const TVec2 current_pos{ robot->x(), robot->y() };
+		const TVec2 current_pos{ robot.x(), robot.y() };
 		mappings[id] = CachedState{ t_capture, current_pos };
 	}
 

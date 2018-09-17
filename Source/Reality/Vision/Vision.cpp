@@ -1,10 +1,7 @@
 #include "Vision.h"
 
 #include "Kalman/FilteredObject.h"
-
-#include <fstream>
 #include <assert.h>
-using namespace std;
 
 Vision::Vision (const Immortals::Data::VisionConfig& _config )
 		: connected ( false ),
@@ -12,16 +9,17 @@ Vision::Vision (const Immortals::Data::VisionConfig& _config )
 
 	for (int i = 0; i < 2; i ++)
 	{
-		robot_kalman[i] = new FilteredObject[config.max_robots()];
-		AngleFilter[i] = new MedianFilter<float>[config.max_robots()];
-		rawAngles[i] = new float[config.max_robots()];
-		robot_not_seen[i] = new int[config.max_robots()];
-		robotState[i] = new RobotState[config.max_robots()];
+		robot_kalman[i].resize(config.max_robots());
+		AngleFilter[i].resize(config.max_robots());
+		rawAngles[i].resize(config.max_robots());
+		robot_not_seen[i].resize(config.max_robots());
+		robotState[i].resize(config.max_robots());
 	}
-	frame = new SSL_DetectionFrame[config.camera_count()];
-	d_ball = new SSL_DetectionBall[config.camera_count() * config.max_balls()];
-	robot = new SSL_DetectionRobot[config.camera_count() * config.max_robots()];
-	packet_received = new bool[config.camera_count()];
+
+	frame.resize(config.camera_count());
+	d_ball.resize(config.camera_count() * config.max_balls());
+	robot.resize(config.camera_count() * config.max_robots());
+	packet_received.resize(config.camera_count());
 
 	Open(config.vision_address(), config.vision_port());
 
@@ -67,19 +65,6 @@ Vision::Vision (const Immortals::Data::VisionConfig& _config )
 
 Vision::~Vision()
 {
-	for (int i = 0; i < 2; i ++)
-	{
-		delete robot_kalman[i];
-		delete AngleFilter[i];
-		delete rawAngles[i];
-		delete robot_not_seen[i];
-		delete robotState[i];
-	}
-	delete frame;
-	delete d_ball;
-	delete robot;
-	delete packet_received;
-
 	zmq_close (zmq_publisher);
 	zmq_ctx_destroy (zmq_context);
 }

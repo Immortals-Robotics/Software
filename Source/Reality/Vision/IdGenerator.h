@@ -34,5 +34,5 @@ public:
 	IdGenerator() : use_constant_elapsed(false), constant_elapsed(-1.), constant_based_time(0.) {}
 	IdGenerator(const double constant_elapsed) : use_constant_elapsed(true), constant_elapsed(constant_elapsed), constant_based_time(0.) {}
 
-	void Update(SSL_DetectionRobot *robots, int robots_count, double t_capture);
+	void Update(std::vector<SSL_DetectionRobot>& robots, int robots_count, double t_capture);
 };

@@ -5,7 +5,7 @@
 
 bool Vision::Open ( const std::string & address , const unsigned short port )
 {
-	VisionUDP = new Net::UDP();
+	VisionUDP = std::make_unique<Net::UDP>();
 	if (!VisionUDP->open(port, true, true, true))
 	{
 		connected = false;
@@ -93,29 +93,14 @@ void Vision::Publish(const WorldState& state) const
 	{
 		for (int i = 0; i < config.max_robots(); i++)
 		{
-			robotState[team][i].vision_id = i;
+			if (robotState[team][i].seenState == CompletelyOut)
+			{
+				continue;
+			}
 
 			auto robot = (team == 0) ?
 						 worldState.add_own_robots() :
 						 worldState.add_opp_robots();
-			if (robot_not_seen[team][i] == 0)
-			{
-				robotState[team][i].seenState = Seen;
-			}
-			else if (robot_not_seen[team][i] < config.max_robot_not_seen())
-			{
-				robotState[team][i].seenState = TemprolilyOut;
-				robotState[team][i].OutForSubsitute = robot_not_seen[team][i] >= config.max_robot_subsitute();
-			}
-			else
-			{
-				robotState[team][i].seenState = CompletelyOut;
-				if (team == 0)
-					worldState.mutable_own_robots()->RemoveLast();
-				else
-					worldState.mutable_opp_robots()->RemoveLast();
-				continue;
-			}
 
 			robot->set_id(robotState[team][i].vision_id);
 			// TODO: FIX THIS :D
