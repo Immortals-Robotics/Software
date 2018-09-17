@@ -59,6 +59,10 @@ Vision::Vision (const Immortals::Data::VisionConfig& _config )
 		robot_not_seen[0][i] = config.max_robot_not_seen() + 1;
 		robot_not_seen[1][i] = config.max_robot_not_seen() + 1;
 	}
+
+	constexpr double constant_elapsed = 1000. / 30.;
+	blue_id_generator = std::make_unique<IdGenerator>(constant_elapsed);
+	yellow_id_generator = std::make_unique<IdGenerator>(constant_elapsed);
 }
 
 Vision::~Vision()

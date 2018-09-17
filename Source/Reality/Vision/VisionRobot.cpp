@@ -13,7 +13,7 @@ void Vision::ProcessRobots (WorldState & state)
 	robots_num = MergeRobots ( robots_num );
 
 	// Generate Ids
-	blue_id_generator.Update(robot, robots_num, frame[0].t_capture());
+	blue_id_generator->Update(robot, robots_num, frame[0].t_capture());
 
 	//The most important part, The Kalman Filter!
 	FilterRobots ( robots_num , config.our_color() == Immortals::Data::TeamColor::Blue);
@@ -26,7 +26,7 @@ void Vision::ProcessRobots (WorldState & state)
 	robots_num = MergeRobots ( robots_num );
 
 	// Generate Ids
-	yellow_id_generator.Update(robot, robots_num, frame[0].t_capture());
+	yellow_id_generator->Update(robot, robots_num, frame[0].t_capture());
 	
 	//The most important part, The Kalman Filter!
 	FilterRobots ( robots_num , config.our_color() == Immortals::Data::TeamColor::Yellow );

@@ -280,33 +280,42 @@ int main()
 		SSL_WrapperPacket packet;
 		packet.mutable_detection()->set_camera_id(0);
 		
-		auto ball = packet.mutable_detection()->add_balls();
-		ball->set_confidence(1.f);
-		ball->set_x(500);
-		ball->set_y(500);
-		ball->set_pixel_x(5);
-		ball->set_pixel_y(5);
-
 		Random random(-10, 10);
 
 		while(!exited)
 		{
-			this_thread::sleep_for(chrono::milliseconds(16));
+			packet.mutable_detection()->clear_robots_blue();
+			packet.mutable_detection()->clear_robots_yellow();
+			packet.mutable_detection()->clear_balls();
+
+			this_thread::sleep_for(chrono::milliseconds(600));
 
 			auto now = std::chrono::system_clock::now();
-			auto timestamp = now.time_since_epoch().count();
+			auto timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
 
 			packet.mutable_detection()->set_t_sent(timestamp);
 			packet.mutable_detection()->set_t_capture(timestamp);
 			packet.mutable_detection()->set_frame_number(packet.detection().frame_number() + 1);
 
-			
-			ball = packet.mutable_detection()->mutable_balls(0);
+			auto ball = packet.mutable_detection()->add_balls();
 			ball->set_confidence(1.f);
 			ball->set_x(500 + random.get());
 			ball->set_y(500 + random.get());
 			ball->set_pixel_x(5);
 			ball->set_pixel_y(5);
+
+			for (int robot_idx = 0; robot_idx < 10; ++robot_idx)
+			{
+				if (random.get() > -6)
+				{
+					auto robot = packet.mutable_detection()->add_robots_blue();
+					robot->set_confidence(1.f);
+					robot->set_x(robot_idx * 100 + random.get());
+					robot->set_y(robot_idx * 100 + random.get());
+					robot->set_pixel_x(robot_idx);
+					robot->set_pixel_y(robot_idx);
+				}
+			}
 
 			string buffer;
 			packet.SerializeToString(&buffer);
@@ -339,12 +348,12 @@ int main()
 	thread ai_thread(vision_func);
 	thread ref_thread(ref_func);
 	//thread new_ref_thread(new_ref_func);
-	//thread vision_test_send_thread(vision_test_send);
+	thread vision_test_send_thread(vision_test_send);
 
 	ai_thread.join();
 	ref_thread.join();
 	//new_ref_thread.join();
-	//vision_test_send_thread.join();
+	vision_test_send_thread.join();
 
 	return 0;
 }

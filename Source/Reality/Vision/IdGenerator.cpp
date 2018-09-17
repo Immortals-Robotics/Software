@@ -25,6 +25,12 @@ void IdGenerator::ClearExpiredMappings(const double t_capture)
 
 void IdGenerator::Update(SSL_DetectionRobot *const robots, const int robots_count, double t_capture)
 {
+	if (use_constant_elapsed)
+	{
+		t_capture = constant_based_time; 
+		constant_based_time += constant_elapsed;
+	}
+
 	// Clear expired mappings
 	ClearExpiredMappings(t_capture);
 
@@ -105,7 +111,7 @@ void IdGenerator::Update(SSL_DetectionRobot *const robots, const int robots_coun
 		printf(" - %d : (%.2f, %.2f) | [%.2f]\n",
 			mapping.first,
 			mapping.second.position.X, mapping.second.position.Y,
-			static_cast<float>(mapping.second.t_capture));
+			static_cast<float>(t_capture - mapping.second.t_capture));
 	}
 }
 
