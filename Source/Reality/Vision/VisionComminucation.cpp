@@ -44,6 +44,12 @@ bool Vision::Receive(void)
 
 	if (!packet.has_detection())
 		return false;
+
+	if (packet.detection().has_file_id())
+	{
+		printf("file id: %u\n", packet.detection().file_id());
+	}
+
 	frame[packet.detection().camera_id()] = packet.detection();
 	packet_received[packet.detection().camera_id()] = true;
 
