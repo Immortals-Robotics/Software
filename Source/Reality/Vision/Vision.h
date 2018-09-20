@@ -95,6 +95,8 @@ class Vision
 		std::vector<SSL_DetectionBall> d_ball;
 		std::vector<SSL_DetectionRobot> robot;
 
+		unsigned file_id;
+
 		std::vector<bool> packet_received;
 };
 

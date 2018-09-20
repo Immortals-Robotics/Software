@@ -47,7 +47,8 @@ bool Vision::Receive(void)
 
 	if (packet.detection().has_file_id())
 	{
-		printf("file id: %u\n", packet.detection().file_id());
+		file_id = packet.detection().file_id();
+		printf("file id: %u\n", file_id);
 	}
 
 	frame[packet.detection().camera_id()] = packet.detection();
@@ -72,7 +73,8 @@ void Vision::Publish(const WorldState& state) const
 	worldState.clear_opp_robots();
 	worldState.clear_referee();
 
-	worldState.set_id(frameId);
+	//worldState.set_id(frameId);
+	worldState.set_id(file_id);
 	worldState.set_timestamp(0);
 
 	if (state.has_ball)
