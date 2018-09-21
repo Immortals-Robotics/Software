@@ -115,13 +115,15 @@ void IdGenerator::Update(std::vector<SSL_DetectionRobot>& robots, const int robo
 	}
 }
 
-int IdGenerator::GenerateNewId() const
+int IdGenerator::GenerateNewId()
 {
-	for (int id = 0;;++id)
+	return id_head++;
+
+	/*for (int id = 0;;++id)
 	{
 		if (mappings.find(id) == mappings.end())
 		{
 			return id;
 		}
-	}
+	}*/
 }

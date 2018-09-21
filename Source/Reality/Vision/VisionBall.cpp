@@ -1,5 +1,8 @@
-#include <math/distance.h>
 #include "Vision.h"
+
+#include <limits>
+
+#include <math/distance.h>
 
 void Vision::ProcessBalls (WorldState & state)
 {
@@ -30,6 +33,11 @@ int Vision::ExtractBalls ( void )
 				d_ball[ans] = frame[i].balls ( j );
 
 				ans ++;
+
+				if (ans >= d_ball.size())
+				{
+					break;
+				}
 			}
 		}
 	}
@@ -63,8 +71,8 @@ int Vision::MergeBalls ( int num )
 
 void Vision::FilterBalls (int num, WorldState & state)
 {
-	int id = 100;
-	float dis = 14654.0f;
+	int id = std::numeric_limits<int>::max();
+	float dis = std::numeric_limits<float>::max();
 	for ( int i = 0 ; i < num ; i ++ )
 	{
 		if ( DIS ( d_ball[i].x() , d_ball[i].y() , lastRawBall.x() , lastRawBall.y() ) < dis )

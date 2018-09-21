@@ -94,7 +94,7 @@ void Vision::Publish(const WorldState& state) const
 	}
 
 	// TODO: change it when multi-ball tracking is implemented
-	worldState.add_balls()->CopyFrom(worldState.ball());
+	//worldState.add_balls()->CopyFrom(worldState.ball());
 
 
 	for (int team = 0; team < 2; team++)
