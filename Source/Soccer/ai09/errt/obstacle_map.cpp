@@ -1,6 +1,8 @@
 #include "obstacle_new.h"
 #include <limits.h>
 
+#include <cmath>
+
 ObsMap::ObsMap ( unsigned int _maxObs )
 {
 	obstacle = new BaseObstacle * [_maxObs];
@@ -39,7 +41,10 @@ bool ObsMap::IsInObstacle ( float _x , float _y )
 		if ( obstacle[i] -> IsInObstacle ( _x , _y ) )
 			return true;
 	}
-
+	if(fabs(_x) > 10000 ||  fabs(_y) > 10000)//If the  values where getting to much (this fixes the errors for now...
+	{
+		return true;
+	}
 	return false;
 }
 

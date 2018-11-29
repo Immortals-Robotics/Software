@@ -116,7 +116,7 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting )
         currentPlay = "Stop";
 		//currentPlay = "HaltAll";
 	}
-	//currentPlay = "Stop";
+	currentPlay = "my_test"; // TODO comment this in the game
 	
 	if ( AIPlayBook.find(currentPlay) != AIPlayBook.end() )
 		(this->*AIPlayBook[currentPlay])();

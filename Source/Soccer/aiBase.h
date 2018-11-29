@@ -5,6 +5,7 @@
 #include "../Reality/WorldState.h"
 #include "../Common/GameSetting.h"
 #include "../Network/Protobuf/aidebug.pb.h"
+#include "../Reality/Plotter/plotter.h"
 
 class aiBase
 {
@@ -15,9 +16,18 @@ class aiBase
 	void AddDebugRect ( const TVec2& p , const float w , const float h , const CommonColor _color = White );
 	void AddDebugCircle ( const TVec2& p , const float r , const CommonColor _color = White );
 
-	
+//	void addPointToFunc1(const float&)
 	
 	public:
 		virtual void Process ( WorldState * worldState , GameSetting * setting ) = 0;
 		AI_Debug AIDebug;
+        plotter *plot;
+
+
+    aiBase() {
+        plot = new plotter("127.0.0.1", 10067);
+    }
+    ~aiBase(){
+        delete plot;
+    }
 };

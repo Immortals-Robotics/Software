@@ -227,7 +227,6 @@ void Robot::MoveByMotion(TVec3 motion)
         convert_float_to_2x_buff(data + 3,motion.X);
         convert_float_to_2x_buff(data + 5,motion.Y);
         convert_float_to_2x_buff(data + 7,target.Angle);
-
     }else {
 
 
@@ -319,7 +318,6 @@ void Robot::makeSendingDataReady ( void )
             }
         }
     }
-
 
 	new_comm_ready = true;
 }
