@@ -5,11 +5,34 @@
 #include "../Common/Vector.h"
 #include "../Common/poly_find.h"
 #include <math.h>
+#include <fstream>
 
 #define MAX_ROBOTS 12//The variety of standard patterns that we can have is 12
 #define MAX_TEAM_ROBOTS 8
 
+#ifndef WORLDSTATEHDR
+#define WORLDSTATEHDR
+
 enum SeenState { Seen , CompletelyOut , TemprolilyOut };
+
+//This part is for getting some samples for filter designs:
+struct sample_tuple{
+    float t;
+    float X;
+    float Y;
+    float VX_in;
+    float VY_in;
+    float VX_out;
+    float VY_out;
+
+};
+
+
+void write_to_file();
+void get_sample_set1(double sample_t, float sample_X,float sample_Y);
+void get_sample_set2(float sample_VX, float sample_VY);
+void get_sample_set3(float sample_VX, float sample_VY);
+//--------------------------------------
 
 struct Velocity {
 	float x;
@@ -144,3 +167,5 @@ struct WorldState
         return oo;
     }
 };
+
+#endif //WORLDSTATE_HDR

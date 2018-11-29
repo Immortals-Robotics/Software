@@ -36,9 +36,9 @@ int main ( )
     WorldState * state = new WorldState();
 
 	GameSetting * settings = new GameSetting();
+    settings -> use_camera.push_back(true);// TODO #1 Check the cameras to be true
     settings -> use_camera.push_back(true);
-    settings -> use_camera.push_back(false);
-    settings -> use_camera.push_back(false);
+    settings -> use_camera.push_back(true);
     settings -> use_camera.push_back(true);
     
     settings -> use_camera.push_back(false);
@@ -47,11 +47,11 @@ int main ( )
     settings -> use_camera.push_back(false);
 
 	settings -> our_color = COLOR_YELLOW;
-    settings -> our_side = RIGHT_SIDE;
+    settings -> our_side = LEFT_SIDE;
 
     const char *const xbox_ref_ip = "224.5.25.25";
     const char *const real_ref_ip = "224.5.23.1";
-    settings -> referee_UDP_Address = xbox_ref_ip;
+    settings -> referee_UDP_Address = xbox_ref_ip;// TODO #2 Check the referee input source
     settings -> refereePort = 10003;
     settings -> vision_UDP_Address = "224.5.23.2";
     settings -> visionPort = 10006;
@@ -83,7 +83,7 @@ int main ( )
 
     debuggerBase * debugger = new debuggerBase(settings,&aii->AIDebug);
 
-    auto grsim_fwd = new GrsimForwarder("10.4.1.231", 20011);
+    auto grsim_fwd = new GrsimForwarder("127.0.0.1", 20011);
 
     bool exited = false;
     mutex lock;
@@ -107,12 +107,13 @@ int main ( )
             //The AI process
             aii -> Process( state , settings );
 
-//            grsim_fwd->SendData((reinterpret_cast<ai09*>(aii))->OwnRobot, MAX_TEAM_ROBOTS, settings->our_color);
+            //TODO #3 comment the GRsim output
+            grsim_fwd->SendData((reinterpret_cast<ai09*>(aii))->OwnRobot, MAX_TEAM_ROBOTS, settings->our_color);
 
             //The sending process
             senderBase->sendAll();
 
-            //debugging:
+            //debugging (the visualizer written by python) :
 //            debugger->send();
 
             lock.unlock();

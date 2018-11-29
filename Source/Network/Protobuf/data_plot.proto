@@ -1,0 +1,22 @@
+syntax = "proto2";
+
+message point_2D {
+  optional string name = 1;
+  required float x = 2;
+  required float y = 3;
+}
+
+message function_2D {
+  optional string name = 1;
+  repeated point_2D points = 2;
+}
+
+message data_flow {
+  optional string name = 1;
+  repeated float y = 2;
+}
+
+message data_gram {
+  repeated data_flow data_package = 1;
+}
+
