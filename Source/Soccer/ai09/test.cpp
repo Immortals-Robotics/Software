@@ -43,7 +43,9 @@ void ai09::my_test() {
         time_dis.start();
     }
     //cout<<time_dis.time()<<endl;
-    plot->BLUE_pushData(OwnRobot[cmf].target.velocity.magnitude);
+    plot->BLUE_pushData(OwnRobot[cmf].target.velocity.x);
+    plot->GREEN_pushData(OwnRobot[cmf].target.velocity.x/3);
+    cout<<"sending_data:"<<OwnRobot[cmf].target.velocity.x<<endl;
 
 
     plot->send_data();

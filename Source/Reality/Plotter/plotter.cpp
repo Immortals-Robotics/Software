@@ -22,7 +22,7 @@ void plotter::send_data() {
     try {
         bufferStream.SerializeToString(tempSTR);
         commUDP.sendTo ( tempSTR->c_str()    , tempSTR->length() , this->UDP_Address , this->port_Address );
-//        cout<<"The DATA length was: "<<tempSTR->length()<<endl;
+        cout<<"The DATA length was: "<<tempSTR->length()<<endl;
     } catch (...) {
         std::cout << "ERROR: failed to send plot packets." << endl;
     }
