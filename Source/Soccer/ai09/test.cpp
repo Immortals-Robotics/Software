@@ -20,8 +20,8 @@ void ai09::my_test() {
 //    VELOCITY_PROFILE_TEST.max_w_dec = 140.0f;
     VELOCITY_PROFILE_TEST = VELOCITY_PROFILE_KHARAKI;
     VELOCITY_PROFILE_TEST.max_spd = Vec2 ( 150.0f );
-    VELOCITY_PROFILE_TEST.max_dec = Vec2 ( 1.8f );
-    VELOCITY_PROFILE_TEST.max_acc = Vec2 ( 2.3f );
+    VELOCITY_PROFILE_TEST.max_dec = Vec2 ( 1.5f );//1.8
+    VELOCITY_PROFILE_TEST.max_acc = Vec2 ( 1.5f );//2.3
 
     if(time_dis.time()<6.0){
         OwnRobot[cmf].target.Angle = 90;
