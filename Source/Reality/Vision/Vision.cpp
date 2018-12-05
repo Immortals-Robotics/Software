@@ -94,6 +94,8 @@ void VisionModule::ProcessVision()
 {
 	ProcessBalls ( this->playState );
 	ProcessRobots ( this->playState );
+    ProcessParam ( this->playState );
+
 
 	for ( int i = 0 ; i < CAM_COUNT ; i ++ )
         packet_recieved[i] = false;

@@ -104,6 +104,9 @@ struct WorldState
 
 	RefereeState* refereeState;
 
+    double t_capture = -1;
+    double delta_t_capture = -1;
+
 
     WorldState(){
         ball.Position = Vec2 ( 0.0f );

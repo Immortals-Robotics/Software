@@ -92,6 +92,8 @@ public:
     void predictBallForward( WorldState * );
     void calculateBallHeight ( void );
 
+	void ProcessParam ( WorldState * );
+
 private:
 	bool our_color;
 	bool our_side;

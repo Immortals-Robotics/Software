@@ -23,29 +23,50 @@ void ai09::my_test() {
     VELOCITY_PROFILE_TEST.max_dec = Vec2 ( 1.8f );
     VELOCITY_PROFILE_TEST.max_acc = Vec2 ( 2.3f );
 
-    if(time_dis.time()<4.0){
+    if(time_dis.time()<6.0){
         OwnRobot[cmf].target.Angle = 90;
 //        Navigate2Point_2018(cmf,Vec2(-2000,-2000));
 //        ERRTNavigate2Point(cmf,Vec2(-2000,-1500),0,80);
-        Navigate2Point(cmf,Vec2(-1000,700),0,20,&VELOCITY_PROFILE_TEST,false);
+        Navigate2Point(cmf,Vec2(-1000,700),0,30,&VELOCITY_PROFILE_TEST,false);
 
         //cout<<"first part"<<endl;
     }
-    else if(time_dis.time()<8.0){
+    else if(time_dis.time()<12.0){
         OwnRobot[cmf].target.Angle = 90;
 //        Navigate2Point_2018(cmf,Vec2(-2000,2000));
 //        ERRTNavigate2Point(cmf,Vec2(-2000,1500),0,80);
 
-        Navigate2Point(cmf,Vec2(-3500,2300),0,20,&VELOCITY_PROFILE_TEST,false);
+        Navigate2Point(cmf,Vec2(-3500,2300),0,30,&VELOCITY_PROFILE_TEST,false);
 
     }
     else {
         time_dis.start();
     }
+    static double last_PosX = 0.0;
+    static double integral_PosFilterX = 0.0;
+    static double integral_PosRawX = 0.0;
+    static int resetCounter = 0;
+
+    if (resetCounter == 10){
+        integral_PosRawX = integral_PosFilterX;
+
+        resetCounter = -500;
+    }
+    resetCounter++;
+
     //cout<<time_dis.time()<<endl;
-    plot->BLUE_pushData(OwnRobot[cmf].target.velocity.x);
-    plot->GREEN_pushData(OwnRobot[cmf].target.velocity.x/3);
-    cout<<"sending_data:"<<OwnRobot[cmf].target.velocity.x<<endl;
+//    integral_PosRawX += (OwnRobot[cmf].State.Position.X - last_PosX);
+    plot->BLUE_pushData(OwnRobot[cmf].State.velocity.x);
+
+//    integral_PosFilterX += OwnRobot[cmf].State.velocity.x*0.9*worldState->delta_t_capture;
+    plot->GREEN_pushData(OwnRobot[cmf].target.velocity.x * 48);
+
+    cout<<"ALPHA-> "<<(OwnRobot[cmf].State.velocity.x/OwnRobot[cmf].target.velocity.x)<<endl;
+
+//    cout<<"deltaX/time: "<<(OwnRobot[cmf].State.Position.X - last_PosX)/worldState->delta_t_capture<<endl;
+
+
+    last_PosX = OwnRobot[cmf].State.Position.X;
 
 
     plot->send_data();
