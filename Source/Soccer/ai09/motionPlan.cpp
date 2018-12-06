@@ -171,7 +171,7 @@ TVec3 Robot::MotionPlan(RobotState state, RobotState target, float speed, bool a
     //if ( accurate )
     ans.X = speed;
     //else
-    if (fabs(target.Position.X) < Pdis)
+    if (fabs(target.Position.X) < Pdis)//always FALSE (?)
     {
         ans.X = KP * max_dec.X * fabs(target.Position.X);
     } else
@@ -182,6 +182,7 @@ TVec3 Robot::MotionPlan(RobotState state, RobotState target, float speed, bool a
     //ans.X += Vel_offset.X;
     if (fabs(target.Position.X) < 5)
         ans.X = 0.0f;
+
     if (ans.X * oldAns[state.vision_id].X <= 0)
     {
         float tmp = oldAns[state.vision_id].X + max_dec.X * sgn(ans.X);
@@ -216,9 +217,10 @@ TVec3 Robot::MotionPlan(RobotState state, RobotState target, float speed, bool a
         }
         if (fabs(ans.X) > tmp_max_speed.X)
         {
-            if (sgn(ans.X) == 0)
+            if (sgn(ans.X) == 0){//NOT ENTERING HERE!!!!
                 ans.X = max(fabs(oldAns[state.vision_id].X) - max_dec.X, fabs(tmp_max_speed.X)) *
                         sgn(oldAns[state.vision_id].X);
+            }
             else
                 ans.X = max(fabs(oldAns[state.vision_id].X) - max_dec.X, fabs(tmp_max_speed.X)) * sgn(ans.X);
             //ans.X = tmp_max_speed.X * sgn ( ans.X );

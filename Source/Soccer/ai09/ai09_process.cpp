@@ -78,6 +78,7 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting )
 //            targetBallPlacement->X = -2500;
 //            targetBallPlacement->Y = -1500;
             currentPlay = "our_place_ball_shoot";
+            currentPlay = "our_place_ball_shoot_V2";//TODO #5 COMMENT this if it's not working...
 //			currentPlay = "our_place_ball_shoot_taki";
         }
 		else if ( REF_playState->theirFreeKick() )
@@ -116,7 +117,7 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting )
         currentPlay = "Stop";
 		//currentPlay = "HaltAll";
 	}
-	currentPlay = "my_test"; // TODO comment this in the game
+//	currentPlay = "my_test"; // TODO comment this in the game
 	
 	if ( AIPlayBook.find(currentPlay) != AIPlayBook.end() )
 		(this->*AIPlayBook[currentPlay])();

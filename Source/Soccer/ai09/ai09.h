@@ -163,6 +163,7 @@ private:
 		float calculateOppThreat(int opp, bool restart = false);
 		float calculateMarkCost(int robot_num, int opp);
 		float calculateSwicthToAttackerScore(int robot_num);
+        float outOfField(TVec2 point);
 
         //These functions make sure the required robots are present (in case if any of the robots got out):
         void want_this_robot(int robot_num);//First we tell which robot we need
@@ -247,8 +248,8 @@ private:
 		void tech_khers_def ( void );
 		void tech_motion_ann ( void );
 		void throwin_us_outgir ( void );
-		void our_place_ball ( void );
 		void our_place_ball_shoot ( void );
+        void our_place_ball_shoot_V2 ( void );
 		void our_place_ball_shoot_taki ( void );
         void their_place_ball ( void );
         void far_penalty_shoot( void );

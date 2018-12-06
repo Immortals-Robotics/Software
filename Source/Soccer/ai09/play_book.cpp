@@ -42,8 +42,8 @@ void ai09::InitAIPlayBook ( void )
 	AIPlayBook["corner_their_mrl"] = &ai09::corner_their_mrl;
 	AIPlayBook["tech_motion_ann"] = &ai09::tech_motion_ann;
     AIPlayBook["throwin_us_outgir"] = &ai09::throwin_us_outgir;
-	AIPlayBook["our_place_ball"] = &ai09::our_place_ball;
 	AIPlayBook["our_place_ball_shoot"] = &ai09::our_place_ball_shoot;
+    AIPlayBook["our_place_ball_shoot_V2"] = &ai09::our_place_ball_shoot_V2;
 	AIPlayBook["our_place_ball_shoot_taki"] = &ai09::our_place_ball_shoot_taki;
 	AIPlayBook["their_place_ball"] = &ai09::their_place_ball;
 }
