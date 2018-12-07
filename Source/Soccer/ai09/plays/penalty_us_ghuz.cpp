@@ -35,9 +35,9 @@ void ai09::penalty_us_ghuz ( void )
 	ERRTSetObstacles ( mid2, true, true, true, true );
 	ERRTNavigate2Point ( mid2 , Vec2 ( -side*1000 , 500 ), false, 80, &VELOCITY_PROFILE_AROOM );
 	
-	if ( ( canKickBall ) && ( timer.time() > 1.0 ) )
+	if ( ( canKickBall ))// && ( timer.time() > 1.0 ) )
 	{
-		PenaltyUs(attack, NormalizeAngle( penaltyAngle), 24 );
+		PenaltyUs(attack, NormalizeAngle( penaltyAngle), 30 );
 		//backPass(attack, NormalizeAngle( penaltyAngle),t_nml);
 	}
 	else

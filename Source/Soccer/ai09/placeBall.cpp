@@ -289,7 +289,7 @@ void ai09::our_place_ball_shoot_V2(void) {
     cout<<"BEFORE: "<<dmf<<"_"<<mid2<<endl;
     //want_this_robot(attack);
     //want_this_robot(dmf);
-    position_robots();
+//    position_robots();//For lordhippo (after the first match with MRL)
     cout<<"AFTER: "<<dmf<<"_"<<mid2<<endl;
 
     /*ERRTSetObstacles ( mid1 , false , true , true , true );

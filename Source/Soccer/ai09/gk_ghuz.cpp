@@ -30,7 +30,6 @@ TVec2 ai09::GK_Ghuz_2018( float predictBallT, float rMul, int def_count ){
     d = max(1000,min(d, 5000.0));
 
 
-
     double p0;
     double p1;
     double p2;

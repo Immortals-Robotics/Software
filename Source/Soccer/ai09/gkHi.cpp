@@ -6,8 +6,9 @@ void ai09::GKHi ( int robot_num, bool stop )
 {
 	gkIntercepting = false;
 
+	cout<<"GKhi: "<<ballIsGoaling()<<" _ "<<DIS(ball.Position, OwnRobot[robot_num].State.Position)/ball.velocity.magnitude<<endl;
 	//side = -side;
-	if ((ballIsGoaling())&&(DIS(ball.Position, OwnRobot[robot_num].State.Position)/ball.velocity.magnitude<1)&&(!stop))
+	if ((ballIsGoaling())&&(DIS(ball.Position, OwnRobot[robot_num].State.Position)/ball.velocity.magnitude<5)&&(!stop))
 	{
 		//WaitForPass ( robot_num , true );
 		GK_shirje(robot_num);
@@ -29,7 +30,7 @@ void ai09::GKHi ( int robot_num, bool stop )
         side = - side;
 		ERRTSetObstacles ( robot_num , false , false , false , false , false , true );
         side = -side;
-		if ( ( IsInObstacle ( Vec2 ( (ball.Position.X),(ball.Position.Y) ) ) ) && ( ball.velocity.magnitude < 1000 ) && (!stop) && (side*ball.Position.X<field_width) && (timer.time()>1.0f) && (fabs(ball.Position.Y)<1200.0f) )
+		if ( ( IsInObstacle ( Vec2 ( (ball.Position.X),(ball.Position.Y) ) ) ) && ( ball.velocity.magnitude < 1500 ) && (!stop) && (side*ball.Position.X<field_width) && (fabs(ball.Position.Y)<1200.0f) )
 		{
 			gkIntercepting = true;
 

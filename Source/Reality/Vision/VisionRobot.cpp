@@ -96,7 +96,6 @@ int VisionModule::MergeRobots ( int num )
 			{
 				robot[i].set_x ( ( robot[i].x ( ) + robot[j].x ( ) ) / (float)2.0 );
 				robot[i].set_y ( ( robot[i].y ( ) + robot[j].y ( ) ) / (float)2.0 );
-				
 				robot[j] = robot[num-1];
 				num --;
 				

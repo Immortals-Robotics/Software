@@ -184,6 +184,7 @@ private:
 		void GK ( int robot_num = 0 , int defence_num = 2 , bool stop = false );
 		void GK_shirje ( int robot_num = 0 );
 		void GKHi ( int robot_num = 0 , bool stop = false );
+		void GKHi_Simple ( int robot_num = 0 , bool stop = false );
 		void OneDef ( int robot_num = 1 , TVec2 * defendTarget = NULL , bool stop = false );
 		void TwoDef ( int robot_num1 = 1 , int robot_num2 = 2 , TVec2 * defendTarget = NULL );
 		void DefHi ( int robot_num , TVec2 * defendTarget = NULL , bool stop = false );
