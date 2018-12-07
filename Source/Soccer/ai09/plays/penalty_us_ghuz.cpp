@@ -37,7 +37,7 @@ void ai09::penalty_us_ghuz ( void )
 	
 	if ( ( canKickBall ) && ( timer.time() > 1.0 ) )
 	{
-		PenaltyUs(attack, NormalizeAngle( penaltyAngle), 28 );
+		PenaltyUs(attack, NormalizeAngle( penaltyAngle), 24 );
 		//backPass(attack, NormalizeAngle( penaltyAngle),t_nml);
 	}
 	else
@@ -73,6 +73,8 @@ void ai09::penalty_us_ghuz ( void )
 		}
 				//penaltyAngle+=180;
 		penaltyAngle = AngleWith ( shootPoint , ball.Position );
+
+//        cout<<"__SHOOT_POINT_XY__"<<shootPoint.X<<"_"<<shootPoint.Y<<endl;
 		
 	}
 }

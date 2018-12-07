@@ -22,8 +22,8 @@ void ai09::our_place_ball_shoot(void) {
     static Timer temp_time;
 
     cout<<"BEFORE: "<<dmf<<"_"<<mid2<<endl;
-    //want_this_robot(attack);
-    //want_this_robot(dmf);
+//    want_this_robot(attack);
+//    want_this_robot(dmf);
     position_robots();
     cout<<"AFTER: "<<dmf<<"_"<<mid2<<endl;
 
@@ -325,7 +325,7 @@ void ai09::our_place_ball_shoot_V2(void) {
         FUNC_CNT = 0;
     }*/
     if(FUNC_state == -2){
-        circle_ball_free(attack,outFieldAng,18,0,0.0);
+        circle_ball_free(attack,outFieldAng,24,0,0.0);
 
         if(DIS(last_state_ball_pos,ball.Position) > 400){
             FUNC_CNT++;
@@ -415,6 +415,7 @@ void ai09::our_place_ball_shoot_V2(void) {
         if(FUNC_CNT >= 10 ){
             FUNC_state = 1;
             FUNC_CNT = 0;
+            last_state_ball_pos = ball.Position;
         }
 
     }
@@ -423,6 +424,9 @@ void ai09::our_place_ball_shoot_V2(void) {
         circle_ball_free(attack,move_angle,18,0,0.0);
         WaitForPass(dmf,false,&OwnRobot[attack].State.Position);
 //        OwnRobot[dmf].target.Angle = 90;
+        if(DIS(last_state_ball_pos,ball.Position) > 400){//TODO added this TEST IT with the kicker on (already tested without the kicker)
+            FUNC_CNT++;
+        }
         if(DIS(OwnRobot[attack].State.Position,ball.Position) > 400){
             FUNC_CNT++;
         }
@@ -588,6 +592,7 @@ void ai09::our_place_ball_shoot_V2(void) {
 
     cout<<"___DIS___"<<DIS(*targetBallPlacement ,ball.Position)<<endl;
     cout<<"___BALL__POS_XY__"<<ball.Position.X<<'_'<<ball.Position.Y<<endl;
+    cout<<"___TARGET__POS_XY__"<<targetBallPlacement->X<<'_'<<targetBallPlacement->Y<<endl;
     cout<<"__OUT__"<<outOfField(ball.Position)<<endl;
 
 

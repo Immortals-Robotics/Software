@@ -45,6 +45,7 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting )
 		else if ( REF_playState->get() == GameState::GAME_ON )
 		{
 			currentPlay = "NewNormalPlay";
+//			currentPlay = "penalty_our_Shoot_Out";
 		}
 		else if ( REF_playState->ourKickoff ( ) )
 		{
@@ -72,13 +73,14 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting )
 		{
 			currentPlay = "penalty_us_ghuz";
 			currentPlayParam = static_cast<uint32_t>(worldState ->refereeState -> State->canKickBall());
+//			cout << "IN_PENALTY..."<<worldState ->refereeState -> State->canKickBall()<<endl;
 		}
         else if(REF_playState->ourPlaceBall())
         {
 //            targetBallPlacement->X = -2500;
 //            targetBallPlacement->Y = -1500;
             currentPlay = "our_place_ball_shoot";
-            currentPlay = "our_place_ball_shoot_V2";//TODO #5 COMMENT this if it's not working...
+            currentPlay = "our_place_ball_shoot_V2";//COMMENT this if it's not working...
 //			currentPlay = "our_place_ball_shoot_taki";
         }
 		else if ( REF_playState->theirFreeKick() )
@@ -118,6 +120,7 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting )
 		//currentPlay = "HaltAll";
 	}
 //	currentPlay = "my_test"; // TODO comment this in the game
+//	currentPlay = "penalty_our_Shoot_Out";
 	
 	if ( AIPlayBook.find(currentPlay) != AIPlayBook.end() )
 		(this->*AIPlayBook[currentPlay])();

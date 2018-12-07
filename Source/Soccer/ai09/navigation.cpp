@@ -18,9 +18,9 @@ void ai09::Navigate2Point ( int robot_num , TVec2 dest , bool accurate , int spe
 	}
 	OwnRobot[robot_num].MoveByMotion(motion_cmd);
 
-	OwnRobot[robot_num].target.velocity.x = motion_cmd.X;//TODO #4 erase these three lines (It is used for plotting)
-	OwnRobot[robot_num].target.velocity.y = motion_cmd.Y;//
-	OwnRobot[robot_num].target.velocity.magnitude = sqrt(motion_cmd.X * motion_cmd.X + motion_cmd.Y * motion_cmd.Y);//
+//	OwnRobot[robot_num].target.velocity.x = motion_cmd.X;//TODO #4 erase these three lines (It is used for plotting)
+//	OwnRobot[robot_num].target.velocity.y = motion_cmd.Y;//
+//	OwnRobot[robot_num].target.velocity.magnitude = sqrt(motion_cmd.X * motion_cmd.X + motion_cmd.Y * motion_cmd.Y);//
 	
 	navigated[robot_num] = true;
 }

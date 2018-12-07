@@ -253,6 +253,7 @@ private:
 		void our_place_ball_shoot_taki ( void );
         void their_place_ball ( void );
         void far_penalty_shoot( void );
+        void penalty_our_Shoot_Out( void );
 
     void my_test();
 
