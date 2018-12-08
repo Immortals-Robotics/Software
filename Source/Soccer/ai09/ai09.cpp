@@ -35,7 +35,7 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 #else
 	field_width = 6000.0f;// The new field is here:
     field_height = 4500.0f;
-    goal_width = 1000.0f;
+    goal_width = 1000.0f;//TODO #6 this was 1000 (!!!) Changed it back
 
     penalty_area_r = 1200.0f;
     penalty_area_width = 2400.0f;
@@ -114,12 +114,12 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 	{
 		OwnRobot[i].set_vision_id(i+1);
 	}
-    OwnRobot[gk].set_vision_id(6);
-    OwnRobot[def].set_vision_id(3);
+    OwnRobot[gk].set_vision_id(5);
+    OwnRobot[def].set_vision_id(9);
     OwnRobot[dmf].set_vision_id(8);
     OwnRobot[lmf].set_vision_id(2);
-    OwnRobot[rmf].set_vision_id(5);
-    OwnRobot[cmf].set_vision_id(1);
+    OwnRobot[rmf].set_vision_id(6);
+    OwnRobot[cmf].set_vision_id(4);
 	OwnRobot[rw].set_vision_id(10);
 	OwnRobot[lw].set_vision_id(11);
 

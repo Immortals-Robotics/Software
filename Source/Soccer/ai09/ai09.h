@@ -183,6 +183,7 @@ private:
 		void Halt ( int robot_num );
 		void GK ( int robot_num = 0 , int defence_num = 2 , bool stop = false );
 		void GK_shirje ( int robot_num = 0 );
+        void GK_shirje_2018 ( int robot_num , VelocityProfile* VELOCITY_PROFILE );
 		void GKHi ( int robot_num = 0 , bool stop = false );
 		void GKHi_Simple ( int robot_num = 0 , bool stop = false );
 		void OneDef ( int robot_num = 1 , TVec2 * defendTarget = NULL , bool stop = false );

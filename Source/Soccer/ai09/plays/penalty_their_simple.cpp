@@ -17,7 +17,9 @@ void ai09::penalty_their_simple ( void )
 	}
 	else
 	{
-		float gkp_y = Line::makeLineFromTwoPoints ( VecPosition ( OppRobot[index].Position.X , OppRobot[index].Position.Y ) , VecPosition ( ball.Position.X , ball.Position.Y ) ).getIntersection ( Line::makeLineFromTwoPoints ( VecPosition ( side * penalty_x , 100 ) , VecPosition ( side * penalty_x , -100 ) ) ).getY ( );
+//		float gkp_y = Line::makeLineFromTwoPoints ( VecPosition ( OppRobot[index].Position.X , OppRobot[index].Position.Y ) , VecPosition ( ball.Position.X , ball.Position.Y ) ).getIntersection ( Line::makeLineFromTwoPoints ( VecPosition ( side * penalty_x , 100 ) , VecPosition ( side * penalty_x , -100 ) ) ).getY ( );
+        //TODO #7 check this!!!!
+        float gkp_y = Line::makeLineFromPositionAndAngle(VecPosition ( ball.Position.X , ball.Position.Y ),OppRobot[index].Angle).getIntersection ( Line::makeLineFromTwoPoints ( VecPosition ( side * penalty_x , 100 ) , VecPosition ( side * penalty_x , -100 ) ) ).getY ( );
         float max_reach_y = (goal_width/2.0) - 50.0;
 		if(max_reach_y < gkp_y)
 			gkp_y = max_reach_y;
