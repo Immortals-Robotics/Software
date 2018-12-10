@@ -34,8 +34,13 @@ build/
 .DS_Store
 .idea
 Projects
-Source/Reality/Vision/Protobuf/*.h
-Source/Reality/Vision/Protobuf/*.cc
+Source/Reality/Vision/Protobuf/*.pb.h
+Source/Reality/Vision/Protobuf/*.pb.cc
 Source/Reality/Vision/Protobuf/*.java
 3rdparty
 cmake-build-debug
+#Ignore the generated protobuf files
+**/Protobuf/*.pb.cc
+**/Protobuf/*.pb.h
+
+

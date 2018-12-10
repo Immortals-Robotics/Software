@@ -114,14 +114,24 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 	{
 		OwnRobot[i].set_vision_id(i+1);
 	}
-    OwnRobot[gk].set_vision_id(5);
-    OwnRobot[def].set_vision_id(9);
-    OwnRobot[dmf].set_vision_id(8);
-    OwnRobot[lmf].set_vision_id(2);
-    OwnRobot[rmf].set_vision_id(6);
-    OwnRobot[cmf].set_vision_id(4);
+    OwnRobot[gk].set_vision_id(1);
+    OwnRobot[def].set_vision_id(2);
+    OwnRobot[dmf].set_vision_id(4);
+    OwnRobot[lmf].set_vision_id(0);
+    OwnRobot[rmf].set_vision_id(3);
+    OwnRobot[cmf].set_vision_id(7);
 	OwnRobot[rw].set_vision_id(10);
 	OwnRobot[lw].set_vision_id(11);
+	//TODO comment this (used fogrSim)
+//	OwnRobot[gk].set_vision_id(0);
+//    OwnRobot[def].set_vision_id(1);
+//    OwnRobot[dmf].set_vision_id(2);
+//    OwnRobot[lmf].set_vision_id(3);
+//    OwnRobot[rmf].set_vision_id(4);
+//    OwnRobot[cmf].set_vision_id(5);
+//	OwnRobot[rw].set_vision_id(6);
+//	OwnRobot[lw].set_vision_id(7);
+
 
 	chip_head = 200;
 

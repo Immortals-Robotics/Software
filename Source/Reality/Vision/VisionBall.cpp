@@ -1,7 +1,7 @@
 #include "Vision.h"
 #include "../../Soccer/ai09/helpers.h"
 
-#define MAX_BALL_2FRAMES_DISTANCE 450000.0f
+#define MAX_BALL_2FRAMES_DISTANCE 1450000.0f
 
 void VisionModule::ProcessBalls ( WorldState * state )
 {

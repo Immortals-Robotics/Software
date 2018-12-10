@@ -57,12 +57,12 @@ void GrsimForwarder::SendData(const Robot *const robots, const int robot_count, 
 
         if (robot->shoot > 0)
         {
-            command->set_kickspeedx(robot->shoot/2);
+            command->set_kickspeedx(robot->shoot/10.f);
             command->set_kickspeedz(0);
         }
         else if (robot->chip > 0)
         {
-            float chip = robot->chip / 25.0f;
+            float chip = 0.f;//robot->chip / 25.0f;
             command->set_kickspeedx(chip * 0.707f);
             command->set_kickspeedz(chip / 0.707f);
         }

@@ -121,6 +121,7 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting )
 	}
 //	currentPlay = "my_test"; // TODO comment this in the game
 //	currentPlay = "penalty_our_Shoot_Out";
+//	currentPlay = "NewNormalPlay";
 	
 	if ( AIPlayBook.find(currentPlay) != AIPlayBook.end() )
 		(this->*AIPlayBook[currentPlay])();

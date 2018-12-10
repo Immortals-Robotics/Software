@@ -11,23 +11,34 @@ void ai09::GKHi_Simple(int robot_num, bool stop) {
     float max_reach_y = (goal_width/2.0) + 20.0;
 
     float thr_ball_vel = 80;
-    static bool movingBall = false;
+    bool BallisMoving;
+    bool stoppedBallinGoalArea;
     bool hurryup = ballIsGoaling();
     static VelocityProfile VELOCITY_PROFILE_KILLER= VELOCITY_PROFILE_KHARAKI;
     VELOCITY_PROFILE_KILLER.max_spd=Vec2(70.0f);
     VELOCITY_PROFILE_KILLER.max_dec=Vec2(2.0f);
     VELOCITY_PROFILE_KILLER.max_acc=Vec2(1.5f);
 
+    debugDraw = true;
+    if(hurryup){
+        AddDebugCircle(OwnRobot[robot_num].State.Position,200,Red);
+    }else{
+        AddDebugCircle(OwnRobot[robot_num].State.Position,20,Yellow);
+    }
+    debugDraw = false;
+
 //    static int hys = 10;
     cout<<"Ball Velocity: "<<ball.velocity.magnitude<<endl;
     cout<<"hurryup: "<<hurryup<<endl;
     cout<<"_POS_XY: "<<ball.Position.X<<" _ "<<ball.Position.Y<<endl;
 
-//    if(ball.velocity.magnitude < thr_ball_vel){//Ball is stationary
-//        movingBall = false;
-//    } else {
-//        movingBall = true;
-//    }
+    if(ball.velocity.magnitude < thr_ball_vel){//Ball is stationary
+        BallisMoving = false;
+    } else {
+        BallisMoving = true;
+    }
+
+//    stoppedBallinGoalArea = ( !BallisMoving ) && ( ball.Position.X < side*(field_width - 1200) )
 
     if(stop){
 
@@ -49,6 +60,7 @@ void ai09::GKHi_Simple(int robot_num, bool stop) {
             OwnRobot[robot_num].face(ball.Position);
 //            float tmp_x = ans.getX();
 //            float tmp_y = ans.getY();
+
             //ASADIs_Idea:
             if(DIS(ball.Position,Vec2(side*field_width,0))<2500 && ball.Position.X > side*(field_width -1200) ){
                 ans = GK_Rail.getPointOnLineClosestTo(VecPosition(ball.Position.X, ball.Position.Y));

@@ -41,20 +41,20 @@ int main ( )
     settings -> use_camera.push_back(true);
     settings -> use_camera.push_back(true);
     
-    settings -> use_camera.push_back(false);
-    settings -> use_camera.push_back(false);
-    settings -> use_camera.push_back(false);
-    settings -> use_camera.push_back(false);
+    settings -> use_camera.push_back(true);
+    settings -> use_camera.push_back(true);
+    settings -> use_camera.push_back(true);
+    settings -> use_camera.push_back(true);
 
 	settings -> our_color = COLOR_YELLOW;
     settings -> our_side = LEFT_SIDE;
 
     const char *const xbox_ref_ip = "224.5.25.25";
     const char *const real_ref_ip = "224.5.23.1";
-    settings -> referee_UDP_Address = xbox_ref_ip;// TODO #2 Check the referee input source
+    settings -> referee_UDP_Address = real_ref_ip;// TODO #2 Check the referee input source
     settings -> refereePort = 10003;
     settings -> vision_UDP_Address = "224.5.23.2";
-    settings -> visionPort = 10006;
+    settings -> visionPort = 10006;//10020;
     settings -> GUI_UDP_Address = "127.0.0.1";
     settings -> GUIPort = 10066;
 
@@ -108,13 +108,16 @@ int main ( )
             aii -> Process( state , settings );
 
             //TODO #3 comment the GRsim output
-            grsim_fwd->SendData((reinterpret_cast<ai09*>(aii))->OwnRobot, MAX_TEAM_ROBOTS, settings->our_color);
+//            grsim_fwd->SendData((reinterpret_cast<ai09*>(aii))->OwnRobot, MAX_TEAM_ROBOTS, settings->our_color);
 
             //The sending process
             senderBase->sendAll();
 
             //debugging (the visualizer written by python) :
 //            debugger->send();
+
+            //LordHippos GUI
+//            vision.SendGUIData(state,aii->AIDebug);
 
             lock.unlock();
             cout << 1.0/timer.interval() << endl;

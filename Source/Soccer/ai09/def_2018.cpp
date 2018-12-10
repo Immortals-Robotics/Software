@@ -46,7 +46,7 @@ void ai09::runningDef(int robot_num,TVec2 target,TVec2 * defendTarget ,bool stop
     assholeHasBall = DIS ( OppRobot[ballHandlerAsshole].Position , ball.Position ) < max_ball_handler_asshole_dis;
 
 
-    ballMovingFast = ball.velocity.magnitude > max_fast_ball_spd;
+//    ballMovingFast = ball.velocity.magnitude > max_fast_ball_spd;
 
     ownAttackHasBall = DIS ( OwnRobot[attack].State.Position , ball.Position ) < max_own_attacker_dis;
     if (OwnRobot[attack].State.seenState == CompletelyOut) {
@@ -54,7 +54,6 @@ void ai09::runningDef(int robot_num,TVec2 target,TVec2 * defendTarget ,bool stop
     }
 
     ballIsToGoal = ballIsGoaling();
-    ballIsToGoal = false;
 
     /*cout << "interceptNear:	"<<interceptNear <<endl;
     cout << "assholeHasBall: " << assholeHasBall<<endl;
@@ -73,7 +72,9 @@ void ai09::runningDef(int robot_num,TVec2 target,TVec2 * defendTarget ,bool stop
             ( !gkIntercepting ) &&
             ( !stop )
             )
+//    if(1)
     {
+        cout<<"IIIIIIIIIIIIIIIIIIJJJJJJJJJJJJJJJJJJJJJ"<<endl;
         ERRTSetObstacles ( robot_num , 0 , 1 , 1 , 0 , 0 );
         //tech_circle(robot_num,sgn(ball.Position.Y)*side*60 ,0,15,false);
         tech_circle(robot_num,AngleWith ( ball.Position , Vec2 ( side * (field_width+110) , 0 ) ) ,0,80,true,0,0,0);
@@ -86,22 +87,50 @@ void ai09::runningDef(int robot_num,TVec2 target,TVec2 * defendTarget ,bool stop
 }
 
 void ai09::DefBy1(int thelastdef_num, TVec2 *defendTarget, bool stop){
+    cout<<"__________IN_DEF_BY_1_____________________________________________"<<endl;
     if (thelastdef_num != -1)
     {
+        cout<<"1111111111111111111111111111111111111111111111111111111111"<<endl;
         double alpha = NormalizeAngle(AngleWith(Vec2(side * field_width, 0), ball.Position) + (90 + side * 90));
         alpha = min(90, max(-90, alpha));
         int alphaSgn = sgn(alpha);
 
         if (fabs(alpha) < 45.0)
         {
-            Line ball_line = Line::makeLineFromTwoPoints(VecPosition(ball.Position.X, ball.Position.Y),
-                                                         VecPosition(side * field_width, 0.0));
-            Line Front_line = Line::makeLineFromPositionAndAngle(
-                    VecPosition(side * (field_width - penalty_area_r - 100), 0), 90.0);
-            VecPosition ans = ball_line.getIntersection(Front_line);
-            TVec2 target = Vec2(ans.getX(), ans.getY());
 
-            runningDef(thelastdef_num, target, defendTarget, stop);
+            if(ball.velocity.magnitude <200) {
+                Line GOAL_LINE = Line::makeLineFromTwoPoints(VecPosition(side * field_width, 100.0),
+                                                             VecPosition(side * field_width, -100.0));
+
+                VecPosition TARGET_BALL_IN_GOAL = GOAL_LINE.getPointOnLineClosestTo(
+                        VecPosition(ball.Position.X, ball.Position.Y));
+
+                if (TARGET_BALL_IN_GOAL.getY() > 200) {
+                    TARGET_BALL_IN_GOAL.setY(200.0);
+                }
+                if (TARGET_BALL_IN_GOAL.getY() < -200) {
+                    TARGET_BALL_IN_GOAL.setY(-200.0);
+                }
+
+                cout << "TARGET_BALL_IN_GOAL.getY(): " << TARGET_BALL_IN_GOAL.getY() << endl;
+                Line ball_line = Line::makeLineFromTwoPoints(VecPosition(ball.Position.X, ball.Position.Y),
+                                                             TARGET_BALL_IN_GOAL);
+                Line Front_line = Line::makeLineFromPositionAndAngle(
+                        VecPosition(side * (field_width - penalty_area_r - 100), 0), 90.0);
+                VecPosition ans = ball_line.getIntersection(Front_line);
+                TVec2 target = Vec2(ans.getX(), ans.getY());
+
+                runningDef(thelastdef_num, target, defendTarget, stop);
+            } else{
+                Line ball_line = Line::makeLineFromPositionAndAngle(VecPosition(ball.Position.X, ball.Position.Y),
+                                                             ball.velocity.direction);
+                Line Front_line = Line::makeLineFromPositionAndAngle(
+                        VecPosition(side * (field_width - penalty_area_r - 100), 0), 90.0);
+                VecPosition ans = ball_line.getIntersection(Front_line);
+                TVec2 target = Vec2(ans.getX(), ans.getY());
+
+                runningDef(thelastdef_num, target, defendTarget, stop);
+            }
         } else if (alpha > 85.0)
         {
             Line ball_line = Line::makeLineFromPositionAndAngle(VecPosition(side * field_width, 0.0), 85.0);
@@ -173,14 +202,65 @@ void ai09::DefBy2(int rightdef_num ,int leftdef_num, TVec2 * defendTarget , bool
             runningDef(rightdef_num, target, defendTarget, stop);
         } else if (alpha < -3.5)
         {
-            Line ball_line = Line::makeLineFromTwoPoints(VecPosition(ball.Position.X, ball.Position.Y),
-                                                         VecPosition(side * field_width, 0.0));
-            Line Front_line = Line::makeLineFromPositionAndAngle(
-                    VecPosition(side * (field_width - penalty_area_r - 100), 0), 90.0);
-            VecPosition ans = ball_line.getIntersection(Front_line);
-            TVec2 target = Vec2(ans.getX(), ans.getY());
+//            Line ball_line = Line::makeLineFromTwoPoints(VecPosition(ball.Position.X, ball.Position.Y),
+//                                                         VecPosition(side * field_width, 0.0));
+//            Line Front_line = Line::makeLineFromPositionAndAngle(
+//                    VecPosition(side * (field_width - penalty_area_r - 100), 0), 90.0);
+//            VecPosition ans = ball_line.getIntersection(Front_line);
+//            TVec2 target = Vec2(ans.getX(), ans.getY());
+//            Line GOAL_LINE = Line::makeLineFromTwoPoints(VecPosition(side * field_width, 100.0),
+//                                                         VecPosition(side * field_width, -100.0));
+//
+//            VecPosition TARGET_BALL_IN_GOAL = GOAL_LINE.getPointOnLineClosestTo(VecPosition(ball.Position.X, ball.Position.Y));
+//
+//            if(TARGET_BALL_IN_GOAL.getY() > 300){
+//                TARGET_BALL_IN_GOAL.setY(300.0);
+//            }
+//            if(TARGET_BALL_IN_GOAL.getY() < -300){
+//                TARGET_BALL_IN_GOAL.setY(-300.0);
+//            }
+//            cout<<"TARGET_BALL_IN_GOAL.getY(): "<<TARGET_BALL_IN_GOAL.getY()<<endl;
+//            Line ball_line = Line::makeLineFromTwoPoints(VecPosition(ball.Position.X, ball.Position.Y),
+//                                                         TARGET_BALL_IN_GOAL);
+//            Line Front_line = Line::makeLineFromPositionAndAngle(
+//                    VecPosition(side * (field_width - penalty_area_r - 100), 0), 90.0);
+//            VecPosition ans = ball_line.getIntersection(Front_line);
+//            TVec2 target = Vec2(ans.getX(), ans.getY());
+//
+//            runningDef(rightdef_num, target, defendTarget, stop);
+            if(ball.velocity.magnitude <200) {
+                Line GOAL_LINE = Line::makeLineFromTwoPoints(VecPosition(side * field_width, 100.0),
+                                                             VecPosition(side * field_width, -100.0));
 
-            runningDef(rightdef_num, target, defendTarget, stop);
+                VecPosition TARGET_BALL_IN_GOAL = GOAL_LINE.getPointOnLineClosestTo(
+                        VecPosition(ball.Position.X, ball.Position.Y));
+
+                if (TARGET_BALL_IN_GOAL.getY() > 200) {
+                    TARGET_BALL_IN_GOAL.setY(200.0);
+                }
+                if (TARGET_BALL_IN_GOAL.getY() < -200) {
+                    TARGET_BALL_IN_GOAL.setY(-200.0);
+                }
+
+                cout << "TARGET_BALL_IN_GOAL.getY(): " << TARGET_BALL_IN_GOAL.getY() << endl;
+                Line ball_line = Line::makeLineFromTwoPoints(VecPosition(ball.Position.X, ball.Position.Y),
+                                                             TARGET_BALL_IN_GOAL);
+                Line Front_line = Line::makeLineFromPositionAndAngle(
+                        VecPosition(side * (field_width - penalty_area_r - 100), 0), 90.0);
+                VecPosition ans = ball_line.getIntersection(Front_line);
+                TVec2 target = Vec2(ans.getX(), ans.getY());
+
+                runningDef(rightdef_num, target, defendTarget, stop);
+            } else{
+                Line ball_line = Line::makeLineFromPositionAndAngle(VecPosition(ball.Position.X, ball.Position.Y),
+                                                                    ball.velocity.direction);
+                Line Front_line = Line::makeLineFromPositionAndAngle(
+                        VecPosition(side * (field_width - penalty_area_r - 100), 0), 90.0);
+                VecPosition ans = ball_line.getIntersection(Front_line);
+                TVec2 target = Vec2(ans.getX(), ans.getY());
+
+                runningDef(rightdef_num, target, defendTarget, stop);
+            }
         } else
         {
             Line ball_line = Line::makeLineFromPositionAndAngle(VecPosition(side * field_width, 0.0), -3.5);
@@ -188,6 +268,7 @@ void ai09::DefBy2(int rightdef_num ,int leftdef_num, TVec2 * defendTarget , bool
                     VecPosition(side * (field_width - penalty_area_r - 100), 0), 90.0);
             VecPosition ans = ball_line.getIntersection(Front_line);
             TVec2 fans = Vec2(ans.getX(), ans.getY());
+
 
             OwnRobot[rightdef_num].target.Angle = 90 + side * 90;
             ERRTSetObstacles(rightdef_num, stop, 1, 1, 0, 0, 0);
@@ -219,8 +300,26 @@ void ai09::DefBy2(int rightdef_num ,int leftdef_num, TVec2 * defendTarget , bool
             runningDef(leftdef_num, target, defendTarget, stop);
         } else if (alpha > 3.5)
         {
+//            Line ball_line = Line::makeLineFromTwoPoints(VecPosition(ball.Position.X, ball.Position.Y),
+//                                                         VecPosition(side * field_width, 0.0));
+//            Line Front_line = Line::makeLineFromPositionAndAngle(
+//                    VecPosition(side * (field_width - penalty_area_r - 100), 0), 90.0);
+//            VecPosition ans = ball_line.getIntersection(Front_line);
+//            TVec2 target = Vec2(ans.getX(), ans.getY());
+            Line GOAL_LINE = Line::makeLineFromTwoPoints(VecPosition(side * field_width, 100.0),
+                                                         VecPosition(side * field_width, -100.0));
+
+            VecPosition TARGET_BALL_IN_GOAL = GOAL_LINE.getPointOnLineClosestTo(VecPosition(ball.Position.X, ball.Position.Y));
+
+            if(TARGET_BALL_IN_GOAL.getY() > 300){
+                TARGET_BALL_IN_GOAL.setY(300.0);
+            }
+            if(TARGET_BALL_IN_GOAL.getY() < -300){
+                TARGET_BALL_IN_GOAL.setY(-300.0);
+            }
+
             Line ball_line = Line::makeLineFromTwoPoints(VecPosition(ball.Position.X, ball.Position.Y),
-                                                         VecPosition(side * field_width, 0.0));
+                                                         TARGET_BALL_IN_GOAL);
             Line Front_line = Line::makeLineFromPositionAndAngle(
                     VecPosition(side * (field_width - penalty_area_r - 100), 0), 90.0);
             VecPosition ans = ball_line.getIntersection(Front_line);
@@ -252,10 +351,28 @@ void ai09::DefBy3 ( int middef_num ,int rightdef_num ,int leftdef_num , TVec2 * 
     {
         if (fabs(alpha) < 43.0)
         {
+//            Line Front_line = Line::makeLineFromPositionAndAngle(
+//                    VecPosition(side * (field_width - penalty_area_r - 100), 0), 90.0);
+//            Line ball_line = Line::makeLineFromTwoPoints(VecPosition(ball.Position.X, ball.Position.Y),
+//                                                         VecPosition(side * field_width, 0.0));
+//            VecPosition ans = ball_line.getIntersection(Front_line);
+//            TVec2 target = Vec2(ans.getX(), ans.getY());
+            Line GOAL_LINE = Line::makeLineFromTwoPoints(VecPosition(side * field_width, 100.0),
+                                                         VecPosition(side * field_width, -100.0));
+
+            VecPosition TARGET_BALL_IN_GOAL = GOAL_LINE.getPointOnLineClosestTo(VecPosition(ball.Position.X, ball.Position.Y));
+
+            if(TARGET_BALL_IN_GOAL.getY() > 300){
+                TARGET_BALL_IN_GOAL.setY(300.0);
+            }
+            if(TARGET_BALL_IN_GOAL.getY() < -300){
+                TARGET_BALL_IN_GOAL.setY(-300.0);
+            }
+
+            Line ball_line = Line::makeLineFromTwoPoints(VecPosition(ball.Position.X, ball.Position.Y),
+                                                         TARGET_BALL_IN_GOAL);
             Line Front_line = Line::makeLineFromPositionAndAngle(
                     VecPosition(side * (field_width - penalty_area_r - 100), 0), 90.0);
-            Line ball_line = Line::makeLineFromTwoPoints(VecPosition(ball.Position.X, ball.Position.Y),
-                                                         VecPosition(side * field_width, 0.0));
             VecPosition ans = ball_line.getIntersection(Front_line);
             TVec2 target = Vec2(ans.getX(), ans.getY());
 
@@ -373,19 +490,19 @@ void ai09::DefMid ( int &middef_num ,int &rightdef_num ,int &leftdef_num , TVec2
 
     if(!leftdef_available && !rightdef_available)
     {
-        DefBy1(-1,defendTarget,stop);
+        DefBy1(middef_num,defendTarget,stop);
     }
     else if(!rightdef_available)
     {
-        DefBy2(-1,leftdef_num,defendTarget,stop);
+        DefBy2(middef_num,leftdef_num,defendTarget,stop);
     }
     else if(!leftdef_available)
     {
-        DefBy2(rightdef_num,-1,defendTarget,stop);
+        DefBy2(rightdef_num,middef_num,defendTarget,stop);
     }
     else
     {
-        DefBy3(-1,rightdef_num,leftdef_num,defendTarget,stop);
+        DefBy3(middef_num,rightdef_num,leftdef_num,defendTarget,stop);
     }
 
 //    cout<<"the alpha: "<<alpha<<endl;

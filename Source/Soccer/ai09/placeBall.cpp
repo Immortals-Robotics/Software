@@ -292,10 +292,10 @@ void ai09::our_place_ball_shoot_V2(void) {
 //    position_robots();//For lordhippo (after the first match with MRL)
     cout<<"AFTER: "<<dmf<<"_"<<mid2<<endl;
 
-    /*ERRTSetObstacles ( mid1 , false , true , true , true );
+    ERRTSetObstacles ( mid1 , false , true , true , true );
     AddCircle ( ball.Position.X , ball.Position.Y , 1010.0f );
     OwnRobot[mid1].face(ball.Position);
-    ERRTNavigate2Point ( mid1 , PointOnConnectingLine(ball.Position, Vec2(side*field_width, 0), DIS(ball.Position, Vec2(side*field_width, 0))/3.0f) ,0 , 100,&VELOCITY_PROFILE_AROOM);*/
+    ERRTNavigate2Point ( mid1 , PointOnConnectingLine(ball.Position, Vec2(side*field_width, 0), DIS(ball.Position, Vec2(side*field_width, 0))/3.0f) ,0 , 100,&VELOCITY_PROFILE_AROOM);
 
     ERRTSetObstacles ( rw , false , true , true , true );
     AddCircle ( ball.Position.X , ball.Position.Y , 1010.0f );

@@ -18,6 +18,48 @@ TVec2 ai09::CalculatePassPos ( int robot_num , const TVec2& target , const TVec2
 	return fans;
 }
 
+float getCalibratedShootPowCPY ( int vision_id , float raw_shoot )
+{
+    if (raw_shoot<=0) {
+        return 0;
+    }
+    vision_id = min(11, max(0,vision_id));
+
+    static float poly_coeff[MAX_ROBOTS][3] = {
+            {-0.1012,6.8441,-27.822}, //  0
+            {-0.0988,6.5467,-28.173}, //  1
+            {-0.1012,6.8645,-28.968}, //  2
+            {-0.09,6.2632,-22.909}, //  3
+            {-0.0789,4.8728,-18.189}, //  4
+            {-0.0859,6.2805,-27.016}, //  5
+            {-0.0857,6.2963,-25.36}, //  6
+            {-0.0813,6.1029,-21.593}, //  7
+            {-0.0813,6.1029,-21.593}, //  8*
+            {-0.0813,6.1029,-21.593}, //  9*
+            {-0.0813,6.1029,-21.593}, // 10*
+            {-0.0813,6.1029,-21.593}, // 11*
+    };
+
+
+
+
+    float a = poly_coeff[vision_id][0];
+    float b = poly_coeff[vision_id][1];
+    float c = poly_coeff[vision_id][2];
+
+    raw_shoot = min(150.0f, max(0.0f,raw_shoot));
+
+    float delta = b*b-4.0f*a*(c-raw_shoot);
+    if (delta<0)
+        delta = 0;
+
+    float calib_shoot = (-b+sqrt(delta))/(2.0f*a);
+
+    calib_shoot = min(100.0f, max(0.0f,calib_shoot));
+
+    return calib_shoot;
+
+}
 
 void ai09::WaitForPass ( int robot_num , bool chip , TVec2* target , TVec2* statPos )
 {
@@ -57,10 +99,14 @@ void ai09::WaitForPass ( int robot_num , bool chip , TVec2* target , TVec2* stat
             float vel_delta = ball.velocity.magnitude / 100.0f;
             //vel_delta = min(60,vel_delta);
             vel_delta *= 0.7;
-            vel_delta = 110 - vel_delta;
+            vel_delta = 60 - vel_delta;
+
+//            if(vel_delta < 44){
+//                vel_delta = 44;
+//            }
+//            vel_delta = getCalibratedShootPowCPY(robot_num,60);
             cout << "ball vel: " << vel_delta << endl;
-			//vel_delta = 100;
-			OwnRobot[robot_num].Shoot( vel_delta );
+			OwnRobot[robot_num].Shoot( 47 );
         }
 	}
 	else
