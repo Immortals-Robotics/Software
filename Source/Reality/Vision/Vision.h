@@ -55,21 +55,25 @@ class Vision
 		int ExtractYellowRobots(void);
 		int MergeRobots(int num);
 		void FilterRobots(int num, bool own);
-		void PredictRobots(WorldState &);
-		void FillStates(WorldState &);
+		void PredictRobots();
+		void FillRobotStates(WorldState &);
 
 		void ProcessBalls(WorldState &);
 		int ExtractBalls(void);
 		int MergeBalls(int num);
-		void FilterBalls(int num, WorldState &);
-		void PredictBall(WorldState &);
+		void FilterBalls(int num, const std::vector<int>& ball_ids);
+		void PredictBall();
+		void FillBallStates(WorldState & state);
 		void ComputeBallHeight(void);
 
-		FilteredObject ball_kalman;
+		void ResetState(WorldState& state);
+
+		std::vector<FilteredObject> ball_kalman;
 		std::vector<FilteredObject> robot_kalman[2];
 
 		std::unique_ptr<IdGenerator> blue_id_generator;
 		std::unique_ptr<IdGenerator> yellow_id_generator;
+		std::unique_ptr<IdGenerator> ball_id_generator;
 
 		std::vector<MedianFilter<float>> AngleFilter[2];
 		std::vector<float> rawAngles[2];
@@ -79,11 +83,10 @@ class Vision
 
 		unsigned long frameId;
 
-		int ball_not_seen;
+		std::vector<int> ball_not_seen;
 		std::vector<int> robot_not_seen[2];
 
-		SSL_DetectionBall lastRawBall;
-
+		std::vector<BallState> ballState;
 		std::vector<RobotState> robotState[2];
 
 		std::unique_ptr<Net::UDP> VisionUDP;
@@ -95,7 +98,7 @@ class Vision
 		std::vector<SSL_DetectionBall> d_ball;
 		std::vector<SSL_DetectionRobot> robot;
 
-		unsigned file_id;
+		unsigned capture_id;
 
 		std::vector<bool> packet_received;
 };

@@ -14,11 +14,16 @@ void Vision::ProcessBalls (WorldState & state)
 	//Now lets merge them!
 	balls_num = MergeBalls ( balls_num );
 
+	std::vector<int> ball_ids;
+	ball_id_generator->Update(d_ball, balls_num, frame[0].t_capture(), ball_ids);
+
 	//The most important part, The Kalman Filter!
-	FilterBalls ( balls_num , state );
+	FilterBalls ( balls_num , ball_ids);
 
 	//We're almost done, only Prediction remains undone!
-	PredictBall ( state );
+	PredictBall ();
+
+	FillBallStates(state);
 
 }
 int Vision::ExtractBalls ( void )
@@ -69,160 +74,182 @@ int Vision::MergeBalls ( int num )
 	return balls_num;
 }
 
-void Vision::FilterBalls (int num, WorldState & state)
+void Vision::FilterBalls (int num, const std::vector<int>& ball_ids)
 {
-	int id = std::numeric_limits<int>::max();
-	float dis = std::numeric_limits<float>::max();
-	for ( int i = 0 ; i < num ; i ++ )
+	for (int i = 0; i < config.max_balls(); i++)
 	{
-		if ( DIS ( d_ball[i].x() , d_ball[i].y() , lastRawBall.x() , lastRawBall.y() ) < dis )
+		bool found = false;
+		float filt_out[2][2];
+		for (int j = 0; j < num; j++)
 		{
-			dis = DIS ( d_ball[i].x() , d_ball[i].y() , lastRawBall.x() , lastRawBall.y() );
-			id = i;
-		}
-	}
-
-	if ( dis < config.max_ball_2_frames_dis() )
-	{
-		float filtout[2][2];
-		float filtpos[2] = { d_ball[id].x() / (float)10.0 , d_ball[id].y() / (float)10.0 };
-		lastRawBall.CopyFrom ( d_ball[id] );
-
-		if ( ball_not_seen > 0 )
-		{
-			ball_kalman.initializePos ( filtpos );
-		}
-
-		ball_kalman.updatePosition ( filtpos , filtout );
-
-		state.ball.Position.X = filtout[0][0] ;
-		state.ball.Position.Y = filtout[1][0] ;
-		state.ball.velocity.x = filtout[0][1] ;
-		state.ball.velocity.y = filtout[1][1] ;
-
-		ball_not_seen = 0;
-		state.has_ball = true;
-		state.ball.seenState = Seen;
-	}
-
-	else
-	{
-		ball_not_seen ++;
-
-		if ( ball_not_seen > config.max_ball_not_seen() )
-		{
-			if ( num > 0 )
+			if (ball_ids[j] == i)
 			{
-				float filtout[2][2];
-				float filtpos[2] = { d_ball[id].x() / (float)10.0 , d_ball[id].y() / (float)10.0 };
-				lastRawBall.CopyFrom ( d_ball[id] );
-				ball_kalman.initializePos ( filtpos );
+				found = true;
 				
-				ball_kalman.updatePosition ( filtpos , filtout );
+				float filt_pos[2] = { d_ball[j].x() / 10.0f , d_ball[j].y() / 10.0f };
 
-				state.ball.Position.X = filtout[0][0];
-				state.ball.Position.Y = filtout[1][0];
-				state.ball.velocity.x = filtout[0][1];
-				state.ball.velocity.y = filtout[1][1];
+				if (ball_not_seen[i] > 0)
+				{
+					ball_kalman[i].initializePos(filt_pos);
+				}
 
-				ball_not_seen = 0;
-				state.has_ball = true;
-				state.ball.seenState = Seen;
+				ball_not_seen[i] = 0;
+
+				ball_kalman[i].updatePosition(filt_pos, filt_out);
 			}
-			else
-			{
-				state.ball.velocity.x = 0;
-				state.ball.velocity.y = 0;
+		}
 
-				state.ball.Position.X /= (float)10.0;
-				state.ball.Position.Y /= (float)10.0;
+		if (!found)
+		{
+			ball_not_seen[i] ++;
+			if (ball_not_seen[i] >= config.max_ball_not_seen() + 1)
+				ball_not_seen[i] = config.max_ball_not_seen() + 1;
 
-				lastRawBall.set_x ( 0.0f );
-				lastRawBall.set_y ( 0.0f );
-
-				state.has_ball = false;
-				state.ball.seenState = CompletelyOut;
-			}
+			ballState[i].velocity.x -= ballState[i].velocity.x * 0.1f;
+			ballState[i].velocity.y -= ballState[i].velocity.y * 0.1f;
 		}
 		else
 		{
-			state.ball.velocity.x /= (float)10.0;
-			state.ball.velocity.y /= (float)10.0;
+			ballState[i].Position.X = filt_out[0][0];
+			ballState[i].Position.Y = filt_out[1][0];
+			ballState[i].velocity.x = filt_out[0][1];
+			ballState[i].velocity.y = filt_out[1][1];
 
-			state.ball.Position.X /= (float)10.0;
-			state.ball.Position.Y /= (float)10.0;
+			// Make sure our filtered velocities are reasonable
 
-			state.ball.seenState = TemprolilyOut;
+			if (Magnitude(ballState[i].velocity.x, ballState[i].velocity.y) >
+				config.robot_error_velocity())
+			{
+				ballState[i].velocity.x = 0.0f;
+				ballState[i].velocity.y = 0.0f;
+			}
+
+			if (fabs(ballState[i].velocity.x) < config.ignore_prediction() * 2.0f)
+				ballState[i].velocity.x = 0.0f;
+			if (fabs(ballState[i].velocity.y) < config.ignore_prediction() * 2.0f)
+				ballState[i].velocity.y = 0.0f;
+
+			ballState[i].Position.X *= (float)(10.0);
+			ballState[i].Position.Y *= (float)(10.0);
+			ballState[i].velocity.x *= (float)(10.0);
+			ballState[i].velocity.y *= (float)(10.0);
 		}
+
+		ballState[i].velocity.direction = atan((ballState[i].velocity.y) / (ballState[i].velocity.x));
+		ballState[i].velocity.direction *= 180.0f / 3.1415f;
+		if (ballState[i].velocity.x < 0)
+			ballState[i].velocity.direction += 180;
+		while (ballState[i].velocity.direction > 180)
+			ballState[i].velocity.direction -= 360;
+		while (ballState[i].velocity.direction < -180)
+			ballState[i].velocity.direction += 360;
+
+		ballState[i].velocity.magnitude = sqrt((ballState[i].velocity.x * ballState[i].velocity.x) + (ballState[i].velocity.y * ballState[i].velocity.y));
 	}
-	
 }
 
-void Vision::PredictBall(WorldState & state)
+void Vision::PredictBall()
 {
-	state.ball.Position.X /= (float)100.0;
-	state.ball.Position.Y /= (float)100.0;
-	state.ball.velocity.x /= (float)100.0;
-	state.ball.velocity.y /= (float)100.0;
-	float k = 0.25f; //velocity derate every sec(units (m/s)/s)
-	float frame_rate = 61.0f;
-	float tsample = (float)1.0f/(float)frame_rate;
-  
-	float vx_vision = state.ball.velocity.x; 
-	float vy_vision = state.ball.velocity.y;
-  
-	float xpos_vision = state.ball.Position.X;
-	float ypos_vision = state.ball.Position.Y;
-  
-	float vball_vision = Magnitude(vx_vision, vy_vision);
-  
-	float t;
-	if ( state.ball.seenState == TemprolilyOut )
-		t = tsample;
-	else
-		t = config.predict_steps()*tsample;
+	for (int i = 0; i < config.max_balls(); i++)
+	{
+		ballState[i].Position.X /= 1000.0f;
+		ballState[i].Position.Y /= 1000.0f;
+		ballState[i].velocity.x /= 1000.0f;
+		ballState[i].velocity.y /= 1000.0f;
+		float k = 0.25f; //velocity derate every sec(units (m/s)/s)
+		float frame_rate = 61.0f;
+		float tsample = (float)1.0f / (float)frame_rate;
 
-  
-	float v = vball_vision - k*t;
-	float dist0 = vball_vision*t - k*(t*t)/2.0f;
-  
-	float dist;
-	float vball_pred;
-  
-	// if speed turns out to be negative..it means that ball has stopped, so calculate that amount of 
-	// distance traveled
-	if(v < 0){
-		vball_pred = 0.0f;
-		dist = (vball_vision*vball_vision)*k/2.0f;
-		// i.e the ball has stopped, so take a newer vision data for the prediction
+		float vx_vision = ballState[i].velocity.x;
+		float vy_vision = ballState[i].velocity.y;
+
+		float xpos_vision = ballState[i].Position.X;
+		float ypos_vision = ballState[i].Position.Y;
+
+		float vball_vision = Magnitude(vx_vision, vy_vision);
+
+		float t;
+		if (ballState[i].seenState == TemprolilyOut)
+			t = tsample;
+		else
+			t = 0;//config.predict_steps()*tsample;
+
+
+		float v = vball_vision - k * t;
+		float dist0 = vball_vision * t - k * (t*t) / 2.0f;
+
+		float dist;
+		float vball_pred;
+
+		// if speed turns out to be negative..it means that ball has stopped, so calculate that amount of 
+		// distance traveled
+		if (v < 0) {
+			vball_pred = 0.0f;
+			dist = (vball_vision*vball_vision)*k / 2.0f;
+			// i.e the ball has stopped, so take a newer vision data for the prediction
+		}
+		else {
+			vball_pred = v;
+			dist = dist0;
+		}
+
+		if (vball_vision != 0) {
+			ballState[i].velocity.x = vball_pred * (vx_vision) / vball_vision;
+			ballState[i].velocity.y = vball_pred * (vy_vision) / vball_vision;
+			ballState[i].Position.X = (xpos_vision + dist * (vx_vision) / vball_vision);
+			ballState[i].Position.Y = (ypos_vision + dist * (vy_vision) / vball_vision);
+		}
+
+		ballState[i].velocity.x *= (float) 1000.0;
+		ballState[i].velocity.y *= (float) 1000.0;
+		ballState[i].Position.X *= (float) 1000.0;
+		ballState[i].Position.Y *= (float) 1000.0;
+
+		ballState[i].velocity.direction = atan((ballState[i].velocity.y) / (ballState[i].velocity.x));
+		ballState[i].velocity.direction *= 180.0f / 3.1415f;
+		if (ballState[i].velocity.x < 0)
+			ballState[i].velocity.direction += 180;
+		while (ballState[i].velocity.direction > 180)
+			ballState[i].velocity.direction -= 360;
+		while (ballState[i].velocity.direction < -180)
+			ballState[i].velocity.direction += 360;
+		ballState[i].velocity.magnitude = sqrt((ballState[i].velocity.x * ballState[i].velocity.x) + (ballState[i].velocity.y * ballState[i].velocity.y));
 	}
-	else{
-		vball_pred = v;
-		dist = dist0;
-	}
-  
-	if(vball_vision != 0){
-		state.ball.velocity.x = vball_pred*(vx_vision)/vball_vision;
-		state.ball.velocity.y = vball_pred*(vy_vision)/vball_vision;
-		state.ball.Position.X = (xpos_vision + dist*(vx_vision)/vball_vision);
-		state.ball.Position.Y = (ypos_vision + dist*(vy_vision)/vball_vision);
+}
+
+void Vision::FillBallStates(WorldState& state)
+{
+	state.has_ball = false;
+	state.balls_num = 0;
+	for (int i = 0; i < config.max_balls(); i++)
+	{
+		ballState[i].id = i;
+
+		state.balls_num++;
+		if (ball_not_seen[i] == 0)
+		{
+			ballState[i].seenState = Seen;
+		}
+		else if (ball_not_seen[i] < config.max_ball_not_seen())
+		{
+			ballState[i].seenState = TemprolilyOut;
+		}
+		else
+		{
+			ballState[i].seenState = CompletelyOut;
+			state.balls_num--;
+		}
+
+		if (ballState[i].seenState != CompletelyOut && !state.has_ball)
+		{
+			state.ball = ballState[i];
+			state.has_ball = true;
+		}
+
+		state.balls[i] = ballState[i];
 	}
 
-	state.ball.velocity.x *= (float) 1000.0;
-	state.ball.velocity.y *= (float) 1000.0;
-	state.ball.Position.X *= (float) 1000.0;
-	state.ball.Position.Y *= (float) 1000.0;
-
-	state.ball.velocity.direction = atan((state.ball.velocity.y)/(state.ball.velocity.x));
-	state.ball.velocity.direction *= 180.0f / 3.1415f;
-	if(state.ball.velocity.x<0)
-		state.ball.velocity.direction+=180;
-	while(state.ball.velocity.direction>180)
-		state.ball.velocity.direction-=360;
-	while(state.ball.velocity.direction<-180)
-		state.ball.velocity.direction+=360;
-	state.ball.velocity.magnitude = sqrt ( ( state.ball.velocity.x * state.ball.velocity.x ) + ( state.ball.velocity.y * state.ball.velocity.y ) );
-	
+	printf("balls: %d\n", state.balls_num);
 }
 
 void Vision::ComputeBallHeight ( void )

@@ -5,7 +5,8 @@
 #include "math/Vector.h"
 #include <math.h>
 
-#define MAX_ROBOTS 12
+#define MAX_ROBOTS 1200
+#define MAX_BALLS 1200
 
 enum SeenState { Seen , CompletelyOut , TemprolilyOut };
 
@@ -29,6 +30,7 @@ struct RobotState
 	TVec2 Position;
 	Velocity velocity;
 
+	bool HasAngle;
 	float Angle = 0.0f;
 	float AngularVelocity;
 
@@ -45,6 +47,9 @@ struct BallState
 		oo << "Ball " << state.seenState << "		X : " << (int)state.Position.X << "		Y : " << (int)state.Position.Y << std::endl;
 		return oo;
 	}
+
+	int id;
+
 	TVec2 Position;
 	Velocity velocity;
 
@@ -66,7 +71,7 @@ struct WorldState
 	friend std::ostream &operator<< (std::ostream & oo, const WorldState & state)
 	{
 		oo << (int)state.has_ball << " balls,	" << state.ownRobots_num << " Own Robots,	" << state.oppRobots_num << " Opp Robots." << std::endl;
-		oo << (int)state.ball.Position.X << "	" << (int)state.ball.Position.Y << std::endl;
+		//oo << (int)state.ball.Position.X << "	" << (int)state.ball.Position.Y << std::endl;
 
 		for (int i = 0; i < MAX_ROBOTS; i++)
 			if (state.OwnRobot[i].seenState != CompletelyOut)
@@ -75,9 +80,11 @@ struct WorldState
 	}
 
 	int ownRobots_num, oppRobots_num;
+	int balls_num;
 	bool has_ball;
 
 	BallState ball;
+	BallState balls[MAX_BALLS];
 
 	RobotState OwnRobot[MAX_ROBOTS];
 	RobotState OppRobot[MAX_ROBOTS];
@@ -90,14 +97,6 @@ struct WorldState
 
 	WorldState()
 	{
-		this->ball.Position = Vec2(0.0f);
-		this->ball.velocity.x = 0.0f;
-		this->ball.velocity.y = 0.0f;
-		this->ball.velocity.direction = 0.0f;
-		this->ball.velocity.magnitude = 0.0f;
-		this->ball.seenState = CompletelyOut;
-		this->has_ball = false;
-
 		this->refereeState.counter = 0;
 		this->refereeState.goals_blue = 0;
 		this->refereeState.goals_yellow = 0;
@@ -108,6 +107,18 @@ struct WorldState
 		this->oppRobots_num = 0;
 
 		this->oppGK = -1;
+
+		this->has_ball = false;
+
+		for (int i = 0; i < MAX_BALLS; i++)
+		{
+			this->balls[i].Position = Vec2(0.0f);
+			this->balls[i].velocity.x = 0.0f;
+			this->balls[i].velocity.y = 0.0f;
+			this->balls[i].velocity.direction = 0.0f;
+			this->balls[i].velocity.magnitude = 0.0f;
+			this->balls[i].seenState = CompletelyOut;
+		}
 
 		for (int i = 0; i < MAX_ROBOTS; i++)
 		{

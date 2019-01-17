@@ -16,12 +16,12 @@ using namespace std;
 
 void initWorldState ( WorldState * state )
 {
-	state -> ball.Position = Vec2 ( 0.0f );
-	state -> ball.velocity.x = 0.0f;
-	state -> ball.velocity.y = 0.0f;
-	state -> ball.velocity.direction = 0.0f;
-	state -> ball.velocity.magnitude = 0.0f;
-	state -> ball.seenState = CompletelyOut;
+	state -> balls.Position = Vec2 ( 0.0f );
+	state -> balls.velocity.x = 0.0f;
+	state -> balls.velocity.y = 0.0f;
+	state -> balls.velocity.direction = 0.0f;
+	state -> balls.velocity.magnitude = 0.0f;
+	state -> balls.seenState = CompletelyOut;
 	state -> has_ball = false;
 	
 	state -> refereeState.counter = 0;

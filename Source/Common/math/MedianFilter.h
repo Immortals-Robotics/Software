@@ -13,7 +13,7 @@ class MedianFilter
 	int size;
 
 public:
-	MedianFilter( int _size = 10 )
+	MedianFilter( int _size = 5 )
 	{
 		index = false;
 		size = _size;

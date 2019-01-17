@@ -42,12 +42,12 @@ int main()
 	vision_config->add_camera_enabled(false);
 	vision_config->add_camera_enabled(false);
 	vision_config->add_camera_enabled(false);
-	vision_config->set_camera_count(4);
-	vision_config->set_predict_steps(5.0f);
-	vision_config->set_max_balls(10);
-	vision_config->set_max_ball_not_seen(40);
-	vision_config->set_max_robots(12);
-	vision_config->set_max_robot_not_seen(600);
+	vision_config->set_camera_count(1);
+	vision_config->set_predict_steps(1.0f);
+	vision_config->set_max_balls(100);
+	vision_config->set_max_ball_not_seen(30);
+	vision_config->set_max_robots(1200);
+	vision_config->set_max_robot_not_seen(30);
 	vision_config->set_max_robot_subsitute(60);
 	vision_config->set_merge_distance(70.0f);
 	vision_config->set_ball_buffer_frames(30);
@@ -348,12 +348,12 @@ int main()
 	thread ai_thread(vision_func);
 	thread ref_thread(ref_func);
 	//thread new_ref_thread(new_ref_func);
-	thread vision_test_send_thread(vision_test_send);
+	//thread vision_test_send_thread(vision_test_send);
 
 	ai_thread.join();
 	ref_thread.join();
 	//new_ref_thread.join();
-	vision_test_send_thread.join();
+	//vision_test_send_thread.join();
 
 	return 0;
 }

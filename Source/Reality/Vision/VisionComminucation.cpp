@@ -5,7 +5,8 @@
 
 bool Vision::Open ( const std::string & address , const unsigned short port )
 {
-	VisionUDP = std::make_unique<Net::UDP>();
+	//VisionUDP = std::make_unique<Net::UDP>();
+	VisionUDP = std::unique_ptr<Net::UDP>(new Net::UDP());
 	if (!VisionUDP->open(port, true, true, true))
 	{
 		connected = false;
@@ -28,7 +29,7 @@ bool Vision::Receive(void)
 {
 	if (!connected)
 		return false;
-	const size_t MAX_INCOMING_PACKET_SIZE = 1000;
+	const size_t MAX_INCOMING_PACKET_SIZE = 100000;
 	char incoming_buffer[MAX_INCOMING_PACKET_SIZE];
 	Net::Address src;
 	int incoming_size = VisionUDP->recv(incoming_buffer, MAX_INCOMING_PACKET_SIZE, src);
@@ -45,10 +46,10 @@ bool Vision::Receive(void)
 	if (!packet.has_detection())
 		return false;
 
-	if (packet.detection().has_file_id())
+	if (packet.detection().has_capture_id())
 	{
-		file_id = packet.detection().file_id();
-		printf("file id: %u\n", file_id);
+		capture_id = packet.detection().capture_id();
+		printf("capture id: %u\n", capture_id);
 	}
 
 	frame[packet.detection().camera_id()] = packet.detection();
@@ -73,8 +74,7 @@ void Vision::Publish(const WorldState& state) const
 	worldState.clear_opp_robots();
 	worldState.clear_referee();
 
-	//worldState.set_id(frameId);
-	worldState.set_id(file_id);
+	worldState.set_id(capture_id);
 	worldState.set_timestamp(0);
 
 	if (state.has_ball)
@@ -90,6 +90,27 @@ void Vision::Publish(const WorldState& state) const
 		auto velocity = ball->mutable_velocity();
 		velocity->set_x(state.ball.velocity.x);
 		velocity->set_y(state.ball.velocity.y);
+		velocity->set_z(0);
+	}
+
+	for (int i = 0; i < config.max_balls(); i++)
+	{
+		if (ballState[i].seenState == CompletelyOut)
+		{
+			continue;
+		}
+
+		auto ball = worldState.add_balls();
+		ball->set_id(ballState[i].id);
+
+		auto position = ball->mutable_position();
+		position->set_x(ballState[i].Position.X);
+		position->set_y(ballState[i].Position.Y);
+		position->set_z(0);
+
+		auto velocity = ball->mutable_velocity();
+		velocity->set_x(ballState[i].velocity.x);
+		velocity->set_y(ballState[i].velocity.y);
 		velocity->set_z(0);
 	}
 
@@ -121,10 +142,12 @@ void Vision::Publish(const WorldState& state) const
 			velocity->set_y(robotState[team][i].velocity.y);
 			robot->set_orientation(robotState[team][i].Angle);
 			robot->set_omega(robotState[team][i].AngularVelocity);
-			robot->set_out_for_subsitute(robotState[team][i].OutForSubsitute);
+			robot->set_out_for_subsitute(robotState[team][i].seenState == TemprolilyOut);
 		}
 	}
-	
+
+	printf("own robots: %d, opp robots: %d\n", worldState.own_robots_size(), worldState.opp_robots_size());
+
 	auto buffer = worldState.SerializeAsString();
 
 	zmq_send(zmq_publisher, buffer.c_str(), buffer.size(), 0);

@@ -35,7 +35,7 @@ public:
   /// Default Destructor
 	virtual ~FilteredObject();
   /// Initialize the position whenever it is lost and refound. Use this for the first initial state too.
-  void initializePos(float pos[2]);
+  void initializePos(const float pos[2]);
 
   /** update the internal state using known vision data
     * @param z is the measured position. first component is for x axis, and second component is for y axis

@@ -90,7 +90,7 @@ void FilteredObject::initialize(const char* filename1, const char* filename2)
   }
 }
 
-void FilteredObject::initializePos(float pos[2])
+void FilteredObject::initializePos(const float pos[2])
 {
   filtState[0][0] = lossVec[0]*pos[0]; filtState[0][1] = lossVec[1]*pos[0]; 
   filtState[1][0] = lossVec[0]*pos[1]; filtState[1][1] = lossVec[1]*pos[1]; 
