@@ -1,0 +1,10 @@
+{
+    "name": "immortals-ssl",
+    "version-string": "2023.0.0",
+    "dependencies": [
+      "asio",
+      "protobuf",
+      "tomlplusplus",
+      "quill"
+    ]
+  }

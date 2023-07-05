@@ -1,7 +1,12 @@
-cmake_minimum_required(VERSION 3.0)
-project(immortalsssl)
+cmake_minimum_required(VERSION 3.22)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/CMake/")
+set(USE_FOLDERS ON)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
+
+project(immortalsssl)
 
 add_definitions(-DDATA_PATH="${CMAKE_CURRENT_SOURCE_DIR}/Data")
 
@@ -31,26 +36,6 @@ elseif(${CMAKE_GENERATOR} MATCHES "Unix Makefiles")
     set(CMAKE_MAKE_PROGRAM "${CMAKE_MAKE_PROGRAM} -j${CORES_COUNT}")
     message(STATUS "Added parallel build arguments to CMAKE_MAKE_PROGRAM")
 endif()
-
-message(${CMAKE_CXX_COMPILER_ID})
-message(${CMAKE_C_COMPILER_ID})
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
-    message(STATUS "Adding -std=c++11")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")#added this last obtion for GCC >5.0
-endif()
-if(CMAKE_C_COMPILER_ID STREQUAL "GNU" OR CMAKE_C_COMPILER_ID STREQUAL "Clang" OR CMAKE_C_COMPILER_ID STREQUAL "AppleClang")
-    message(STATUS "Adding -std=c11")
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11")
-endif()
-
-
-if(MSVC)
-	set(PROTOBUF_SRC_ROOT_FOLDER "${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/protobuf")
-	set(ZeroMQ_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/zeromq")	
-endif()
-
-find_package(ZeroMQ REQUIRED)
-include_directories(${ZeroMQ_INCLUDE_DIR})
 
 find_package(Protobuf REQUIRED)
 include_directories(${PROTOBUF_INCLUDE_DIRS})
