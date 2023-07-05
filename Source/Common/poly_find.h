@@ -2,6 +2,8 @@
 // Created by dot_blue on 26/01/17.
 //
 
+#if 0
+
 #ifndef QTGRAPHICTEST_POLY_FIND_H
 #define QTGRAPHICTEST_POLY_FIND_H
 
@@ -35,3 +37,5 @@ private:
 
 
 #endif //QTGRAPHICTEST_POLY_FIND_H
+
+#endif

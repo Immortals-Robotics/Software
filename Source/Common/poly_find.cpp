@@ -2,6 +2,7 @@
 // Created by dot_blue on 26/01/17.
 //
 
+#if 0
 #include <cmath>
 #include "poly_find.h"
 
@@ -160,4 +161,5 @@ poly_find::~poly_find() {
     delete[] X;
     delete[] Y;
 }
+#endif
 
