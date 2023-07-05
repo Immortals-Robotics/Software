@@ -23,7 +23,6 @@
 #include "../WorldState.h"
 #include "../../Common/GameSetting.h"
 #include "../../Common/poly_find.h"
-#include <zmq.h>
 #include <deque>
 
 #ifndef INT_MAX
@@ -128,9 +127,6 @@ private:
 
     MedianFilter<float> AngleFilter[2][MAX_ROBOTS];
     float rawAngles[2][MAX_ROBOTS];
-
-    void* gui_zmq_context;
-    void* gui_zmq_publisher;
 
     SSL_WrapperPacket packet;
     SSL_DetectionFrame frame[CAM_COUNT];

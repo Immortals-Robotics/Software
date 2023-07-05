@@ -126,8 +126,6 @@ void VisionModule::SendGUIData ( WorldState * state , AI_Debug & aidebug )
 		GUIMsg.SerializeToString ( &GUIBuffer );
 
 		//GUIUDP -> sendTo ( GUIBuffer.c_str() , GUIBuffer.length() , "224.5.66.6" , 10009 );
-		zmq_send (gui_zmq_publisher, GUIBuffer.c_str(), GUIBuffer.size(), 0);
-		
 
 	}
 	catch(...)

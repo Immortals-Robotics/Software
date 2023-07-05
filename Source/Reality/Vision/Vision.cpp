@@ -4,7 +4,6 @@
 #include "../../Common/GameSetting.h"
 
 #include <fstream>
-#include <zconf.h>
 
 using namespace std;
 
@@ -52,11 +51,6 @@ VisionModule::VisionModule(GameSetting* _settings,WorldState* _State) : connecte
 
     ball_kalman.initialize(fast_filter_path.c_str(), slow_filter_path.c_str());
 
-    gui_zmq_context = zmq_ctx_new ();
-    gui_zmq_publisher = zmq_socket (gui_zmq_context, ZMQ_PUB);
-    int rc = zmq_bind (gui_zmq_publisher, "tcp://*:5556");
-    assert (rc == 0);
-
     //Launching UDP Connections
     if(!connectToVisionServer()){
         cout<<"Failed to connect to Vision UDP"<<endl;
@@ -65,8 +59,6 @@ VisionModule::VisionModule(GameSetting* _settings,WorldState* _State) : connecte
 }
 VisionModule::~VisionModule()
 {
-	zmq_close (gui_zmq_publisher);
-	zmq_ctx_destroy (gui_zmq_context);
 }
 
 void VisionModule::recieveAllCameras( void )

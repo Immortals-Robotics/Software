@@ -3,7 +3,6 @@
 #include <thread>
 #include <mutex>
 #include <string.h>
-#include <zconf.h>
 
 #include "Common/GameSetting.h"
 #include "Reality/Vision/Vision.h"
