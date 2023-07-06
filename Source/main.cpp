@@ -67,8 +67,6 @@ int main ( )
 
 	aiBase * aii = new ai09(state,settings,senderBase);
 
-    debuggerBase * debugger = new debuggerBase(settings,&aii->AIDebug);
-
     auto grsim_fwd = new GrsimForwarder("127.0.0.1", 20011);
 
     bool exited = false;
@@ -100,7 +98,7 @@ int main ( )
             senderBase->sendAll();
 
             //debugging (the visualizer written by python) :
-//            debugger->send();
+            debug().broadcast();
 
             //LordHippos GUI
 //            vision.SendGUIData(state,aii->AIDebug);

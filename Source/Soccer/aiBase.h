@@ -4,7 +4,6 @@
 #include "../Common/common_colors.h"
 #include "../Reality/WorldState.h"
 #include "../Common/GameSetting.h"
-#include "../Network/Protobuf/aidebug.pb.h"
 #include "../Reality/Plotter/plotter.h"
 
 class aiBase
@@ -20,7 +19,6 @@ class aiBase
 	
 	public:
 		virtual void Process ( WorldState * worldState , GameSetting * setting ) = 0;
-		AI_Debug AIDebug;
         plotter *plot;
 
 

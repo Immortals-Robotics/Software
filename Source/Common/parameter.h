@@ -3,11 +3,9 @@
 #include <map>
 #include <string>
 #include "Vector.h"
-#include "../Network/Protobuf/aidebug.pb.h"
 
 struct DataNode
 {
-	Data_Type tydpe;
 	union {
 		bool     _bool   ;
 		short    _short  ;

@@ -13,7 +13,6 @@
 #include "../../Network/Protobuf/messages_robocup_ssl_detection.pb.h"
 #include "../../Network/Protobuf/messages_robocup_ssl_geometry.pb.h"
 #include "../../Network/Protobuf/messages_robocup_ssl_wrapper.pb.h"
-#include "../../Network/Protobuf/ImmortalsProtocols.pb.h"
 
 
 #include "../../Common/network/udp_client.h"
@@ -78,9 +77,6 @@ public:
     void predictRobotsForward( WorldState * );
     void SendStates ( WorldState * );
 
-
-    void SendGUIData ( WorldState * , AI_Debug & );
-
     void ProcessBalls ( WorldState * );
     int ExtractBalls ( void );
     int MergeBalls ( int num );
@@ -121,8 +117,6 @@ private:
     SSL_DetectionFrame frame[Setting::kCamCount];
     SSL_DetectionBall d_ball[MAX_BALLS*Setting::kCamCount];
     SSL_DetectionRobot robot[Setting::kMaxRobots*Setting::kCamCount];
-
-    robotDataMsg robotPacket[2][Setting::kMaxRobots];
 
 //	double t_capture_buff[MAX_BALLS*Setting::kCamCount];
 //    deque<TVec2> ball_dir_buff;

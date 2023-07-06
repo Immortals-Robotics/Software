@@ -3,8 +3,6 @@
 void ai09::Process ( WorldState * worldState , GameSetting * setting )
 {
     static int PRCS_CNT = 0;
-	AIDebug.Clear();
-    AIDebug.set_frame_id(PRCS_CNT++);
 
 	debugDraw = false;
 	

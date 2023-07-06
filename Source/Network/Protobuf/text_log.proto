@@ -1,0 +1,11 @@
+syntax = "proto2";
+
+message Debug_Text {
+  required string text = 1;
+  required string title = 2;
+}
+
+message Text_Message {
+  repeated Debug_Text log = 1;
+}
+

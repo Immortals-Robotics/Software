@@ -1,0 +1,76 @@
+syntax = "proto2";
+
+message color
+{
+  required double  r			  =  1;
+  required double  g			  =  2;
+  required double  b			  =  3;
+}
+
+message Debug_Point
+{
+  required double  x           =  1;
+  required double  y           =  2;
+  required string layer       =  3;
+  optional int32  col_r         =  4 [default = 0];
+  optional int32  col_g         =  5 [default = 0];
+  optional int32  col_b         =  6 [default = 0];
+}
+
+message Debug_Line
+{
+  required double  x1          =  1;
+  required double  y1          =  2;
+  required double  x2          =  3;
+  required double  y2          =  4;
+  required string layer       =  5;
+  optional int32  col_r         =  6 [default = 0];
+  optional int32  col_g         =  7 [default = 0];
+  optional int32  col_b         =  8 [default = 0];
+}
+
+message Debug_Rect
+{
+  required double  x1          =  1;
+  required double  y1          =  2;
+  required double  x2          =  3;
+  required double  y2          =  4;
+  required string layer      =  5;
+  optional int32  col_r        =  6 [default = 0];
+  optional int32  col_g        =  7 [default = 0];
+  optional int32  col_b        =  8 [default = 0];
+}
+
+message Debug_Circle
+{
+  required double  x          =  1;
+  required double  y          =  2;
+  required double  r          =  3;
+  required string layer      =  4;
+  optional int32  col_r        =  5 [default = 0];
+  optional int32  col_g        =  6 [default = 0];
+  optional int32  col_b        =  7 [default = 0];
+}
+
+message Debug_Robot
+{
+  required int32 id           =  1;
+  required double  x          =  2;
+  required double  y          =  3;
+  required double  ang        =  4;
+  required string layer       =  5;
+  optional int32  col_r        =  6 [default = 0];
+  optional int32  col_g        =  7 [default = 0];
+  optional int32  col_b        =  8 [default = 0];
+}
+
+message Debug_Draw
+{
+  repeated Debug_Point  point  = 1;
+  repeated Debug_Line   line   = 2;
+  repeated Debug_Rect   rect   = 3;
+  repeated Debug_Circle circle = 4;
+  repeated Debug_Robot  robot  = 5;
+}
+
+
