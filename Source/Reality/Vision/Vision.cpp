@@ -36,8 +36,8 @@ VisionModule::VisionModule(GameSetting* _settings,WorldState* _State) : connecte
     lastRawBall.set_x ( 0.0f );
     lastRawBall.set_y ( 0.0f );
 
-    string fast_filter_path(DATA_PATH); fast_filter_path.append("/ballFilterFast.txt");
-    string slow_filter_path(DATA_PATH); slow_filter_path.append("/ballFilterSlow.txt");
+    string fast_filter_path(DATA_DIR); fast_filter_path.append("/ballFilterFast.txt");
+    string slow_filter_path(DATA_DIR); slow_filter_path.append("/ballFilterSlow.txt");
 
     ball_kalman.initialize(fast_filter_path.c_str(), slow_filter_path.c_str());
 

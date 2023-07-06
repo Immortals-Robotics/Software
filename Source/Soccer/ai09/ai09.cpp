@@ -169,7 +169,7 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 
 
 	playBook = NULL;
-	string strategy_path(DATA_PATH); strategy_path.append("/strategy.ims");
+	string strategy_path(DATA_DIR); strategy_path.append("/strategy.ims");
 	read_playBook(strategy_path.c_str());
 	if ( playBook )
 	{

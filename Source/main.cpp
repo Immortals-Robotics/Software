@@ -157,7 +157,7 @@ int main ( )
                 lock.lock();
                 reinterpret_cast<ai09*>(aii)->read_playBook_str(strategyBuffer, strategySize);
                 lock.unlock();
-                string strategy_path(DATA_PATH); strategy_path.append("/strategy.ims");
+                string strategy_path(DATA_DIR); strategy_path.append("/strategy.ims");
                 ofstream strategyFile ( strategy_path.c_str() , ios::out|ios::binary);
                 strategyFile.write(strategyBuffer, strategySize);
                 strategyFile.close();
