@@ -9,9 +9,6 @@ class NewReferee
 private:
 	bool our_color;
 
-	std::string referee_UDP_Address;
-	unsigned short refereePort;
-
 	std::unique_ptr<UdpClient> m_udp;
 
 	RefereeState* RefState;

@@ -9,8 +9,6 @@ NewReferee::NewReferee ( GameSetting* settings,WorldState* state )
 	if(!state){
 		std::cout<<"NewReferee: \"state\" is NULL"<< std::endl;
 	}
-	referee_UDP_Address = settings->referee_UDP_Address;
-	refereePort = settings->refereePort;
 	our_color = settings->our_color;
 	command_CNT = -1;
 
@@ -22,7 +20,7 @@ NewReferee::NewReferee ( GameSetting* settings,WorldState* state )
 
 bool NewReferee::connectToRefBox ( void )
 {
-	m_udp = std::make_unique<UdpClient>(NetworkAddress{ referee_UDP_Address , refereePort});
+	m_udp = std::make_unique<UdpClient>(setting().referee_address);
 
 	return isConnected();
 }

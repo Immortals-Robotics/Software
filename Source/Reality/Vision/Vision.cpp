@@ -16,14 +16,7 @@ VisionModule::VisionModule(GameSetting* _settings,WorldState* _State)
     our_color = _settings->our_color;
     our_side = _settings->our_side;
 
-    vision_UDP_Address = _settings->vision_UDP_Address;
-    visionPort = _settings->visionPort;
-
-    use_camera = _settings->use_camera;
-    while(use_camera.size() < CAM_COUNT)
-        use_camera.push_back(false);
-
-    for ( int i = 0 ; i < CAM_COUNT ; i ++ )
+    for ( int i = 0 ; i < Setting::kCamCount ; i ++ )
         packet_recieved[i] = false;
 
     for ( int i = 0 ; i < BALL_BUFFER_FRAMES ; i ++ )
@@ -70,8 +63,8 @@ void VisionModule::recieveAllCameras( void )
     bool cams_ready = false;
     while (!cams_ready) {
         cams_ready = true;
-        for (int i = 0; i < CAM_COUNT; i++) {
-            bool new_cam_ready = packet_recieved[i] || (!this->use_camera[i]);
+        for (int i = 0; i < Setting::kCamCount; i++) {
+            bool new_cam_ready = packet_recieved[i] || (!setting().use_camera[i]);
             if (!new_cam_ready) {
                 cams_ready = false;
                 break;
@@ -92,7 +85,7 @@ void VisionModule::ProcessVision()
     ProcessParam ( this->playState );
 
 
-	for ( int i = 0 ; i < CAM_COUNT ; i ++ )
+	for ( int i = 0 ; i < Setting::kCamCount ; i ++ )
         packet_recieved[i] = false;
 
 }

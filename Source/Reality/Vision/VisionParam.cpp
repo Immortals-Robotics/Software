@@ -8,8 +8,8 @@
 void VisionModule::ProcessParam( WorldState * state ) {
     double avg = 0;
     int count = 0;
-    for ( int i = 0 ; i < CAM_COUNT ; i ++ ) {
-        if (this->use_camera[i]) {
+    for ( int i = 0 ; i < Setting::kCamCount ; i ++ ) {
+        if (setting().use_camera[i]) {
             avg += frame[i].t_capture();
             count++;
         }

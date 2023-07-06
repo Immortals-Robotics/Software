@@ -54,9 +54,9 @@ void VisionModule::ProcessRobots ( WorldState * state )
 int VisionModule::ExtractBlueRobots ( void )
 {
 	int ans = 0;
-	for ( int i = 0 ; i < CAM_COUNT ; i ++ )
+	for ( int i = 0 ; i < Setting::kCamCount ; i ++ )
 	{
-		if ( this -> use_camera[i] )
+		if (setting().use_camera[i] )
 		{
 			for ( int j = 0 ; j < std::min ( MAX_ROBOTS , frame[i].robots_blue_size ( ) ) ; j ++ )
 			{
@@ -71,9 +71,9 @@ int VisionModule::ExtractBlueRobots ( void )
 int VisionModule::ExtractYellowRobots ( void )
 {
 	int ans = 0;
-	for ( int i = 0 ; i < CAM_COUNT ; i ++ )
+	for ( int i = 0 ; i < Setting::kCamCount ; i ++ )
 	{
-		if ( this -> use_camera[i] )
+		if (setting().use_camera[i] )
 		{
 			for ( int j = 0 ; j < std::min ( MAX_ROBOTS , frame[i].robots_yellow_size ( ) ) ; j ++ )
 			{

@@ -2,7 +2,7 @@
 
 bool VisionModule::connectToVisionServer ( void )
 {
-	m_visionUDP = std::make_unique<UdpClient>(NetworkAddress{ vision_UDP_Address , visionPort});
+	m_visionUDP = std::make_unique<UdpClient>(setting().vision_address);
 	return isConnected();
 }
 

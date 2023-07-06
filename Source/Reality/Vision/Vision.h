@@ -34,8 +34,6 @@
 #define POWED_DIS(a,b,c,d) (((a-c)*(a-c))+((b-d)*(b-d)))
 #endif
 
-#define CAM_COUNT 8
-
 #define PREDICT_STEPS 7.0f
 
 #define MAX_BALLS 10
@@ -96,17 +94,12 @@ private:
 	bool our_color;
 	bool our_side;
 
-	std::string vision_UDP_Address;
-	unsigned short visionPort;
-
-	std::vector<bool> use_camera;
-
     std::unique_ptr<UdpClient> m_visionUDP;
     std::unique_ptr<UdpClient> m_GUIUDP;
 
 	WorldState* playState;
 
-	bool packet_recieved[CAM_COUNT];
+	bool packet_recieved[Setting::kCamCount];
     TVec2 ball_pos_buff[BALL_BUFFER_FRAMES];
 
 //    int ballBufferIndex;
@@ -125,13 +118,13 @@ private:
     float rawAngles[2][MAX_ROBOTS];
 
     SSL_WrapperPacket packet;
-    SSL_DetectionFrame frame[CAM_COUNT];
-    SSL_DetectionBall d_ball[MAX_BALLS*CAM_COUNT];
-    SSL_DetectionRobot robot[MAX_ROBOTS*CAM_COUNT];
+    SSL_DetectionFrame frame[Setting::kCamCount];
+    SSL_DetectionBall d_ball[MAX_BALLS*Setting::kCamCount];
+    SSL_DetectionRobot robot[MAX_ROBOTS*Setting::kCamCount];
 
     robotDataMsg robotPacket[2][MAX_ROBOTS];
 
-//	double t_capture_buff[MAX_BALLS*CAM_COUNT];
+//	double t_capture_buff[MAX_BALLS*Setting::kCamCount];
 //    deque<TVec2> ball_dir_buff;
 };
 

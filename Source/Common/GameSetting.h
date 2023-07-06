@@ -17,16 +17,8 @@ struct GameSetting
 	bool our_color;
 	bool our_side;
 
-	std::string vision_UDP_Address;
-	unsigned short visionPort;
-
-	std::string referee_UDP_Address;
-	unsigned short refereePort;
-
 	std::string GUI_UDP_Address;
 	unsigned short GUIPort;
-
-	std::vector<bool> use_camera;
 
 	unsigned char rf_frq;
 };

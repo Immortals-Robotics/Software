@@ -37,30 +37,15 @@ int main ( )
     WorldState * state = new WorldState();
 
 	GameSetting * settings = new GameSetting();
-    settings -> use_camera.push_back(true);// TODO #1 Check the cameras to be true
-    settings -> use_camera.push_back(true);
-    settings -> use_camera.push_back(true);
-    settings -> use_camera.push_back(true);
-    
-    settings -> use_camera.push_back(true);
-    settings -> use_camera.push_back(true);
-    settings -> use_camera.push_back(true);
-    settings -> use_camera.push_back(true);
 
-	settings -> our_color = COLOR_YELLOW;
-    settings -> our_side = LEFT_SIDE;
+	settings -> our_color = setting().our_color == TeamColor::Yellow ? COLOR_YELLOW : COLOR_BLUE;
+    settings -> our_side = setting().our_side == TeamSide::Left ? LEFT_SIDE : RIGHT_SIDE;
 
-    const char *const xbox_ref_ip = "224.5.25.25";
-    const char *const real_ref_ip = "224.5.23.1";
-    settings -> referee_UDP_Address = real_ref_ip;// TODO #2 Check the referee input source
-    settings -> refereePort = 10003;
-    settings -> vision_UDP_Address = "224.5.23.2";
-    settings -> visionPort = 10006;//10020;
     settings -> GUI_UDP_Address = "127.0.0.1";
     settings -> GUIPort = 10066;
 
     LOG_INFO(" Connecting to RefereeBox server at {} on port : {}", 
-        settings->referee_UDP_Address, settings->refereePort);
+        setting().referee_address.port, setting().referee_address.port);
     NewReferee referee_2018(settings,state);
     if ( referee_2018.connectToRefBox () ){
         LOG_INFO("Connected to RefBox successfully :)");
@@ -68,8 +53,8 @@ int main ( )
         LOG_ERROR("Hey you! Put the LAN cable back in its socket, or ...");
     }
 
-    LOG_INFO("Connecting to Vision server at {} on port: {}", 
-        settings->vision_UDP_Address, settings->visionPort);
+    LOG_INFO("Connecting to Vision server at {} on port: {}",
+        setting().vision_address.ip, setting().vision_address.port);
     VisionModule vision ( settings, state );
     if ( vision.isConnected() ){
         LOG_INFO("Connected to Vision successfully :)");

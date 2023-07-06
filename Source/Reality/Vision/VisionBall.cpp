@@ -24,9 +24,9 @@ void VisionModule::ProcessBalls ( WorldState * state )
 int VisionModule::ExtractBalls ( void )
 {
 	int ans = 0;
-	for ( int i = 0 ; i < CAM_COUNT ; i ++ )
+	for ( int i = 0 ; i < Setting::kCamCount ; i ++ )
 	{
-		if ( this -> use_camera[i] )
+		if (setting().use_camera[i] )
 		{
 			for ( int j = 0 ; j < frame[i].balls_size ( ) ; j ++ )
 			{
