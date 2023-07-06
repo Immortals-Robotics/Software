@@ -6,6 +6,8 @@
 
 bool Sender::getCommand(Robot* bot) {
 
+    auto buffer = commUDP->getBuffer();
+
     if(bot->new_comm_ready) {
         for (int i = 0; i < bot->data[1]; i++) {
             buffer[i + buff_idx] = bot->data[i];
@@ -19,6 +21,8 @@ bool Sender::getCommand(Robot* bot) {
 }
 
 bool Sender::appendData(unsigned char* data,int length){
+    auto buffer = commUDP->getBuffer();
+
     for (int i = 0; i < length; i++) {
         buffer[i + buff_idx] = data[i];
     }
@@ -32,9 +36,13 @@ bool Sender::sendAll() {
         return false;
     }
 
-    try {
-        commUDP.sendTo ( buffer    , buff_idx , "224.5.92.5" , 60005 );
-    } catch (...) {
+    if (commUDP->send(buff_idx, NetworkAddress{ "224.5.92.5" , 60005 }))
+    {
+        buff_idx = 0;
+        return true;
+    }
+    else
+    {
         std::cout << "ERROR: failed to send robot packets." << std::endl;
         buff_idx = 0;
         return false;
@@ -46,13 +54,15 @@ bool Sender::sendAll() {
 
 Sender::Sender() {
     buff_idx = 0;
-    for(int i=0;i<MAX_BUFF_LEN;i++){
+    auto buffer = commUDP->getBuffer();
+    for(int i=0;i<buffer.size();i++){
         buffer[i]=0x00;
     }
     startup = 5;
 }
 
 void Sender::append_demo_data() {
+    auto buffer = commUDP->getBuffer();
     buffer[0 + buff_idx] = 25;
     buffer[1 + buff_idx] = 0x0A;
     buffer[2 + buff_idx] = 0x00;

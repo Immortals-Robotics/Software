@@ -10,7 +10,7 @@ public:
     // Serializes the protobuf message to the internal buffer and sends it
     bool send(const google::protobuf::MessageLite &t_message, const NetworkAddress &t_address);
 
-    // Sends the first t_size bytes of the internal bugffer
+    // Sends the first t_size bytes of the internal buffer
     bool send(size_t t_size, const NetworkAddress &t_address);
 
     std::span<char> getBuffer()
