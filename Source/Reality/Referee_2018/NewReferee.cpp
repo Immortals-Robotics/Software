@@ -101,7 +101,14 @@ bool NewReferee::recieve ( void )
 {
 	if ( !isConnected )
 		return false;
-    
-	buffer_size = RefUDP -> recv ( incoming_buffer , 1000 );
+
+	try
+	{
+		buffer_size = RefUDP->recv(incoming_buffer, MAX_REF_UDP_BUFF);
+	}
+	catch (SocketException exception)
+	{
+		return false;
+	}
 	return true;
 }

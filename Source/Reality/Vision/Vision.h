@@ -119,7 +119,7 @@ private:
 
     SSL_DetectionBall lastRawBall;//The last position of the locked ball
     FilteredObject ball_kalman;
-    int ball_not_seen;
+    int ball_not_seen = MAX_BALL_NOT_SEEN + 1;
 
     RobotState robotState[2][MAX_ROBOTS];
     FilteredObject robot_kalman[2][MAX_ROBOTS];

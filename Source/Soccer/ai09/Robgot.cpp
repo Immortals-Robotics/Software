@@ -148,6 +148,17 @@ void Robot::set_serial_id(unsigned short s_id){
 
 void Robot::set_vision_id(unsigned short v_id){
 	vision_id = v_id;
+	switch (vision_id)
+	{
+		case 2:
+		case 4:
+		case 6:
+			shootMult = 1.3f;
+			break;
+		default:
+			shootMult = 0.9f;
+			break;
+	}
 }
 
 void Robot::set_control_mode(bool c_mode)
@@ -161,11 +172,11 @@ float Robot::dis(float x1,float y1,float x2,float y2){
 
 void Robot::Shoot(int pow){
     //shoot = getCalibratedShootPow(vision_id, pow);
-	shoot = pow;
+	shoot = pow * shootMult;
 }
 void Robot::Chip(int pow){
 	//chip = getCalibratedChipPow(vision_id, pow);
-	chip = pow;
+	chip = pow * shootMult * 1.1;
 }
 
 void Robot::Dribble(int pow){
