@@ -2,8 +2,6 @@
 
 #include "../setting.h"
 
-namespace Immortals
-{
 class UdpClient
 {
 public:
@@ -42,4 +40,3 @@ private:
 
     std::array<char, Setting::kMaxUdpPacketSize> m_buffer = {};
 };
-} // namespace Immortals

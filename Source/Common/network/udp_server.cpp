@@ -1,7 +1,5 @@
 #include "udp_server.h"
 
-namespace Immortals
-{
 UdpServer::UdpServer()
 {
     m_context = std::make_unique<asio::io_context>();
@@ -30,4 +28,3 @@ bool UdpServer::send(const size_t t_size, const NetworkAddress &t_address)
 
     return m_sent_size == t_size;
 }
-} // namespace Immortals

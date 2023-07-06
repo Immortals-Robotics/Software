@@ -1,7 +1,5 @@
 #pragma once
 
-namespace Immortals
-{
 class ConfigReader
 {
 public:
@@ -28,4 +26,3 @@ protected:
 public:
     virtual void load(toml::node_view<const toml::node> t_node) = 0;
 };
-} // namespace Immortals::Soccer

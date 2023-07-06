@@ -1,7 +1,5 @@
 #include "udp_client.h"
 
-namespace Immortals
-{
 UdpClient::UdpClient(const NetworkAddress &t_address)
 {
     m_context = std::make_unique<asio::io_context>();
@@ -31,4 +29,3 @@ bool UdpClient::receive(google::protobuf::MessageLite *const t_message)
 
     return false;
 }
-} // namespace Immortals

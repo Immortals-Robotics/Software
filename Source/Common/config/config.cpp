@@ -1,7 +1,5 @@
 #include "config.h"
 
-namespace Immortals
-{
 ConfigReader::ConfigReader(const std::string_view t_file_path)
 {
     const std::filesystem::path data_dir(DATA_DIR);
@@ -17,4 +15,3 @@ void ConfigReader::load()
 
     m_table = std::move(config).table();
 }
-} // namespace Immortals

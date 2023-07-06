@@ -1,7 +1,5 @@
 #pragma once
 
-namespace Immortals
-{
 class Logger
 {
 protected:
@@ -13,4 +11,3 @@ protected:
 private:
     std::filesystem::path getNewLogFilePath() const;
 };
-} // namespace Immortals
