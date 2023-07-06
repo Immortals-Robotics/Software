@@ -47,10 +47,10 @@ void ai09::throwin_us_outgir ( void )
     }
     else
     {
-        ERRTSetObstacles ( lmf , true , true , true, true, false, true);
+        ERRTSetObstacles ( lmf , true , true , true, true, false);
         ERRTNavigate2Point ( lmf , Vec2(-side*(field_width-800),-sgn(ball.Position.Y)*1800) , true , 100 , &VELOCITY_PROFILE_MAMOOLI );
         
-        ERRTSetObstacles ( rmf , true , true , true, true, false, true);
+        ERRTSetObstacles ( rmf , true , true , true, true, false);
         ERRTNavigate2Point ( rmf , Vec2(-side*100,-sgn(ball.Position.Y)*1000) , true , 100 , &VELOCITY_PROFILE_MAMOOLI );
     }
 }

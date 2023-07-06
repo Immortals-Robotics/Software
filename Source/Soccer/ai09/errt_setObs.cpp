@@ -2,9 +2,23 @@
 
 int DBG_tracking_robot_ID = 7;
 
-void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own , bool opp , bool dribble , bool bigPen )
+void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own , bool opp , bool dribble)
 {
-	
+	bll = !REF_playState->allowedNearBall() || bll;
+
+	opp = opp || !REF_playState->gameOn();
+	own = own || !REF_playState->gameOn();
+
+#if 0
+	const bool ourPenalty = field;
+	const bool oppPenalty = field;
+#else
+	const bool ourPenalty = field || (robot_num != gk && !REF_playState->ourPlaceBall());
+	const bool oppPenalty = field || !REF_playState->ourPlaceBall();
+#endif
+
+	const bool bigPen = REF_playState->freeKick() || REF_playState->stop();
+
 	//robot_num = min(5,max(0,robot_num));
 	clear_map ( );
 //	if(OwnRobot[robot_num].State.vision_id == DBG_tracking_robot_ID)
@@ -40,45 +54,23 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 		}
 	}
 
-	if ( bll )
+	if (bll)
 	{
 		AddCircle ( ball.Position.X , ball.Position.Y , 510.0f );
 	}
 
-	if ( field )
+	const float penalty_area_half_width = penalty_area_width / 2.0f;
+
+	if (ourPenalty)
 	{
-#ifndef NEW_FIELD_2018
-        float penalty_circle_center_y = penalty_area_width/2.0;
-		AddCircle ( side*field_width , -penalty_circle_center_y , penalty_area_r + 100.0f );
-		AddCircle ( -side*field_width , -penalty_circle_center_y , penalty_area_r + 50.0f );
-
-		AddCircle ( side*field_width , penalty_circle_center_y , penalty_area_r + 100.0f );
-		AddCircle ( -side*field_width , penalty_circle_center_y , penalty_area_r + 50.0f );
-
-
-		AddRectangle ( side*(field_width+85.0f) , -penalty_circle_center_y , -side*(185.0+penalty_area_r) , penalty_area_width );
-        AddRectangle ( -side*(field_width+85.0f) , -penalty_circle_center_y , side*(135.0+penalty_area_r) , penalty_area_width );
-
-		AddDebugCircle(Vec2(side*field_width , -penalty_circle_center_y),penalty_area_r + 100.0f,Cyan);
-		AddDebugCircle(Vec2( -side*field_width , -penalty_circle_center_y),penalty_area_r + 50.0f,Cyan);
-
-		AddDebugCircle(Vec2( side*field_width , penalty_circle_center_y),penalty_area_r + 100.0f,Cyan);
-		AddDebugCircle(Vec2( -side*field_width , penalty_circle_center_y),penalty_area_r + 50.0f,Cyan);
-
-		AddDebugRect( Vec2(side*(field_width+85.0f) , -penalty_circle_center_y) , -side*(185.0+penalty_area_r) , penalty_area_width,Cyan );
-		AddDebugRect( Vec2(-side*(field_width+85.0f) , -penalty_circle_center_y), side*(135.0+penalty_area_r) , penalty_area_width,Cyan);
-#else
-        float penalty_area_half_width = penalty_area_width / 2.0f;
-        AddRectangle ( -(field_width + 185.0f) , -(penalty_area_half_width + 100.f) , +(285.0f + penalty_area_r) , penalty_area_width + 200.f );
-		AddRectangle ( +(field_width + 185.0f) , -(penalty_area_half_width + 100.f) , -(285.0f + penalty_area_r) , penalty_area_width + 200.f );
-
-        // AddDebugRect( Vec2(side*(field_width+185.0f) , -top_corner ) , -side*(285.0+penalty_area_r) , penalty_area_width,Cyan );
-        // AddDebugRect( Vec2(-side*(field_width+225.0f) , -top_corner - 40), side*(270.0+penalty_area_r) , penalty_area_width + 80 ,Cyan);
-
-#endif
-       // std::cout<<"-------------------------------AVOIDED"<<std::endl;
+		AddRectangle(side * (field_width + 185.0f), -(penalty_area_half_width + 100.f), -side* (285.0f + penalty_area_r), penalty_area_width + 200.f);
 	}
-	
+
+	if (oppPenalty)
+	{
+		AddRectangle(-side* (field_width + 185.0f), -(penalty_area_half_width + 100.f), side * (285.0f + penalty_area_r), penalty_area_width + 200.f);
+	}
+
 	if ( bigPen )
 	{
 		float big_penalty_area_r  = penalty_area_r + 240.0f;

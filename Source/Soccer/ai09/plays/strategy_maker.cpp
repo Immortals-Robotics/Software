@@ -191,11 +191,11 @@ void ai09::strategy_maker ( void )
 		
 		else {
 			if (1){//strategy.role(i).path(step[i]).needrrt()==0) {
-				ERRTSetObstacles(*stm2AInum[i], 1, 1, 1, 1, 0,1);
+				ERRTSetObstacles(*stm2AInum[i], 1, 1, 1, 1, 0);
 				//ERRTSetObstacles(*stm2AInum[i], 0, 0, 1, 1, 0, 0);
 			}
 			else {
-				ERRTSetObstacles(*stm2AInum[i], 1, 1, 0, 0, 0,1);
+				ERRTSetObstacles(*stm2AInum[i], 1, 1, 0, 0, 0);
 			}
 			
 			

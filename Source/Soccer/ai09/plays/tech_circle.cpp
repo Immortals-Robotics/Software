@@ -262,7 +262,7 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 	if ( needRRT )
     {
         needOppRRT = (OwnRobot[robot_num].State.velocity.magnitude > 600) && (DIS(OwnRobot[robot_num].State.Position,ball.Position)>300);
-		ERRTSetObstacles ( robot_num , false , true , true , needOppRRT , false , false );
+		ERRTSetObstacles ( robot_num , false , true , true , needOppRRT , false );
     }
 
 	else

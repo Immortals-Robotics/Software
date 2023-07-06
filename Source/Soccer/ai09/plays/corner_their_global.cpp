@@ -4,7 +4,7 @@ void ai09::corner_their_global ( void )
 {
 	if (side*ball.Position.X > field_width - 1000)
 	{
-		ERRTSetObstacles(gk, 0, 0, 1, 0, 0, 0);
+		ERRTSetObstacles(gk, 0, 0, 1, 0, 0);
 		OwnRobot[gk].target.Angle = (1 + side)*90.0f;
 		ERRTNavigate2Point(gk, Vec2(side*(field_width - 100), 0), 0, 100, &VELOCITY_PROFILE_MAMOOLI);
 
@@ -34,7 +34,7 @@ void ai09::corner_their_global ( void )
 			if (static_pos.find(own) != static_pos.end())
 			{
 				OwnRobot[own].face(Vec2(-side * field_width, 0));
-				ERRTSetObstacles(own, 1, 1, 1, 1, 0, 0);
+				ERRTSetObstacles(own, 1, 1, 1, 1, 0);
 				ERRTNavigate2Point(own, static_pos[own], 0, 100, &VELOCITY_PROFILE_MAMOOLI);
 			}
 		}

@@ -8,7 +8,7 @@ void ai09::penalty_our_Shoot_Out(){//For the 2018 Field size
     std::cout<<"penalty_our_Shoot_Out is running"<< std::endl;
     if( side*ball.Position.X > -2500){
         OwnRobot[attack].face(Vec2(-side*field_width,0));
-        ERRTSetObstacles(attack,0,1,0,1,0,0);//test
+        ERRTSetObstacles(attack,0,1,0,1,0);//test
         ERRTNavigate2Point(attack, ball.Position, 1, 100, &VELOCITY_PROFILE_KHARAKI);
         OwnRobot[attack].Shoot(0);
         OwnRobot[attack].Chip(0);

@@ -16,7 +16,7 @@ void ai09::tech_motion_ann ( void )
 	OwnRobot[attack].target.Angle = 90.0f;
 	
 	if (ann_timer.time()<2.0) {
-		ERRTSetObstacles(attack, 0, 1, 1, 1, 0, 0);
+		ERRTSetObstacles(attack, 0, 1, 1, 1, 0);
 		ERRTNavigate2Point(attack, Vec2(1500, 0), 1, 100, &VELOCITY_PROFILE_AROOM);
 	}
 	else {

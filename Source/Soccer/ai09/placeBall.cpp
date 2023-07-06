@@ -77,7 +77,7 @@ void ai09::our_place_ball_shoot(void) {
 //        AddCircle(ball.Position.X, ball.Position.Y, 150.0f);
 //        ERRTNavigate2Point(attack, CircleAroundPoint(ball.Position, move_angle, 250), 0, 40, &VELOCITY_PROFILE_AROOM);
 
-        ERRTSetObstacles(dmf,0,0,1,1,0,0);
+        ERRTSetObstacles(dmf,0,0,1,1,0);
         AddCircle(ball.Position.X, ball.Position.Y, 150.0f);
         ERRTNavigate2Point(dmf, CircleAroundPoint(*targetBallPlacement, temp_opp_ang, 250), 0, 40, &VELOCITY_PROFILE_AROOM);
 
@@ -129,10 +129,10 @@ void ai09::our_place_ball_shoot(void) {
             std::swap(move_angle,temp_opp_ang);
         OwnRobot[attack].target.Angle = move_angle;
         OwnRobot[dmf].target.Angle = temp_opp_ang;
-        ERRTSetObstacles(attack,0,0,1,1,0,0);
+        ERRTSetObstacles(attack,0,0,1,1,0);
         AddCircle(ball.Position.X, ball.Position.Y, 150.0f);
         ERRTNavigate2Point(attack, CircleAroundPoint(ball.Position, temp_opp_ang, 250), 0, 40, &VELOCITY_PROFILE_AROOM);
-        ERRTSetObstacles(dmf,0,0,1,1,0,0);
+        ERRTSetObstacles(dmf,0,0,1,1,0);
         AddCircle(ball.Position.X, ball.Position.Y, 150.0f);
 
         ERRTNavigate2Point(dmf, CircleAroundPoint(ball.Position, move_angle, 250), 0, 40, &VELOCITY_PROFILE_AROOM);
@@ -401,7 +401,7 @@ void ai09::our_place_ball_shoot_V2(void) {
 //        AddCircle(ball.Position.X, ball.Position.Y, 150.0f);
 //        ERRTNavigate2Point(attack, CircleAroundPoint(ball.Position, move_angle, 250), 0, 40, &VELOCITY_PROFILE_AROOM);
 
-        ERRTSetObstacles(dmf,0,0,1,1,0,0);
+        ERRTSetObstacles(dmf,0,0,1,1,0);
         AddCircle(ball.Position.X, ball.Position.Y, 150.0f);
         ERRTNavigate2Point(dmf, CircleAroundPoint(*targetBallPlacement, temp_opp_ang, 250), 0, 40, &VELOCITY_PROFILE_AROOM);
 
@@ -457,10 +457,10 @@ void ai09::our_place_ball_shoot_V2(void) {
             std::swap(move_angle,temp_opp_ang);
         OwnRobot[attack].target.Angle = move_angle;
         OwnRobot[dmf].target.Angle = temp_opp_ang;
-        ERRTSetObstacles(attack,0,0,1,1,0,0);
+        ERRTSetObstacles(attack,0,0,1,1,0);
         AddCircle(ball.Position.X, ball.Position.Y, 150.0f);
         ERRTNavigate2Point(attack, CircleAroundPoint(ball.Position, temp_opp_ang, 250), 0, 40, &VELOCITY_PROFILE_AROOM);
-        ERRTSetObstacles(dmf,0,0,1,1,0,0);
+        ERRTSetObstacles(dmf,0,0,1,1,0);
         AddCircle(ball.Position.X, ball.Position.Y, 150.0f);
 
         ERRTNavigate2Point(dmf, CircleAroundPoint(ball.Position, move_angle, 250), 0, 40, &VELOCITY_PROFILE_AROOM);
@@ -667,7 +667,7 @@ void ai09::our_place_ball_shoot_taki(void) {
 //        AddCircle(ball.Position.X, ball.Position.Y, 150.0f);
 //        ERRTNavigate2Point(attack, CircleAroundPoint(ball.Position, move_angle, 250), 0, 40, &VELOCITY_PROFILE_AROOM);
 
-        ERRTSetObstacles(dmf,0,0,1,1,0,0);
+        ERRTSetObstacles(dmf,0,0,1,1,0);
         AddCircle(ball.Position.X, ball.Position.Y, 150.0f);
         ERRTNavigate2Point(dmf, CircleAroundPoint(*targetBallPlacement, opp_ang, 250), 0, 40, &VELOCITY_PROFILE_AROOM);
 

@@ -127,6 +127,8 @@ public:
     }
   }
 
+  bool stop() { return (state == GAME_OFF); }
+
   bool gameOn() { return (state == GAME_ON); }
 
   bool restart() { return (state & RESTART); }

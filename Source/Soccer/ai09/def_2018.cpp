@@ -139,7 +139,7 @@ void ai09::DefBy1(int thelastdef_num, TVec2 *defendTarget, bool stop){
             TVec2 fans = Vec2(ans.getX(), ans.getY());
 
             OwnRobot[thelastdef_num].target.Angle = 85.0 + 90 + side * 90;
-            ERRTSetObstacles(thelastdef_num, stop, 1, 1, 0, 0, 0);
+            ERRTSetObstacles(thelastdef_num, stop, 1, 1, 0, 0);
             ERRTNavigate2Point(thelastdef_num, fans, 1, 100, DEF_VEL_PROFILE);
         } else if (alpha >= 45.0)
         {
@@ -158,7 +158,7 @@ void ai09::DefBy1(int thelastdef_num, TVec2 *defendTarget, bool stop){
             TVec2 fans = Vec2(ans.getX(), ans.getY());
 
             OwnRobot[thelastdef_num].target.Angle = -85.0 + 90 + side * 90;
-            ERRTSetObstacles(thelastdef_num, stop, 1, 1, 0, 0, 0);
+            ERRTSetObstacles(thelastdef_num, stop, 1, 1, 0, 0);
             ERRTNavigate2Point(thelastdef_num, fans, 1, 100, DEF_VEL_PROFILE);
         } else if (alpha <= -45.0)
         {
@@ -189,7 +189,7 @@ void ai09::DefBy2(int rightdef_num ,int leftdef_num, TVec2 * defendTarget , bool
             TVec2 fans = Vec2(ans.getX(), ans.getY());
 
             OwnRobot[rightdef_num].target.Angle = -85.0 + 90 + side * 90;
-            ERRTSetObstacles(rightdef_num, stop, 1, 1, 0, 0, 0);
+            ERRTSetObstacles(rightdef_num, stop, 1, 1, 0, 0);
             ERRTNavigate2Point(rightdef_num, fans, 1, 100, DEF_VEL_PROFILE);
         } else if (alpha < -48.0)
         {
@@ -271,7 +271,7 @@ void ai09::DefBy2(int rightdef_num ,int leftdef_num, TVec2 * defendTarget , bool
 
 
             OwnRobot[rightdef_num].target.Angle = 90 + side * 90;
-            ERRTSetObstacles(rightdef_num, stop, 1, 1, 0, 0, 0);
+            ERRTSetObstacles(rightdef_num, stop, 1, 1, 0, 0);
             ERRTNavigate2Point(rightdef_num, fans, 1, 100, DEF_VEL_PROFILE);
         }
     }
@@ -287,7 +287,7 @@ void ai09::DefBy2(int rightdef_num ,int leftdef_num, TVec2 * defendTarget , bool
             TVec2 fans = Vec2(ans.getX(), ans.getY());
 
             OwnRobot[leftdef_num].target.Angle = 85.0 + 90 + side * 90;
-            ERRTSetObstacles(leftdef_num, stop, 1, 1, 0, 0, 0);
+            ERRTSetObstacles(leftdef_num, stop, 1, 1, 0, 0);
             ERRTNavigate2Point(leftdef_num, fans, 1, 100, DEF_VEL_PROFILE);
         } else if (alpha > 48.0)
         {
@@ -335,7 +335,7 @@ void ai09::DefBy2(int rightdef_num ,int leftdef_num, TVec2 * defendTarget , bool
             TVec2 fans = Vec2(ans.getX(), ans.getY());
 
             OwnRobot[leftdef_num].target.Angle = 90 + side * 90;
-            ERRTSetObstacles(leftdef_num, stop, 1, 1, 0, 0, 0);
+            ERRTSetObstacles(leftdef_num, stop, 1, 1, 0, 0);
             ERRTNavigate2Point(leftdef_num, fans, 1, 100, DEF_VEL_PROFILE);
         }
     }
@@ -386,7 +386,7 @@ void ai09::DefBy3 ( int middef_num ,int rightdef_num ,int leftdef_num , TVec2 * 
             TVec2 fans = Vec2(ans.getX(), ans.getY());
 
             OwnRobot[middef_num].target.Angle = alphaSgn * 43.0 + 90 + side * 90;
-            ERRTSetObstacles(middef_num, stop, 1, 1, 0, 0, 0);
+            ERRTSetObstacles(middef_num, stop, 1, 1, 0, 0);
             ERRTNavigate2Point(middef_num, fans, 1, 100, DEF_VEL_PROFILE);
         }
     }
@@ -402,7 +402,7 @@ void ai09::DefBy3 ( int middef_num ,int rightdef_num ,int leftdef_num , TVec2 * 
             TVec2 fans = Vec2(ans.getX(), ans.getY());
 
             OwnRobot[rightdef_num].target.Angle = -85.0 + 90 + side * 90;
-            ERRTSetObstacles(rightdef_num, stop, 1, 1, 0, 0, 0);
+            ERRTSetObstacles(rightdef_num, stop, 1, 1, 0, 0);
             ERRTNavigate2Point(rightdef_num, fans, 1, 100, DEF_VEL_PROFILE);
         } else if (alpha < -48.0)
         {
@@ -421,7 +421,7 @@ void ai09::DefBy3 ( int middef_num ,int rightdef_num ,int leftdef_num , TVec2 * 
             TVec2 fans = Vec2(ans.getX(), ans.getY());
 
             OwnRobot[rightdef_num].target.Angle = -48.0 + 90 + side * 90;
-            ERRTSetObstacles(rightdef_num, stop, 1, 1, 0, 0, 0);
+            ERRTSetObstacles(rightdef_num, stop, 1, 1, 0, 0);
             ERRTNavigate2Point(rightdef_num, fans, 1, 100, DEF_VEL_PROFILE);
         }
     }
@@ -437,7 +437,7 @@ void ai09::DefBy3 ( int middef_num ,int rightdef_num ,int leftdef_num , TVec2 * 
             TVec2 fans = Vec2(ans.getX(), ans.getY());
 
             OwnRobot[leftdef_num].target.Angle = 85.0 + 90 + side * 90;
-            ERRTSetObstacles(leftdef_num, stop, 1, 1, 0, 0, 0);
+            ERRTSetObstacles(leftdef_num, stop, 1, 1, 0, 0);
             ERRTNavigate2Point(leftdef_num, fans, 1, 100, DEF_VEL_PROFILE);
         } else if (alpha > 48.0)
         {
@@ -456,7 +456,7 @@ void ai09::DefBy3 ( int middef_num ,int rightdef_num ,int leftdef_num , TVec2 * 
             TVec2 fans = Vec2(ans.getX(), ans.getY());
 
             OwnRobot[leftdef_num].target.Angle = 48.0 + 90 + side * 90;
-            ERRTSetObstacles(leftdef_num, stop, 1, 1, 0, 0, 0);
+            ERRTSetObstacles(leftdef_num, stop, 1, 1, 0, 0);
             ERRTNavigate2Point(leftdef_num, fans, 1, 100, DEF_VEL_PROFILE);
         }
     }

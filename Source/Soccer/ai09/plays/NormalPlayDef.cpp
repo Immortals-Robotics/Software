@@ -19,7 +19,7 @@ void ai09::NormalPlayDef ( void )
 			if (opp==-1) {
                 int oppAttacker = findKickerOpp(-1);
 				OwnRobot[own].face(Vec2(-side*field_width, 0));
-				ERRTSetObstacles(own, 0, 1, 1, 0, 0, 0);
+				ERRTSetObstacles(own, 0, 1, 1, 0, 0);
 				if (own==dmf) {
 					ERRTNavigate2Point(dmf, PointOnConnectingLine(ball.Position, Vec2(side*field_width, 0), 1800), 0, 100, &VELOCITY_PROFILE_MAMOOLI);
 				}

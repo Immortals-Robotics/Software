@@ -4,11 +4,11 @@ void ai09::corner_their_mrl ( void )
 {
 	if (side*ball.Position.X > field_width - 1000)
 	{
-		ERRTSetObstacles(gk, 0, 0, 1, 0, 0, 0);
+		ERRTSetObstacles(gk, 0, 0, 1, 0, 0);
 		OwnRobot[gk].target.Angle = (1 + side)*90.0f;
 		ERRTNavigate2Point(gk, Vec2(side*(field_width - 100), 0), 0, 100, &VELOCITY_PROFILE_MAMOOLI);
 
-		ERRTSetObstacles(def, 1, 1, 1, 1, 0, 0);
+		ERRTSetObstacles(def, 1, 1, 1, 1, 0);
 		OwnRobot[def].face(ball.Position);
 		auto defTarget = PointOnConnectingLine(Vec2(side*field_width, 0), ball.Position, 2000);
 		ERRTNavigate2Point(def, defTarget, 0, 100, &VELOCITY_PROFILE_MAMOOLI);
@@ -33,7 +33,7 @@ void ai09::corner_their_mrl ( void )
 		Mark2Goal(dmf, gooshe, 180);
 	}
 	else {
-		ERRTSetObstacles(dmf, 1, 1, 1, 1, 0, 0);
+		ERRTSetObstacles(dmf, 1, 1, 1, 1, 0);
 		ERRTNavigate2Point(dmf, static_pos[dmf], 0, 100, &VELOCITY_PROFILE_MAMOOLI);
 		OwnRobot[dmf].face(ball.Position);
 	}
@@ -44,7 +44,7 @@ void ai09::corner_their_mrl ( void )
 	std::cout << "	jelos_num: " << jelos_num << std::endl;
 	
 	if (jelos_num == 0) {
-		ERRTSetObstacles(mid1, 1, 1, 1, 1, 0, 0);
+		ERRTSetObstacles(mid1, 1, 1, 1, 1, 0);
 		ERRTNavigate2Point(mid1, static_pos[mid1], 0, 100, &VELOCITY_PROFILE_MAMOOLI);
 		OwnRobot[mid1].face(ball.Position);
 		markMap[&mid1] = -1;
@@ -53,7 +53,7 @@ void ai09::corner_their_mrl ( void )
 		float mark_dis = min(2000, DIS(Vec2(side*field_width, 0), OppRobot[jelos[0]].Position)-180);
 		TVec2 markPoint = PointOnConnectingLine(Vec2(side*field_width, 0), OppRobot[jelos[0]].Position, mark_dis);
 		
-		ERRTSetObstacles(mid1, 1, 1, 1, 1, 0, 0);
+		ERRTSetObstacles(mid1, 1, 1, 1, 1, 0);
 		ERRTNavigate2Point(mid1, markPoint, 0, 100, &VELOCITY_PROFILE_KHARAKI);
 		OwnRobot[mid1].face(ball.Position);
 		markMap[&mid1] = jelos[0];
@@ -65,7 +65,7 @@ void ai09::corner_their_mrl ( void )
 	std::cout << "	remaining jelos_num: " << remaining_jelos_num << std::endl;
 	
 	if (remaining_jelos_num == 0) {
-		ERRTSetObstacles(mid2, 1, 1, 1, 1, 0, 0);
+		ERRTSetObstacles(mid2, 1, 1, 1, 1, 0);
 		ERRTNavigate2Point(mid2, static_pos[mid2], 0, 100, &VELOCITY_PROFILE_MAMOOLI);
 		OwnRobot[mid2].face(ball.Position);
 		markMap[&mid2] = -1;
@@ -74,7 +74,7 @@ void ai09::corner_their_mrl ( void )
 		float mark_dis = min(2500, DIS(Vec2(side*field_width, 0), OppRobot[remaining_jelos[0]].Position)-180);
 		TVec2 markPoint = PointOnConnectingLine(Vec2(side*field_width, 0), OppRobot[remaining_jelos[0]].Position, mark_dis);
 		
-		ERRTSetObstacles(mid2, 1, 1, 1, 1, 0, 0);
+		ERRTSetObstacles(mid2, 1, 1, 1, 1, 0);
 		ERRTNavigate2Point(mid2, markPoint, 0, 100, &VELOCITY_PROFILE_KHARAKI);
 		OwnRobot[mid2].face(ball.Position);
 		markMap[&mid2] = remaining_jelos[0];

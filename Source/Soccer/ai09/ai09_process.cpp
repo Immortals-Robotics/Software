@@ -32,7 +32,7 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting )
 			FUNC_CNT = 0;
 		}
 		
-		if ( REF_playState->get() == GameState::GAME_OFF )
+		if ( REF_playState->stop() )
 		{
 			oppRestarted = false;
 			if (side * ball.Position.X > field_width * 0.7f ) {
@@ -42,7 +42,7 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting )
 				currentPlay = "Stop";
 			}
 		}
-		else if ( REF_playState->get() == GameState::GAME_ON )
+		else if ( REF_playState->gameOn())
 		{
 			currentPlay = "NewNormalPlay";
 //			currentPlay = "penalty_our_Shoot_Out";

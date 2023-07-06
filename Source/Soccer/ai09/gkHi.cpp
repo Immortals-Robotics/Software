@@ -36,7 +36,7 @@ void ai09::GKHi ( int robot_num, bool stop )
 		my_hys = 0;
 	
         side = - side;
-		ERRTSetObstacles ( robot_num , false , false , false , false , false , true );
+		ERRTSetObstacles ( robot_num , false , false , false , false , false );
         side = -side;
 		if ( ( IsInObstacle ( Vec2 ( (ball.Position.X),(ball.Position.Y) ) ) ) && ( ball.velocity.magnitude < 1500 ) && (!stop) && (side*ball.Position.X<field_width) && (fabs(ball.Position.Y)<1200.0f) )
 		{
@@ -100,7 +100,7 @@ void ai09::GK_shirje ( int robot_num )
 	OwnRobot[robot_num].face(ball.Position);
 	TVec2 fans = Vec2(ans.getX(), ans.getY());
 	fans = ((fans-OwnRobot[robot_num].State.Position)*2.0f)+OwnRobot[robot_num].State.Position;
-	ERRTSetObstacles ( robot_num ,0,0,0,0,0,0);
+	ERRTSetObstacles ( robot_num ,0,0,0,0,0);
 	ERRTNavigate2Point(robot_num,fans , 1, 100, &VELOCITY_PROFILE_KHARAKI);
 	OwnRobot[robot_num].Chip(150);
 }

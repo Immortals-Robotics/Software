@@ -97,7 +97,7 @@ void ai09::GK_shirje_2018 ( int robot_num, VelocityProfile* VELOCITY_PROFILE )
 
     TVec2 fans = Vec2(ans.getX(), ans.getY());
     fans = ((fans-OwnRobot[robot_num].State.Position)*2.0f)+OwnRobot[robot_num].State.Position;
-    ERRTSetObstacles ( robot_num ,0,0,0,0,0,0);
+    ERRTSetObstacles ( robot_num ,0,0,0,0,0);
     ERRTNavigate2Point(robot_num,fans , 1, 100, VELOCITY_PROFILE);
     OwnRobot[robot_num].Chip(150);
 }
