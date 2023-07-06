@@ -1,7 +1,5 @@
 #include "config.h"
 
-#include <toml++/toml.h>
-
 namespace Immortals
 {
 ConfigReader::ConfigReader(const std::string_view t_file_path)

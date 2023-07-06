@@ -1,8 +1,5 @@
 #pragma once
 
-#include <asio.hpp>
-#include <google/protobuf/message_lite.h>
-
 #include "../setting.h"
 
 namespace Immortals

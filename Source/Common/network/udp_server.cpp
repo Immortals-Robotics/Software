@@ -1,7 +1,5 @@
 #include "udp_server.h"
 
-#include <quill/Quill.h>
-
 namespace Immortals
 {
 UdpServer::UdpServer()

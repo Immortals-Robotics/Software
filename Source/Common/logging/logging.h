@@ -1,7 +1,5 @@
 #pragma once
 
-#include <filesystem>
-
 namespace Immortals
 {
 class Logger
