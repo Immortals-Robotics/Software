@@ -18,7 +18,6 @@
 #include "Reality/Sender/Protocol/writer.h"
 #include "Reality/Sender/Protocol/reader.h"
 
-#include "Reality/Debugger/debuggerBase.h"
 #include "grsim_fwd.h"
 
 using namespace std;
