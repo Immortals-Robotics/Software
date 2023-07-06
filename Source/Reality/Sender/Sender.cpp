@@ -53,6 +53,8 @@ bool Sender::sendAll() {
 }
 
 Sender::Sender() {
+    commUDP = std::make_shared<UdpServer>();
+
     buff_idx = 0;
     auto buffer = commUDP->getBuffer();
     for(int i=0;i<buffer.size();i++){
