@@ -1,10 +1,10 @@
 #include "ai09.h"
 
 enum ball_circling_state {
-	very_far = 0,
-	far,
-	near,
-	kick
+	kVeryFar = 0,
+	kFar,
+	kNear,
+	kKick,
 };
 
 /*ball_circling_state circle_ball_very_far ( int robot_num , float tagret_angle , int chip_pow , int shoot_pow , float precision );
@@ -36,19 +36,19 @@ void ai09::circle_ball ( int robot_num , float tagret_angle , int shoot_pow , in
 	const int near_to_kick_hys = 3;
 	const float shmit_coeff = 1.2f;
 	
-	static ball_circling_state state = very_far;
+	static ball_circling_state state = kVeryFar;
 	static float last_change_t = 0.0f;
 	static int hys_bank[4]={0,0,0,0};
 	if (timer.time()<0.1) {
-		state = very_far;
+		state = kVeryFar;
 		last_change_t = timer.time();
 		hys_bank[0]=hys_bank[1]=hys_bank[2]=hys_bank[3]=0;
 		Halt(robot_num);
 		return;
 	}
 	
-	if (state == very_far) {
-		cout<<"STEPPPPP1"<<endl;
+	if (state == kVeryFar) {
+		std::cout<<"STEPPPPP1"<< std::endl;
 		OwnRobot[robot_num].face(ball.Position);
 		ERRTSetObstacles(robot_num, 0, 1, 1, 1, 0, 1);
 		ERRTNavigate2Point(robot_num, ball.Position, 1, 30, &VELOCITY_PROFILE_AROOM);
@@ -56,12 +56,12 @@ void ai09::circle_ball ( int robot_num , float tagret_angle , int shoot_pow , in
 		AddDebugCircle(ball.Position,very_far_ball_dis-90.0f,Red);
 		
 		if (DIS(OwnRobot[robot_num].State.Position, ball.Position) < very_far_ball_dis) {
-			state = far;
+			state = kFar;
 			last_change_t = timer.time();
 		}
 	}
-	else if (state == far) {
-		cout<<"STEPPPPP2"<<endl;
+	else if (state == kFar) {
+		std::cout<<"STEPPPPP2"<< std::endl;
 		OwnRobot[robot_num].face(ball.Position);
 		ERRTSetObstacles(robot_num, 0, 1, 1, 1, 0, 1);
 		TVec2 target_point = CircleAroundPoint(ball.Position, AngleWith(ball.Position, OwnRobot[robot_num].State.Position), near_ball_dis);
@@ -76,16 +76,16 @@ void ai09::circle_ball ( int robot_num , float tagret_angle , int shoot_pow , in
 			hys_bank[0]=0;
 		}
 		if (hys_bank[0] > far_to_near_hys ) {
-			state = near;
+			state = kNear;
 			last_change_t = timer.time();
 		}
 		else if (DIS(OwnRobot[robot_num].State.Position, ball.Position) > very_far_ball_dis * shmit_coeff) {
-			state = very_far;
+			state = kVeryFar;
 			last_change_t = timer.time();
 		}
 	}
-	else if (state == near) {
-		cout<<"STEPPPPP3"<<endl;
+	else if (state == kNear) {
+		std::cout<<"STEPPPPP3"<< std::endl;
 		float toRobot = AngleWith(ball.Position, OwnRobot[robot_num].State.Position);
 		float newToRobot = NormalizeAngle(toRobot-tagret_angle);
 		float deltaAngle = min(fabs(newToRobot), 30.0f);
@@ -103,7 +103,7 @@ void ai09::circle_ball ( int robot_num , float tagret_angle , int shoot_pow , in
             ERRTNavigate2Point(robot_num, target_point, 1, 20, &VELOCITY_PROFILE_MAMOOLI);
 		
 		if (DIS(OwnRobot[robot_num].State.Position, ball.Position) > far_ball_dis*shmit_coeff) {
-			state = far;
+			state = kFar;
 			last_change_t = timer.time();
 		}
 		
@@ -115,13 +115,13 @@ void ai09::circle_ball ( int robot_num , float tagret_angle , int shoot_pow , in
 		}
 		
 		if ((hys_bank[0]>near_to_kick_hys)&&((shoot_pow>0)||(chip_pow>0))) {
-			state = kick;
+			state = kKick;
 			last_change_t = timer.time();
 		}
 	}
 	
-	else if (state == kick) {
-		cout<<"STEPPPPP4"<<endl;
+	else if (state == kKick) {
+		std::cout<<"STEPPPPP4"<< std::endl;
 		if (chip_pow>0) {
 			chip_head = OwnRobot[robot_num].State.Angle;
 		}
@@ -137,7 +137,7 @@ void ai09::circle_ball ( int robot_num , float tagret_angle , int shoot_pow , in
 		//tech_circle(robot_num, tagret_angle, shoot_pow, chip_pow, 1, 1, 0, 0);
 		
 		if (DIS(OwnRobot[robot_num].State.Position, ball.Position) > near_ball_dis*shmit_coeff) {
-			state = far;
+			state = kFar;
 			last_change_t = timer.time();
 		}
 	}
@@ -161,18 +161,18 @@ void ai09::circle_ball_free ( int robot_num , float tagret_angle , int shoot_pow
 	const int near_to_kick_hys = 3;
 	const float shmit_coeff = 1.2f;
 
-	static ball_circling_state state = very_far;
+	static ball_circling_state state = kVeryFar;
 	static float last_change_t = 0.0f;
 	static int hys_bank[4]={0,0,0,0};
 	if (timer.time()<0.1) {
-		state = very_far;
+		state = kVeryFar;
 		last_change_t = timer.time();
 		hys_bank[0]=hys_bank[1]=hys_bank[2]=hys_bank[3]=0;
 		Halt(robot_num);
 		return;
 	}
 
-	if (state == very_far) {
+	if (state == kVeryFar) {
 		OwnRobot[robot_num].face(ball.Position);
 		ERRTSetObstacles(robot_num, 0, 0, 1, 1, 0, 0);
 		ERRTNavigate2Point(robot_num, ball.Position, 1, 30, &VELOCITY_PROFILE_AROOM);
@@ -180,11 +180,11 @@ void ai09::circle_ball_free ( int robot_num , float tagret_angle , int shoot_pow
 		AddDebugCircle(ball.Position,very_far_ball_dis-90.0f,Red);
 
 		if (DIS(OwnRobot[robot_num].State.Position, ball.Position) < very_far_ball_dis) {
-			state = far;
+			state = kFar;
 			last_change_t = timer.time();
 		}
 	}
-	else if (state == far) {
+	else if (state == kFar) {
 		OwnRobot[robot_num].face(ball.Position);
 		ERRTSetObstacles(robot_num, 0, 0, 1, 1, 0, 0);
 		TVec2 target_point = CircleAroundPoint(ball.Position, AngleWith(ball.Position, OwnRobot[robot_num].State.Position), near_ball_dis);
@@ -199,15 +199,15 @@ void ai09::circle_ball_free ( int robot_num , float tagret_angle , int shoot_pow
 			hys_bank[0]=0;
 		}
 		if (hys_bank[0] > far_to_near_hys ) {
-			state = near;
+			state = kNear;
 			last_change_t = timer.time();
 		}
 		else if (DIS(OwnRobot[robot_num].State.Position, ball.Position) > very_far_ball_dis * shmit_coeff) {
-			state = very_far;
+			state = kVeryFar;
 			last_change_t = timer.time();
 		}
 	}
-	else if (state == near) {
+	else if (state == kNear) {
 		float toRobot = AngleWith(ball.Position, OwnRobot[robot_num].State.Position);
 		float newToRobot = NormalizeAngle(toRobot-tagret_angle);
 		float deltaAngle = min(fabs(newToRobot), 30.0f);
@@ -225,7 +225,7 @@ void ai09::circle_ball_free ( int robot_num , float tagret_angle , int shoot_pow
 			ERRTNavigate2Point(robot_num, target_point, 1, 20, &VELOCITY_PROFILE_MAMOOLI);
 
 		if (DIS(OwnRobot[robot_num].State.Position, ball.Position) > far_ball_dis*shmit_coeff) {
-			state = far;
+			state = kFar;
 			last_change_t = timer.time();
 		}
 
@@ -237,12 +237,12 @@ void ai09::circle_ball_free ( int robot_num , float tagret_angle , int shoot_pow
 		}
 
 		if ((hys_bank[0]>near_to_kick_hys)&&((shoot_pow>0)||(chip_pow>0))) {
-			state = kick;
+			state = kKick;
 			last_change_t = timer.time();
 		}
 	}
 
-	else if (state == kick) {
+	else if (state == kKick) {
 		if (chip_pow>0) {
 			chip_head = OwnRobot[robot_num].State.Angle;
 		}
@@ -258,7 +258,7 @@ void ai09::circle_ball_free ( int robot_num , float tagret_angle , int shoot_pow
 		//tech_circle(robot_num, tagret_angle, shoot_pow, chip_pow, 1, 1, 0, 0);
 
 		if (DIS(OwnRobot[robot_num].State.Position, ball.Position) > near_ball_dis*shmit_coeff) {
-			state = far;
+			state = kFar;
 			last_change_t = timer.time();
 		}
 	}
@@ -281,11 +281,11 @@ void ai09::circle_ball_free_V2 ( int robot_num , float tagret_angle , int shoot_
 	const int near_to_kick_hys = 3;
 	const float shmit_coeff = 1.2f;
 
-	static ball_circling_state state = very_far;
+	static ball_circling_state state = kVeryFar;
 	static float last_change_t = 0.0f;
 	static int hys_bank[4]={0,0,0,0};
 	if (timer.time()<0.1) {
-		state = very_far;
+		state = kVeryFar;
 		last_change_t = timer.time();
 		hys_bank[0]=hys_bank[1]=hys_bank[2]=hys_bank[3]=0;
 		Halt(robot_num);
@@ -294,7 +294,7 @@ void ai09::circle_ball_free_V2 ( int robot_num , float tagret_angle , int shoot_
 //	VelocityProfile temp_vel = BALL_PLACE_KHEYLI_SOOSKI;
 //	temp_vel.max_spd = Vec2(3.0);
 
-	if (state == very_far) {
+	if (state == kVeryFar) {
 		OwnRobot[robot_num].face(ball.Position);
 		ERRTSetObstacles(robot_num, 0, 0, 1, 1, 0, 0);
 		ERRTNavigate2Point(robot_num, ball.Position, 1, 30, &temp_vel);
@@ -302,11 +302,11 @@ void ai09::circle_ball_free_V2 ( int robot_num , float tagret_angle , int shoot_
 		AddDebugCircle(ball.Position,very_far_ball_dis-90.0f,Red);
 
 		if (DIS(OwnRobot[robot_num].State.Position, ball.Position) < very_far_ball_dis) {
-			state = far;
+			state = kFar;
 			last_change_t = timer.time();
 		}
 	}
-	else if (state == far) {
+	else if (state == kFar) {
 		OwnRobot[robot_num].face(ball.Position);
 		ERRTSetObstacles(robot_num, 0, 0, 1, 1, 0, 0);
 		TVec2 target_point = CircleAroundPoint(ball.Position, AngleWith(ball.Position, OwnRobot[robot_num].State.Position), near_ball_dis);
@@ -321,15 +321,15 @@ void ai09::circle_ball_free_V2 ( int robot_num , float tagret_angle , int shoot_
 			hys_bank[0]=0;
 		}
 		if (hys_bank[0] > far_to_near_hys ) {
-			state = near;
+			state = kNear;
 			last_change_t = timer.time();
 		}
 		else if (DIS(OwnRobot[robot_num].State.Position, ball.Position) > very_far_ball_dis * shmit_coeff) {
-			state = very_far;
+			state = kVeryFar;
 			last_change_t = timer.time();
 		}
 	}
-	else if (state == near) {
+	else if (state == kNear) {
 		float toRobot = AngleWith(ball.Position, OwnRobot[robot_num].State.Position);
 		float newToRobot = NormalizeAngle(toRobot-tagret_angle);
 		float deltaAngle = min(fabs(newToRobot), 30.0f);
@@ -347,7 +347,7 @@ void ai09::circle_ball_free_V2 ( int robot_num , float tagret_angle , int shoot_
 			ERRTNavigate2Point(robot_num, target_point, 1, 20, &temp_vel);
 
 		if (DIS(OwnRobot[robot_num].State.Position, ball.Position) > far_ball_dis*shmit_coeff) {
-			state = far;
+			state = kFar;
 			last_change_t = timer.time();
 		}
 
@@ -359,12 +359,12 @@ void ai09::circle_ball_free_V2 ( int robot_num , float tagret_angle , int shoot_
 		}
 
 		if ((hys_bank[0]>near_to_kick_hys)&&((shoot_pow>0)||(chip_pow>0))) {
-			state = kick;
+			state = kKick;
 			last_change_t = timer.time();
 		}
 	}
 
-	else if (state == kick) {
+	else if (state == kKick) {
 		if (chip_pow>0) {
 			chip_head = OwnRobot[robot_num].State.Angle;
 		}
@@ -380,7 +380,7 @@ void ai09::circle_ball_free_V2 ( int robot_num , float tagret_angle , int shoot_
 		//tech_circle(robot_num, tagret_angle, shoot_pow, chip_pow, 1, 1, 0, 0);
 
 		if (DIS(OwnRobot[robot_num].State.Position, ball.Position) > near_ball_dis*shmit_coeff) {
-			state = far;
+			state = kFar;
 			last_change_t = timer.time();
 		}
 	}

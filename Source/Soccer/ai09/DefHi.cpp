@@ -88,14 +88,14 @@ void ai09::DefHi ( int robot_num , TVec2 * defendTarget , bool stop )
 	ballIsToGoal = ballIsGoaling();
 	ballIsToGoal = false;
 	
-//	cout << "interceptNear:	"<<interceptNear <<endl;
-//    cout << "assholeHasBall: " << assholeHasBall<<endl;
-//    cout << "ballMovingFast: " << ballMovingFast <<endl;
-//    cout<<"ownAttackHasBall: " << ownAttackHasBall<<endl;
-//    cout<< "ballMovingFast: " << ballMovingFast <<endl;
-//    cout<< "ownAttackHasBall: " << ownAttackHasBall <<endl;
-//    cout<< "ballIsToGoal: " << ballIsToGoal << endl;
-//    cout<<"gkIntercepting: "<< gkIntercepting << endl;
+//	std::cout << "interceptNear:	"<<interceptNear <<std::endl;
+//    std::cout << "assholeHasBall: " << assholeHasBall<<std::endl;
+//    std::cout << "ballMovingFast: " << ballMovingFast <<std::endl;
+//    std::cout<<"ownAttackHasBall: " << ownAttackHasBall<<std::endl;
+//    std::cout<< "ballMovingFast: " << ballMovingFast <<std::endl;
+//    std::cout<< "ownAttackHasBall: " << ownAttackHasBall <<std::endl;
+//    std::cout<< "ballIsToGoal: " << ballIsToGoal << std::endl;
+//    std::cout<<"gkIntercepting: "<< gkIntercepting << std::endl;
 
 	if ( 
 		( false ) &&

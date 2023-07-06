@@ -11,13 +11,13 @@ debuggerBase::debuggerBase(GameSetting* setting,AI_Debug *_aiDebug):AIDebug(_aiD
 }
 
 bool debuggerBase::send() {
-    string* tempSTR=new string;
+    std::string* tempSTR=new std::string;
     try {
         AIDebug->SerializeToString(tempSTR);
         commUDP.sendTo ( tempSTR->c_str()    , tempSTR->length() , UDP_Address , port_Address );
-//        cout<<"sent GUI"<<endl;
+//        std::cout<<"sent GUI"<<std::endl;
     } catch (...) {
-        cout << "ERROR: failed to send robot packets." << endl;
+        std::cout << "ERROR: failed to send robot packets." << std::endl;
         return false;
     }
     return true;

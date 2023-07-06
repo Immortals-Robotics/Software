@@ -1,12 +1,11 @@
 #include "../ai09.h"
 #include <iostream>
-using namespace std;
 
 #include <vector>
 
 void ai09::Stop ( void )
 {
-	for (map<int*, int>::const_iterator i = markMap.begin(); i != markMap.end(); ++i) {
+	for (std::map<int*, int>::const_iterator i = markMap.begin(); i != markMap.end(); ++i) {
 		markMap[i->first] = -1;
 	}
 
@@ -21,16 +20,16 @@ void ai09::Stop ( void )
 	{
 		if (!OwnRobot[mid1].State.OutForSubsitute)
 		{
-			swap(attack, mid1);
+			std::swap(attack, mid1);
 		}
 		else if (!OwnRobot[mid2].State.OutForSubsitute)
 		{
-			swap(attack, mid2);
+			std::swap(attack, mid2);
 		}
 	}
 	if ( side * OwnRobot[mid1].State.Position.Y < side * OwnRobot[mid2].State.Position.Y )//Nice :D
 	{
-		swap(mid1, mid2);
+		std::swap(mid1, mid2);
 	}
 
 	GKHi( gk, true );

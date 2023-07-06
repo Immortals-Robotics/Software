@@ -5,7 +5,7 @@
 
 void ai09::penalty_our_Shoot_Out(){//For the 2018 Field size
 
-    cout<<"penalty_our_Shoot_Out is running"<<endl;
+    std::cout<<"penalty_our_Shoot_Out is running"<< std::endl;
     if( side*ball.Position.X > -2500){
         OwnRobot[attack].face(Vec2(-side*field_width,0));
         ERRTSetObstacles(attack,0,1,0,1,0,0);//test
@@ -29,7 +29,7 @@ void ai09::penalty_our_Shoot_Out(){//For the 2018 Field size
         side = -side;
         int oppGK = findCruncherOpp(-1, -1,true);
         side = -side;
-        cout << "	GK e harif: " << oppGK << endl;
+        std::cout << "	GK e harif: " << oppGK << std::endl;
         if ( oppGK != -1 )
         {
             Line shootLine = Line::makeLineFromTwoPoints ( VecPosition ( shootPoint.X,shootPoint.Y ) , VecPosition ( ball.Position.X,ball.Position.Y ) );

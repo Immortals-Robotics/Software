@@ -4,19 +4,18 @@
 #include "WorldState.h"
 #include <iostream>
 #include <fstream>
-using namespace std;
 
 sample_tuple tmp_sample;
 
 double first_t = -1.0;
 
 void write_to_file(){
-    ofstream myfile;
+    std::ofstream myfile;
 
-    string sample_path(DATA_PATH);
+    std::string sample_path(DATA_DIR);
     sample_path.append("/samples.txt");
 
-    myfile.open(sample_path,ios::app);//append
+    myfile.open(sample_path, std::ios::app);//append
 
     myfile << tmp_sample.t << " "
            << tmp_sample.X << " "
@@ -24,7 +23,7 @@ void write_to_file(){
            << tmp_sample.VX_in << " "
            << tmp_sample.VY_in << " "
            << tmp_sample.VX_out << " "
-           << tmp_sample.VY_out << endl;
+           << tmp_sample.VY_out << std::endl;
 
     myfile.close();
 }
@@ -36,7 +35,7 @@ void get_sample_set1(double sample_t, float sample_X,float sample_Y){
     tmp_sample.t = sample_t - first_t;
     tmp_sample.X = sample_X;
     tmp_sample.Y = sample_Y;
-    cout <<"tmp_sample.t: "<< tmp_sample.t << endl;
+    std::cout <<"tmp_sample.t: "<< tmp_sample.t << std::endl;
 }
 
 void get_sample_set2(float sample_VX, float sample_VY){

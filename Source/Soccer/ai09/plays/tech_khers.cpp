@@ -2,7 +2,7 @@
 
 void ai09::tech_khers_pass ( void )
 {	
-	map<int,TVec2> rcv_pos;
+	std::map<int,TVec2> rcv_pos;
 	rcv_pos[dmf] = Vec2(-2500, 1000);
 	rcv_pos[rmf] = Vec2(-500, 1000);
 	rcv_pos[lmf] = Vec2(-2500, -1000);
@@ -23,7 +23,7 @@ void ai09::tech_khers_pass ( void )
 	}
 	
 	if (curr_rcv == -1) {
-		for (map<int,TVec2>::const_iterator it = rcv_pos.begin(); it != rcv_pos.end(); it++) {
+		for (std::map<int,TVec2>::const_iterator it = rcv_pos.begin(); it != rcv_pos.end(); it++) {
 			if (it->first == attack_index) {
 				continue;
 			}
@@ -41,7 +41,7 @@ void ai09::tech_khers_pass ( void )
 	
 	if ( (next_rcv == -1) || ( last_rcv != curr_rcv ) ){
 		last_rcv = curr_rcv;
-		for (map<int,TVec2>::const_iterator it = rcv_pos.begin(); it != rcv_pos.end(); it++) {
+		for (std::map<int,TVec2>::const_iterator it = rcv_pos.begin(); it != rcv_pos.end(); it++) {
 			if (it->first == attack_index) {
 				continue;
 			}
@@ -79,7 +79,7 @@ void ai09::tech_khers_pass ( void )
 	}
 	
 	if (ball.velocity.magnitude < 50) {
-		for (map<int,TVec2>::const_iterator it = rcv_pos.begin(); it != rcv_pos.end(); it++) {
+		for (std::map<int,TVec2>::const_iterator it = rcv_pos.begin(); it != rcv_pos.end(); it++) {
 			if (OwnRobot[it->first].State.seenState == CompletelyOut) {
 				continue;
 			}
@@ -99,7 +99,7 @@ void ai09::tech_khers_pass ( void )
 		tech_circle(attack_index, pass_angle, 8, 0, 0, 1, 0, 0);
 	}
 	
-	for (map<int,TVec2>::const_iterator it = rcv_pos.begin(); it != rcv_pos.end(); it++) {
+	for (std::map<int,TVec2>::const_iterator it = rcv_pos.begin(); it != rcv_pos.end(); it++) {
 		if (it->first == attack_index) {
 			continue;
 		}

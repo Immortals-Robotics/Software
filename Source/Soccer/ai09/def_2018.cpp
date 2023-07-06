@@ -55,13 +55,13 @@ void ai09::runningDef(int robot_num,TVec2 target,TVec2 * defendTarget ,bool stop
 
     ballIsToGoal = ballIsGoaling();
 
-    /*cout << "interceptNear:	"<<interceptNear <<endl;
-    cout << "assholeHasBall: " << assholeHasBall<<endl;
-    cout << "ballMovingFast: " << ballMovingFast <<endl;
-    cout << "ownAttackHasBall: " << ownAttackHasBall<<endl;
-    cout << "ballMovingFast: " << ballMovingFast <<endl;
-    cout << "ballIsToGoal: " << ballIsToGoal << endl;
-    cout << "gkIntercepting: "<< gkIntercepting << endl;*/
+    /*std::cout << "interceptNear:	"<<interceptNear <<std::endl;
+    std::cout << "assholeHasBall: " << assholeHasBall<<std::endl;
+    std::cout << "ballMovingFast: " << ballMovingFast <<std::endl;
+    std::cout << "ownAttackHasBall: " << ownAttackHasBall<<std::endl;
+    std::cout << "ballMovingFast: " << ballMovingFast <<std::endl;
+    std::cout << "ballIsToGoal: " << ballIsToGoal << std::endl;
+    std::cout << "gkIntercepting: "<< gkIntercepting << std::endl;*/
 
     if (
             ( interceptNear ) &&
@@ -74,7 +74,7 @@ void ai09::runningDef(int robot_num,TVec2 target,TVec2 * defendTarget ,bool stop
             )
 //    if(1)
     {
-        cout<<"IIIIIIIIIIIIIIIIIIJJJJJJJJJJJJJJJJJJJJJ"<<endl;
+        std::cout<<"IIIIIIIIIIIIIIIIIIJJJJJJJJJJJJJJJJJJJJJ"<< std::endl;
         ERRTSetObstacles ( robot_num , 0 , 1 , 1 , 0 , 0 );
         //tech_circle(robot_num,sgn(ball.Position.Y)*side*60 ,0,15,false);
         tech_circle(robot_num,AngleWith ( ball.Position , Vec2 ( side * (field_width+110) , 0 ) ) ,0,80,true,0,0,0);
@@ -87,10 +87,10 @@ void ai09::runningDef(int robot_num,TVec2 target,TVec2 * defendTarget ,bool stop
 }
 
 void ai09::DefBy1(int thelastdef_num, TVec2 *defendTarget, bool stop){
-    cout<<"__________IN_DEF_BY_1_____________________________________________"<<endl;
+    std::cout<<"__________IN_DEF_BY_1_____________________________________________"<< std::endl;
     if (thelastdef_num != -1)
     {
-        cout<<"1111111111111111111111111111111111111111111111111111111111"<<endl;
+        std::cout<<"1111111111111111111111111111111111111111111111111111111111"<< std::endl;
         double alpha = NormalizeAngle(AngleWith(Vec2(side * field_width, 0), ball.Position) + (90 + side * 90));
         alpha = min(90, max(-90, alpha));
         int alphaSgn = sgn(alpha);
@@ -112,7 +112,7 @@ void ai09::DefBy1(int thelastdef_num, TVec2 *defendTarget, bool stop){
                     TARGET_BALL_IN_GOAL.setY(-200.0);
                 }
 
-                cout << "TARGET_BALL_IN_GOAL.getY(): " << TARGET_BALL_IN_GOAL.getY() << endl;
+                std::cout << "TARGET_BALL_IN_GOAL.getY(): " << TARGET_BALL_IN_GOAL.getY() << std::endl;
                 Line ball_line = Line::makeLineFromTwoPoints(VecPosition(ball.Position.X, ball.Position.Y),
                                                              TARGET_BALL_IN_GOAL);
                 Line Front_line = Line::makeLineFromPositionAndAngle(
@@ -219,7 +219,7 @@ void ai09::DefBy2(int rightdef_num ,int leftdef_num, TVec2 * defendTarget , bool
 //            if(TARGET_BALL_IN_GOAL.getY() < -300){
 //                TARGET_BALL_IN_GOAL.setY(-300.0);
 //            }
-//            cout<<"TARGET_BALL_IN_GOAL.getY(): "<<TARGET_BALL_IN_GOAL.getY()<<endl;
+//            std::cout<<"TARGET_BALL_IN_GOAL.getY(): "<<TARGET_BALL_IN_GOAL.getY()<<std::endl;
 //            Line ball_line = Line::makeLineFromTwoPoints(VecPosition(ball.Position.X, ball.Position.Y),
 //                                                         TARGET_BALL_IN_GOAL);
 //            Line Front_line = Line::makeLineFromPositionAndAngle(
@@ -242,7 +242,7 @@ void ai09::DefBy2(int rightdef_num ,int leftdef_num, TVec2 * defendTarget , bool
                     TARGET_BALL_IN_GOAL.setY(-200.0);
                 }
 
-                cout << "TARGET_BALL_IN_GOAL.getY(): " << TARGET_BALL_IN_GOAL.getY() << endl;
+                std::cout << "TARGET_BALL_IN_GOAL.getY(): " << TARGET_BALL_IN_GOAL.getY() << std::endl;
                 Line ball_line = Line::makeLineFromTwoPoints(VecPosition(ball.Position.X, ball.Position.Y),
                                                              TARGET_BALL_IN_GOAL);
                 Line Front_line = Line::makeLineFromPositionAndAngle(
@@ -467,7 +467,7 @@ void ai09::DefMid ( int &middef_num ,int &rightdef_num ,int &leftdef_num , TVec2
     double alpha = AngleWith(Vec2(side * field_width, 0), ball.Position);
     alpha = min(90, max(-90, alpha));
     int alphaSgn = sgn(alpha);
-    cout<<"ALPHA: "<<alpha<<endl;
+    std::cout<<"ALPHA: "<<alpha<< std::endl;
 
     if (!defendTarget)
         defendTarget = &(ball.Position);
@@ -475,9 +475,9 @@ void ai09::DefMid ( int &middef_num ,int &rightdef_num ,int &leftdef_num , TVec2
     //make sure the def is present:
     if(OwnRobot[middef_num].State.seenState == CompletelyOut && replace){
         if(OwnRobot[rightdef_num].State.seenState != CompletelyOut){
-            swap(middef_num,rightdef_num);
+            std::swap(middef_num,rightdef_num);
         }else if(OwnRobot[leftdef_num].State.seenState != CompletelyOut){
-            swap(middef_num,leftdef_num);
+            std::swap(middef_num,leftdef_num);
         }else{//We're busted...
 
         }
@@ -505,6 +505,6 @@ void ai09::DefMid ( int &middef_num ,int &rightdef_num ,int &leftdef_num , TVec2
         DefBy3(middef_num,rightdef_num,leftdef_num,defendTarget,stop);
     }
 
-//    cout<<"the alpha: "<<alpha<<endl;
+//    std::cout<<"the alpha: "<<alpha<<std::endl;
 
 }

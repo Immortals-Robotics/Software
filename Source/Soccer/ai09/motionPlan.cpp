@@ -3,9 +3,6 @@
 #include "helpers.h"
 #include <iostream>
 
-using namespace std;
-
-
 TVec2 vdes_ann;
 
 /*TVec2 max_spd = Vec2 ( 100.0f );
@@ -289,14 +286,14 @@ TVec3 Robot::MotionPlan(RobotState state, RobotState target, float speed, bool a
 
         if (fabs(ans.Y) > fabs(oldAns[state.vision_id].Y))
             if (fabs(ans.Y - oldAns[state.vision_id].Y) > max_acc.Y * 1.1)
-                cout << "	gaz nade	" << max_acc.Y << "		<	" << fabs(ans.Y - oldAns[state.vision_id].Y);
+                std::cout << "	gaz nade	" << max_acc.Y << "		<	" << fabs(ans.Y - oldAns[state.vision_id].Y);
 
         if (fabs(ans.Y) < fabs(oldAns[state.vision_id].Y))
             if (fabs(ans.Y - oldAns[state.vision_id].Y) > max_dec.Y * 1.1)
-                cout << "	tormoz nakon	" << max_dec.Y << "		<	"
+                std::cout << "	tormoz nakon	" << max_dec.Y << "		<	"
                      << fabs(ans.Y - oldAns[state.vision_id].Y);
 
-        cout << endl;
+        std::cout << std::endl;
 
     }
 
@@ -305,7 +302,7 @@ TVec3 Robot::MotionPlan(RobotState state, RobotState target, float speed, bool a
     //ans.Y = 0;
 
     if (state.vision_id == 1)
-        cout << (int) ans.Z << endl;
+        std::cout << (int) ans.Z << std::endl;
 
     /*float kh_mag = DIS ( Vec2 ( 0.0f ) , Vec2 ( ans.X,ans.Y ) );
      ans.Z *= ( 3000.0f-kh_mag ) / 1500.0f;*/
@@ -318,7 +315,7 @@ TVec3 Robot::MotionPlan(RobotState state, RobotState target, float speed, bool a
     oldAns[state.vision_id] = ans;
 
     //if ( state.vision_id == 6 )
-    //	cout << "	" << ans.X << "	";
+    //	std::cout << "	" << ans.X << "	";
 
     return ans;
 }

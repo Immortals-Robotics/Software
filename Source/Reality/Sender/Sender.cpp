@@ -35,7 +35,7 @@ bool Sender::sendAll() {
     try {
         commUDP.sendTo ( buffer    , buff_idx , "224.5.92.5" , 60005 );
     } catch (...) {
-        cout << "ERROR: failed to send robot packets." << endl;
+        std::cout << "ERROR: failed to send robot packets." << std::endl;
         buff_idx = 0;
         return false;
     }

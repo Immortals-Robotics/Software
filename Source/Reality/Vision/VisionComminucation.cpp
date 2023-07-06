@@ -121,7 +121,7 @@ void VisionModule::SendGUIData ( WorldState * state , AI_Debug & aidebug )
 		{
 		}
 
-		string GUIBuffer;
+		std::string GUIBuffer;
 
 		GUIMsg.SerializeToString ( &GUIBuffer );
 

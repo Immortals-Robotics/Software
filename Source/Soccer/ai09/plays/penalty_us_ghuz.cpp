@@ -63,7 +63,7 @@ void ai09::penalty_us_ghuz ( void )
 		side = -side;
 		int oppGK = findCruncherOpp(-1, -1,true);
 		side = -side;
-		cout << "	GK e harif: " << oppGK << endl;
+		std::cout << "	GK e harif: " << oppGK << std::endl;
 		if ( oppGK != -1 )
 		{
 			Line shootLine = Line::makeLineFromTwoPoints ( VecPosition ( shootPoint.X,shootPoint.Y ) , VecPosition ( ball.Position.X,ball.Position.Y ) );
@@ -74,7 +74,7 @@ void ai09::penalty_us_ghuz ( void )
 				//penaltyAngle+=180;
 		penaltyAngle = AngleWith ( shootPoint , ball.Position );
 
-//        cout<<"__SHOOT_POINT_XY__"<<shootPoint.X<<"_"<<shootPoint.Y<<endl;
+//        std::cout<<"__SHOOT_POINT_XY__"<<shootPoint.X<<"_"<<shootPoint.Y<<std::endl;
 		
 	}
 }

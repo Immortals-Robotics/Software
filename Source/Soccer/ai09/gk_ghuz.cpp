@@ -160,14 +160,14 @@ TVec2 ai09::GK_Ghuz_2018( float predictBallT, float rMul, int def_count ){
     target.X += cosDeg(tetta) * R;
     target.Y += sinDeg(tetta) * R;
 
-//    cout << "	x: " << x << "	tetta: " << tetta << "	R: " << R << endl;
-//    cout << "ROBOT:" << target.X <<
+//    std::cout << "	x: " << x << "	tetta: " << tetta << "	R: " << R << std::endl;
+//    std::cout << "ROBOT:" << target.X <<
 
     if (side==1) {
         target.X*=-1.0f;
         target.Y*=-1.0f;
     }
-//    cout<<"BALL alpha: "<<alpha<<endl;
+//    std::cout<<"BALL alpha: "<<alpha<<std::endl;
 
     return target;
 
@@ -317,13 +317,13 @@ TVec2 ai09::GK_Ghuz ( float predictBallT, float rMul, int def_count )
 	target.X += cosDeg(tetta) * R;
 	target.Y += sinDeg(tetta) * R;
 
-	//cout << "	alpha: " << alpha << "	tetta: " << tetta << "		d: " << d << "	R: " << R << endl;
+	//std::cout << "	alpha: " << alpha << "	tetta: " << tetta << "		d: " << d << "	R: " << R << std::endl;
 
 	if (side==1) {
 		target.X*=-1.0f;
 		target.Y*=-1.0f;
 	}
-	cout<<"BALL alpha: "<<alpha<<endl;
+	std::cout<<"BALL alpha: "<<alpha<< std::endl;
 
 	return target;
 }

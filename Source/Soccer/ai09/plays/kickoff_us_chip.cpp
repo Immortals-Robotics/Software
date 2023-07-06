@@ -13,7 +13,7 @@ void ai09::kickoff_us_chip ( void )
 	if (timer.time()<0.5) {
 		if ( OwnRobot[mid1].State.Position.Y > OwnRobot[mid2].State.Position.Y )
 		{ 
-			swap(mid1, mid2);
+			std::swap(mid1, mid2);
 		}
 	}
 	
@@ -29,12 +29,12 @@ void ai09::kickoff_us_chip ( void )
 		float chip_pow = DIS(chip_target, ball.Position)/11;
 		tech_circle(attack,AngleWith ( chip_target , ball.Position ), 0,80,0,1,0,1);
 		//circle_ball(attack, AngleWith ( chip_target , ball.Position ), 100, 0, 1.0f);
-		cout<<"IN THE IFFFFFFFF!!!"<<endl;
+		std::cout<<"IN THE IFFFFFFFF!!!"<<std::endl;
 	}
 	else
 	{
 		//tech_circle(attack,AngleWith ( chip_target , ball.Position ),0,0,0,1,0,1);
 		circle_ball(attack, AngleWith ( chip_target , ball.Position ), 0, 0, 1.0f);
-		cout<<"IN THE ELSE!!!"<<endl;
+		std::cout<<"IN THE ELSE!!!"<<std::endl;
 	}
 }

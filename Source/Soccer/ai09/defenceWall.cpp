@@ -11,7 +11,7 @@ void ai09::DefenceWall ( int robot_num , bool kickOff )
 	
 	TVec2 target;
 	
-	//cout << "	wall limit: " << tetta << endl;
+	//std::cout << "	wall limit: " << tetta << std::endl;
 	int index = findKickerOpp ( -1 );
 	if ( index == -1 )
 	{
@@ -22,13 +22,13 @@ void ai09::DefenceWall ( int robot_num , bool kickOff )
 		target = PointOnConnectingLine ( OppRobot[index].Position , ball.Position , 590+DIS ( ball.Position , OppRobot[index].Position ) );
 	}
 	
-	//cout << index << endl;
+	//std::cout << index << std::endl;
 	
 	float ballAngle = AngleWith(ball.Position, target);
 	float firstLeg = AngleWith(ball.Position, Vec2(side*field_width, sgn(ball.Position.Y)*(350.0f)));
 	float secLeg = firstLeg - tetta * sgn(ball.Position.Y)*side;
 	
-	//cout << "	ball: " << ballAngle << "	f: " << firstLeg << "	s: " << secLeg << endl;
+	//std::cout << "	ball: " << ballAngle << "	f: " << firstLeg << "	s: " << secLeg << std::endl;
 	
 	bool isOut = fabs((fabs(NormalizeAngle(ballAngle-firstLeg))+fabs(NormalizeAngle(ballAngle-secLeg))) - tetta ) > 1.0f;
 	

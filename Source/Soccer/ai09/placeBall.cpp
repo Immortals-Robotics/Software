@@ -21,11 +21,11 @@ void ai09::our_place_ball_shoot(void) {
     static VelocityProfile TEMP_VEL_PRO = BALL_PLACE_KHEYLI_SOOSKI;
     static Timer temp_time;
 
-    cout<<"BEFORE: "<<dmf<<"_"<<mid2<<endl;
+    std::cout<<"BEFORE: "<<dmf<<"_"<<mid2<<std::endl;
 //    want_this_robot(attack);
 //    want_this_robot(dmf);
     position_robots();
-    cout<<"AFTER: "<<dmf<<"_"<<mid2<<endl;
+    std::cout<<"AFTER: "<<dmf<<"_"<<mid2<<std::endl;
 
     /*ERRTSetObstacles ( mid1 , false , true , true , true );
     AddCircle ( ball.Position.X , ball.Position.Y , 1010.0f );
@@ -83,7 +83,7 @@ void ai09::our_place_ball_shoot(void) {
 
         clear_map ( );
         circle_ball_free(attack,move_angle,0,0,0.0);
-        cout<<":::"<<OwnRobot[attack].State.velocity.magnitude<<endl<<OwnRobot[dmf].State.velocity.magnitude<<endl;
+        std::cout<<":::"<<OwnRobot[attack].State.velocity.magnitude<<std::endl<<OwnRobot[dmf].State.velocity.magnitude<<std::endl;
         if(OwnRobot[attack].State.velocity.magnitude < 20 &&
            OwnRobot[dmf].State.velocity.magnitude < 20){
             FUNC_CNT++;
@@ -126,7 +126,7 @@ void ai09::our_place_ball_shoot(void) {
     else if(FUNC_state == 3){
 
         if(fabs(NormalizeAngle(OwnRobot[attack].target.Angle - move_angle)) > 90)
-            swap(move_angle,temp_opp_ang);
+            std::swap(move_angle,temp_opp_ang);
         OwnRobot[attack].target.Angle = move_angle;
         OwnRobot[dmf].target.Angle = temp_opp_ang;
         ERRTSetObstacles(attack,0,0,1,1,0,0);
@@ -150,7 +150,7 @@ void ai09::our_place_ball_shoot(void) {
         }
     }else if(FUNC_state == 4){
         if(fabs(NormalizeAngle(OwnRobot[attack].target.Angle - move_angle)) > 90)
-            swap(move_angle,temp_opp_ang);
+            std::swap(move_angle,temp_opp_ang);
 
 //        if(AngleWith(OwnRobot[attack].State.Position,OwnRobot[dmf].State.Position))
 
@@ -247,22 +247,22 @@ void ai09::our_place_ball_shoot(void) {
 
         bool success = DIS(*targetBallPlacement ,ball.Position) < 100.0;
 
-        cout<<"______IN___STATE_DONE_____"
-            <<endl
+        std::cout<<"______IN___STATE_DONE_____"
+            <<std::endl
             <<targetBallPlacement->X - ball.Position.X
-            <<endl
+            <<std::endl
             <<targetBallPlacement->Y - ball.Position.Y
-            <<endl;
+            <<std::endl;
         if(success){
-            cout<<"MADE it!!!"<<endl;
+            std::cout<<"MADE it!!!"<<std::endl;
         }else{
-            cout<<"lost it!!!"<<endl;
+            std::cout<<"lost it!!!"<<std::endl;
         }
     }
-    cout<<"______IN___STATE_"<< FUNC_state <<"_____"<<endl;
+    std::cout<<"______IN___STATE_"<< FUNC_state <<"_____"<<std::endl;
 
 
-    cout<<"___DIS___"<<DIS(*targetBallPlacement ,ball.Position)<<endl;
+    std::cout<<"___DIS___"<<DIS(*targetBallPlacement ,ball.Position)<<std::endl;
 
 
 }
@@ -286,11 +286,11 @@ void ai09::our_place_ball_shoot_V2(void) {
     static float outFieldAng = 0;
     static TVec2 last_state_ball_pos;
 
-    cout<<"BEFORE: "<<dmf<<"_"<<mid2<<endl;
+    std::cout<<"BEFORE: "<<dmf<<"_"<<mid2<<std::endl;
     //want_this_robot(attack);
     //want_this_robot(dmf);
 //    position_robots();//For lordhippo (after the first match with MRL)
-    cout<<"AFTER: "<<dmf<<"_"<<mid2<<endl;
+    std::cout<<"AFTER: "<<dmf<<"_"<<mid2<<std::endl;
 
     ERRTSetObstacles ( mid1 , false , true , true , true );
     AddCircle ( ball.Position.X , ball.Position.Y , 1010.0f );
@@ -365,8 +365,8 @@ void ai09::our_place_ball_shoot_V2(void) {
             }
         }
         circle_ball_free(attack,outFieldAng,0,0,0.0);
-        cout<<"outFieldAng: "<<outFieldAng<<endl;
-        cout<<"OwnRobot[dmf].State.velocity.magnitude__"<<OwnRobot[dmf].State.velocity.magnitude<<endl;
+        std::cout<<"outFieldAng: "<<outFieldAng<<std::endl;
+        std::cout<<"OwnRobot[dmf].State.velocity.magnitude__"<<OwnRobot[dmf].State.velocity.magnitude<<std::endl;
 
         if(OwnRobot[attack].State.velocity.magnitude < 20) {
             FUNC_CNT++;
@@ -407,7 +407,7 @@ void ai09::our_place_ball_shoot_V2(void) {
 
         clear_map ( );
         circle_ball_free(attack,move_angle,0,0,0.0);
-        cout<<":::"<<OwnRobot[attack].State.velocity.magnitude<<endl<<OwnRobot[dmf].State.velocity.magnitude<<endl;
+        std::cout<<":::"<<OwnRobot[attack].State.velocity.magnitude<<std::endl<<OwnRobot[dmf].State.velocity.magnitude<<std::endl;
         if(OwnRobot[attack].State.velocity.magnitude < 20 &&
            OwnRobot[dmf].State.velocity.magnitude < 20){
             FUNC_CNT++;
@@ -454,7 +454,7 @@ void ai09::our_place_ball_shoot_V2(void) {
     else if(FUNC_state == 3){
 
         if(fabs(NormalizeAngle(OwnRobot[attack].target.Angle - move_angle)) > 90)
-            swap(move_angle,temp_opp_ang);
+            std::swap(move_angle,temp_opp_ang);
         OwnRobot[attack].target.Angle = move_angle;
         OwnRobot[dmf].target.Angle = temp_opp_ang;
         ERRTSetObstacles(attack,0,0,1,1,0,0);
@@ -478,7 +478,7 @@ void ai09::our_place_ball_shoot_V2(void) {
         }
     }else if(FUNC_state == 4){
         if(fabs(NormalizeAngle(OwnRobot[attack].target.Angle - move_angle)) > 90)
-            swap(move_angle,temp_opp_ang);
+            std::swap(move_angle,temp_opp_ang);
 
 //        if(AngleWith(OwnRobot[attack].State.Position,OwnRobot[dmf].State.Position))
 
@@ -575,25 +575,25 @@ void ai09::our_place_ball_shoot_V2(void) {
 
         bool success = DIS(*targetBallPlacement ,ball.Position) < 100.0;
 
-        cout<<"______IN___STATE_DONE_____"
-            <<endl
+        std::cout<<"______IN___STATE_DONE_____"
+            <<std::endl
             <<targetBallPlacement->X - ball.Position.X
-            <<endl
+            <<std::endl
             <<targetBallPlacement->Y - ball.Position.Y
-            <<endl;
+            <<std::endl;
         if(success){
-            cout<<"MADE it!!!"<<endl;
+            std::cout<<"MADE it!!!"<<std::endl;
         }else{
-            cout<<"lost it!!!"<<endl;
+            std::cout<<"lost it!!!"<<std::endl;
         }
     }
-    cout<<"______IN___STATE_"<< FUNC_state <<"_____"<<endl;
+    std::cout<<"______IN___STATE_"<< FUNC_state <<"_____"<<std::endl;
 
 
-    cout<<"___DIS___"<<DIS(*targetBallPlacement ,ball.Position)<<endl;
-    cout<<"___BALL__POS_XY__"<<ball.Position.X<<'_'<<ball.Position.Y<<endl;
-    cout<<"___TARGET__POS_XY__"<<targetBallPlacement->X<<'_'<<targetBallPlacement->Y<<endl;
-    cout<<"__OUT__"<<outOfField(ball.Position)<<endl;
+    std::cout<<"___DIS___"<<DIS(*targetBallPlacement ,ball.Position)<<std::endl;
+    std::cout<<"___BALL__POS_XY__"<<ball.Position.X<<'_'<<ball.Position.Y<<std::endl;
+    std::cout<<"___TARGET__POS_XY__"<<targetBallPlacement->X<<'_'<<targetBallPlacement->Y<<std::endl;
+    std::cout<<"__OUT__"<<outOfField(ball.Position)<<std::endl;
 
 
 }
@@ -614,11 +614,11 @@ void ai09::our_place_ball_shoot_taki(void) {
     static VelocityProfile TEMP_VEL_PRO = BALL_PLACE_KHEYLI_SOOSKI;
     static Timer temp_time;
 
-    cout<<"BEFORE: "<<dmf<<"_"<<mid2<<endl;
+    std::cout<<"BEFORE: "<<dmf<<"_"<<mid2<<std::endl;
     want_this_robot(attack);
     want_this_robot(dmf);
     position_robots();
-    cout<<"AFTER: "<<dmf<<"_"<<mid2<<endl;
+    std::cout<<"AFTER: "<<dmf<<"_"<<mid2<<std::endl;
 
     ERRTSetObstacles ( dmf , false , true , true , true );
     AddCircle ( ball.Position.X , ball.Position.Y , 1010.0f );
@@ -673,7 +673,7 @@ void ai09::our_place_ball_shoot_taki(void) {
 
         clear_map ( );
         circle_ball_free(attack,move_angle,0,0,0.0);
-        cout<<":::"<<OwnRobot[attack].State.velocity.magnitude<<endl<<OwnRobot[dmf].State.velocity.magnitude<<endl;
+        std::cout<<":::"<<OwnRobot[attack].State.velocity.magnitude<<std::endl<<OwnRobot[dmf].State.velocity.magnitude<<std::endl;
         if(OwnRobot[attack].State.velocity.magnitude < 20 &&
            OwnRobot[dmf].State.velocity.magnitude < 20){
             FUNC_CNT++;
@@ -765,22 +765,22 @@ void ai09::our_place_ball_shoot_taki(void) {
 
         bool success = DIS(*targetBallPlacement ,ball.Position) < 100.0;
 
-        cout<<"______IN___STATE_DONE_____"
-            <<endl
+        std::cout<<"______IN___STATE_DONE_____"
+            <<std::endl
             <<targetBallPlacement->X - ball.Position.X
-            <<endl
+            <<std::endl
             <<targetBallPlacement->Y - ball.Position.Y
-            <<endl;
+            <<std::endl;
         if(success){
-            cout<<"MADE it!!!"<<endl;
+            std::cout<<"MADE it!!!"<<std::endl;
         }else{
-            cout<<"lost it!!!"<<endl;
+            std::cout<<"lost it!!!"<<std::endl;
         }
     }
-    cout<<"______IN___STATE_"<< FUNC_state <<"_____"<<endl;
+    std::cout<<"______IN___STATE_"<< FUNC_state <<"_____"<<std::endl;
 
 
-    cout<<"___DIS___"<<DIS(*targetBallPlacement ,ball.Position)<<endl;
+    std::cout<<"___DIS___"<<DIS(*targetBallPlacement ,ball.Position)<<std::endl;
 
 
 }

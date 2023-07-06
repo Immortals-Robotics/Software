@@ -4,16 +4,16 @@
 
 bool ai09::read_playBook ( const char* fileName )
 {	
-	ifstream file(fileName,ios::in|ios::binary);
+	std::ifstream file(fileName, std::ios::in| std::ios::binary);
 	
 	if ( !file.is_open() )
 		return false;
 	
 	// get length of file:
-	file.seekg (0, ios::end);
+	file.seekg (0, std::ios::end);
 	int length = file.tellg();
-	cout << length << " ";
-	file.seekg (0, ios::beg);
+	std::cout << length << " ";
+	file.seekg (0, std::ios::beg);
 	
 	// allocate memory:
 	char* buffer = new char [length];
@@ -69,20 +69,20 @@ void ai09::strategy_maker ( void )
 	}
 	
 	Strategy strategy = playBook->strategy(curr_str_id);
-    cout << "STRATEGY: " << strategy.name() << endl;
+    std::cout << "STRATEGY: " << strategy.name() << std::endl;
 	
 	
 	
 	int xSgn = side;
 	int ySgn = -1*sgn(ball.Position.Y);
 	
-	//cout << timer.time() << endl;
+	//std::cout << timer.time() << std::endl;
 	if ( timer.time() < 1.0 )
 	{
 		for (int i = 0 ; i < 8 ; i ++ ) {
 			step[i] = 0;
 			lastAdv[i] = timer.time();
-			//cout << "zeroed: " << i << endl;
+			//std::cout << "zeroed: " << i << std::endl;
 		}
 		float passAngle = 90-side*90;
 		//tech_circle(attack, passAngle , 0, 0, 0, 1, 0, 0);
@@ -100,7 +100,7 @@ void ai09::strategy_maker ( void )
 			{
 				step[i] = strategy.role(i).path_size()-1;
 				lastAdv[i] = timer.time();
-				//cout << "zeroed: " << i << endl;
+				//std::cout << "zeroed: " << i << std::endl;
 				continue;
 			}
 			
@@ -110,14 +110,14 @@ void ai09::strategy_maker ( void )
 				{
 					step[i] = min(strategy.role(i).path_size()-1, step[i]+1);
 					lastAdv[i] = timer.time();
-					//cout << "stepped: " << i << "	" << step[i] << endl;
+					//std::cout << "stepped: " << i << "	" << step[i] << std::endl;
 				}
 			}
 			else {
 				if (DIS(Vec2(strategy.role(i).path(step[i]).x()*xSgn, strategy.role(i).path(step[i]).y()*ySgn), OwnRobot[*stm2AInum[i]].State.Position) < strategy.role(i).path(step[i]).tolerance() ) {
 					step[i] = min(strategy.role(i).path_size()-1, step[i]+1);
 					lastAdv[i] = timer.time();
-					//cout << "stepped: " << i << "	" << step[i] << endl;
+					//std::cout << "stepped: " << i << "	" << step[i] << std::endl;
 				}
 			}
 
@@ -157,17 +157,17 @@ void ai09::strategy_maker ( void )
 		else if (*stm2AInum[i]==attack) {
 			int shoot = 0;
 			int chip = 0;
-            cout<<"ATTACK: ";
+            std::cout<<"ATTACK: ";
 			if (strategy.role(i).path(step[i]).type() == 0 ) {
 				shoot = strategy.role(i).path(step[i]).tolerance();
-                cout<<shoot<<endl;
+                std::cout<<shoot<<std::endl;
 			}
 			else {
 				chip = strategy.role(i).path(step[i]).tolerance();
-                cout<<chip<<endl;
+                std::cout<<chip<<std::endl;
 			}
 			
-			//cout << "	daram mirinam: " << shoot << "	" << chip << endl;
+			//std::cout << "	daram mirinam: " << shoot << "	" << chip << std::endl;
 
             
             

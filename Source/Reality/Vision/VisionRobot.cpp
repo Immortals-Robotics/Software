@@ -9,8 +9,8 @@ const float BALL_ERROR_VELOCITY_SQUARED   = 1960000.0f;
 const float OPPONENT_ERROR_VELOCITY_SQUARED = 200000.0f;
 
 #include <fstream>
-ofstream outfile ( "outf.txt" );
-ofstream delay_data ( "delay.txt" );
+std::ofstream outfile ( "outf.txt" );
+std::ofstream delay_data ( "delay.txt" );
 unsigned int fr_num = 0;
 
 void VisionModule::ProcessRobots ( WorldState * state )
@@ -48,7 +48,7 @@ void VisionModule::ProcessRobots ( WorldState * state )
 	SendStates ( state );
 	
 	//int cmdIndex = state->lastCMDS[6][10].X;
-	//delay_data << fr_num++ << "	" << state->OwnRobot[6].Position.X << "	" << state->OwnRobot[6].Position.Y << "	" << state->lastCMDS[6][cmdIndex].X << "	" << state->lastCMDS[6][cmdIndex].Y << endl;
+	//delay_data << fr_num++ << "	" << state->OwnRobot[6].Position.X << "	" << state->OwnRobot[6].Position.Y << "	" << state->lastCMDS[6][cmdIndex].X << "	" << state->lastCMDS[6][cmdIndex].Y << std::endl;
 	
 }
 int VisionModule::ExtractBlueRobots ( void )
@@ -58,7 +58,7 @@ int VisionModule::ExtractBlueRobots ( void )
 	{
 		if ( this -> use_camera[i] )
 		{
-			for ( int j = 0 ; j < min ( MAX_ROBOTS , frame[i].robots_blue_size ( ) ) ; j ++ )
+			for ( int j = 0 ; j < std::min ( MAX_ROBOTS , frame[i].robots_blue_size ( ) ) ; j ++ )
 			{
 				robot[ans] = frame[i].robots_blue ( j );
 				ans ++;
@@ -75,7 +75,7 @@ int VisionModule::ExtractYellowRobots ( void )
 	{
 		if ( this -> use_camera[i] )
 		{
-			for ( int j = 0 ; j < min ( MAX_ROBOTS , frame[i].robots_yellow_size ( ) ) ; j ++ )
+			for ( int j = 0 ; j < std::min ( MAX_ROBOTS , frame[i].robots_yellow_size ( ) ) ; j ++ )
 			{
 				robot[ans] = frame[i].robots_yellow ( j );
 				ans ++;
@@ -149,7 +149,7 @@ void VisionModule::FilterRobots ( int num , bool own )
 				}
 				robotState[own][i].Angle = robot[j].orientation ( ) * 180.0f / 3.1415f;
 				//if ( robot[j].robot_id() == 1 )
-				//	cout << robotState[own][i].AngularVelocity << endl;
+				//	std::cout << robotState[own][i].AngularVelocity << std::endl;
 				
 				// Make sure our filtered velocities are reasonable
 				if ( fabs ( robotState[own][i].AngularVelocity ) < 20.0f )
@@ -287,7 +287,7 @@ void VisionModule::predictRobotsForward( WorldState * state )
 		if ( robotState[0][i].Angle < -180 )
 			robotState[0][i].Angle += 360.0f;
 	}
-	//outfile << robotState[0][1].AngularVelocity << endl;
+	//outfile << robotState[0][1].AngularVelocity << std::endl;
 	
 }
 

@@ -2,7 +2,7 @@
 
 void ai09::Stop_def ( void )
 {
-	for (map<int*, int>::const_iterator i = markMap.begin(); i != markMap.end(); ++i) {
+	for (std::map<int*, int>::const_iterator i = markMap.begin(); i != markMap.end(); ++i) {
 		markMap[i->first] = -1;
 	}
 
@@ -13,23 +13,23 @@ void ai09::Stop_def ( void )
 	{
 		if (!OwnRobot[mid1].State.OutForSubsitute)
 		{
-			swap(attack, mid1);
+			std::swap(attack, mid1);
 		}
 		else if (!OwnRobot[mid2].State.OutForSubsitute)
 		{
-			swap(attack, mid2);
+			std::swap(attack, mid2);
 		}
 	}
 	if ( OwnRobot[mid1].State.Position.Y < OwnRobot[mid2].State.Position.Y )
 	{
-		swap(mid1, mid2);
+		std::swap(mid1, mid2);
 	}
 
 	GKHi( gk , true );
 	//DefHi(def,NULL, true);
 	DefMid(def, rw, lw, NULL, true);
 	
-	map<int,TVec2> static_pos;
+	std::map<int,TVec2> static_pos;
 	static_pos[dmf] = Vec2(side*4500, -sgn(ball.Position.Y)*3000);
 	static_pos[mid1] = Vec2(side*4200, 1000);
 	static_pos[mid2] = Vec2(side*4200, -1000);

@@ -13,7 +13,7 @@ void ai09::penalty_their_gool ( void )
 	}
 	else
 	{
-		cout << "	Penalty zan harif: " << index << endl;
+		std::cout << "	Penalty zan harif: " << index << std::endl;
 		if (OppRobot[index].velocity.magnitude>10) {
 			Navigate2Point(gk, Vec2(side*(field_width-100), 250.0f*sgn(randomParam-0.5f)), 0, 100, &VELOCITY_PROFILE_KHARAKI);
 		}

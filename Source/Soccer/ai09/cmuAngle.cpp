@@ -18,7 +18,7 @@ float ai09::calculateOneTouchAngle ( int robot_num , TVec2 oneTouchPosition )
 	Line targetLine = Line::makeLineFromTwoPoints ( VecPosition ( -side * field_width , -100 ) , VecPosition ( -side * field_width , 100 ) );
 	TVec2 boz = calculateOpenAngleToGoal (oneTouchPosition,robot_num);
 	//boz.X = AngleWith(oneTouchPosition, Vec2(-side*field_width, 0));
-	cout << "	Open angle : " << boz.X << "	" << boz.Y << endl;
+	std::cout << "	Open angle : " << boz.X << "	" << boz.Y << std::endl;
 	Line ball_line = Line::makeLineFromPositionAndAngle ( VecPosition ( oneTouchPosition.X , oneTouchPosition.Y ) , boz.X );
 	
 	VecPosition ans;
@@ -51,7 +51,7 @@ float ai09::calculateOneTouchAngle ( int robot_num , TVec2 oneTouchPosition )
 	goalx = ans.getX ( );
 	goaly = ans.getY ( );
 	
-	//cout << goalx << "	" << goaly << endl;
+	//std::cout << goalx << "	" << goaly << std::endl;
 	
 	/*dbgLine = AIDebug.add_line();
 	dbgLine -> set_x1(goalx);

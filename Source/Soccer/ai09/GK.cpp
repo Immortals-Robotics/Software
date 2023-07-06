@@ -11,14 +11,14 @@ void ai09::GK ( int robot_num , int defence_num , bool stop )
 	Line ball_line = Line::makeLineFromPositionAndAngle ( VecPosition ( ball.Position.X , ball.Position.Y ) , ball.velocity.direction );
 	Line targetLine = Line::makeLineFromTwoPoints ( VecPosition ( side * 3025 , -100 ) , VecPosition ( side * 3025 , 100 ) );
 	VecPosition ballInter = ball_line.getIntersection(targetLine);
-	 //cout << ballInter.getX()<<"	"<<ballInter.getY();
-	cout << "ANG:	BALL: " << AngleWith(Vec2(side*3025, 0),ball.Position) << "		";
-	cout << "GK: " << AngleWith(Vec2(side*3025, 0),OwnRobot[gk].State.Position) << "		";
-	cout << "DEF: " << AngleWith(Vec2(side*3025, 0),OwnRobot[def].State.Position) << endl;
+	 //std::cout << ballInter.getX()<<"	"<<ballInter.getY();
+	std::cout << "ANG:	BALL: " << AngleWith(Vec2(side*3025, 0),ball.Position) << "		";
+	std::cout << "GK: " << AngleWith(Vec2(side*3025, 0),OwnRobot[gk].State.Position) << "		";
+	std::cout << "DEF: " << AngleWith(Vec2(side*3025, 0),OwnRobot[def].State.Position) << std::endl;
 	
-	cout << "DIS:	BALL: " << DIS(Vec2(side*3025, 0),ball.Position) << "		";
-	cout << "GK: " << DIS(Vec2(side*3025, 0),OwnRobot[gk].State.Position) << "		";
-	cout << "DEF: " << DIS(Vec2(side*3025, 0),OwnRobot[def].State.Position) << endl;
+	std::cout << "DIS:	BALL: " << DIS(Vec2(side*3025, 0),ball.Position) << "		";
+	std::cout << "GK: " << DIS(Vec2(side*3025, 0),OwnRobot[gk].State.Position) << "		";
+	std::cout << "DEF: " << DIS(Vec2(side*3025, 0),OwnRobot[def].State.Position) << std::endl;
 
 
 

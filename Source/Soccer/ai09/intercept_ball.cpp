@@ -1,17 +1,17 @@
 #include "ai09.h"
 
 enum ball_intercept_state {
-	very_far = 0,
-	far,
-	near,
-	kick
+	kVeryFar = 0,
+	kFar,
+	kNear,
+	kKick
 };
 
 void ai09::intercept_ball ( int robot_num , float angle , int shoot_pow , int chip_pow )
 {
     static float last_change_t = 0.0f;
 	static int hys_bank[4]={0,0,0,0};
-    static ball_intercept_state state = very_far;
+    static ball_intercept_state state = kVeryFar;
     
     const float very_far_ball_dis = 600.0f;
 	const float far_ball_dis = 150.0f;
@@ -21,18 +21,18 @@ void ai09::intercept_ball ( int robot_num , float angle , int shoot_pow , int ch
 	const int near_to_kick_hys = 3;
 	const float shmit_coeff = 1.2f;
     
-    if (state == very_far) {
+    if (state == kVeryFar) {
         
         float ball_intercept_t = calculateBallRobotReachTime(robot_num, &VELOCITY_PROFILE_MAMOOLI);
         TVec2 ball_reach_point = predictBallForwardAI(ball_intercept_t);
         
         if (DIS(OwnRobot[robot_num].State.Position, ball.Position) < very_far_ball_dis) {
-			state = far;
+			state = kFar;
 			last_change_t = timer.time();
 		}
     }
     
-    else if (state == far) {
+    else if (state == kFar) {
 		
         
         if (DIS(OwnRobot[robot_num].State.Position, ball.Position) < far_ball_dis) {
@@ -42,20 +42,20 @@ void ai09::intercept_ball ( int robot_num , float angle , int shoot_pow , int ch
 			hys_bank[0]=0;
 		}
 		if (hys_bank[0] > far_to_near_hys ) {
-			state = near;
+			state = kNear;
 			last_change_t = timer.time();
 		}
 		else if (DIS(OwnRobot[robot_num].State.Position, ball.Position) > very_far_ball_dis * shmit_coeff) {
-			state = very_far;
+			state = kVeryFar;
 			last_change_t = timer.time();
 		}
 	}
     
-    else if (state == near) {
+    else if (state == kNear) {
 		
 		
 		if (DIS(OwnRobot[robot_num].State.Position, ball.Position) > far_ball_dis*shmit_coeff) {
-			state = far;
+			state = kFar;
 			last_change_t = timer.time();
 		}
 		
@@ -67,15 +67,15 @@ void ai09::intercept_ball ( int robot_num , float angle , int shoot_pow , int ch
 		//}
 		
 		if ((hys_bank[0]>near_to_kick_hys)&&((shoot_pow>0)||(chip_pow>0))) {
-			state = kick;
+			state = kKick;
 			last_change_t = timer.time();
 		}
 	}
 	
-	else if (state == kick) {
+	else if (state == kKick) {
 		
 		if (DIS(OwnRobot[robot_num].State.Position, ball.Position) > near_ball_dis*shmit_coeff) {
-			state = far;
+			state = kFar;
 			last_change_t = timer.time();
 		}
 	}

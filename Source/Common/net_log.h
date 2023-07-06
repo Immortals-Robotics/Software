@@ -6,7 +6,7 @@
 class NetLogger : public std::stringbuf
 {
 protected:
-	string logger_ip;
+    std::string logger_ip;
 	short logger_port;
 	UDPSocket udpSock;
 	
@@ -16,7 +16,7 @@ protected:
     virtual int sync();
 	
 public:
-	NetLogger ( const string _address , const short _port );
+	NetLogger ( const std::string _address , const short _port );
     
     void SetFrameID ( unsigned int id );
     unsigned int GetFrameID ( void );

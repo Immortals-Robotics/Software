@@ -200,7 +200,7 @@ TVec2 Dss::ComputeSafeMotion(const int robot_num, const TVec2 &motion)
     const float error = ComputeError(target_a_cmd, a_cmd);
     //if (error > 0 && state.seenState != CompletelyOut)
     {
-        //cout << "dss changed motion: " << state.vision_id << ", error: " << error << endl;
+        //std::cout << "dss changed motion: " << state.vision_id << ", error: " << error << std::endl;
     }
     computed_motions[robot_num] = a_cmd;
     const TVec2 safe_motion = GetMotionFromAcc(robot_num, a_cmd);

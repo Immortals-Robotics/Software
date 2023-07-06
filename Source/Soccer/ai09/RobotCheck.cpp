@@ -16,22 +16,22 @@ bool ai09::position_robots(bool avoid_GK, bool avoid_DEF){
 
 
     for(int j=0;j<MAX_TEAM_ROBOTS;j++) {
-//        cout<<"j is: "<<j<<endl;
+//        std::cout<<"j is: "<<j<<std::endl;
         if (requiredRobots[*stm2AInum[j]] && OwnRobot[*stm2AInum[j]].State.seenState == CompletelyOut) {//Find the robot that needs to be replaced
 
             int i;
             for (i = 0; i < MAX_TEAM_ROBOTS; i++) {
                 if (!requiredRobots[*stm2AInum[i]] && OwnRobot[*stm2AInum[i]].State.seenState != CompletelyOut
                         && gk !=*stm2AInum[i] && def !=*stm2AInum[i]) {
-//                    cout<<"BEF_SWAP: "<<requiredRobots[*stm2AInum[j]]<< (OwnRobot[*stm2AInum[j]].State.seenState == CompletelyOut) <<endl;
-                    swap(*stm2AInum[i], *stm2AInum[j]);
+//                    std::cout<<"BEF_SWAP: "<<requiredRobots[*stm2AInum[j]]<< (OwnRobot[*stm2AInum[j]].State.seenState == CompletelyOut) <<std::endl;
+                    std::swap(*stm2AInum[i], *stm2AInum[j]);
 //                    int tempint = *stm2AInum[i];
 //                    *stm2AInum[i] = *stm2AInum[j];
 //                    *stm2AInum[j] = tempint;
                     requiredRobots[*stm2AInum[j]] = true;
                     requiredRobots[*stm2AInum[i]] = false;
-//                    cout<<"DATA_1: "<<requiredRobots[*stm2AInum[3]]<< (OwnRobot[*stm2AInum[3]].State.seenState == CompletelyOut) <<endl;
-//                    cout<<"DATA_2: "<<requiredRobots[*stm2AInum[4]]<< (OwnRobot[*stm2AInum[4]].State.seenState == CompletelyOut) <<endl;
+//                    std::cout<<"DATA_1: "<<requiredRobots[*stm2AInum[3]]<< (OwnRobot[*stm2AInum[3]].State.seenState == CompletelyOut) <<std::endl;
+//                    std::cout<<"DATA_2: "<<requiredRobots[*stm2AInum[4]]<< (OwnRobot[*stm2AInum[4]].State.seenState == CompletelyOut) <<std::endl;
 
                     j=-1;
                     break;
@@ -39,12 +39,12 @@ bool ai09::position_robots(bool avoid_GK, bool avoid_DEF){
             }
             if (i == MAX_TEAM_ROBOTS) {
                 for(int i=0;i<MAX_TEAM_ROBOTS;i++){requiredRobots[i]= false;}
-                cout<<"FAILED SWAP"<<endl;
+                std::cout<<"FAILED SWAP"<< std::endl;
                 return false;
             }
         }
     }
-    cout<<"DONE SWAP"<<endl;
+    std::cout<<"DONE SWAP"<< std::endl;
 
     for(int i=0;i<MAX_TEAM_ROBOTS;i++){requiredRobots[i]= false;}
     return true;

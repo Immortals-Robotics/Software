@@ -215,7 +215,7 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 
 	angle = NormalizeAngle ( angle );
 
-	//cout << "circle dadam";
+	//std::cout << "circle dadam";
 
 
 	
@@ -279,7 +279,7 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
             
 			if ( circleReachedBehindBall )
 			{
-				//cout << "								reached	";
+				//std::cout << "								reached	";
 				TVec2 targetPoint;
 				if ( !gameRestart )
 				{
@@ -292,7 +292,7 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 				//Circle newCircle ( VecPosition ( OwnRobot[robot_num].State.Position.X , OwnRobot[robot_num].State.Position.Y ) , DIS(targetPoint, OwnRobot.State.Position) * 2 );
 				if ( 1)//!gameRestart )
 				{
-					//cout << "elendil: " << elendil;
+					//std::cout << "elendil: " << elendil;
 					float hehe2 = AngleWith ( PredictedBall , OwnRobot[robot_num].State.Position );
 					hehe2 = NormalizeAngle ( angle - hehe2 );
 					bool el = ((hehe2<5)&&(DIS(ball.Position,OwnRobot[robot_num].State.Position)<100));

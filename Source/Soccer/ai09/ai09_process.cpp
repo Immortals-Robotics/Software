@@ -67,13 +67,13 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting )
 //                else
                 currentPlay = "throwin_chip_shoot";
             }
-			cout<<currentPlay<<endl;
+			std::cout<<currentPlay<< std::endl;
 		}
 		else if ( REF_playState->ourPenaltyKick ( ) )
 		{
 			currentPlay = "penalty_us_ghuz";
 			currentPlayParam = static_cast<uint32_t>(worldState ->refereeState -> State->canKickBall());
-//			cout << "IN_PENALTY..."<<worldState ->refereeState -> State->canKickBall()<<endl;
+//			std::cout << "IN_PENALTY..."<<worldState ->refereeState -> State->canKickBall()<<std::endl;
 		}
         else if(REF_playState->ourPlaceBall())
         {
@@ -127,7 +127,7 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting )
 		(this->*AIPlayBook[currentPlay])();
 	else {
         HaltAll();
-        //cout<<"Oh NO!!!"<<endl;
+        //std::cout<<"Oh NO!!!"<<std::endl;
     }
 	
 	

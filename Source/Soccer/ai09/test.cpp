@@ -29,7 +29,7 @@ void ai09::my_test() {
 //        ERRTNavigate2Point(cmf,Vec2(-2000,-1500),0,80);
         Navigate2Point(cmf,Vec2(-1000,700),0,30,&VELOCITY_PROFILE_TEST,false);
 
-        //cout<<"first part"<<endl;
+        //std::cout<<"first part"<<std::endl;
     }
     else if(time_dis.time()<12.0){
         OwnRobot[cmf].target.Angle = 90;
@@ -54,16 +54,16 @@ void ai09::my_test() {
     }
     resetCounter++;
 
-    //cout<<time_dis.time()<<endl;
+    //std::cout<<time_dis.time()<<std::endl;
 //    integral_PosRawX += (OwnRobot[cmf].State.Position.X - last_PosX);
     plot->BLUE_pushData(OwnRobot[cmf].State.velocity.x);
 
 //    integral_PosFilterX += OwnRobot[cmf].State.velocity.x*0.9*worldState->delta_t_capture;
     plot->GREEN_pushData(OwnRobot[cmf].target.velocity.x * 48);
 
-    cout<<"ALPHA-> "<<(OwnRobot[cmf].State.velocity.x/OwnRobot[cmf].target.velocity.x)<<endl;
+    std::cout<<"ALPHA-> "<<(OwnRobot[cmf].State.velocity.x/OwnRobot[cmf].target.velocity.x)<<std::endl;
 
-//    cout<<"deltaX/time: "<<(OwnRobot[cmf].State.Position.X - last_PosX)/worldState->delta_t_capture<<endl;
+//    std::cout<<"deltaX/time: "<<(OwnRobot[cmf].State.Position.X - last_PosX)/worldState->delta_t_capture<<std::endl;
 
 
     last_PosX = OwnRobot[cmf].State.Position.X;

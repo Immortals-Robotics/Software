@@ -1,6 +1,5 @@
 #include "ai09.h"
 #include <iostream>
-using namespace std;
 
 static float lastBackPassT = 0.0f;
 
@@ -10,7 +9,7 @@ void ai09::NormalPlay ( void )
 		this->isDefending = true;
 	else
 		this->isDefending = false;*/
-	swap(dmf, lmf);
+	std::swap(dmf, lmf);
 	if ( 1 )
 	{
 		OwnRobot[attack].target.Angle = 90;OwnRobot[attack].State.Angle + 160;
@@ -132,5 +131,5 @@ void ai09::NormalPlay ( void )
 		//backPass(attack, NormalizeAngle( 180+calculateOpenAngleToGoal(ball.Position, attack).X));
 		//Halt(attack);
 	}
-	swap(dmf, lmf);
+	std::swap(dmf, lmf);
 }

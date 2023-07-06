@@ -44,7 +44,7 @@ void ai09::internalProcessData ( WorldState * worldState , GameSetting * setting
 				}
 			}
 		}
-		//cout << OwnRobot[i].vision_id << "	";
+		//std::cout << OwnRobot[i].vision_id << "	";
 		
 		this->OwnRobot[i].set_serial_id(OwnRobot[i].vision_id);
 		//this->OwnRobot[i].oldRobot = true;
@@ -69,7 +69,7 @@ void ai09::internalProcessData ( WorldState * worldState , GameSetting * setting
 		//	this->OwnRobot[i].oldRobot = true;
 		
 	}
-	//cout << endl;
+	//std::cout << std::endl;
 	
 	for ( int i = 0 ; i < 12 ; i ++ )
 		this->OppRobot[i] = worldState -> OppRobot[i];

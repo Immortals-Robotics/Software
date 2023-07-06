@@ -4,21 +4,21 @@
 int ai09::strategy_weight ( void )
 {
 	if (!playBook) {
-		cout<<"strategy_weight__+:  444"<<endl;
+		std::cout<<"strategy_weight__+:  444"<<std::endl;
 		return -1;
 	}
 	
 	if (playBook->strategy_size() == 0) {
-		cout<<"strategy_weight__+:  555"<<endl;
+		std::cout<<"strategy_weight__+:  555"<<std::endl;
 		return -1;
 	}
-	cout<<"strategy_weight__+:  333"<<endl;
+	std::cout<<"strategy_weight__+:  333"<<std::endl;
 
-	map<int,float> good_strs;
+	std::map<int,float> good_strs;
 	
 	float sigma_w = 0;
 	
-	cout << "	strategy:	" ;
+	std::cout << "	strategy:	" ;
 	for (int i = 0; i < playBook->strategy_size(); i++) {
 		if (
 			(side*ball.Position.X>playBook->strategy(i).minx()) &&
@@ -28,13 +28,13 @@ int ai09::strategy_weight ( void )
 			(playBook->weight(i)>0)
 			)
 		{
-			cout << i << "|" << playBook->weight(i) << "	";
+			std::cout << i << "|" << playBook->weight(i) << "	";
 			good_strs[i] = sigma_w + playBook->weight(i);
 			sigma_w += playBook->weight(i);
 		}
 		
 	}
-	cout << endl;
+	std::cout << std::endl;
 	
 	if (sigma_w == 0) {
 		return -1;
@@ -42,7 +42,7 @@ int ai09::strategy_weight ( void )
 	
 	
 	int ans_str = -1;
-	for (map<int,float>::const_iterator it = good_strs.begin(); it!=good_strs.end(); ++it) {
+	for (std::map<int,float>::const_iterator it = good_strs.begin(); it!=good_strs.end(); ++it) {
 		if (randomParam*sigma_w <= it->second) {
 			ans_str = it->first;
 			break;

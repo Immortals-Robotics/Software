@@ -7,7 +7,7 @@ TVec2 ai09::CalculatePassPos ( int robot_num , const TVec2& target , const TVec2
 	
 	if (chip_head<180) {
 		ball_line = Line::makeLineFromPositionAndAngle ( VecPosition ( ball.Position.X , ball.Position.Y ) , chip_head );
-		cout << "	calcing with static head: " << chip_head << endl;
+		std::cout << "	calcing with static head: " << chip_head << std::endl;
 	}
 	
 	float angleWithTarget = AngleWith(statPos, target);
@@ -105,7 +105,7 @@ void ai09::WaitForPass ( int robot_num , bool chip , TVec2* target , TVec2* stat
 //                vel_delta = 44;
 //            }
 //            vel_delta = getCalibratedShootPowCPY(robot_num,60);
-            cout << "ball vel: " << vel_delta << endl;
+            std::cout << "ball vel: " << vel_delta << std::endl;
 			OwnRobot[robot_num].Shoot( 47 );
         }
 	}

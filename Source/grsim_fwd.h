@@ -7,7 +7,7 @@
 
 #include "Soccer/ai09/Robot.h"
 #include "Network/PracticalSocket.h"
-#include <string.h>
+#include <string>
 
 class GrsimForwarder
 {

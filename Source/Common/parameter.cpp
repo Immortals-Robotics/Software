@@ -1,9 +1,9 @@
 #include "parameter.h"
 
-void LoadParameters ( const string& add , ParameterBook& parameterBook )
+void LoadParameters ( const std::string& add , ParameterBook& parameterBook )
 {
 }
 
-void ParseParameters ( const string& data , ParameterBook& parameterBook )
+void ParseParameters ( const std::string& data , ParameterBook& parameterBook )
 {
 }

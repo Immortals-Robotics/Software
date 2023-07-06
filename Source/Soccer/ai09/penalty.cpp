@@ -34,18 +34,18 @@ void ai09::PenaltyUs ( int robot_num , float angle , int kick , int chip )
 			//OwnRobot[robot_num].target.Angle = 90+side*90;
 			ERRTNavigate2Point ( robot_num , CircleAroundPoint ( PredictedBall , angle+hehe*0.0f , r/1.5f ) ,0, 100 , &VELOCITY_PROFILE_AROOM );
 		}
-		cout<<"IN_HEHE"<<kick<<endl;
+		std::cout<<"IN_HEHE"<<kick<<std::endl;
 	}
 	else
 	{
-		cout<<"NOT_HEHE"<<kick<<endl;
+		std::cout<<"NOT_HEHE"<<kick<<std::endl;
 		hehe = AngleWith ( PredictedBall , OwnRobot[robot_num].State.Position ) + sgn ( hehe ) * tetta;
 		ERRTNavigate2Point ( robot_num , CircleAroundPoint ( PredictedBall , hehe , r ) );
 	}
 
 	if ( ( kick > 0 ) || ( chip > 0 ) )
 	{
-		cout<<"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH"<<endl;
+		std::cout<<"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH"<<std::endl;
 		TVec2 tmpPos = OwnRobot[robot_num].State.Position;
 		float tmpAng = OwnRobot[robot_num].State.Angle;
 		/*if ( side == -1 )

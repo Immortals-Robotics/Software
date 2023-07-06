@@ -5,8 +5,6 @@
 
 #include <fstream>
 
-using namespace std;
-
 VisionModule::VisionModule(GameSetting* _settings,WorldState* _State) : connected ( false )
 {
     playState = _State;
@@ -36,8 +34,8 @@ VisionModule::VisionModule(GameSetting* _settings,WorldState* _State) : connecte
     lastRawBall.set_x ( 0.0f );
     lastRawBall.set_y ( 0.0f );
 
-    string fast_filter_path(DATA_DIR); fast_filter_path.append("/ballFilterFast.txt");
-    string slow_filter_path(DATA_DIR); slow_filter_path.append("/ballFilterSlow.txt");
+    std::string fast_filter_path(DATA_DIR); fast_filter_path.append("/ballFilterFast.txt");
+    std::string slow_filter_path(DATA_DIR); slow_filter_path.append("/ballFilterSlow.txt");
 
     ball_kalman.initialize(fast_filter_path.c_str(), slow_filter_path.c_str());
 
@@ -53,7 +51,7 @@ VisionModule::VisionModule(GameSetting* _settings,WorldState* _State) : connecte
 
     //Launching UDP Connections
     if(!connectToVisionServer()){
-        cout<<"Failed to connect to Vision UDP"<<endl;
+        std::cout<<"Failed to connect to Vision UDP"<< std::endl;
     }
 
 }
@@ -64,7 +62,7 @@ VisionModule::~VisionModule()
 void VisionModule::recieveAllCameras( void )
 {
     if (!connected) {
-        cout << "	Hey you! Put the LAN cable back in its socket, or ..." << endl;
+        std::cout << "	Hey you! Put the LAN cable back in its socket, or ..." << std::endl;
         return;
         //connectToVisionServer ( setting -> UDP_Adress , setting -> LocalPort );
     }
@@ -81,7 +79,7 @@ void VisionModule::recieveAllCameras( void )
         }
         if (cams_ready)
             break;
-        //cout << "bodo dg    " << cams_ready << endl;
+        //std::cout << "bodo dg    " << cams_ready << std::endl;
         recievePacket();
 
     }

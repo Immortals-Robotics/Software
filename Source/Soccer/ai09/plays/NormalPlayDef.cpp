@@ -6,7 +6,7 @@ void ai09::NormalPlayDef ( void )
 	
 	MarkManager(false);
 	
-	for (map<int*,int>::const_iterator i=markMap.begin(); i!=markMap.end(); ++i) {
+	for (std::map<int*,int>::const_iterator i=markMap.begin(); i!=markMap.end(); ++i) {
 		int opp = i->second;
 		int own = *i->first;
 		

@@ -3,7 +3,6 @@
 #include <deque>
 #include <numeric>
 
-using namespace std;
 float getCalibratedShootPow ( int vision_id , float raw_shoot )
 {
 	if (raw_shoot<=0) {
@@ -249,8 +248,8 @@ void Robot::MoveByMotion(TVec3 motion)
         data[4] = abs(VelY);//VelY
 
         if (vision_id == 7) {
-            cout << "speed in X axis: " << (int) data[3] << '-' << motion.X << endl;
-            cout << "speed in Y axis: " << (int) data[4] << '-' << motion.X << endl;
+			std::cout << "speed in X axis: " << (int) data[3] << '-' << motion.X << std::endl;
+			std::cout << "speed in Y axis: " << (int) data[4] << '-' << motion.X << std::endl;
         }
 
         data[6] = abs(targetAng);

@@ -45,6 +45,6 @@ void ai09::ManageAttRoles ( void )
 	}
 	
 	if (OwnRobot[mid1].State.Position.Y<OwnRobot[mid2].State.Position.Y) {
-		swap(mid1, mid2);
+		std::swap(mid1, mid2);
 	}
 }

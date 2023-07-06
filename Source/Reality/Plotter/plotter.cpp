@@ -18,13 +18,13 @@ void plotter::GREEN_pushData(float data) {
 }
 
 void plotter::send_data() {
-    string* tempSTR = new string();
+    std::string* tempSTR = new std::string();
     try {
         bufferStream.SerializeToString(tempSTR);
         commUDP.sendTo ( tempSTR->c_str()    , tempSTR->length() , this->UDP_Address , this->port_Address );
-        cout<<"The DATA length was: "<<tempSTR->length()<<endl;
+        std::cout<<"The DATA length was: "<<tempSTR->length()<< std::endl;
     } catch (...) {
-        std::cout << "ERROR: failed to send plot packets." << endl;
+        std::cout << "ERROR: failed to send plot packets." << std::endl;
     }
     y_Blue -> Clear();
     y_Red -> Clear();

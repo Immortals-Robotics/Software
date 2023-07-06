@@ -1,7 +1,5 @@
 #include "ai09.h"
 
-using namespace std;
-
 #include "helpers.h"
 #include <stdlib.h>
 
@@ -96,8 +94,8 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 	stm2AInum[5] = &attack;
     stm2AInum[6] = &rw;
     stm2AInum[7] = &lw;
-//    cout<<"THE GK_pointer: "<<&gk <<endl;
-//    cout<<"THE GK_pointer: "<<stm2AInum[0] <<endl;
+//    std::cout<<"THE GK_pointer: "<<&gk <<std::endl;
+//    std::cout<<"THE GK_pointer: "<<stm2AInum[0] <<std::endl;
 
 	for (int i = 0 ; i < 8 ; i ++ ) {
 		oneTouchDetector[i].bState = &ball;
@@ -169,36 +167,36 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 
 
 	playBook = NULL;
-	string strategy_path(DATA_DIR); strategy_path.append("/strategy.ims");
+	std::string strategy_path(DATA_DIR); strategy_path.append("/strategy.ims");
 	read_playBook(strategy_path.c_str());
 	if ( playBook )
 	{
-		cout << playBook->strategy_size() << " ";
-		cout << playBook->strategy(0).name() << endl;
+		std::cout << playBook->strategy_size() << " ";
+		std::cout << playBook->strategy(0).name() << std::endl;
 
-		cout << playBook->strategy_size() << endl;
+		std::cout << playBook->strategy_size() << std::endl;
 		for ( int i = 0 ; i < playBook->strategy_size() ; i ++ )
 		{
-			cout << "	" << playBook->strategy(i).role_size() << endl;
+			std::cout << "	" << playBook->strategy(i).role_size() << std::endl;
 			for ( int j = 0 ; j < playBook->strategy(i).role_size() ; j ++ )
 			{
-				cout << "		" << playBook->strategy(i).role(j).path_size() << endl;
+				std::cout << "		" << playBook->strategy(i).role(j).path_size() << std::endl;
 				for (int k = 0 ; k < playBook->strategy(i).role(j).path_size() ; k++ ) {
-					cout << "			" << playBook->strategy(i).role(j).path(k).type() << endl;
-					cout << "				" << playBook->strategy(i).role(j).path(k).x() << "		" << playBook->strategy(i).role(j).path(k).y() << endl;
+					std::cout << "			" << playBook->strategy(i).role(j).path(k).type() << std::endl;
+					std::cout << "				" << playBook->strategy(i).role(j).path(k).x() << "		" << playBook->strategy(i).role(j).path(k).y() << std::endl;
 
 				}
 			}
 		}
 
-		cout << playBook->weight_size() << endl;
+		std::cout << playBook->weight_size() << std::endl;
 		for ( int i = 0 ; i < playBook->weight_size() ; i ++ )
 		{
-			cout << "	" << playBook->weight(i) << endl;
+			std::cout << "	" << playBook->weight(i) << std::endl;
 		}
 	}
 	else {
-		cout << "	Could not open \"strategy.ims\"" << endl;
+		std::cout << "	Could not open \"strategy.ims\"" << std::endl;
 	}
 
 	timer.start();

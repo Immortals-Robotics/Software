@@ -4,10 +4,10 @@
 NewReferee::NewReferee ( GameSetting* settings,WorldState* state ):isConnected(false)
 {
 	if(!settings){
-		cout<<"NewReferee: \"setting\" is NULL"<<endl;
+		std::cout<<"NewReferee: \"setting\" is NULL"<< std::endl;
 	}
 	if(!state){
-		cout<<"NewReferee: \"state\" is NULL"<<endl;
+		std::cout<<"NewReferee: \"state\" is NULL"<< std::endl;
 	}
 	referee_UDP_Address = settings->referee_UDP_Address;
 	refereePort = settings->refereePort;
@@ -44,12 +44,12 @@ void NewReferee::process ()
     if ( !pSSLRef.ParseFromArray(incoming_buffer, buffer_size) )
         return;
 	if(pSSLRef.has_designated_position()){
-//		cout<<"HAS POSITION!!!!!"<<endl;
-//		cout<<"BALL TARGET POSITION IS:"<<pSSLRef.designated_position().x()<<'_'<<pSSLRef.designated_position().y()<<endl;
+//		std::cout<<"HAS POSITION!!!!!"<<std::endl;
+//		std::cout<<"BALL TARGET POSITION IS:"<<pSSLRef.designated_position().x()<<'_'<<pSSLRef.designated_position().y()<<std::endl;
         RefState->placeBallTargetPosition = Vec2(pSSLRef.designated_position().x(),pSSLRef.designated_position().y());
 	}
 //	else
-//		cout<<"no new packet received"<<endl;
+//		std::cout<<"no new packet received"<<std::endl;
 
 	if(command_CNT != pSSLRef.command_counter()) {//Update only when there is a new command
 		command_CNT = pSSLRef.command_counter();
@@ -64,13 +64,13 @@ void NewReferee::process ()
         move_hys = 0;//TODO maybe it needs to be commented
 
 
-//		cout << "command: " << pSSLRef.command() << endl;
-//		cout << "command_CNT: " << pSSLRef.command_counter() << endl;
+//		std::cout << "command: " << pSSLRef.command() << std::endl;
+//		std::cout << "command_CNT: " << pSSLRef.command_counter() << std::endl;
 	}
 
     RefState->State->transition ( pSSLRef.command() , isKicked(ballData->Position) );
 //    if ( isKicked(ballData->Position) )
-//    	cout << "kicked" << endl;
+//    	std::cout << "kicked" << std::endl;
 
 }
 
@@ -84,7 +84,7 @@ bool NewReferee::isKicked ( TVec2 ballPos )
 			requiredDis = 150.0f;
 		}
 	}
-//	cout<<"the distance: "<<DIS ( ballPos , LastPlacedBall )<<endl;
+//	std::cout<<"the distance: "<<DIS ( ballPos , LastPlacedBall )<<std::endl;
 	if ( DIS ( ballPos , LastPlacedBall ) > requiredDis )
 	{
 		move_hys ++;

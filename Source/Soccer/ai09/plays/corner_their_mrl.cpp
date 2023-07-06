@@ -22,7 +22,7 @@ void ai09::corner_their_mrl ( void )
 	isDefending = true;
 	DefenceWall(attack, false);
 	
-	map<int,TVec2> static_pos;
+	std::map<int,TVec2> static_pos;
 	static_pos[dmf] = Vec2(side*3500, -sgn(ball.Position.Y)*1100);
 	static_pos[mid1] = Vec2(side*3200, 600);
 	static_pos[mid2] = Vec2(side*3200, 0);
@@ -41,7 +41,7 @@ void ai09::corner_their_mrl ( void )
 	int jelos[12];
 	int jelos_num = findJeloOpps(-1000, jelos, gooshe,-1, 0,0);
 	
-	cout << "	jelos_num: " << jelos_num << endl;
+	std::cout << "	jelos_num: " << jelos_num << std::endl;
 	
 	if (jelos_num == 0) {
 		ERRTSetObstacles(mid1, 1, 1, 1, 1, 0, 0);
@@ -62,7 +62,7 @@ void ai09::corner_their_mrl ( void )
 	
 	int remaining_jelos[12];
 	int remaining_jelos_num = findJeloOpps(-1000, remaining_jelos, gooshe,jelos[0], 0, 1);
-	cout << "	remaining jelos_num: " << remaining_jelos_num << endl;
+	std::cout << "	remaining jelos_num: " << remaining_jelos_num << std::endl;
 	
 	if (remaining_jelos_num == 0) {
 		ERRTSetObstacles(mid2, 1, 1, 1, 1, 0, 0);

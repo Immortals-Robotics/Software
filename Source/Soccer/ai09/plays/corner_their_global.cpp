@@ -19,14 +19,14 @@ void ai09::corner_their_global ( void )
 	isDefending = true;
 	DefenceWall(attack, false);
 
-	map<int, TVec2> static_pos;
+	std::map<int, TVec2> static_pos;
 	static_pos[dmf] = Vec2(side * 3500, -sgn(ball.Position.Y) * 1100);
 	static_pos[mid1] = Vec2(side * 3200, 600);
 	static_pos[mid2] = Vec2(side * 3200, 0);
 
 	MarkManager(true);
 	
-	for (map<int*, int>::const_iterator i = markMap.begin(); i != markMap.end(); ++i) {
+	for (std::map<int*, int>::const_iterator i = markMap.begin(); i != markMap.end(); ++i) {
 		int opp = i->second;
 		int own = *i->first;
 

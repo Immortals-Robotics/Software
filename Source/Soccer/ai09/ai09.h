@@ -13,7 +13,6 @@
 #include <map>
 
 #include <iostream>
-using namespace std;
 
 #include "Geom.h"
 
@@ -42,8 +41,8 @@ private:
     float penalty_area_r;
     float penalty_area_width;
     
-	map<string,void (ai09::*)()> AIPlayBook;
-	string currentPlay;
+	std::map<std::string,void (ai09::*)()> AIPlayBook;
+	std::string currentPlay;
 	uint32_t currentPlayParam;
 
 	void InitAIPlayBook ( void );
@@ -79,7 +78,7 @@ private:
 	
 	TVec2 allafPos[MAX_TEAM_ROBOTS];
 	
-	map<int*,int> markMap;
+	std::map<int*,int> markMap;
 	
 	int lastReferee;
 	
@@ -96,7 +95,7 @@ private:
 		bool reached;
 
 		const int maxBallHist;
-		deque<BallState> ballHist;
+		std::deque<BallState> ballHist;
 		Linear ballLine;
 		BallState ball;
 		RobotState OppRobot[MAX_ROBOTS];

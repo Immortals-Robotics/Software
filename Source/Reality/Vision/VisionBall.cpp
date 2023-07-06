@@ -80,8 +80,8 @@ void VisionModule::FilterBalls ( int num , WorldState * state )
 			id = i;
 		}
 	}
-//	cout << d_ball[id].x() <<endl
-//		 << d_ball[id].y() <<endl;
+//	std::cout << d_ball[id].x() <<std::endl
+//		 << d_ball[id].y() <<std::endl;
 
 	if ( dis < MAX_BALL_2FRAMES_DISTANCE )
 	{
@@ -256,16 +256,16 @@ void VisionModule::predictBallForward( WorldState * state )
 //    if(tempAngdelta != tempAngdelta)//tempAngdelta is NaN (Don't erase it)
 //        tempAngdelta = 0.0;
 //    if(fabs(tempAngdelta) > 15){
-//        cout<<"NEW ANGLE____________"<<tempAngdelta<<endl;
+//        std::cout<<"NEW ANGLE____________"<<tempAngdelta<<std::endl;
 //    }
 //
 //    if(state -> ball.velocity.magnitude > 10 && state -> ball.seenState == Seen && fabs(tempAngdelta) <= 15) {
 //        state->ball.path_dir = (ball_dir_buff.front() - ball_dir_buff.back());
-//        cout<<"we got here"<<endl;
+//        std::cout<<"we got here"<<std::endl;
 //
 //    }else if(state -> ball.seenState != TemprolilyOut){
 //        state->ball.First_Pos_when_shooted = state->ball.Position;
-//        cout<<"SEE: "<<fabs(tempAngdelta)<<endl;
+//        std::cout<<"SEE: "<<fabs(tempAngdelta)<<std::endl;
 //    }
 
 }

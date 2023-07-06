@@ -2,7 +2,7 @@
 #include <fstream>
 #include <thread>
 #include <mutex>
-#include <string.h>
+#include <string>
 
 #include "Common/GameSetting.h"
 #include "Reality/Vision/Vision.h"
@@ -28,8 +28,8 @@ using namespace std;
 int main ( )
 {
 	if (!ImmortalsIsTheBest) {
-		cout << "ERROR: Immortals is not the best SSL team anymore." << endl;
-		cout << "Shutting down the system..." << endl;
+		std::cout << "ERROR: Immortals is not the best SSL team anymore." << std::endl;
+		std::cout << "Shutting down the system..." << std::endl;
 	}
 
     WorldState * state = new WorldState();
@@ -57,22 +57,22 @@ int main ( )
     settings -> GUI_UDP_Address = "127.0.0.1";
     settings -> GUIPort = 10066;
 
-    cout << " Connecting to RefereeBox server at " << settings->referee_UDP_Address
-         << " , on port : " << settings->refereePort << endl;
+    std::cout << " Connecting to RefereeBox server at " << settings->referee_UDP_Address
+         << " , on port : " << settings->refereePort << std::endl;
     NewReferee referee_2018(settings,state);
     if ( referee_2018.connectToRefBox () ){
-        cout << "Connected to RefBox successfully :)"<<endl;
+        std::cout << "Connected to RefBox successfully :)"<<std::endl;
     }else{
-        cout << "	Hey you! Put the LAN cable back in its socket, or ..." << endl;
+        std::cout << "	Hey you! Put the LAN cable back in its socket, or ..." << std::endl;
     }
 
-    cout << " Connecting to Vision server at " << settings->vision_UDP_Address
-         << " , on port : " << settings->visionPort << endl;
+    std::cout << " Connecting to Vision server at " << settings->vision_UDP_Address
+         << " , on port : " << settings->visionPort << std::endl;
     VisionModule vision ( settings, state );
     if ( vision.isConnected() ){
-        cout << "Connected to Vision successfully :)"<<endl;
+        std::cout << "Connected to Vision successfully :)"<<std::endl;
     }else{
-        cout << "	Hey you! Put the LAN cable back in its socket, or ..." << endl;
+        std::cout << "	Hey you! Put the LAN cable back in its socket, or ..." << std::endl;
         //return 0;
     }
 
@@ -87,7 +87,7 @@ int main ( )
     bool exited = false;
     mutex lock;
 
-	cout << " Now it is time, lets rock..." << endl;
+	std::cout << " Now it is time, lets rock..." << std::endl;
 
     auto ai_func = [&]()
     {
@@ -119,7 +119,7 @@ int main ( )
 //            vision.SendGUIData(state,aii->AIDebug);
 
             lock.unlock();
-            cout << 1.0/timer.interval() << endl;
+            std::cout << 1.0/timer.interval() << std::endl;
         }
         exited = true;
     };
@@ -130,11 +130,11 @@ int main ( )
         {
             if ( referee_2018.recieve() )
             {
-//                cout << "Referre Boz" << endl;
+//                std::cout << "Referre Boz" << std::endl;
                 lock.lock();
                 referee_2018.process();
                 lock.unlock();
-//                cout << "Referre Boz "<< referee_2018.command_CNT << endl;
+//                std::cout << "Referre Boz "<< referee_2018.command_CNT << std::endl;
 
             }
         }
@@ -148,22 +148,22 @@ int main ( )
         char strategyBuffer[strategyBufferMaxSize];
         while ( ( !exited ) && (! kbhit()) && ( ImmortalsIsTheBest ) )	//Hope it lasts Forever...
         {
-            string strategySrcAdd;
+            std::string strategySrcAdd;
             unsigned short strategySrcPort;
             int strategySize = strategyUDP->recvFrom(strategyBuffer, strategyBufferMaxSize, strategySrcAdd, strategySrcPort);
             if ( strategySize > 11 )
             {
-                cout << "Recieved \"strategy.ims\" with size: " << float(strategySize)/1000.0f << " KB, from " << strategySrcAdd << " on port " << strategySrcPort << "." << endl;
+                std::cout << "Recieved \"strategy.ims\" with size: " << float(strategySize)/1000.0f << " KB, from " << strategySrcAdd << " on port " << strategySrcPort << "." << std::endl;
                 lock.lock();
                 reinterpret_cast<ai09*>(aii)->read_playBook_str(strategyBuffer, strategySize);
                 lock.unlock();
-                string strategy_path(DATA_DIR); strategy_path.append("/strategy.ims");
+                std::string strategy_path(DATA_DIR); strategy_path.append("/strategy.ims");
                 ofstream strategyFile ( strategy_path.c_str() , ios::out|ios::binary);
                 strategyFile.write(strategyBuffer, strategySize);
                 strategyFile.close();
             }
             else {
-                cout << "Invalid \"strategy.ims\" recieved with size: " << strategySize << " ." << endl;
+                std::cout << "Invalid \"strategy.ims\" recieved with size: " << strategySize << " ." << std::endl;
             }
         }
 

@@ -28,9 +28,9 @@ void ai09::GKHi_Simple(int robot_num, bool stop) {
     debugDraw = false;
 
 //    static int hys = 10;
-    cout<<"Ball Velocity: "<<ball.velocity.magnitude<<endl;
-    cout<<"hurryup: "<<hurryup<<endl;
-    cout<<"_POS_XY: "<<ball.Position.X<<" _ "<<ball.Position.Y<<endl;
+    std::cout<<"Ball Velocity: "<<ball.velocity.magnitude<< std::endl;
+    std::cout<<"hurryup: "<<hurryup<< std::endl;
+    std::cout<<"_POS_XY: "<<ball.Position.X<<" _ "<<ball.Position.Y<< std::endl;
 
     if(ball.velocity.magnitude < thr_ball_vel){//Ball is stationary
         BallisMoving = false;
@@ -79,7 +79,7 @@ void ai09::GKHi_Simple(int robot_num, bool stop) {
             }
 
             TVec2 fans = Vec2(tmp_x, tmp_y);
-            cout << "__XY__" << tmp_x << "_" << tmp_y << endl;
+            std::cout << "__XY__" << tmp_x << "_" << tmp_y << std::endl;
             Navigate2Point(robot_num, fans, 0, 100, stop ? &VELOCITY_PROFILE_AROOM : &VELOCITY_PROFILE_KILLER);
         }
 

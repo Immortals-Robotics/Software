@@ -107,3 +107,14 @@ target_compile_definitions(${PROJECT_NAME} PUBLIC QUILL_ROOT_LOGGER_ONLY)
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC DATA_DIR="${CMAKE_SOURCE_DIR}/data")
 target_compile_definitions(${PROJECT_NAME} PUBLIC LOG_DIR="${CMAKE_SOURCE_DIR}/log")
+
+set(C_SOURCE_FILES
+    "Source/Reality/Sender/Protocol/half.c"
+    "Source/Reality/Sender/Protocol/reader.c"
+    "Source/Reality/Sender/Protocol/writer.c")
+
+set_source_files_properties(${C_SOURCE_FILES} PROPERTIES 
+    SKIP_PRECOMPILE_HEADERS TRUE
+    SKIP_UNITY_BUILD_INCLUSION TRUE)
+
+target_precompile_headers(${PROJECT_NAME} PUBLIC ${PROTO_HDRS} "Source/pch.h")

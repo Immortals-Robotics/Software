@@ -37,7 +37,7 @@ int ai09::findJeloOpps ( float minX , int* ans , int mask1 , int mask2 , bool ac
     {
         if (isGooshe(ans[i], 1))
         {
-            swap(ans[i], ans[0]);
+			std::swap(ans[i], ans[0]);
             break;
         }
     }

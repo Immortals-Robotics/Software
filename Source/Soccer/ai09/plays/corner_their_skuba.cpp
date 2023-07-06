@@ -11,7 +11,7 @@ void ai09::corner_their_skuba ( void )
 	isDefending = true;
 	DefenceWall(attack, false);
 	
-	map<int,TVec2> static_pos;
+	std::map<int,TVec2> static_pos;
 	static_pos[dmf] = Vec2(side*2300, -sgn(ball.Position.Y)*800);
 	static_pos[mid1] = Vec2(side*2000, 300);
 	static_pos[mid2] = Vec2(side*2000, 300);
@@ -30,7 +30,7 @@ void ai09::corner_their_skuba ( void )
 	int jelos[12];
 	int jelos_num = findJeloOpps(-1000, jelos, gooshe,-1, 0,0);
 	
-	cout << "	jelos_num: " << jelos_num << endl;
+	std::cout << "	jelos_num: " << jelos_num << std::endl;
 	
 	if (jelos_num == 0) {
 		ERRTSetObstacles(mid1, 1, 1, 1, 1, 0, 0);
@@ -59,7 +59,7 @@ void ai09::corner_their_skuba ( void )
 	}
 	else {
 		if (OppRobot[jelos[0]].Position.Y>OppRobot[jelos[1]].Position.Y) {
-			swap(jelos[0], jelos[1]);
+			std::swap(jelos[0], jelos[1]);
 		}
 		
 		float mark_dis = min(2000, DIS(Vec2(side*3025, 0), OppRobot[jelos[0]].Position)-50);

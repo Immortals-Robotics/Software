@@ -24,7 +24,7 @@ void ai09::kickoff_their_one_wall ( void )
 		}
 	}
 	
-	cout << indexN << "	" << indexP << endl;
+	std::cout << indexN << "	" << indexP << std::endl;
 	
 	if ( indexN != -1 )
 	{

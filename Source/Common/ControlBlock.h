@@ -8,11 +8,9 @@
 #include <algorithm>
 #include "deque"
 
-using namespace std;
-
 class median{
 private:
-    deque<float> buff;
+    std::deque<float> buff;
     int len;
 
 public:
@@ -27,8 +25,8 @@ public:
     }
 
     float get_output(){
-        deque<float> temp(buff);
-        sort(temp.begin(), temp.end(),
+        std::deque<float> temp(buff);
+        std::sort(temp.begin(), temp.end(),
                   [](float const &a, float const &b) {
                       return a < b;
                   }
@@ -37,28 +35,28 @@ public:
         if((buff_size = temp.size()) > 0)
             return temp.at(buff_size/2);
         else {
-            cout<<"median: ERROR the buff is empty!!!"<<endl;
+            std::cout<<"median: ERROR the buff is empty!!!"<< std::endl;
             return 0.0;
         }
     }
 
     void print_all(){
-        deque<float> temp(buff);
-        sort(temp.begin(), temp.end(),
+        std::deque<float> temp(buff);
+        std::sort(temp.begin(), temp.end(),
              [](float const &a, float const &b) {
                  return a < b;
              }
         );
-        for(deque<float>::iterator it = temp.begin();it!=temp.end();it++) {
+        for(std::deque<float>::iterator it = temp.begin();it!=temp.end();it++) {
 
-            cout<<*it<<"_";
+            std::cout<<*it<<"_";
 
         }
-        cout<<endl;
+        std::cout<< std::endl;
         for(int i=0;i<temp.size();i++){
-            cout<<temp.at(i)<<'=';
+            std::cout<<temp.at(i)<<'=';
         }
-        cout<<endl;
+        std::cout<< std::endl;
     }
 
 };

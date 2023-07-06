@@ -6,7 +6,7 @@ void ai09::GKHi ( int robot_num, bool stop )
 {
 	gkIntercepting = false;
 
-	cout<<"GKhi: "<<ballIsGoaling()<<" _ "<<DIS(ball.Position, OwnRobot[robot_num].State.Position)/ball.velocity.magnitude<<endl;
+	std::cout<<"GKhi: "<<ballIsGoaling()<<" _ "<<DIS(ball.Position, OwnRobot[robot_num].State.Position)/ball.velocity.magnitude<< std::endl;
 	//side = -side;
 	debugDraw = true;//TODO #10 Comment this in the game
 	if(ballIsGoaling()){
@@ -84,9 +84,9 @@ void ai09::GKHi ( int robot_num, bool stop )
 //			double R_robot = DIS(Vec2(-field_width, 0),OwnRobot[robot_num].State.Position);
 //			double alpha_robot = AngleWith(Vec2(-field_width, 0),OwnRobot[robot_num].State.Position);
 //			alpha_robot = min(90, max(-90, alpha_robot));
-//			cout<<"GOALIE teta: "<<alpha_robot<<endl;
-//			cout<<"GOALIE R: "<<R_robot<<endl;
-//			cout<<"______________________"<<endl;
+//			std::cout<<"GOALIE teta: "<<alpha_robot<<std::endl;
+//			std::cout<<"GOALIE R: "<<R_robot<<std::endl;
+//			std::cout<<"______________________"<<std::endl;
 			
 		}
 	}
