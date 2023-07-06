@@ -27,9 +27,11 @@ using namespace std;
 
 int main ( )
 {
+    Services::initialize();
+
 	if (!ImmortalsIsTheBest) {
-		std::cout << "ERROR: Immortals is not the best SSL team anymore." << std::endl;
-		std::cout << "Shutting down the system..." << std::endl;
+		LOG_CRITICAL("Immortals is not the best SSL team anymore.");
+		LOG_CRITICAL("Shutting down the system...");
 	}
 
     WorldState * state = new WorldState();
@@ -57,22 +59,22 @@ int main ( )
     settings -> GUI_UDP_Address = "127.0.0.1";
     settings -> GUIPort = 10066;
 
-    std::cout << " Connecting to RefereeBox server at " << settings->referee_UDP_Address
-         << " , on port : " << settings->refereePort << std::endl;
+    LOG_INFO(" Connecting to RefereeBox server at {} on port : {}", 
+        settings->referee_UDP_Address, settings->refereePort);
     NewReferee referee_2018(settings,state);
     if ( referee_2018.connectToRefBox () ){
-        std::cout << "Connected to RefBox successfully :)"<<std::endl;
+        LOG_INFO("Connected to RefBox successfully :)");
     }else{
-        std::cout << "	Hey you! Put the LAN cable back in its socket, or ..." << std::endl;
+        LOG_ERROR("Hey you! Put the LAN cable back in its socket, or ...");
     }
 
-    std::cout << " Connecting to Vision server at " << settings->vision_UDP_Address
-         << " , on port : " << settings->visionPort << std::endl;
+    LOG_INFO("Connecting to Vision server at {} on port: {}", 
+        settings->vision_UDP_Address, settings->visionPort);
     VisionModule vision ( settings, state );
     if ( vision.isConnected() ){
-        std::cout << "Connected to Vision successfully :)"<<std::endl;
+        LOG_INFO("Connected to Vision successfully :)");
     }else{
-        std::cout << "	Hey you! Put the LAN cable back in its socket, or ..." << std::endl;
+        LOG_ERROR("Hey you! Put the LAN cable back in its socket, or ...");
         //return 0;
     }
 
@@ -87,7 +89,7 @@ int main ( )
     bool exited = false;
     mutex lock;
 
-	std::cout << " Now it is time, lets rock..." << std::endl;
+	LOG_INFO(" Now it is time, lets rock...");
 
     auto ai_func = [&]()
     {
@@ -119,7 +121,7 @@ int main ( )
 //            vision.SendGUIData(state,aii->AIDebug);
 
             lock.unlock();
-            std::cout << 1.0/timer.interval() << std::endl;
+            LOG_DEBUG("FPS: {}", 1.0 / timer.interval());
         }
         exited = true;
     };
@@ -153,7 +155,7 @@ int main ( )
             int strategySize = strategyUDP->recvFrom(strategyBuffer, strategyBufferMaxSize, strategySrcAdd, strategySrcPort);
             if ( strategySize > 11 )
             {
-                std::cout << "Recieved \"strategy.ims\" with size: " << float(strategySize)/1000.0f << " KB, from " << strategySrcAdd << " on port " << strategySrcPort << "." << std::endl;
+                LOG_INFO("Recieved \"strategy.ims\" with size: {} KB, from {} on port {}", float(strategySize)/1000.0f, strategySrcAdd, strategySrcPort);
                 lock.lock();
                 reinterpret_cast<ai09*>(aii)->read_playBook_str(strategyBuffer, strategySize);
                 lock.unlock();
@@ -163,7 +165,7 @@ int main ( )
                 strategyFile.close();
             }
             else {
-                std::cout << "Invalid \"strategy.ims\" recieved with size: " << strategySize << " ." << std::endl;
+                LOG_WARNING("Invalid \"strategy.ims\" received with size: {}", strategySize);
             }
         }
 
@@ -181,6 +183,8 @@ int main ( )
 	delete settings;
 	delete state;
 	delete aii;
+
+    Services::shutdown();
 
 	return 0;
 }
