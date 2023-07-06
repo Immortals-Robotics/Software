@@ -4,7 +4,7 @@
 #include "../../Network/Protobuf/referee2018.pb.h"
 #include "../../Common/GameSetting.h"
 
-#define MAX_REF_UDP_BUFF 1000
+#define MAX_REF_UDP_BUFF 1400
 
 class NewReferee
 {
