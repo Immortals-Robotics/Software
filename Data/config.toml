@@ -1,0 +1,211 @@
+#:schema config_schema.json
+
+[common]
+# blue = 0, yellow = 1
+our_color = 1 # TODO #0 Set the team's color
+
+immortals_is_the_best_team = false # TODO #1 Give the correct answer
+
+enable_debug = true # TODO #2 Disable the debugger for a higher performance
+
+side_wall = false # TODO #3 Check if there are walls on the sides (no out field lines)
+
+[vision]
+
+vision_frame_rate = 60.0
+
+max_ball_hist = 10
+
+merge_distance        = 70.0
+ball_merge_distance   = 70.0
+max_ball_2_frame_dist = 1000.0
+
+max_robot_frame_not_seen = 120 # 2 seconds
+max_ball_frame_not_seen  = 120 # 2 seconds
+
+use_kalman_pos = true
+use_kalman_ang = false
+
+use_camera = [ # TODO #4 Check the cameras to be true
+	true,
+	true,
+	false,
+	false,
+
+	false,
+	false,
+	false,
+	false,
+]
+
+[soccer]
+# left  = 0, right = 1
+our_side = 0 # TODO #5 Disable the simulation for a higher performance
+
+enable_simulation = false #false # TODO #6 Disable the simulation for a higher performance
+command_opp_robots = false # TODO #7 Turn to false, in real games
+
+# Field dimensions since 2018
+field_width  = 12000
+field_length = 9000
+goal_length  = 1200
+
+# Gamma represents the relation between the robots velocity parameter and the velocity in mm/s
+# Gamma is 48 in the GR Simulation
+# and 19 in reality
+# Velocity Gamma
+gamma_reality        = 19
+gamma_simulation     = 900
+# Angular Gamma
+ang_gamma_reality    = 1
+ang_gamma_simulation = 1
+
+# The filename of the robot's behavior-tree implementation (The file modified by Groot)
+robot_behavior_tree_config_filename = "bt_default.xml"
+
+init_gk_id  = 3 # TODO #8 Check the robot IDs
+
+#TODO #9 Make sure the robots are configured correctly (This part is crucial to better role assignment)
+[[soccer.robot_physical_status]]
+	id = 0
+	has_dribbler = false
+	has_direct_kick = true
+	has_chip_kick = true
+	is_3D_printed = false
+[[soccer.robot_physical_status]]
+	id = 1
+	has_dribbler = false
+	has_direct_kick = true
+	has_chip_kick = true
+	is_3D_printed = false
+[[soccer.robot_physical_status]]
+	id = 2
+	has_dribbler = false
+	has_direct_kick = true
+	has_chip_kick = false
+	is_3D_printed = true
+[[soccer.robot_physical_status]]
+	id = 3
+	has_dribbler = false
+	has_direct_kick = true
+	has_chip_kick = true
+	is_3D_printed = true
+[[soccer.robot_physical_status]]
+	id = 4
+	has_dribbler = false
+	has_direct_kick = true
+	has_chip_kick = true
+	is_3D_printed = true
+[[soccer.robot_physical_status]]
+	id = 5
+	has_dribbler = false
+	has_direct_kick = true
+	has_chip_kick = true
+	is_3D_printed = true
+[[soccer.robot_physical_status]]
+	id = 6
+	has_dribbler = false
+	has_direct_kick = true
+	has_chip_kick = true
+	is_3D_printed = true
+[[soccer.robot_physical_status]]
+	id = 7
+	has_dribbler = false
+	has_direct_kick = true
+	has_chip_kick = true
+	is_3D_printed = true
+[[soccer.robot_physical_status]]
+	id = 8
+	has_dribbler = false
+	has_direct_kick = true
+	has_chip_kick = false
+	is_3D_printed = true
+[[soccer.robot_physical_status]]
+	id = 9
+	has_dribbler = false
+	has_direct_kick = true
+	has_chip_kick = false
+	is_3D_printed = true
+[[soccer.robot_physical_status]]
+	id = 10
+	has_dribbler = false
+	has_direct_kick = true
+	has_chip_kick = false
+	is_3D_printed = true
+[[soccer.robot_physical_status]]
+	id = 11
+	has_dribbler = false
+	has_direct_kick = true
+	has_chip_kick = false
+	is_3D_printed = true
+[[soccer.robot_physical_status]]
+	id = 12
+	has_dribbler = false
+	has_direct_kick = true
+	has_chip_kick = true
+	is_3D_printed = true
+[[soccer.robot_physical_status]]
+	id = 13
+	has_dribbler = false
+	has_direct_kick = true
+	has_chip_kick = true
+	is_3D_printed = true
+[[soccer.robot_physical_status]]
+	id = 14
+	has_dribbler = false
+	has_direct_kick = true
+	has_chip_kick = true
+	is_3D_printed = true
+[[soccer.robot_physical_status]]
+	id = 15
+	has_dribbler = false
+	has_direct_kick = true
+	has_chip_kick = true
+	is_3D_printed = true
+
+[network]
+
+[network.vision]
+#ip   = "224.5.23.92" # Simulator
+ip   = "224.5.23.2" # Default
+#port = 10999 # Simulator
+#port = 10020 # Default simulator vision
+port = 10006 # Default real vision
+
+[network.tracker]
+ip   = "224.5.23.2"
+port = 10099# Default: 10010
+
+[network.referee]
+#ip  = "224.5.25.25" # xbox
+ip   = "224.5.23.1" # real
+port = 10003
+
+[network.vision_interface]
+ip   = "127.0.0.1"
+port = 10067
+
+[network.debug]
+ip   = "127.0.0.1"
+port = 10066
+
+
+[network.control_simulation]
+ip   = "127.0.0.1"
+port = 10300
+
+[network.blue_robot_simulation]
+ip   = "127.0.0.1"
+port = 10301
+
+[network.yellow_robot_simulation]
+ip   = "127.0.0.1"
+port = 10302
+
+[network.sender]
+ip   = "224.5.92.5"
+port = 60005
+
+[network.commands]
+ip   = "224.5.92.6"
+port = 60006
