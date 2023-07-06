@@ -536,9 +536,9 @@ void ai09::our_place_ball_shoot_V2(void) {
         OwnRobot[attack].target.Angle = t_ang;
         OwnRobot[dmf].target.Angle = t_opp_ang;
         //OwnRobot[attack].face(ball.Position);
-        Navigate2Point(attack, CircleAroundPoint(*targetBallPlacement, t_opp_ang, 250), 0, 20, &TEMP_VEL_PRO);
+        Navigate2Point(attack, CircleAroundPoint(*targetBallPlacement, t_opp_ang, 550), 0, 20, &TEMP_VEL_PRO);
         //OwnRobot[dmf].face(ball.Position);
-        Navigate2Point(dmf, CircleAroundPoint(*targetBallPlacement, t_ang, 250), 0, 20, &TEMP_VEL_PRO);
+        Navigate2Point(dmf, CircleAroundPoint(*targetBallPlacement, t_ang, 550), 0, 20, &TEMP_VEL_PRO);
 
 
 
