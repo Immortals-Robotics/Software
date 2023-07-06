@@ -110,19 +110,19 @@ private:
     FilteredObject ball_kalman;
     int ball_not_seen = MAX_BALL_NOT_SEEN + 1;
 
-    RobotState robotState[2][MAX_ROBOTS];
-    FilteredObject robot_kalman[2][MAX_ROBOTS];
-    int robot_not_seen[2][MAX_ROBOTS];
+    RobotState robotState[2][Setting::kMaxRobots];
+    FilteredObject robot_kalman[2][Setting::kMaxRobots];
+    int robot_not_seen[2][Setting::kMaxRobots];
 
-    MedianFilter<float> AngleFilter[2][MAX_ROBOTS];
-    float rawAngles[2][MAX_ROBOTS];
+    MedianFilter<float> AngleFilter[2][Setting::kMaxRobots];
+    float rawAngles[2][Setting::kMaxRobots];
 
     SSL_WrapperPacket packet;
     SSL_DetectionFrame frame[Setting::kCamCount];
     SSL_DetectionBall d_ball[MAX_BALLS*Setting::kCamCount];
-    SSL_DetectionRobot robot[MAX_ROBOTS*Setting::kCamCount];
+    SSL_DetectionRobot robot[Setting::kMaxRobots*Setting::kCamCount];
 
-    robotDataMsg robotPacket[2][MAX_ROBOTS];
+    robotDataMsg robotPacket[2][Setting::kMaxRobots];
 
 //	double t_capture_buff[MAX_BALLS*Setting::kCamCount];
 //    deque<TVec2> ball_dir_buff;

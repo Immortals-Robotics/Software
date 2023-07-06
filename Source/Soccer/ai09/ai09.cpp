@@ -43,7 +43,7 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
     REF_playState = _worldState->refereeState->State;
 	targetBallPlacement = &_worldState->refereeState->placeBallTargetPosition;
 
-    for ( int i = 0 ; i < 8 ; i ++ )
+    for ( int i = 0 ; i < Setting::kMaxOnFieldTeamRobots ; i ++ )
     {
         oneTouchDetector[i].field_w = field_width;
         oneTouchDetector[i].field_h = field_height;
@@ -97,7 +97,7 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 //    std::cout<<"THE GK_pointer: "<<&gk <<std::endl;
 //    std::cout<<"THE GK_pointer: "<<stm2AInum[0] <<std::endl;
 
-	for (int i = 0 ; i < 8 ; i ++ ) {
+	for (int i = 0 ; i < Setting::kMaxOnFieldTeamRobots; i ++ ) {
 		oneTouchDetector[i].bState = &ball;
 		oneTouchDetector[i].rState = &OwnRobot[i].State;
 		oneTouchDetector[i].side = &side;
@@ -108,7 +108,7 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 		allafPos[i] = Vec2(0, 0);
 	}
 
-	for (int i = 0 ; i < 8 ; i ++ )
+	for (int i = 0 ; i < Setting::kMaxOnFieldTeamRobots; i ++ )
 	{
 		OwnRobot[i].set_vision_id(i+1);
 	}
@@ -138,7 +138,7 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 	circleReachedBehindBall = false;
 	PredictedBall = Vec2 ( 0 );
 
-	for(int i=0;i<MAX_TEAM_ROBOTS;i++)
+	for(int i=0;i<Setting::kMaxOnFieldTeamRobots;i++)
 		requiredRobots[i]= false;
 
     BALL_PLACE_KHEYLI_SOOSKI.max_spd = Vec2 ( 10.0f );
@@ -171,6 +171,9 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 	read_playBook(strategy_path.c_str());
 	if ( playBook )
 	{
+#if 1
+		LOG_INFO("Strategy loaded with size {}", playBook->strategy_size());
+#else
 		std::cout << playBook->strategy_size() << " ";
 		std::cout << playBook->strategy(0).name() << std::endl;
 
@@ -194,9 +197,10 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 		{
 			std::cout << "	" << playBook->weight(i) << std::endl;
 		}
+#endif
 	}
 	else {
-		std::cout << "	Could not open \"strategy.ims\"" << std::endl;
+		LOG_CRITICAL("Could not open \"strategy.ims\"");
 	}
 
 	timer.start();

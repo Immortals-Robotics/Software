@@ -55,7 +55,7 @@ void ai09::tech_khers_pass ( void )
 			
 			bool blocked = false;
 			Line to_rcv_line = Line::makeLineFromTwoPoints(VecPosition(ball.Position.X,ball.Position.Y),VecPosition(it->second.X,it->second.Y)); 
-			for (int i = 0; i < MAX_ROBOTS; i ++) {
+			for (int i = 0; i < Setting::kMaxRobots; i ++) {
 				if ( OppRobot[i].seenState == CompletelyOut )
 					continue;
 				if ( ( fabs ( OppRobot[i].Position.X ) > 3025 ) ||

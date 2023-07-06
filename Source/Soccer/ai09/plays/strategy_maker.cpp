@@ -126,7 +126,7 @@ void ai09::strategy_maker ( void )
 	
     bool new_recievers_reached = true;
 	DefMid(def,rw,lw,NULL,false,false);
-	for (int i = 0 ; i < MAX_TEAM_ROBOTS ; i ++ ) {
+	for (int i = 0 ; i < Setting::kMaxOnFieldTeamRobots ; i ++ ) {
 		//if ((*stm2AInum[i]==gk)||(*stm2AInum[i]==def)) {
 		//	continue;
 		//}

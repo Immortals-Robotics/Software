@@ -5,11 +5,11 @@ void ai09::internalFinalize ( WorldState * worldState , GameSetting * setting )
 {
 	//bool saveKinoData = !OwnRobot[cmf].halted;
 	
-	for ( int i = 0 ; i < MAX_TEAM_ROBOTS ; i ++ )
+	for ( int i = 0 ; i < Setting::kMaxOnFieldTeamRobots ; i ++ )
 		OwnRobot[i].makeSendingDataReady ( );
 
 
-	for ( int i = 0 ; i < MAX_TEAM_ROBOTS ; i ++ )
+	for ( int i = 0 ; i < Setting::kMaxOnFieldTeamRobots ; i ++ )
 	{
 		senderBase->getCommand(&OwnRobot[i]);
 		OwnRobot[i].halted = false;
@@ -17,7 +17,7 @@ void ai09::internalFinalize ( WorldState * worldState , GameSetting * setting )
     senderBase->append_demo_data();
 
 	
-	for ( int i = 0 ; i < 12 ; i ++ )
+	for ( int i = 0 ; i < Setting::kMaxRobots ; i ++ )
 	{
 		for ( int j = 0 ; j < 10 ; j ++ )
 		{
@@ -25,7 +25,7 @@ void ai09::internalFinalize ( WorldState * worldState , GameSetting * setting )
 		}
 	}
 	
-	for ( int i = 0 ; i < 8 ; i ++ )
+	for ( int i = 0 ; i < Setting::kMaxOnFieldTeamRobots; i ++ )
 	{
 		if ( OwnRobot[i].State.seenState == CompletelyOut )
 			continue;

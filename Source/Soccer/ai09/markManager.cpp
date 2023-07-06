@@ -20,7 +20,7 @@ void ai09::MarkManager(bool restart)
 
 	std::vector<std::pair<int, float>> crunchingOpps;
 
-	for (int i = 0; i < MAX_ROBOTS; i++) {
+	for (int i = 0; i < Setting::kMaxRobots; i++) {
 		float threat = calculateOppThreat(i, restart);
 		if (threat < 0)
 			continue;

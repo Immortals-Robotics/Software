@@ -3,7 +3,7 @@
 int ai09::findJeloOpps ( float minX , int* ans , int mask1 , int mask2 , bool acceptNearBall , bool acceptGooshe )
 {
 	int index = 0;
-	for ( int i = 0 ; i < 12 ; i ++ )
+	for ( int i = 0 ; i < Setting::kMaxRobots; i ++ )
 	{
         if ( i == oppGK )
             continue;
@@ -29,7 +29,7 @@ int ai09::findJeloOpps ( float minX , int* ans , int mask1 , int mask2 , bool ac
 		}
 	}
 	
-	for (int i = index; i<12; i++) {
+	for (int i = index; i< Setting::kMaxRobots; i++) {
 		ans[i] = -1;
 	}
     

@@ -32,7 +32,7 @@ VisionModule::VisionModule(GameSetting* _settings,WorldState* _State)
 
     ball_kalman.initialize(fast_filter_path.c_str(), slow_filter_path.c_str());
 
-    for ( int i = 0 ; i < MAX_ROBOTS; i++ )
+    for ( int i = 0 ; i < Setting::kMaxRobots; i++ )
     {
         robot_kalman[0][i].initialize (fast_filter_path.c_str(), slow_filter_path.c_str());
         robot_kalman[1][i].initialize (fast_filter_path.c_str(), slow_filter_path.c_str());

@@ -7,12 +7,6 @@
 #include <math.h>
 #include <fstream>
 
-#define MAX_ROBOTS 12//The variety of standard patterns that we can have is 12
-#define MAX_TEAM_ROBOTS 8
-
-#ifndef WORLDSTATEHDR
-#define WORLDSTATEHDR
-
 enum SeenState { Seen , CompletelyOut , TemprolilyOut };
 
 //This part is for getting some samples for filter designs:
@@ -97,10 +91,10 @@ struct WorldState
 
 	BallState ball;
 
-	RobotState OwnRobot[MAX_ROBOTS];
-	RobotState OppRobot[MAX_ROBOTS];
+	RobotState OwnRobot[Setting::kMaxRobots];
+	RobotState OppRobot[Setting::kMaxRobots];
 
-	TVec3 lastCMDS[MAX_ROBOTS][11];
+	TVec3 lastCMDS[Setting::kMaxRobots][11];
 
 	RefereeState* refereeState;
 
@@ -127,7 +121,7 @@ struct WorldState
         refereeState->placeBallTargetPosition = Vec2( 0.0f );
 
         ownRobots_num = 0;
-        for ( int i = 0 ; i < MAX_ROBOTS ; i ++ ){
+        for ( int i = 0 ; i < Setting::kMaxRobots ; i ++ ){
             OwnRobot[i].Angle = 0.0f;
             OwnRobot[i].AngularVelocity = 0.0f;
             OwnRobot[i].Position = Vec2 ( 0.0f );
@@ -144,7 +138,7 @@ struct WorldState
             }
         }
         oppRobots_num = 0;
-        for ( int i = 0 ; i < MAX_ROBOTS ; i ++ ){//TODO not in the last code...
+        for ( int i = 0 ; i < Setting::kMaxRobots ; i ++ ){//TODO not in the last code...
             OppRobot[i].Angle = 0.0f;
             OppRobot[i].AngularVelocity = 0.0f;
             OppRobot[i].Position = Vec2 ( 0.0f );
@@ -164,11 +158,9 @@ struct WorldState
         oo << (int)state.has_ball <<" balls,	" << state.ownRobots_num << " Own Robots,	" << state.oppRobots_num << " Opp Robots." << std::endl;
         oo << (int)state.ball.Position.X << "	" << (int)state.ball.Position.Y << std::endl;
 
-        for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
+        for ( int i = 0 ; i < Setting::kMaxRobots ; i ++ )
             if ( state.OwnRobot[i].seenState != CompletelyOut )
                 oo << state.OwnRobot[i] ;
         return oo;
     }
 };
-
-#endif //WORLDSTATE_HDR

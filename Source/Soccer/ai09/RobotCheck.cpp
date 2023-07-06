@@ -15,12 +15,12 @@ bool ai09::position_robots(bool avoid_GK, bool avoid_DEF){
 //        requiredRobots[avoid_DEF] = true;
 
 
-    for(int j=0;j<MAX_TEAM_ROBOTS;j++) {
+    for(int j=0;j<Setting::kMaxOnFieldTeamRobots;j++) {
 //        std::cout<<"j is: "<<j<<std::endl;
         if (requiredRobots[*stm2AInum[j]] && OwnRobot[*stm2AInum[j]].State.seenState == CompletelyOut) {//Find the robot that needs to be replaced
 
             int i;
-            for (i = 0; i < MAX_TEAM_ROBOTS; i++) {
+            for (i = 0; i < Setting::kMaxOnFieldTeamRobots; i++) {
                 if (!requiredRobots[*stm2AInum[i]] && OwnRobot[*stm2AInum[i]].State.seenState != CompletelyOut
                         && gk !=*stm2AInum[i] && def !=*stm2AInum[i]) {
 //                    std::cout<<"BEF_SWAP: "<<requiredRobots[*stm2AInum[j]]<< (OwnRobot[*stm2AInum[j]].State.seenState == CompletelyOut) <<std::endl;
@@ -37,8 +37,8 @@ bool ai09::position_robots(bool avoid_GK, bool avoid_DEF){
                     break;
                 }
             }
-            if (i == MAX_TEAM_ROBOTS) {
-                for(int i=0;i<MAX_TEAM_ROBOTS;i++){requiredRobots[i]= false;}
+            if (i == Setting::kMaxOnFieldTeamRobots) {
+                for(int i=0;i<Setting::kMaxOnFieldTeamRobots;i++){requiredRobots[i]= false;}
                 std::cout<<"FAILED SWAP"<< std::endl;
                 return false;
             }
@@ -46,7 +46,7 @@ bool ai09::position_robots(bool avoid_GK, bool avoid_DEF){
     }
     std::cout<<"DONE SWAP"<< std::endl;
 
-    for(int i=0;i<MAX_TEAM_ROBOTS;i++){requiredRobots[i]= false;}
+    for(int i=0;i<Setting::kMaxOnFieldTeamRobots;i++){requiredRobots[i]= false;}
     return true;
 }
 

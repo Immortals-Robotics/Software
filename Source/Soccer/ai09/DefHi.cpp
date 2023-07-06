@@ -47,7 +47,7 @@ void ai09::DefHi ( int robot_num , TVec2 * defendTarget , bool stop )
 	
 	oppGoalOpen = true;
 	Line ballGoalLine = Line::makeLineFromTwoPoints(VecPosition(-field_width*side,0),VecPosition(target.X,target.Y));
-	for (int i = 0; i < MAX_ROBOTS; i ++) {
+	for (int i = 0; i < Setting::kMaxRobots; i ++) {
 		if ( OppRobot[i].seenState == CompletelyOut )
 			continue;
 		if ( ( fabs ( OppRobot[i].Position.X ) > field_width ) ||
@@ -62,7 +62,7 @@ void ai09::DefHi ( int robot_num , TVec2 * defendTarget , bool stop )
 		}
 	}
 	if (oppGoalOpen) {
-		for (int i = 0; i < 6; i ++) {
+		for (int i = 0; i < Setting::kMaxOnFieldTeamRobots; i ++) {
 			if ( OwnRobot[i].State.seenState == CompletelyOut )
 				continue;
 			if ( ( fabs ( OwnRobot[i].State.Position.X ) > field_width ) ||

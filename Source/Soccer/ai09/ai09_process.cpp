@@ -131,7 +131,7 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting )
     }
 	
 	
-	for ( int i = 0 ; i < 8 ; i ++ )
+	for ( int i = 0 ; i < Setting::kMaxOnFieldTeamRobots; i ++ )
 	{
 		if ( ( OwnRobot[i].State.seenState == CompletelyOut ) || ( !navigated[i] ) )
 		{

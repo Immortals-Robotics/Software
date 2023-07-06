@@ -58,7 +58,7 @@ int VisionModule::ExtractBlueRobots ( void )
 	{
 		if (setting().use_camera[i] )
 		{
-			for ( int j = 0 ; j < std::min ( MAX_ROBOTS , frame[i].robots_blue_size ( ) ) ; j ++ )
+			for ( int j = 0 ; j < std::min ( (int)Setting::kMaxRobots , frame[i].robots_blue_size ( ) ) ; j ++ )
 			{
 				robot[ans] = frame[i].robots_blue ( j );
 				ans ++;
@@ -75,7 +75,7 @@ int VisionModule::ExtractYellowRobots ( void )
 	{
 		if (setting().use_camera[i] )
 		{
-			for ( int j = 0 ; j < std::min ( MAX_ROBOTS , frame[i].robots_yellow_size ( ) ) ; j ++ )
+			for ( int j = 0 ; j < std::min ((int)Setting::kMaxRobots , frame[i].robots_yellow_size ( ) ) ; j ++ )
 			{
 				robot[ans] = frame[i].robots_yellow ( j );
 				ans ++;
@@ -113,7 +113,7 @@ void VisionModule::FilterRobots ( int num , bool own )
 	float filtout[2][2];
 	float filtpos[2];
 	
-	for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
+	for ( int i = 0 ; i < Setting::kMaxRobots ; i ++ )
 	{
 		bool found = false;
 		for ( int j = 0 ; j < num ; j ++ )
@@ -225,7 +225,7 @@ void VisionModule::predictRobotsForward( WorldState * state )
 {  
 	for ( int own = 1 ; own < 2 ; own ++ )
 	{
-		for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
+		for ( int i = 0 ; i < Setting::kMaxRobots ; i ++ )
 		{
 			/*robotState[own][i].Position.X /= (float)(1000.0);
 			 robotState[own][i].Position.Y /= (float)(1000.0);
@@ -267,7 +267,7 @@ void VisionModule::predictRobotsForward( WorldState * state )
 		}
 	}
 	
-	for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
+	for ( int i = 0 ; i < Setting::kMaxRobots ; i ++ )
 	{
 		if (robotState[0][i].seenState != Seen) {
 			robotState[0][i].Position.X = robotState[0][i].Position.X + state -> lastCMDS[i][(int)state->lastCMDS[i][10].X].X / 1.2f;
@@ -294,7 +294,7 @@ void VisionModule::predictRobotsForward( WorldState * state )
 void VisionModule::SendStates ( WorldState * state )
 {
 	state -> ownRobots_num = 0;
-	for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
+	for ( int i = 0 ; i < Setting::kMaxRobots ; i ++ )
 	{
 		robotState[0][i].vision_id = i;
 		
@@ -326,7 +326,7 @@ void VisionModule::SendStates ( WorldState * state )
 	}
 	
 	state -> oppRobots_num = 0;
-	for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
+	for ( int i = 0 ; i < Setting::kMaxRobots ; i ++ )
 	{
 		robotState[1][i].vision_id = i;
 		

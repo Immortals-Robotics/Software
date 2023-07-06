@@ -46,7 +46,7 @@ TVec2 ai09::calculateOpenAngleToGoal(TVec2 p1,int robot_num)
 	
 	// Set Obstacles //////////////////////////////////////////////
 	
-	for(int i=0;i<12;i++)
+	for(int i=0;i< Setting::kMaxOnFieldTeamRobots;i++)
 	{
 		if((OwnRobot[i].State.seenState!=CompletelyOut)&&(i!=robot_num))
 		{
@@ -55,7 +55,7 @@ TVec2 ai09::calculateOpenAngleToGoal(TVec2 p1,int robot_num)
 			obsCount++;
 		}
 	}
-	for(int i=0;i<12;i++)
+	for(int i=0;i< Setting::kMaxRobots;i++)
 	{
 		if(OppRobot[i].seenState!=CompletelyOut)
 		{

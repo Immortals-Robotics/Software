@@ -74,9 +74,9 @@ private:
 	int mid1;
 	int mid2;
 	
-	int* stm2AInum[MAX_TEAM_ROBOTS];
+	int* stm2AInum[Setting::kMaxOnFieldTeamRobots];
 	
-	TVec2 allafPos[MAX_TEAM_ROBOTS];
+	TVec2 allafPos[Setting::kMaxOnFieldTeamRobots];
 	
 	std::map<int*,int> markMap;
 	
@@ -98,22 +98,22 @@ private:
 		std::deque<BallState> ballHist;
 		Linear ballLine;
 		BallState ball;
-		RobotState OppRobot[MAX_ROBOTS];
+		RobotState OppRobot[Setting::kMaxRobots];
 		int OwnRobotNum , OppRobotNum;
-		Planner planner[MAX_TEAM_ROBOTS];
+		Planner planner[Setting::kMaxOnFieldTeamRobots];
 		Dss *dss;
 	
-		OneTouchDetector oneTouchDetector[MAX_TEAM_ROBOTS];
+		OneTouchDetector oneTouchDetector[Setting::kMaxOnFieldTeamRobots];
 		enum OneTouchType {
 			oneTouch = 0,
 			shirje,
 			gool,
 			allaf
 		};
-		OneTouchType oneTouchType[MAX_TEAM_ROBOTS];
-		bool oneTouchTypeUsed[MAX_TEAM_ROBOTS];
+		OneTouchType oneTouchType[Setting::kMaxOnFieldTeamRobots];
+		bool oneTouchTypeUsed[Setting::kMaxOnFieldTeamRobots];
 	
-		bool navigated[MAX_TEAM_ROBOTS];
+		bool navigated[Setting::kMaxOnFieldTeamRobots];
 		int side;
 
 		VelocityProfile BALL_PLACE_KHEYLI_SOOSKI;
@@ -167,7 +167,7 @@ private:
         //These functions make sure the required robots are present (in case if any of the robots got out):
         void want_this_robot(int robot_num);//First we tell which robot we need
         bool position_robots(bool avoid_GK = true,bool avoid_DEF=true);//now we swap the apsent robots (TRUE if it succeeds)
-        bool requiredRobots[MAX_TEAM_ROBOTS];
+        bool requiredRobots[Setting::kMaxOnFieldTeamRobots];
 
 
     // Skills
@@ -264,7 +264,7 @@ private:
 		void internalFinalize ( WorldState * worldState , GameSetting * setting );
 
 	public:
-		Robot OwnRobot[MAX_TEAM_ROBOTS];
+		Robot OwnRobot[Setting::kMaxOnFieldTeamRobots];
 		ai09 (WorldState *_worldState, GameSetting *_setting, Sender* _sender );
 		void Process ( WorldState * worldState , GameSetting * setting );
 		bool read_playBook ( const char* fileName );

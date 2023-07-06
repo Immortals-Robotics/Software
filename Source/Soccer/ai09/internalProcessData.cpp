@@ -13,7 +13,7 @@ void ai09::internalProcessData ( WorldState * worldState , GameSetting * setting
 	CalculateBallTrajectory();
 	debugDraw = false;
 	
-	for ( int i = 0 ; i < MAX_TEAM_ROBOTS ; i ++ )
+	for ( int i = 0 ; i < Setting::kMaxOnFieldTeamRobots ; i ++ )
 	{
 		bool halt_this_robot_for_now = false;
 		this->OwnRobot[i].State = worldState -> OwnRobot[OwnRobot[i].vision_id];
@@ -22,12 +22,12 @@ void ai09::internalProcessData ( WorldState * worldState , GameSetting * setting
 		{
 			if ( OwnRobot[i].State.OutForSubsitute )
 			{
-				for ( int j = 0 ; j < MAX_ROBOTS ; j ++ )
+				for ( int j = 0 ; j < Setting::kMaxRobots ; j ++ )
 				{
 					if ( ( worldState -> OwnRobot[j].seenState == Seen ) && ( fabs(worldState->OwnRobot[j].Position.X)<field_width ) && ( fabs(worldState->OwnRobot[j].Position.Y)<field_height ) )
 					{
 						bool suitable = true;
-						for ( int k = 0 ; k < 8 ; k ++ )
+						for ( int k = 0 ; k < Setting::kMaxOnFieldTeamRobots; k ++ )
 						{
 							if ( OwnRobot[k].vision_id == j )
 							{
@@ -71,7 +71,7 @@ void ai09::internalProcessData ( WorldState * worldState , GameSetting * setting
 	}
 	//std::cout << std::endl;
 	
-	for ( int i = 0 ; i < 12 ; i ++ )
+	for ( int i = 0 ; i < Setting::kMaxRobots ; i ++ )
 		this->OppRobot[i] = worldState -> OppRobot[i];
 	
 	this->OwnRobotNum = worldState -> ownRobots_num;

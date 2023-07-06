@@ -10,7 +10,7 @@ float getCalibratedShootPow ( int vision_id , float raw_shoot )
 	}
 	vision_id = min(11, max(0,vision_id));
 
-	static float poly_coeff[MAX_ROBOTS][3] = {
+	static float poly_coeff[Setting::kMaxRobots][3] = {
 		{-0.1012,6.8441,-27.822}, //  0
 		{-0.0988,6.5467,-28.173}, //  1
 		{-0.1012,6.8645,-28.968}, //  2
@@ -53,7 +53,7 @@ float getCalibratedChipPow ( int vision_id , float dis_raw )
 	}
 	vision_id = min(11, max(0,vision_id));
 	
-	static float poly_coeff[MAX_ROBOTS][3] = {
+	static float poly_coeff[Setting::kMaxRobots][3] = {
 		{-0.0586,7.6894,-121.18}, //  0
 		{-0.0845,12.051,-197.31}, //  1
 		{-0.0533,9.0368,-164.51}, //  2
@@ -68,7 +68,7 @@ float getCalibratedChipPow ( int vision_id , float dis_raw )
 		{-0.0926,12.61,-203.72}, //  11*
 	};
     
-    static float ghuz_coeffs[MAX_ROBOTS] = {
+    static float ghuz_coeffs[Setting::kMaxRobots] = {
         220.0,  //  0
         260.0,  //  1
         180.0,  //  2

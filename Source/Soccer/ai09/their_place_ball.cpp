@@ -12,7 +12,7 @@ void ai09::their_place_ball ( void ){
     ERRTSetObstacles ( dmf , true , true , true , true, false);
     AddCircle ( ball.Position.X , ball.Position.Y , 1010.0f );
     AddCircle ( targetBallPlacement->X , targetBallPlacement->Y , 1010.0f );
-    for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
+    for ( int i = 0 ; i < Setting::kMaxRobots ; i ++ )
     {
         if ( OppRobot[i].seenState != CompletelyOut )
         {
@@ -25,7 +25,7 @@ void ai09::their_place_ball ( void ){
     ERRTSetObstacles ( rw , true, true , true , true, false);
     AddCircle ( ball.Position.X , ball.Position.Y , 1010.0f );
     AddCircle ( targetBallPlacement->X , targetBallPlacement->Y , 1010.0f );
-    for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
+    for ( int i = 0 ; i < Setting::kMaxRobots ; i ++ )
     {
         if ( OppRobot[i].seenState != CompletelyOut )
         {
@@ -38,7 +38,7 @@ void ai09::their_place_ball ( void ){
     ERRTSetObstacles ( lw , true, true , true , true, false);
     AddCircle ( ball.Position.X , ball.Position.Y , 1010.0f );
     AddCircle ( targetBallPlacement->X , targetBallPlacement->Y , 1010.0f );
-    for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
+    for ( int i = 0 ; i < Setting::kMaxRobots ; i ++ )
     {
         if ( OppRobot[i].seenState != CompletelyOut )
         {
@@ -52,7 +52,7 @@ void ai09::their_place_ball ( void ){
     ERRTSetObstacles ( lmf , true, true , true , true, false);
     AddCircle ( ball.Position.X , ball.Position.Y , 1010.0f );
     AddCircle ( targetBallPlacement->X , targetBallPlacement->Y , 1010.0f );
-    for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
+    for ( int i = 0 ; i < Setting::kMaxRobots ; i ++ )
     {
         if ( OppRobot[i].seenState != CompletelyOut )
         {
@@ -65,7 +65,7 @@ void ai09::their_place_ball ( void ){
     ERRTSetObstacles ( rmf , true, true , true , true, false);
     AddCircle ( ball.Position.X , ball.Position.Y , 1010.0f );
     AddCircle ( targetBallPlacement->X , targetBallPlacement->Y , 1010.0f );
-    for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
+    for ( int i = 0 ; i < Setting::kMaxRobots ; i ++ )
     {
         if ( OppRobot[i].seenState != CompletelyOut )
         {
@@ -78,7 +78,7 @@ void ai09::their_place_ball ( void ){
     ERRTSetObstacles ( cmf , true, true , true , true, false);
     AddCircle ( ball.Position.X , ball.Position.Y , 1010.0f );
     AddCircle ( targetBallPlacement->X , targetBallPlacement->Y , 1010.0f );
-    for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
+    for ( int i = 0 ; i < Setting::kMaxRobots ; i ++ )
     {
         if ( OppRobot[i].seenState != CompletelyOut )
         {

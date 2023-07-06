@@ -38,7 +38,7 @@ void ai09::corner_their_mrl ( void )
 		OwnRobot[dmf].face(ball.Position);
 	}
 	
-	int jelos[12];
+	int jelos[Setting::kMaxRobots];
 	int jelos_num = findJeloOpps(-1000, jelos, gooshe,-1, 0,0);
 	
 	std::cout << "	jelos_num: " << jelos_num << std::endl;
@@ -60,7 +60,7 @@ void ai09::corner_their_mrl ( void )
 	}
 	
 	
-	int remaining_jelos[12];
+	int remaining_jelos[Setting::kMaxRobots];
 	int remaining_jelos_num = findJeloOpps(-1000, remaining_jelos, gooshe,jelos[0], 0, 1);
 	std::cout << "	remaining jelos_num: " << remaining_jelos_num << std::endl;
 	

@@ -51,7 +51,7 @@ void VisionModule::SendGUIData ( WorldState * state , AI_Debug & aidebug )
 		GUIMsg.mutable_ballsdata() -> set_x ( state -> ball.Position.X );
 		GUIMsg.mutable_ballsdata() -> set_y ( state -> ball.Position.Y );
 
-		for ( int i = 0 ; i < 12 ; i ++ )
+		for ( int i = 0 ; i < Setting::kMaxRobots; i ++ )
 		{
 			robotPacket[0][i].Clear ( );
 			robotPacket[0][i].set_omega ( state -> OwnRobot[i].AngularVelocity );
@@ -73,7 +73,7 @@ void VisionModule::SendGUIData ( WorldState * state , AI_Debug & aidebug )
 			}
 		}
 
-		for ( int i = 0 ; i < 12 ; i ++ )
+		for ( int i = 0 ; i < Setting::kMaxRobots; i ++ )
 		{
 			robotPacket[1][i].Clear ( );
 			robotPacket[1][i].set_omega ( state -> OppRobot[i].AngularVelocity );

@@ -4,7 +4,7 @@ int ai09::findNearestAsshole ( TVec2 pos , int mask , bool acceptNearBall )
 {
 	float mdis = 7000;
 	int index = -1;
-	for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
+	for ( int i = 0 ; i < Setting::kMaxRobots ; i ++ )
 	{
 		if ( i == mask )
 			continue;

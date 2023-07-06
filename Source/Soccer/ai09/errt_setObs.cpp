@@ -27,7 +27,7 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 		debugDraw = true;
 	if ( own )
 	{
-		for ( int i = 0 ; i < MAX_TEAM_ROBOTS ; i ++ )
+		for ( int i = 0 ; i < Setting::kMaxOnFieldTeamRobots ; i ++ )
 		{
 			if ( ( OwnRobot[i].State.seenState != CompletelyOut ) && ( i != robot_num ) && ( OwnRobot[i].State.vision_id != OwnRobot[robot_num].State.vision_id ) )
 			{
@@ -41,7 +41,7 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 
 	if ( opp )
 	{
-		for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
+		for ( int i = 0 ; i < Setting::kMaxRobots ; i ++ )
 		{
 			if ( OppRobot[i].seenState != CompletelyOut )
 			{
@@ -109,7 +109,7 @@ void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own ,
 
 void ai09::AddOppObs ( int mask1, int mask2 )
 {
-    for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
+    for ( int i = 0 ; i < Setting::kMaxRobots ; i ++ )
     {
         if ( OppRobot[i].seenState == CompletelyOut || i == mask1 || i == mask2 )
             continue;

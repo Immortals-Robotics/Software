@@ -23,7 +23,7 @@ private:
     const Robot *const own_robots;
     const RobotState *const opp_robots;
 
-    TVec2 computed_motions[MAX_TEAM_ROBOTS];
+    TVec2 computed_motions[Setting::kMaxOnFieldTeamRobots];
 
     TVec2 GetAccFromMotion(const int robot_num, const TVec2 &motion);
     TVec2 GetMotionFromAcc(const int robot_num, const TVec2 &acc);

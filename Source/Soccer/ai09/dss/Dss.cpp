@@ -77,7 +77,7 @@ bool Dss::IsAccSafe(const int robot_num, const TVec2 &cmd)
         return false;
     }
 
-    for (int robot_idx = 0; robot_idx < MAX_TEAM_ROBOTS; ++robot_idx)
+    for (int robot_idx = 0; robot_idx < Setting::kMaxOnFieldTeamRobots; ++robot_idx)
     {
         if (robot_idx == robot_num)
         {
@@ -98,7 +98,7 @@ bool Dss::IsAccSafe(const int robot_num, const TVec2 &cmd)
         }
     }
 
-    for (int robot_idx = 0; robot_idx < MAX_ROBOTS; ++robot_idx)
+    for (int robot_idx = 0; robot_idx < Setting::kMaxRobots; ++robot_idx)
     {
         const RobotState &other_state = opp_robots[robot_idx];
         if (other_state.seenState == CompletelyOut)
@@ -132,7 +132,7 @@ float Dss::ComputeError(const TVec2 &target, const TVec2 &current)
 
 void Dss::Reset( void )
 {
-    for (int robot_idx = 0; robot_idx < MAX_TEAM_ROBOTS; ++robot_idx)
+    for (int robot_idx = 0; robot_idx < Setting::kMaxOnFieldTeamRobots; ++robot_idx)
     {
         const RobotState &state = own_robots[robot_idx].State;
 

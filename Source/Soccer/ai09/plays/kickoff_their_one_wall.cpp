@@ -13,7 +13,7 @@ void ai09::kickoff_their_one_wall ( void )
 	int indexP = -1;
 	int indexN = -1;
 	
-	for ( int i = 0 ; i < 12 ; i ++ )
+	for ( int i = 0 ; i < Setting::kMaxRobots ; i ++ )
 	{
 		if ( ( fabs ( OppRobot[i].Position.X ) < 600 ) && ( fabs ( OppRobot[i].Position.Y ) > 600 ) && ( OppRobot[i].seenState != CompletelyOut ) )
 		{

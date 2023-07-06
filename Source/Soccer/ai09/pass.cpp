@@ -25,7 +25,7 @@ float getCalibratedShootPowCPY ( int vision_id , float raw_shoot )
     }
     vision_id = min(11, max(0,vision_id));
 
-    static float poly_coeff[MAX_ROBOTS][3] = {
+    static float poly_coeff[Setting::kMaxRobots][3] = {
             {-0.1012,6.8441,-27.822}, //  0
             {-0.0988,6.5467,-28.173}, //  1
             {-0.1012,6.8645,-28.968}, //  2

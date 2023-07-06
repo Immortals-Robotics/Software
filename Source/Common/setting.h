@@ -70,7 +70,7 @@ public:
 
     static constexpr size_t kMaxUdpPacketSize = 1024 * 16;//TODO what should the size be really?
 
-    // The variety of standard patterns that we can have is 12
+    // The variety of standard patterns that we can have is 16
     static constexpr unsigned kMaxRobots = 16;
 
     bool immortals_is_the_best_team = true;
@@ -108,7 +108,7 @@ public:
     bool use_kalman_ang = true; // TODO: check if this is in serious need in reality
 
     // soccer
-    static constexpr int kMaxOnFieldTeamRobots = 11;
+    static constexpr int kMaxOnFieldTeamRobots = 8;
 
     NetworkAddress referee_address = {"224.5.23.1", 10003};
 
@@ -230,9 +230,9 @@ inline void Setting::load(const toml::node_view<const toml::node> t_node)
 
     robot_behavior_tree_config_filename = soccer["robot_behavior_tree_config_filename"].value_or(robot_behavior_tree_config_filename);
 
-
     init_gk_id  = soccer["init_gk_id"].value_or(init_gk_id);
 
+#if 0
     if (auto *robot_physical_status_array = soccer["robot_physical_status"].as_array())
     {
         std::cout << "Array size of received robot_physical_status: " << robot_physical_status_array->size() << std::endl;
@@ -259,4 +259,5 @@ inline void Setting::load(const toml::node_view<const toml::node> t_node)
             std::cout << " -is_3D_printed: " << robot_physical_status[id].is_3D_printed << std::endl;
         }
     }
+#endif
 }
