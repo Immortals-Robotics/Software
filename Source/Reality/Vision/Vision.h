@@ -16,7 +16,8 @@
 #include "../../Network/Protobuf/ImmortalsProtocols.pb.h"
 
 
-#include "../../Network/PracticalSocket.h"
+#include "../../Common/network/udp_client.h"
+#include "../../Common/network/udp_server.h"
 #include "Kalman/FilteredObject.h"
 #include "../../Common/MedianFilter.h"
 #include "../../Common/MATHS_REGRESSION_PARABOLIC.h"
@@ -44,8 +45,6 @@
 #define MAX_ROBOT_SUBSITUTE 60
 
 #define MERGE_DISTANCE 5000
-
-#define MAX_INCOMING_PACKET_SIZE 1000
 
 #define BALL_BUFFER_FRAMES 30
 
@@ -98,20 +97,17 @@ private:
 	bool our_side;
 
 	std::string vision_UDP_Address;
-	short visionPort;
+	unsigned short visionPort;
 
 	std::vector<bool> use_camera;
 
-	bool connected;
-
-	UDPSocket * visionUDP;
-	UDPSocket * GUIUDP;
+    std::unique_ptr<UdpClient> m_visionUDP;
+    std::unique_ptr<UdpClient> m_GUIUDP;
 
 	WorldState* playState;
 
 	bool packet_recieved[CAM_COUNT];
     TVec2 ball_pos_buff[BALL_BUFFER_FRAMES];
-    char incoming_buffer[MAX_INCOMING_PACKET_SIZE];
 
 //    int ballBufferIndex;
 //    float ballBufferX[BALL_BUFFER_FRAMES];

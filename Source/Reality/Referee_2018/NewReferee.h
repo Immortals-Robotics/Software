@@ -1,10 +1,8 @@
 //Immortals referee module for RefBox 2018
 #include "../WorldState.h"
-#include "../../Network/PracticalSocket.h"
 #include "../../Network/Protobuf/referee2018.pb.h"
 #include "../../Common/GameSetting.h"
-
-#define MAX_REF_UDP_BUFF 1400
+#include "../../Common/network/udp_client.h"
 
 class NewReferee
 {
@@ -12,11 +10,9 @@ private:
 	bool our_color;
 
 	std::string referee_UDP_Address;
-	short refereePort;
+	unsigned short refereePort;
 
-	bool isConnected;
-
-	UDPSocket * RefUDP;
+	std::unique_ptr<UdpClient> m_udp;
 
 	RefereeState* RefState;
 	BallState* ballData;
@@ -24,8 +20,6 @@ private:
     TVec2 LastPlacedBall;
     int move_hys;//For isKicked
 
-	char incoming_buffer[MAX_REF_UDP_BUFF];
-	int buffer_size;
 	int command_CNT;
 
     SSL_Referee pSSLRef;
@@ -35,7 +29,7 @@ private:
 public:
     NewReferee ( GameSetting* settings,WorldState* State );
 	bool connectToRefBox ( void );
-	bool is_connect ( void );
+	bool isConnected( void );
 	bool recieve ( void );
 	bool isKicked ( TVec2 ballPos );
 	void process ( void );

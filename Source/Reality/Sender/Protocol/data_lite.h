@@ -92,12 +92,6 @@ struct bits32_t
     uint8_t bit31 : 1;
 };
 
-enum TeamColor
-{
-    TEAM_COLOR_BLUE = 0,
-    TEAM_COLOR_YELLOW = 1
-};
-
 enum FeedbackRequestType
 {
     FEEDBACK_TYPE_DEBUG = 0,

@@ -5,7 +5,7 @@
 
 #include <fstream>
 
-VisionModule::VisionModule(GameSetting* _settings,WorldState* _State) : connected ( false )
+VisionModule::VisionModule(GameSetting* _settings,WorldState* _State)
 {
     playState = _State;
 
@@ -61,7 +61,7 @@ VisionModule::~VisionModule()
 
 void VisionModule::recieveAllCameras( void )
 {
-    if (!connected) {
+    if (!isConnected()) {
         std::cout << "	Hey you! Put the LAN cable back in its socket, or ..." << std::endl;
         return;
         //connectToVisionServer ( setting -> UDP_Adress , setting -> LocalPort );

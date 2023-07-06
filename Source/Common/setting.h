@@ -5,8 +5,6 @@
 
 #include "config/config.h"
 
-namespace Immortals
-{
 enum class TeamColor
 {
     Blue   = 0,
@@ -262,5 +260,3 @@ inline void Setting::load(const toml::node_view<const toml::node> t_node)
         }
     }
 }
-
-} // namespace Immortals

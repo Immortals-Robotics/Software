@@ -2,48 +2,32 @@
 
 bool VisionModule::connectToVisionServer ( void )
 {
-	try{
-		visionUDP = new UDPSocket ( visionPort );
-		visionUDP -> joinGroup ( vision_UDP_Address );
-		connected = true;
-		return true;
-	}
-	catch ( SocketException ex ){
-		connected = false;
-		return false;
-	}
+	m_visionUDP = std::make_unique<UdpClient>(NetworkAddress{ vision_UDP_Address , visionPort});
+	return isConnected();
 }
 
 bool VisionModule::recievePacket ( void )
 {
-	if ( ! connected )
+	if (!isConnected())
 		return false;
 
-	try{
-		int incoming_size = visionUDP -> recv ( incoming_buffer , MAX_INCOMING_PACKET_SIZE );
-
-		packet.ParseFromArray(incoming_buffer,incoming_size);
-	}
-	catch(...)
+	if (m_visionUDP->receive(&packet))
 	{
-		return false;
+		if (packet.has_detection())
+		{
+			frame[packet.detection().camera_id()] = packet.detection();
+			packet_recieved[packet.detection().camera_id()] = true;
+		}
+
+		return true;
 	}
 
-	if ( packet.has_detection ( ) )
-	{
-		frame[packet.detection ( ).camera_id ( )] = packet.detection ( );
-		packet_recieved[packet.detection ( ).camera_id ( )] = true;
-	}
-	else
-		return false;
-
-	return true;
-
+	return false;
 }
 
 bool VisionModule::isConnected ( void )
 {
-	return connected;
+	return m_visionUDP != nullptr && m_visionUDP->isConnected();
 }
 void VisionModule::SendGUIData ( WorldState * state , AI_Debug & aidebug )
 {

@@ -1,7 +1,7 @@
 #include "NewReferee.h"
 #include "../../Common/distance.h"
 
-NewReferee::NewReferee ( GameSetting* settings,WorldState* state ):isConnected(false)
+NewReferee::NewReferee ( GameSetting* settings,WorldState* state )
 {
 	if(!settings){
 		std::cout<<"NewReferee: \"setting\" is NULL"<< std::endl;
@@ -12,7 +12,6 @@ NewReferee::NewReferee ( GameSetting* settings,WorldState* state ):isConnected(f
 	referee_UDP_Address = settings->referee_UDP_Address;
 	refereePort = settings->refereePort;
 	our_color = settings->our_color;
-	buffer_size = -1;
 	command_CNT = -1;
 
 	RefState = state->refereeState;
@@ -23,26 +22,18 @@ NewReferee::NewReferee ( GameSetting* settings,WorldState* state ):isConnected(f
 
 bool NewReferee::connectToRefBox ( void )
 {
+	m_udp = std::make_unique<UdpClient>(NetworkAddress{ referee_UDP_Address , refereePort});
 
-	RefUDP = new UDPSocket ( );
+	return isConnected();
+}
 
-	try
-	{
-		RefUDP -> setLocalPort ( refereePort );
-		RefUDP -> joinGroup ( referee_UDP_Address );
-		isConnected = true;
-		return true;
-	}catch(...)
-	{
-		isConnected = false;
-		return false;
-	}
+bool NewReferee::isConnected()
+{
+	return m_udp != nullptr && m_udp->isConnected();
 }
 
 void NewReferee::process ()
 {
-    if ( !pSSLRef.ParseFromArray(incoming_buffer, buffer_size) )
-        return;
 	if(pSSLRef.has_designated_position()){
 //		std::cout<<"HAS POSITION!!!!!"<<std::endl;
 //		std::cout<<"BALL TARGET POSITION IS:"<<pSSLRef.designated_position().x()<<'_'<<pSSLRef.designated_position().y()<<std::endl;
@@ -99,16 +90,13 @@ bool NewReferee::isKicked ( TVec2 ballPos )
 
 bool NewReferee::recieve ( void )
 {
-	if ( !isConnected )
+	if (!isConnected())
 		return false;
 
-	try
+	if (m_udp->receive(&pSSLRef))
 	{
-		buffer_size = RefUDP->recv(incoming_buffer, MAX_REF_UDP_BUFF);
+		return true;
 	}
-	catch (SocketException exception)
-	{
-		return false;
-	}
-	return true;
+
+	return false;
 }
