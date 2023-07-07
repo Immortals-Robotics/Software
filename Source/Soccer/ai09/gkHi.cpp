@@ -6,7 +6,7 @@ void ai09::GKHi ( int robot_num, bool stop )
 {
 	gkIntercepting = false;
 
-	std::cout<<"GKhi: "<<ballIsGoaling()<<" _ "<<DIS(ball.Position, OwnRobot[robot_num].State.Position)/ball.velocity.magnitude<< std::endl;
+	LOG_DEBUG("GKhi: {} _ {}", ballIsGoaling(), DIS(ball.Position, OwnRobot[robot_num].State.Position)/ball.velocity.magnitude);
 	//side = -side;
 	debugDraw = true;//TODO #10 Comment this in the game
 	if(ballIsGoaling()){
@@ -38,8 +38,10 @@ void ai09::GKHi ( int robot_num, bool stop )
         side = - side;
 		ERRTSetObstacles ( robot_num , false , false , false , false);
         side = -side;
-		if ( ( IsInObstacle ( Vec2 ( (ball.Position.X),(ball.Position.Y) ) ) ) && ( ball.velocity.magnitude < 1500 ) && (!stop) && (side*ball.Position.X<field_width) && (fabs(ball.Position.Y)<1200.0f) )
+		if ( ( IsInObstacle ( Vec2 ( (ball.Position.X),(ball.Position.Y) ) ) ) && ( ball.velocity.magnitude < 1500 ) && (!stop) && (side*ball.Position.X<field_width) && (fabs(ball.Position.Y)<penalty_area_width/2.0) )
 		{
+			LOG_DEBUG("GK intercepting");
+
 			gkIntercepting = true;
 
 			ERRTSetObstacles ( robot_num , 0 , 0 , 1 , 0);
@@ -95,6 +97,8 @@ void ai09::GKHi ( int robot_num, bool stop )
 
 void ai09::GK_shirje ( int robot_num )
 {
+	LOG_DEBUG("GK shirje");
+
 	Line ball_line = Line::makeLineFromPositionAndAngle ( VecPosition ( ball.Position.X , ball.Position.Y ) , ball.velocity.direction );
 	VecPosition ans = ball_line.getPointOnLineClosestTo ( VecPosition ( OwnRobot[robot_num].State.Position.X , OwnRobot[robot_num].State.Position.Y ) );
 	OwnRobot[robot_num].face(ball.Position);
