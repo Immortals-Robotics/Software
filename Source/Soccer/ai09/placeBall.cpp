@@ -385,7 +385,7 @@ void ai09::our_place_ball_shoot_V2(void) {
             t_ang = 0;
             t_opp_ang = 180;
         }
-        else if(DIS(ball.Position,*targetBallPlacement) < 1000) {
+        else if(DIS(ball.Position,*targetBallPlacement) < 10000) {
             FUNC_state = 3;
             FUNC_CNT = 0;
         }
