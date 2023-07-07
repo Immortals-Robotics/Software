@@ -1,110 +1,53 @@
 #include "Robot.h"
 #include <iostream>
-#include <deque>
-#include <numeric>
 
-float getCalibratedShootPow ( int vision_id , float raw_shoot )
+static float shoot_coeffs[Setting::kMaxRobots][2] = {
+		{6.68088f,  4.88984f}, //  0
+		{5.47922f,  7.44389f}, //  1
+		{8.42397f, 11.95175f}, //  2
+		{7.81809f,  3.22943f}, //  3
+		{0,         0       }, //  4
+		{5.55175f,  9.08842f}, //  5
+		{6.81159f,  12.43478}, //  6
+		{0,        0        }, //  7
+		{0,        0        }, //  8*
+		{0,        0        }, //  9*
+		{0,        0        }, // 10*
+		{0,        0        }, // 11*
+};
+
+static float chip_coeffs[Setting::kMaxRobots][2] = {
+		{5.41180f, 12.58416f}, //  0
+		{4.19252f, 15.25629f}, //  1
+		{9.14946f,  8.34962f}, //  2
+		{4.90275f, 16.94857f}, //  3
+		{0,         0       }, //  4
+		{5.48581f,  9.45330f}, //  5
+		{7.88439f,  6.42894f}, //  6
+		{0,        0        }, //  7
+		{0,        0        }, //  8*
+		{0,        0        }, //  9*
+		{0,        0        }, // 10*
+		{0,        0        }, // 11*
+};
+
+float getCalibratedShootPow ( int vision_id , float raw_shoot, float coeffs[Setting::kMaxRobots][2])
 {
 	if (raw_shoot<=0) {
 		return 0;
 	}
-	vision_id = min(11, max(0,vision_id));
+	vision_id = min(Setting::kMaxRobots, max(0,vision_id));
 
-	static float poly_coeff[Setting::kMaxRobots][3] = {
-		{-0.1012,6.8441,-27.822}, //  0
-		{-0.0988,6.5467,-28.173}, //  1
-		{-0.1012,6.8645,-28.968}, //  2
-		{-0.09,6.2632,-22.909}, //  3
-		{-0.0789,4.8728,-18.189}, //  4
-		{-0.0859,6.2805,-27.016}, //  5
-		{-0.0857,6.2963,-25.36}, //  6
-		{-0.0813,6.1029,-21.593}, //  7
-		{-0.0813,6.1029,-21.593}, //  8*
-		{-0.0813,6.1029,-21.593}, //  9*
-		{-0.0813,6.1029,-21.593}, // 10*
-		{-0.0813,6.1029,-21.593}, // 11*
-	};
-
-
-
-
-	float a = poly_coeff[vision_id][0];
-	float b = poly_coeff[vision_id][1];
-	float c = poly_coeff[vision_id][2];
+	const float a = coeffs[vision_id][0];
+	const float b = coeffs[vision_id][1];
 
 	raw_shoot = min(150.0f, max(0.0f,raw_shoot));
 	
-	float delta = b*b-4.0f*a*(c-raw_shoot);
-	if (delta<0)
-		delta = 0;
-	
-	float calib_shoot = (-b+sqrt(delta))/(2.0f*a);
-	
+	float calib_shoot = a * raw_shoot + b;
 	calib_shoot = min(100.0f, max(0.0f,calib_shoot));
 			
 	return calib_shoot;
-
 }
-
-float getCalibratedChipPow ( int vision_id , float dis_raw )
-{
-	if (dis_raw<=0) {
-		return 0;
-	}
-	vision_id = min(11, max(0,vision_id));
-	
-	static float poly_coeff[Setting::kMaxRobots][3] = {
-		{-0.0586,7.6894,-121.18}, //  0
-		{-0.0845,12.051,-197.31}, //  1
-		{-0.0533,9.0368,-164.51}, //  2
-		{-0.0401,8.632,-139.31}, //  3*
-		{-0.08,10.804,-166.69}, //  4
-		{-0.0533,9.0368,-164.51}, //  5
-		{-0.0953,12.555,-195.92}, //  6
-		{-0.0291,7.0266,-103.61}, //  7
-		{-0.0533,9.0368,-164.51}, //  8*
-		{-0.0533,9.0368,-164.51}, //  9*
-		{-0.0263,5.3907,-84.211}, //  10*
-		{-0.0926,12.61,-203.72}, //  11*
-	};
-    
-    static float ghuz_coeffs[Setting::kMaxRobots] = {
-        220.0,  //  0
-        260.0,  //  1
-        180.0,  //  2
-        250.0,  //  3
-        210.0,  //  4
-        200.0,  //  5
-        150.0,  //  6
-        200.0,  //  7
-        265.0,  //  8
-        265.0,  //  9
-        140.0,  //  A
-        180.0  //  B
-        
-    };
-	
-	float a = poly_coeff[vision_id][0];
-	float b = poly_coeff[vision_id][1];
-	float c = poly_coeff[vision_id][2];
-	
-	dis_raw = min(500.0f, max(0.0f,dis_raw));
-	
-	float delta = b*b-4.0f*a*(c-dis_raw);
-	if (delta<0)
-		delta = 0;
-	
-	float calib_shoot = (-b+sqrt(delta))/(2.0f*a);
-	//calib_shoot *= 1.25f;
-    
-    calib_shoot *= pow(ghuz_coeffs[1] / ghuz_coeffs[vision_id],0.5);
-	
-	calib_shoot = min(100.0f, max(0.0f,calib_shoot));
-	
-	return calib_shoot;
-
-}
-
 
 Robot::Robot(void){
 	oldRobot = false;
@@ -170,12 +113,10 @@ float Robot::dis(float x1,float y1,float x2,float y2){
 }
 
 void Robot::Shoot(int pow){
-    //shoot = getCalibratedShootPow(vision_id, pow);
-	shoot = pow * shootMult;
+    shoot = getCalibratedShootPow(vision_id, pow / 7.5f, shoot_coeffs);
 }
 void Robot::Chip(int pow){
-	//chip = getCalibratedChipPow(vision_id, pow);
-	chip = pow * shootMult * 1.1;
+	chip = getCalibratedShootPow(vision_id, pow / 2.0f, chip_coeffs);
 }
 
 void Robot::Dribble(int pow){
