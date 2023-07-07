@@ -6,9 +6,6 @@ void ai09::Stop_def ( void )
 		markMap[i->first] = -1;
 	}
 
-	//attack = cmf;
-	//mid1 = rmf;
-	//mid2 = lmf;
 	if (OwnRobot[attack].State.OutForSubsitute)
 	{
 		if (!OwnRobot[mid1].State.OutForSubsitute)

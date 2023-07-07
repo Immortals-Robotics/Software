@@ -69,7 +69,7 @@ void ai09::strategy_maker ( void )
 	}
 	
 	Strategy strategy = playBook->strategy(curr_str_id);
-    std::cout << "STRATEGY: " << strategy.name() << std::endl;
+	LOG_INFO("STRATEGY: {}", strategy.name());
 	
 	
 	

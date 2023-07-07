@@ -13,9 +13,6 @@ void ai09::Stop ( void )
 	AddDebugCircle(ball.Position,500,Red);
 	debugDraw = false;
 
-	//attack = cmf;
-	//mid1 = rmf;
-	//mid2 = lmf;
 	if (OwnRobot[attack].State.OutForSubsitute)
 	{
 		if (!OwnRobot[mid1].State.OutForSubsitute)
