@@ -39,10 +39,10 @@ void ai09::GK ( int robot_num , int defence_num , bool stop )
 
 		my_hys = 0;
 		
-	ERRTSetObstacles ( robot_num , false , true , false , false , false );
+	ERRTSetObstacles ( robot_num , false , true , false , false );
 	if ( ( IsInObstacle ( Vec2 ( world2mapX(ball.Position.X),world2mapY(ball.Position.Y) ) ) ) && ( ball.velocity.magnitude < 1000 ) && (!stop) )
 	{
-		ERRTSetObstacles ( robot_num , 0 , 0 , 1 , 0 , 0 );
+		ERRTSetObstacles ( robot_num , 0 , 0 , 1 , 0 );
 		//tech_circle(robot_num,sgn(ball.Position.Y)*side*60 ,0,15,false);
 		tech_circle(robot_num,AngleWith ( ball.Position , Vec2 ( side * 3133 , 0 ) ) ,0,9,false,0,0,0);
 	}
@@ -71,7 +71,7 @@ void ai09::GK ( int robot_num , int defence_num , bool stop )
 		{
 			if ( stop )
 			{
-				ERRTSetObstacles(robot_num, 1, 0, 1, 1, 0);
+				ERRTSetObstacles(robot_num, 1, 0, 1, 1);
 				ERRTNavigate2Point(robot_num, Vec2(side*3025+cosDeg(goalAngle)*300.0f, sinDeg(goalAngle)*300.0f));
 			}
 			else
@@ -84,7 +84,7 @@ void ai09::GK ( int robot_num , int defence_num , bool stop )
 		{
 			if ( stop )
 			{
-				ERRTSetObstacles(robot_num, 1, 0, 1, 1, 0);
+				ERRTSetObstacles(robot_num, 1, 0, 1, 1);
 				ERRTNavigate2Point ( robot_num , PointOnConnectingLine(Vec2(side*3025.0f,100.0f*sgn(ball.Position.Y+100.0f)),Vec2(ball.Position.X,ball.Position.Y),400.0f) );
 			}
 			else

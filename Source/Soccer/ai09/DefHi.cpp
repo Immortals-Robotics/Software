@@ -120,7 +120,7 @@ void ai09::DefHi ( int robot_num , TVec2 * defendTarget , bool stop )
 			 ( !stop )
 			 )
 	{
-		ERRTSetObstacles ( robot_num , 0 , 1 , 1 , 0 , 0 );
+		ERRTSetObstacles ( robot_num , 0 , 1 , 1 , 0 );
 		//tech_circle(robot_num,sgn(ball.Position.Y)*side*60 ,0,15,false);
 		tech_circle(robot_num,AngleWith ( ball.Position , Vec2 ( side * (field_width+110) , 0 ) ) ,0,500,true,0,0,0);
 	}

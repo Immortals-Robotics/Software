@@ -9,6 +9,6 @@ void ai09::Mark2Ball ( int robot_num , int opp , float dist )
 	TVec2 target = PointOnConnectingLine(predictedOpp, ball.Position, dist);
 
 	OwnRobot[robot_num].face(ball.Position);
-	ERRTSetObstacles(robot_num, true, 1, 1, 1, 1);
+	ERRTSetObstacles(robot_num, true, 1, 1, 1);
 	ERRTNavigate2Point(robot_num, target, 0, 100, &VELOCITY_PROFILE_MAMOOLI);
 }

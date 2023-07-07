@@ -13,7 +13,7 @@ void ai09::NormalPlay ( void )
 	if ( 1 )
 	{
 		OwnRobot[attack].target.Angle = 90;OwnRobot[attack].State.Angle + 160;
-		ERRTSetObstacles(attack, 0, 0, 1, 1, 0);
+		ERRTSetObstacles(attack, 0, 0, 1, 1);
 		ERRTNavigate2Point ( attack , Vec2 ( 1500 , 1700 ) , 0 , 100 );
 		OwnRobot[rmf].target.Angle = 90;OwnRobot[rmf].State.Angle + 160;
 		Navigate2Point ( rmf , Vec2 ( -1600 , 1600 ) , 0 , 100 );

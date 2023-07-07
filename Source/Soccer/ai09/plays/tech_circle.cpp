@@ -204,7 +204,7 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 
 	if ( 0 )
 	{
-		ERRTSetObstacles ( robot_num , 0 , 0 , 1 , 1 , 0 );
+		ERRTSetObstacles ( robot_num , 0 , 0 , 1 , 1 );
 		planner[robot_num].init ( ball.Position , Vec2 ( -0 , 0 ) , 9 );
 		TVec2 wayp = planner[robot_num].Plan ( );
 
@@ -262,7 +262,7 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 	if ( needRRT )
     {
         needOppRRT = (OwnRobot[robot_num].State.velocity.magnitude > 600) && (DIS(OwnRobot[robot_num].State.Position,ball.Position)>300);
-		ERRTSetObstacles ( robot_num , false , true , true , needOppRRT , false );
+		ERRTSetObstacles ( robot_num , false , true , true , needOppRRT );
     }
 
 	else

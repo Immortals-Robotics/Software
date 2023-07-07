@@ -95,7 +95,7 @@ void ai09::TwoDef ( int robot_num1 , int robot_num2 , TVec2 * defendTarget )
 				attackingDefHys --;
 			}
 
-			ERRTSetObstacles ( robot_num1 , 0 , 1 , 1 , 0 , 0 );
+			ERRTSetObstacles ( robot_num1 , 0 , 1 , 1 , 0 );
 			tech_circle(robot_num1,sgn((*defendTarget).Y)*side*120.0f ,0,15);
 			
 			ERRTSetObstacles ( robot_num2 , 0 , true , true , false );
@@ -114,7 +114,7 @@ void ai09::TwoDef ( int robot_num1 , int robot_num2 , TVec2 * defendTarget )
 				attackingDefHys --;
 			}
 
-			ERRTSetObstacles ( robot_num2 , 0 , 1 , 1 , 0 , 0 );
+			ERRTSetObstacles ( robot_num2 , 0 , 1 , 1 , 0 );
 			tech_circle(robot_num2,sgn((*defendTarget).Y)*side*120.0f ,0,15);
 			
 			ERRTSetObstacles ( robot_num1 , 0 , true , true , false );

@@ -2,7 +2,7 @@
 
 int DBG_tracking_robot_ID = 7;
 
-void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own , bool opp , bool dribble)
+void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own , bool opp)
 {
 	bll = !REF_playState->allowedNearBall() || bll;
 

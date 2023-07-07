@@ -8,7 +8,7 @@ void ai09::corner_simple_pass ( void )
 	//Halt(dmf);
 
 
-	ERRTSetObstacles(dmf, 1, 1, 1, 1, 0);
+	ERRTSetObstacles(dmf, 1, 1, 1, 1);
 	ERRTNavigate2Point(dmf, Vec2(side*1200, 0), 0, 100, &VELOCITY_PROFILE_AROOM);
 	Halt(lmf);
 

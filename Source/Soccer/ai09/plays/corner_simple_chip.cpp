@@ -64,7 +64,7 @@ void ai09::corner_simple_chip ( void )
 	}
 	else {
 		OwnRobot[rmf].face ( Vec2 ( -side*2995 , 0 ) );
-		ERRTSetObstacles(rmf, 1, 1, 1, 0, 0);
+		ERRTSetObstacles(rmf, 1, 1, 1, 0);
 		if ( timer.time() < 1.5 )
 		{if ( ball.Position.X * side > -2000 )
 			ERRTNavigate2Point ( rmf , Vec2 ( -side*2500 , -sgn(ball.Position.Y )* 1500 ) );

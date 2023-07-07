@@ -50,7 +50,7 @@ void ai09::circle_ball ( int robot_num , float tagret_angle , int shoot_pow , in
 	if (state == kVeryFar) {
 		std::cout<<"STEPPPPP1"<< std::endl;
 		OwnRobot[robot_num].face(ball.Position);
-		ERRTSetObstacles(robot_num, 0, 1, 1, 1, 0);
+		ERRTSetObstacles(robot_num, 0, 1, 1, 1);
 		ERRTNavigate2Point(robot_num, ball.Position, 1, 30, &VELOCITY_PROFILE_AROOM);
 		
 		AddDebugCircle(ball.Position,very_far_ball_dis-90.0f,Red);
@@ -63,7 +63,7 @@ void ai09::circle_ball ( int robot_num , float tagret_angle , int shoot_pow , in
 	else if (state == kFar) {
 		std::cout<<"STEPPPPP2"<< std::endl;
 		OwnRobot[robot_num].face(ball.Position);
-		ERRTSetObstacles(robot_num, 0, 1, 1, 1, 0);
+		ERRTSetObstacles(robot_num, 0, 1, 1, 1);
 		TVec2 target_point = CircleAroundPoint(ball.Position, AngleWith(ball.Position, OwnRobot[robot_num].State.Position), near_ball_dis);
 		ERRTNavigate2Point(robot_num, target_point, 1, 20, &VELOCITY_PROFILE_AROOM);
 		
@@ -95,7 +95,7 @@ void ai09::circle_ball ( int robot_num , float tagret_angle , int shoot_pow , in
 		OwnRobot[robot_num].face(ball.Position);
 		OwnRobot[robot_num].target.Angle += NormalizeAngle(newToRobot+180.0f-OwnRobot[robot_num].target.Angle)/2.0f;
 		//OwnRobot[robot_num].target.Angle = NormalizeAngle(OwnRobot[robot_num].target.Angle);
-		ERRTSetObstacles(robot_num, 0, 1, 1, 1, 0);
+		ERRTSetObstacles(robot_num, 0, 1, 1, 1);
 		TVec2 target_point = CircleAroundPoint(ball.Position, newToRobot, near_ball_dis/cosDeg(deltaAngle));
         if ( near_dis_override > 0 )
             ERRTNavigate2Point(robot_num, target_point, 1, 20, &VELOCITY_PROFILE_AROOM);
@@ -127,7 +127,7 @@ void ai09::circle_ball ( int robot_num , float tagret_angle , int shoot_pow , in
 		}
 		//OwnRobot[robot_num].face(ball.Position);
 		OwnRobot[robot_num].target.Angle=NormalizeAngle(tagret_angle+180.0f);
-		ERRTSetObstacles(robot_num, 0, 1, 1, 1, 0);
+		ERRTSetObstacles(robot_num, 0, 1, 1, 1);
 		ERRTNavigate2Point(robot_num, ball.Position, 1, 100, &VELOCITY_PROFILE_AROOM);
 		if ( shoot_pow > 0 )
 			OwnRobot[robot_num].Shoot(shoot_pow);
@@ -174,7 +174,7 @@ void ai09::circle_ball_free ( int robot_num , float tagret_angle , int shoot_pow
 
 	if (state == kVeryFar) {
 		OwnRobot[robot_num].face(ball.Position);
-		ERRTSetObstacles(robot_num, 0, 0, 1, 1, 0);
+		ERRTSetObstacles(robot_num, 0, 0, 1, 1);
 		ERRTNavigate2Point(robot_num, ball.Position, 1, 30, &VELOCITY_PROFILE_AROOM);
 
 		AddDebugCircle(ball.Position,very_far_ball_dis-90.0f,Red);
@@ -186,7 +186,7 @@ void ai09::circle_ball_free ( int robot_num , float tagret_angle , int shoot_pow
 	}
 	else if (state == kFar) {
 		OwnRobot[robot_num].face(ball.Position);
-		ERRTSetObstacles(robot_num, 0, 0, 1, 1, 0);
+		ERRTSetObstacles(robot_num, 0, 0, 1, 1);
 		TVec2 target_point = CircleAroundPoint(ball.Position, AngleWith(ball.Position, OwnRobot[robot_num].State.Position), near_ball_dis);
 		ERRTNavigate2Point(robot_num, target_point, 1, 20, &VELOCITY_PROFILE_AROOM);
 
@@ -217,7 +217,7 @@ void ai09::circle_ball_free ( int robot_num , float tagret_angle , int shoot_pow
 		OwnRobot[robot_num].face(ball.Position);
 		OwnRobot[robot_num].target.Angle += NormalizeAngle(newToRobot+180.0f-OwnRobot[robot_num].target.Angle)/2.0f;
 		//OwnRobot[robot_num].target.Angle = NormalizeAngle(OwnRobot[robot_num].target.Angle);
-		ERRTSetObstacles(robot_num, 0, 0, 1, 1, 0);
+		ERRTSetObstacles(robot_num, 0, 0, 1, 1);
 		TVec2 target_point = CircleAroundPoint(ball.Position, newToRobot, near_ball_dis/cosDeg(deltaAngle));
 		if ( near_dis_override > 0 )
 			ERRTNavigate2Point(robot_num, target_point, 1, 20, &VELOCITY_PROFILE_AROOM);
@@ -248,7 +248,7 @@ void ai09::circle_ball_free ( int robot_num , float tagret_angle , int shoot_pow
 		}
 		//OwnRobot[robot_num].face(ball.Position);
 		OwnRobot[robot_num].target.Angle=NormalizeAngle(tagret_angle+180.0f);
-		ERRTSetObstacles(robot_num, 0, 0, 1, 1, 0);
+		ERRTSetObstacles(robot_num, 0, 0, 1, 1);
 		ERRTNavigate2Point(robot_num, ball.Position, 1, 100, &VELOCITY_PROFILE_AROOM);
 		if ( shoot_pow > 0 )
 			OwnRobot[robot_num].Shoot(shoot_pow);
@@ -296,7 +296,7 @@ void ai09::circle_ball_free_V2 ( int robot_num , float tagret_angle , int shoot_
 
 	if (state == kVeryFar) {
 		OwnRobot[robot_num].face(ball.Position);
-		ERRTSetObstacles(robot_num, 0, 0, 1, 1, 0);
+		ERRTSetObstacles(robot_num, 0, 0, 1, 1);
 		ERRTNavigate2Point(robot_num, ball.Position, 1, 30, &temp_vel);
 
 		AddDebugCircle(ball.Position,very_far_ball_dis-90.0f,Red);
@@ -308,7 +308,7 @@ void ai09::circle_ball_free_V2 ( int robot_num , float tagret_angle , int shoot_
 	}
 	else if (state == kFar) {
 		OwnRobot[robot_num].face(ball.Position);
-		ERRTSetObstacles(robot_num, 0, 0, 1, 1, 0);
+		ERRTSetObstacles(robot_num, 0, 0, 1, 1);
 		TVec2 target_point = CircleAroundPoint(ball.Position, AngleWith(ball.Position, OwnRobot[robot_num].State.Position), near_ball_dis);
 		ERRTNavigate2Point(robot_num, target_point, 1, 20, &temp_vel);
 
@@ -339,7 +339,7 @@ void ai09::circle_ball_free_V2 ( int robot_num , float tagret_angle , int shoot_
 		OwnRobot[robot_num].face(ball.Position);
 		OwnRobot[robot_num].target.Angle += NormalizeAngle(newToRobot+180.0f-OwnRobot[robot_num].target.Angle)/2.0f;
 		//OwnRobot[robot_num].target.Angle = NormalizeAngle(OwnRobot[robot_num].target.Angle);
-		ERRTSetObstacles(robot_num, 0, 0, 1, 1, 0);
+		ERRTSetObstacles(robot_num, 0, 0, 1, 1);
 		TVec2 target_point = CircleAroundPoint(ball.Position, newToRobot, near_ball_dis/cosDeg(deltaAngle));
 		if ( near_dis_override > 0 )
 			ERRTNavigate2Point(robot_num, target_point, 1, 20, &temp_vel);
@@ -370,7 +370,7 @@ void ai09::circle_ball_free_V2 ( int robot_num , float tagret_angle , int shoot_
 		}
 		//OwnRobot[robot_num].face(ball.Position);
 		OwnRobot[robot_num].target.Angle=NormalizeAngle(tagret_angle+180.0f);
-		ERRTSetObstacles(robot_num, 0, 0, 1, 1, 0);
+		ERRTSetObstacles(robot_num, 0, 0, 1, 1);
 		ERRTNavigate2Point(robot_num, ball.Position, 1, 100, &temp_vel);
 //		if ( shoot_pow > 0 )
 //			OwnRobot[robot_num].Shoot(shoot_pow);

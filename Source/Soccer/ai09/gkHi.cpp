@@ -36,13 +36,13 @@ void ai09::GKHi ( int robot_num, bool stop )
 		my_hys = 0;
 	
         side = - side;
-		ERRTSetObstacles ( robot_num , false , false , false , false , false );
+		ERRTSetObstacles ( robot_num , false , false , false , false);
         side = -side;
 		if ( ( IsInObstacle ( Vec2 ( (ball.Position.X),(ball.Position.Y) ) ) ) && ( ball.velocity.magnitude < 1500 ) && (!stop) && (side*ball.Position.X<field_width) && (fabs(ball.Position.Y)<1200.0f) )
 		{
 			gkIntercepting = true;
 
-			ERRTSetObstacles ( robot_num , 0 , 0 , 1 , 0 , 0 );
+			ERRTSetObstacles ( robot_num , 0 , 0 , 1 , 0);
 			//tech_circle(robot_num,sgn(ball.Position.Y)*side*60 ,0,15,false);
 			tech_circle(robot_num,AngleWith ( ball.Position , Vec2 ( side * (field_width+110) , 0 ) ) ,0,80,false,0,0,0);
 		}
@@ -78,7 +78,7 @@ void ai09::GKHi ( int robot_num, bool stop )
 			//Done by Dot_Blue TODO #9 test this...
 
 			OwnRobot[robot_num].face(ball.Position);
-			ERRTSetObstacles(robot_num, stop , false, false, false, false);
+			ERRTSetObstacles(robot_num, stop , false, false, false);
 			ERRTNavigate2Point(robot_num, target, 0, 80, stop ? &VELOCITY_PROFILE_AROOM : &VELOCITY_PROFILE_MAMOOLI);
 
 //			double R_robot = DIS(Vec2(-field_width, 0),OwnRobot[robot_num].State.Position);
@@ -100,7 +100,7 @@ void ai09::GK_shirje ( int robot_num )
 	OwnRobot[robot_num].face(ball.Position);
 	TVec2 fans = Vec2(ans.getX(), ans.getY());
 	fans = ((fans-OwnRobot[robot_num].State.Position)*2.0f)+OwnRobot[robot_num].State.Position;
-	ERRTSetObstacles ( robot_num ,0,0,0,0,0);
+	ERRTSetObstacles ( robot_num ,0,0,0,0);
 	ERRTNavigate2Point(robot_num,fans , 1, 100, &VELOCITY_PROFILE_KHARAKI);
 	OwnRobot[robot_num].Chip(150);
 }
