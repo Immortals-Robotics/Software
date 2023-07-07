@@ -7,7 +7,9 @@ void ai09::ERRTSetObstacles(int robot_num, bool bll, bool field, bool own, bool 
 
 	static constexpr float ballAreaRadius = 550.0f;
 
-	static constexpr float penaltyAreaExtensionBehindGoal = 2 * ownRobotRadius;
+	// We allow errt points to be 250 mm outside the field,
+	// so set this to some higher value
+	static constexpr float penaltyAreaExtensionBehindGoal = 300.0f;
 	static constexpr float bigPenaltyAddition = 250.0f;
 
 	const bool ourPenalty = field || (robot_num != gk && !REF_playState->ourPlaceBall());
