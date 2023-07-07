@@ -77,11 +77,11 @@ void ai09::strategy_maker ( void )
 	int ySgn = -1*sgn(ball.Position.Y);
 	
 	//std::cout << timer.time() << std::endl;
-	if ( timer.time() < 1.0 )
+	if ( timer.time() < 0.5 )
 	{
 		for (int i = 0 ; i < Setting::kMaxOnFieldTeamRobots; i ++ ) {
 			// FOR NOW: advance to the last step
-			step[i] = strategy.role(i).path_size() - 2;
+			step[i] = std::max(0, strategy.role(i).path_size() - 2);
 			lastAdv[i] = timer.time();
 			//std::cout << "zeroed: " << i << std::endl;
 		}
@@ -105,7 +105,7 @@ void ai09::strategy_maker ( void )
 			
 			if ( ( strategy.role(i).path(step[i]).type() == 1 ) || ( *stm2AInum[i]==attack ) )
 			{
-				if ( timer.time()-lastAdv[i] > strategy.role(i).path(step[i]).time() )
+				if ( timer.time()-lastAdv[i] > strategy.role(i).path(step[i]).time() * 0.1f )
 				{
 					step[i] = min(strategy.role(i).path_size()-1, step[i]+1);
 					lastAdv[i] = timer.time();
@@ -171,7 +171,7 @@ void ai09::strategy_maker ( void )
             
             
             
-			if (step[i]==strategy.role(i).path_size()-1 && recievers_reached) {
+			if (step[i]==strategy.role(i).path_size()-1 && recievers_reached && timer.time() > 3) {
 				float passAngle = AngleWith(Vec2(strategy.role(i).path(step[i]).x()*xSgn, strategy.role(i).path(step[i]).y()*ySgn),ball.Position);
 				float tmp_mult = 0.8;//TODO #11 remove this multiplier and fix that strategy maker
 				circle_ball(*stm2AInum[i], passAngle, shoot*tmp_mult, chip, 1.0f);
@@ -230,7 +230,9 @@ void ai09::strategy_maker ( void )
 												strategy.role(i).path(step[i]).y() * ySgn));
 			}
 		}
-		
+
+		const float remainingDis = DIS(Vec2(strategy.role(i).path(step[i]).x() * xSgn, strategy.role(i).path(step[i]).y() * ySgn), OwnRobot[*stm2AInum[i]].State.Position);
+
 		switch (strategy.role(i).afterlife()) {
 			case 0:
 				oneTouchType[*stm2AInum[i]] = gool;
@@ -242,7 +244,8 @@ void ai09::strategy_maker ( void )
                 else
                     allafPos[*stm2AInum[i]] = Vec2( strategy.role(i).path(strategy.role(i).path_size()-1).x()*xSgn,strategy.role(i).path(strategy.role(i).path_size()-1).y()*ySgn );
                 
-                if (step[i]!=strategy.role(i).path_size()-1)
+                //if (step[i]!=strategy.role(i).path_size()-1)
+				if (i == dmf && remainingDis > 150)
                     new_recievers_reached = false;
 				break;
 			case 2:
