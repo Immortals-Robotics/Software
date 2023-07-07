@@ -35,7 +35,15 @@ void ai09::ERRTSetObstacles(int robot_num, bool bll, bool field, bool own, bool 
 		{
 			if (OppRobot[i].seenState != CompletelyOut)
 			{
-				AddCircle(OppRobot[i].Position.X, OppRobot[i].Position.Y, oppRobotRadius + ownRobotRadius);
+				float opp_radius = oppRobotRadius;
+
+				const float opp_dis_to_ball = DIS(OppRobot[i].Position, ball.Position);
+				if (robot_num == attack && opp_dis_to_ball < oppRobotRadius)
+				{
+				    opp_radius = ownRobotRadius;
+				}
+
+				AddCircle(OppRobot[i].Position.X, OppRobot[i].Position.Y, opp_radius + ownRobotRadius);
 				//AddDebugCircle(OppRobot[i].Position,ownRobotRadius + (!dribble)*ownRobotRadius,Cyan);
 			}
 		}
