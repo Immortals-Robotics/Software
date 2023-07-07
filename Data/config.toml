@@ -189,7 +189,6 @@ port = 10067
 ip   = "127.0.0.1"
 port = 10066
 
-
 [network.control_simulation]
 ip   = "127.0.0.1"
 port = 10300
@@ -208,4 +207,8 @@ port = 60005
 
 [network.commands]
 ip   = "224.5.92.6"
+port = 60007
+
+[network.strategy]
+ip   = "224.5.23.3"
 port = 60006

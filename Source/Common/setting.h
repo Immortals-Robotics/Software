@@ -115,7 +115,9 @@ public:
     NetworkAddress sender_address     = {"224.5.92.5", 60005};
     NetworkAddress sender_rec_address = {"", 0}; // TODO: unused?
 
-    NetworkAddress commands_address = {"224.5.92.6", 60006};
+    NetworkAddress commands_address = {"224.5.92.6", 60007};
+
+    NetworkAddress strategy_address = { "224.5.23.3", 60006 };
 
     NetworkAddress control_simulation_address = {"127.0.0.1", 10300};
     NetworkAddress blue_robot_simulation_address         = {"127.0.0.1", 10301};
@@ -173,6 +175,9 @@ inline void Setting::load(const toml::node_view<const toml::node> t_node)
     sender_address.load(network["sender"]);
 
     commands_address.load(network["commands"]);
+
+    strategy_address.load(network["strategy"]);
+
     //sender_rec_address.load(network["referee"]);
 
     control_simulation_address.load(network["control_simulation"]);

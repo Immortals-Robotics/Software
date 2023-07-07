@@ -12,7 +12,6 @@
 #include "Common/timer.h"
 #include "Common/net_log.h"
 #include "Common/Vector.h"
-#include "Network/PracticalSocket.h"
 #include "Soccer/aiBase.h"
 
 #include "Reality/Sender/Protocol/writer.h"
@@ -126,32 +125,29 @@ int main ( )
 
     auto str_func = [&]()
     {
-        UDPSocket* strategyUDP = new UDPSocket(60006);
-        strategyUDP -> joinGroup("224.5.23.3");
-        const int strategyBufferMaxSize = 100000;
-        char strategyBuffer[strategyBufferMaxSize];
+        std::shared_ptr<UdpClient> strategyUDP = std::make_shared<UdpClient>(setting().strategy_address);
+
         while ( ( !exited ) && (! kbhit()) && ( ImmortalsIsTheBest ) )	//Hope it lasts Forever...
         {
-            std::string strategySrcAdd;
-            unsigned short strategySrcPort;
-            int strategySize = strategyUDP->recvFrom(strategyBuffer, strategyBufferMaxSize, strategySrcAdd, strategySrcPort);
-            if ( strategySize > 11 )
+            
+            auto receivedStrategy = strategyUDP->receiveRaw();
+            const std::string strategySrcAdd = strategyUDP->getLastReceiveEndpoint().address().to_string();
+            const unsigned short strategySrcPort = strategyUDP->getLastReceiveEndpoint().port();
+            if (receivedStrategy.size() > 11 )
             {
-                LOG_INFO("Recieved \"strategy.ims\" with size: {} KB, from {} on port {}", float(strategySize)/1000.0f, strategySrcAdd, strategySrcPort);
+                LOG_INFO("Recieved \"strategy.ims\" with size: {} KB, from {} on port {}", float(receivedStrategy.size())/1000.0f, strategySrcAdd, strategySrcPort);
                 lock.lock();
-                reinterpret_cast<ai09*>(aii)->read_playBook_str(strategyBuffer, strategySize);
+                reinterpret_cast<ai09*>(aii)->read_playBook_str(receivedStrategy.data(), receivedStrategy.size());
                 lock.unlock();
                 std::string strategy_path(DATA_DIR); strategy_path.append("/strategy.ims");
                 ofstream strategyFile ( strategy_path.c_str() , ios::out|ios::binary);
-                strategyFile.write(strategyBuffer, strategySize);
+                strategyFile.write(receivedStrategy.data(), receivedStrategy.size());
                 strategyFile.close();
             }
             else {
-                LOG_WARNING("Invalid \"strategy.ims\" received with size: {}", strategySize);
+                LOG_WARNING("Invalid \"strategy.ims\" received with size: {}", receivedStrategy.size());
             }
         }
-
-        delete strategyUDP;
     };
 
     thread ai_thread(ai_func);

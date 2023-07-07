@@ -9,6 +9,8 @@ public:
 
     bool receive(google::protobuf::MessageLite *t_message);
 
+    std::span<char> receiveRaw();
+
     [[nodiscard]] asio::ip::udp::endpoint getListenEndpoint() const
     {
         return m_listen_endpoint;

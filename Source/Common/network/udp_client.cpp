@@ -29,3 +29,15 @@ bool UdpClient::receive(google::protobuf::MessageLite *const t_message)
 
     return false;
 }
+
+std::span<char> UdpClient::receiveRaw()
+{
+    const size_t received_size = m_socket->receive_from(asio::buffer(m_buffer), m_last_receive_endpoint);
+
+    if (received_size > 0)
+    {
+        return std::span<char>(m_buffer.data(), received_size);
+    }
+
+    return {};
+}
