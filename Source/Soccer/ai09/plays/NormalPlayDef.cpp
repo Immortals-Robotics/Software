@@ -67,18 +67,25 @@ void ai09::NormalPlayDef ( void )
 	if (goal_blocked(ball.Position, 200, 90)) {
 		chip_pow = 50;
 	}
-	
-	if (!goal_blocked(ball.Position, 3000, 130)) {
-		shoot_pow = 0;
-		chip_pow = 80;
+	else if (!goal_blocked(ball.Position, 3000, 130)) {
+		shoot_pow = 50;
+		chip_pow = 0;
 	}
-	
+	else
+	{
+		shoot_pow = 0;
+		chip_pow = 10;
+	}
+
+	// chip the ball out if in a dangerous position
+#if 0
     if (attackFuckingAngle() && findKickerOpp(-1)) {
 		shootAngle = AngleWith(ball.Position, Vec2(side*field_width, 0));
 		shoot_pow = 0;
 		chip_pow = 80;
 	}
-    
+#endif
+
     if (0)//findKickerOpp(-1))
     {
         shootAngle = AngleWith(ball.Position, OwnRobot[attack].State.Position);

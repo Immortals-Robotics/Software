@@ -4,7 +4,7 @@ bool ai09::goal_blocked ( TVec2 init_pos, float max_shoot_blocker_dis, float sho
 {
 	bool oppGoalOpen = true;
 	
-	Line ballGoalLine = Line::makeLineFromTwoPoints(VecPosition(-3025*side,0),VecPosition(init_pos.X,init_pos.Y));
+	Line ballGoalLine = Line::makeLineFromTwoPoints(VecPosition(-side * field_width,0),VecPosition(init_pos.X,init_pos.Y));
 	for (int i = 0; i < Setting::kMaxRobots; i ++) {
 		if ( OppRobot[i].seenState == CompletelyOut )
 			continue;

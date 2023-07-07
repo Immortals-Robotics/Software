@@ -106,7 +106,7 @@ void ai09::WaitForPass ( int robot_num , bool chip , TVec2* target , TVec2* stat
 //            }
 //            vel_delta = getCalibratedShootPowCPY(robot_num,60);
             std::cout << "ball vel: " << vel_delta << std::endl;
-			OwnRobot[robot_num].Shoot( 47 );
+			OwnRobot[robot_num].Shoot( 40 );
         }
 	}
 	else
