@@ -21,6 +21,7 @@ void ai09::CalcIsDefending ( void )
 		}
 
 	}
-    
-    //isDefending = false;
+
+	// enable for stronger teams
+    isDefending = true;
 }
