@@ -86,10 +86,7 @@ void ai09::NormalPlayAtt ( void )
             else {
 
                 float shootAngle;
-                if ( openAngle.Y > 10 )
-                    shootAngle = NormalizeAngle( 180+openAngle.X);
-                else
-                    shootAngle = AngleWith ( Vec2 ( -side*field_width , 0 ) , ball.Position );
+                shootAngle = NormalizeAngle( 180+openAngle.X);
 
                 //ADDED by Dot_Blue:
 //                float shoot_pow;
