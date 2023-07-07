@@ -25,7 +25,7 @@ void ai09::penalty_us_ghuz ( void )
 	
 	OwnRobot[dmf].face ( Vec2 ( -side*field_width , 0 ) );
 	ERRTSetObstacles ( dmf, true, true, true, true );
-	ERRTNavigate2Point ( dmf , Vec2 ( 0 , 0 ), false, 80, &VELOCITY_PROFILE_AROOM );
+	ERRTNavigate2Point ( dmf , Vec2 ( side * 5000 , 0 ), false, 80, &VELOCITY_PROFILE_AROOM );
 	
 	OwnRobot[mid1].face ( Vec2 ( -side*field_width , 0 ) );
 	ERRTSetObstacles ( mid1, true, true, true, true );

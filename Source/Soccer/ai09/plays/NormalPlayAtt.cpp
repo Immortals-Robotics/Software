@@ -97,7 +97,7 @@ void ai09::NormalPlayAtt ( void )
 //                }
 
 //                float shoot_pow = 80 - OwnRobot[attack].State.velocity.magnitude * 0.01;
-                float shoot_pow = 42 - OwnRobot[attack].State.velocity.magnitude * 0.005;
+                float shoot_pow = 50 - OwnRobot[attack].State.velocity.magnitude * 0.005;
 
                 //if ( openAngle.Y < 2 )
                 //    shoot_pow = 0;

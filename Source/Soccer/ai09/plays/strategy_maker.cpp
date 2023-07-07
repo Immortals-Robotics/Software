@@ -171,9 +171,9 @@ void ai09::strategy_maker ( void )
             
             
             
-			if (step[i]==strategy.role(i).path_size()-1 && recievers_reached && timer.time() > 3) {
+			if (step[i]==strategy.role(i).path_size()-1 && recievers_reached && timer.time() > 4) {
 				float passAngle = AngleWith(Vec2(strategy.role(i).path(step[i]).x()*xSgn, strategy.role(i).path(step[i]).y()*ySgn),ball.Position);
-				float tmp_mult = 0.8;//TODO #11 remove this multiplier and fix that strategy maker
+				float tmp_mult = 1;//TODO #11 remove this multiplier and fix that strategy maker
 				circle_ball(*stm2AInum[i], passAngle, shoot*tmp_mult, chip, 1.0f);
 
 			}

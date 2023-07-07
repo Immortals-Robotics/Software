@@ -32,6 +32,8 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting )
 		
 		if ( REF_playState->stop() )
 		{
+			FUNC_state = 0;
+
 			oppRestarted = false;
 			if (side * ball.Position.X > field_width * 0.7f ) {
 				currentPlay = "Stop_def";

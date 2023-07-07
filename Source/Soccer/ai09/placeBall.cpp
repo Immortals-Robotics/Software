@@ -582,18 +582,18 @@ void ai09::our_place_ball_shoot_V2(void) {
             <<targetBallPlacement->Y - ball.Position.Y
             <<std::endl;
         if(success){
-            std::cout<<"MADE it!!!"<<std::endl;
+            LOG_INFO("MADE it!!!");
         }else{
-            std::cout<<"lost it!!!"<<std::endl;
+            LOG_WARNING("lost it!!!");
         }
     }
-    std::cout<<"______IN___STATE_"<< FUNC_state <<"_____"<<std::endl;
+    LOG_INFO("______IN___STATE_{}_____", FUNC_state);
 
 
-    std::cout<<"___DIS___"<<DIS(*targetBallPlacement ,ball.Position)<<std::endl;
-    std::cout<<"___BALL__POS_XY__"<<ball.Position.X<<'_'<<ball.Position.Y<<std::endl;
-    std::cout<<"___TARGET__POS_XY__"<<targetBallPlacement->X<<'_'<<targetBallPlacement->Y<<std::endl;
-    std::cout<<"__OUT__"<<outOfField(ball.Position)<<std::endl;
+    LOG_INFO("___DIS___{}", DIS(*targetBallPlacement ,ball.Position));
+    LOG_INFO("___BALL__POS_XY__{}, {}", ball.Position.X, ball.Position.Y);
+    LOG_INFO("___TARGET__POS_XY__{}, {}", targetBallPlacement->X, targetBallPlacement->Y);
+    LOG_INFO("__OUT__{}", outOfField(ball.Position));
 
 
 }
