@@ -33,10 +33,10 @@ ai09::ai09(WorldState *_worldState, GameSetting *_setting, Sender* _sender):maxB
 #else
 	field_width = 6000.0f;// The new field is here:
     field_height = 4500.0f;
-    goal_width = 2000.0f;//TODO #6 this was 1000 (!!!) Changed it back
+    goal_width = 1800.0f;//TODO #6 this was 1000 (!!!) Changed it back
 
-    penalty_area_r = 2000.0f;
-    penalty_area_width = 3800.0f;
+    penalty_area_r = 1800.0f;
+    penalty_area_width = 3600.0f;
 #endif
 
 
