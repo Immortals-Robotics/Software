@@ -43,7 +43,13 @@ bool ai09::read_playBook_str ( char* buffer , int length )
 		playBook = NULL;
 		return false;
 	}
-	
+
+	for(const auto strategy : playBook->strategy())
+		LOG_INFO("STRATEGY: {}", strategy.name());
+
+	for (const auto weight : playBook->weight())
+		LOG_INFO("Weight: {}", weight);
+
 	return true;
 }
 
