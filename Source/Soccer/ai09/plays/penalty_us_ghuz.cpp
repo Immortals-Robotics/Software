@@ -102,10 +102,10 @@ void ai09::penalty_us_shootout(){
         if (!canKickBall) {
                 LOG_INFO("step0 - Waiting for permission");
         }else if(DIS(ball.Position, Vec2(-side*field_width,0)) >3000 ){
-                circle_ball(attack, AngleWith(ball.Position, Vec2(-field_width, 0)), 1, 0, 0);
+                circle_ball(attack, AngleWith(Vec2(-side * field_width, 0), ball.Position), 1, 0, 0);
                 LOG_INFO("step1 - Moving forward - waiting to get close to the opp goal");
         }else{
-                circle_ball(attack, AngleWith(ball.Position, Vec2(-field_width, 400)), 60, 0, 0);
+                circle_ball(attack, AngleWith(Vec2(-side * field_width, 400), ball.Position), 60, 0, 0);
                 LOG_INFO("step2 - Kick in the goal!!!!");
         }
 
