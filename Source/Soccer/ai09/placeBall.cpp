@@ -600,10 +600,26 @@ void ai09::our_place_ball_shoot_V2(void) {
 //        Navigate2Point(attack,OwnRobot[attack].State.Position,false,0,&BALL_PLACE_KHEYLI_SOOSKI);
         OwnRobot[attack].face(ball.Position);//TODO test this
         ERRTSetObstacles(attack,1,1,1,1);
-        ERRTNavigate2Point(attack, CircleAroundPoint(*targetBallPlacement, t_opp_ang, 550), 0, 20, &BALL_PLACE_KHEYLI_SOOSKI);
-        OwnRobot[dmf].face(ball.Position);
+        TVec2 target1 = CircleAroundPoint(*targetBallPlacement, t_opp_ang, 550);
+        if (outOfField(target1)) {
+            ERRTNavigate2Point(attack, Vec2(200, 0), 0, 20, &BALL_PLACE_KHEYLI_SOOSKI);
+        }
+        else {
+            ERRTNavigate2Point(attack, target1, 0, 20, &BALL_PLACE_KHEYLI_SOOSKI);
+        }
+        //ERRTNavigate2Point(attack, CircleAroundPoint(*targetBallPlacement, t_opp_ang, 550), 0, 20, &BALL_PLACE_KHEYLI_SOOSKI);
+
+    	OwnRobot[dmf].face(ball.Position);
         ERRTSetObstacles(dmf,1,1,1,1);
-        ERRTNavigate2Point(dmf, CircleAroundPoint(*targetBallPlacement, t_ang, 550), 0, 20, &BALL_PLACE_KHEYLI_SOOSKI);
+        TVec2 target2 = CircleAroundPoint(*targetBallPlacement, t_ang, 550);
+        if (outOfField(target2)) {
+            ERRTNavigate2Point(dmf, Vec2(-200, 0), 0, 20, &BALL_PLACE_KHEYLI_SOOSKI);
+        }
+        else {
+            ERRTNavigate2Point(dmf, target2, 0, 20, &BALL_PLACE_KHEYLI_SOOSKI);
+        }
+
+    	//ERRTNavigate2Point(dmf, CircleAroundPoint(*targetBallPlacement, t_ang, 550), 0, 20, &BALL_PLACE_KHEYLI_SOOSKI);
 
 //        OwnRobot[attack].target.Angle = 0;
 //        OwnRobot[dmf].target.Angle = 0;
