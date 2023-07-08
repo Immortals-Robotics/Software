@@ -292,28 +292,57 @@ void ai09::our_place_ball_shoot_V2(void) {
 //    position_robots();//For lordhippo (after the first match with MRL)
     std::cout<<"AFTER: "<<dmf<<"_"<<mid2<<std::endl;
 
-    ERRTSetObstacles ( mid1 , false , true , true , true );
-    AddCircle ( ball.Position.X , ball.Position.Y , 1010.0f );
+#if mark_in_stop
+    MarkManager(false);
+
+    for (std::map<int*, int>::const_iterator i = markMap.begin(); i != markMap.end(); ++i) {
+        int opp = i->second;
+        int own = *i->first;
+
+        if (own == dmf) {
+            continue;
+        }
+
+        if (opp == -1) {
+            if (own == mid1) {
+                ERRTSetObstacles(mid1, false, true, true, true);
+                AddCircle(ball.Position.X, ball.Position.Y, 1010.0f);
+                OwnRobot[mid1].face(ball.Position);
+                ERRTNavigate2Point(mid1, PointOnConnectingLine(ball.Position, Vec2(side * field_width, 0), DIS(ball.Position, Vec2(side * field_width, 0)) / 3.0f), 0, 100, &VELOCITY_PROFILE_AROOM);
+            }
+            else if (own == mid2) {
+                ERRTSetObstacles(mid2, false, true, true, true);
+                AddCircle(ball.Position.X, ball.Position.Y, 1010.0f);
+                OwnRobot[mid2].face(Vec2(ball.Position.X, ball.Position.Y));
+                ERRTNavigate2Point(mid2, CircleAroundPoint(Vec2(ball.Position.X, ball.Position.Y), NormalizeAngle(AngleWith(ball.Position, Vec2(side * field_width, 0))), 1090), 0, 100, &VELOCITY_PROFILE_AROOM);
+            }
+        }
+        else {
+            Mark(own, opp, 500);
+        }
+    }
+
+#else
+    ERRTSetObstacles(mid1, false, true, true, true);
+    AddCircle(ball.Position.X, ball.Position.Y, 1010.0f);
     OwnRobot[mid1].face(ball.Position);
-    ERRTNavigate2Point ( mid1 , PointOnConnectingLine(ball.Position, Vec2(side*field_width, 0), DIS(ball.Position, Vec2(side*field_width, 0))/3.0f) ,0 , 100,&VELOCITY_PROFILE_AROOM);
+    ERRTNavigate2Point(mid1, PointOnConnectingLine(ball.Position, Vec2(side * field_width, 0), DIS(ball.Position, Vec2(side * field_width, 0)) / 3.0f), 0, 100, &VELOCITY_PROFILE_AROOM);
 
-    ERRTSetObstacles ( rw , false , true , true , true );
-    AddCircle ( ball.Position.X , ball.Position.Y , 1010.0f );
+    ERRTSetObstacles(rw, false, true, true, true);
+    AddCircle(ball.Position.X, ball.Position.Y, 1010.0f);
     OwnRobot[rw].face(ball.Position);
-    ERRTNavigate2Point ( rw ,Vec2(0,-100) + PointOnConnectingLine(ball.Position, Vec2(side*field_width, 0), DIS(ball.Position, Vec2(side*field_width, 0))/3.0f) ,0 , 100,&VELOCITY_PROFILE_AROOM);
+    ERRTNavigate2Point(rw, Vec2(0, -100) + PointOnConnectingLine(ball.Position, Vec2(side * field_width, 0), DIS(ball.Position, Vec2(side * field_width, 0)) / 3.0f), 0, 100, &VELOCITY_PROFILE_AROOM);
 
-    ERRTSetObstacles ( lw , false , true , true , true );
-    AddCircle ( ball.Position.X , ball.Position.Y , 1010.0f );
+    ERRTSetObstacles(lw, false, true, true, true);
+    AddCircle(ball.Position.X, ball.Position.Y, 1010.0f);
     OwnRobot[lw].face(ball.Position);
-    ERRTNavigate2Point ( lw ,Vec2(0,100) + PointOnConnectingLine(ball.Position, Vec2(side*field_width, 0), DIS(ball.Position, Vec2(side*field_width, 0))/3.0f) ,0 , 100,&VELOCITY_PROFILE_AROOM);
+    ERRTNavigate2Point(lw, Vec2(0, 100) + PointOnConnectingLine(ball.Position, Vec2(side * field_width, 0), DIS(ball.Position, Vec2(side * field_width, 0)) / 3.0f), 0, 100, &VELOCITY_PROFILE_AROOM);
 
-    ERRTSetObstacles ( mid2 , false , true , true , true );
-    AddCircle ( ball.Position.X , ball.Position.Y , 1010.0f );
-    OwnRobot[mid2].face(Vec2(ball.Position.X,ball.Position.Y));
-    ERRTNavigate2Point ( mid2 , CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(AngleWith(ball.Position , Vec2(side*field_width,0))),1090) ,0 , 100,&VELOCITY_PROFILE_AROOM);
-
-
-
+    ERRTSetObstacles(mid2, false, true, true, true);
+    AddCircle(ball.Position.X, ball.Position.Y, 1010.0f);
+    OwnRobot[mid2].face(Vec2(ball.Position.X, ball.Position.Y));
+    ERRTNavigate2Point(mid2, CircleAroundPoint(Vec2(ball.Position.X, ball.Position.Y), NormalizeAngle(AngleWith(ball.Position, Vec2(side * field_width, 0))), 1090), 0, 100, &VELOCITY_PROFILE_AROOM);
+#endif
 
     OwnRobot[attack].target.velocity.x = 0.0;
     OwnRobot[attack].target.velocity.y = 0.0;

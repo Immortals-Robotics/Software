@@ -24,6 +24,8 @@
 
 #define NEW_FIELD_2018
 
+#define mark_in_stop 1
+
 class ai09 : public aiBase
 {
 private:
