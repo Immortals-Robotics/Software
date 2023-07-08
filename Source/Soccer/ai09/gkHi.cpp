@@ -16,7 +16,7 @@ void ai09::GKHi ( int robot_num, bool stop )
 	}
 	debugDraw = false;
 
-	if ((ballIsGoaling())&&(DIS(ball.Position, OwnRobot[robot_num].State.Position)/ball.velocity.magnitude<5)&&(!stop))
+	if ((ballIsGoaling())&&(DIS(ball.Position, OwnRobot[robot_num].State.Position)/ball.velocity.magnitude<3)&&(!stop))
 	{
 		//WaitForPass ( robot_num , true );
 		GK_shirje(robot_num);
@@ -38,7 +38,7 @@ void ai09::GKHi ( int robot_num, bool stop )
         side = - side;
 		ERRTSetObstacles ( robot_num , false , false , false , false);
         side = -side;
-		if ( ( IsInObstacle ( Vec2 ( (ball.Position.X),(ball.Position.Y) ) ) ) && ( ball.velocity.magnitude < 1500 ) && (!stop) && (side*ball.Position.X<field_width) && (fabs(ball.Position.Y)<penalty_area_width/2.0) )
+		if ( ( IsInObstacle ( Vec2 ( (ball.Position.X),(ball.Position.Y) ) ) ) && ( ball.velocity.magnitude < 1500 ) && REF_playState->canKickBall() && (!stop) && (side*ball.Position.X<field_width) && (fabs(ball.Position.Y)<penalty_area_width/2.0) )
 		{
 			LOG_DEBUG("GK intercepting");
 
@@ -50,6 +50,8 @@ void ai09::GKHi ( int robot_num, bool stop )
 		}
 		else
 		{
+#if 0
+
             float cornerStartMul = pow(max(0,1.2-timer.time()),1.1);
 //			TVec2 target = GK_Ghuz_2018(cornerStartMul*0.4, cornerStartMul>0?(1+0.2*(1-cornerStartMul)):1,1);
 //			TVec2 target = GK_Ghuz(cornerStartMul*0.4, cornerStartMul>0?(1+0.2*(1-cornerStartMul)):1,1);
@@ -78,7 +80,10 @@ void ai09::GKHi ( int robot_num, bool stop )
 			}
 			TVec2 target = Vec2(tmp_x, tmp_y);
 			//Done by Dot_Blue TODO #9 test this...
-
+#else
+			TVec2 target = PointOnConnectingLine(Vec2(side*field_width, 0), ball.Position, 700);
+			target.X = sgn(target.X) * std::min(field_width - 90, std::fabs(target.X));
+#endif
 			OwnRobot[robot_num].face(ball.Position);
 			ERRTSetObstacles(robot_num, stop , false, false, false);
 			ERRTNavigate2Point(robot_num, target, 0, 80, stop ? &VELOCITY_PROFILE_AROOM : &VELOCITY_PROFILE_MAMOOLI);
