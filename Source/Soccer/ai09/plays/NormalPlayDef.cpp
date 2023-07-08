@@ -66,7 +66,7 @@ void ai09::NormalPlayDef ( void )
 	}
 
 	// chip the ball out if in a dangerous position
-#if 1
+#if 0
     if (attackFuckingAngle() && findKickerOpp(-1)) {
 		shootAngle = AngleWith(ball.Position, Vec2(side*field_width, 0));
 		shoot_pow = 50;

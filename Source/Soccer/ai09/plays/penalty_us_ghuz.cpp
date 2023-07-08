@@ -4,7 +4,7 @@ static float t_nml;
 
 void ai09::penalty_us_ghuz ( void )
 {
-	bool canKickBall = bool(currentPlayParam);
+	bool canKickBall = timer.time() > 4;// bool(currentPlayParam);
 	if (!canKickBall) {
 		t_nml = timer.time();
 	}

@@ -571,8 +571,8 @@ void ai09::our_place_ball_shoot_V2(void) {
 
 
 
-        if(DIS(CircleAroundPoint ( *targetBallPlacement , t_opp_ang , 250 ),OwnRobot[attack].State.Position) < 40 &&
-           DIS(CircleAroundPoint ( *targetBallPlacement , t_ang , 250 ),OwnRobot[dmf].State.Position) < 40){
+        if(DIS(CircleAroundPoint ( *targetBallPlacement , t_opp_ang , 550 ),OwnRobot[attack].State.Position) < 40 &&
+           DIS(CircleAroundPoint ( *targetBallPlacement , t_ang , 550 ),OwnRobot[dmf].State.Position) < 40){
             FUNC_CNT++;
         }
         if(FUNC_CNT >= 30 ){
