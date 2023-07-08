@@ -78,3 +78,35 @@ void ai09::penalty_us_ghuz ( void )
 		
 	}
 }
+
+void ai09::penalty_us_shootout(){
+
+        bool canKickBall = bool(currentPlayParam);
+        if (!canKickBall) {
+        }
+
+        DefMid(def, rw, lw, NULL, true);
+
+        OwnRobot[dmf].face ( Vec2 ( -side*field_width , 0 ) );
+        ERRTSetObstacles ( dmf, true, true, true, true );
+        ERRTNavigate2Point ( dmf , Vec2 ( side * 4000 , 0 ), false, 80, &VELOCITY_PROFILE_AROOM );
+
+        OwnRobot[mid1].face ( Vec2 ( -side*field_width , 0 ) );
+        ERRTSetObstacles ( mid1, true, true, true, true );
+        ERRTNavigate2Point ( mid1 , Vec2 ( side * 4000 , -500 ), false, 80, &VELOCITY_PROFILE_AROOM );
+
+        OwnRobot[mid2].face ( Vec2 ( -side*field_width , 0 ) );
+        ERRTSetObstacles ( mid2, true, true, true, true );
+        ERRTNavigate2Point ( mid2 , Vec2 ( side * 4000 , 500 ), false, 80, &VELOCITY_PROFILE_AROOM );
+
+        if (!canKickBall) {
+                LOG_INFO("step0 - Waiting for permission");
+        }else if(DIS(ball.Position, Vec2(-side*field_width,0)) >3000 ){
+                circle_ball(attack, AngleWith(ball.Position, Vec2(-field_width, 0)), 1, 0, 0);
+                LOG_INFO("step1 - Moving forward - waiting to get close to the opp goal");
+        }else{
+                circle_ball(attack, AngleWith(ball.Position, Vec2(-field_width, 400)), 60, 0, 0);
+                LOG_INFO("step2 - Kick in the goal!!!!");
+        }
+
+}

@@ -220,6 +220,7 @@ private:
 		void corner_simple_chip ( void );
 		void corner_switch_pass ( void );
 		void penalty_us_ghuz ( void );
+		void penalty_us_shootout ( void );
 		void kickoff_us_chip ( void );
 		void kickoff_us_pass ( void );
 		void kickoff_us_farar ( void );

@@ -71,7 +71,8 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting )
 		}
 		else if ( REF_playState->ourPenaltyKick ( ) )
 		{
-			currentPlay = "penalty_us_ghuz";
+//			currentPlay = "penalty_us_ghuz";
+			currentPlay = "penalty_us_shootout";
 			currentPlayParam = static_cast<uint32_t>(worldState ->refereeState -> State->canKickBall());
 //			std::cout << "IN_PENALTY..."<<worldState ->refereeState -> State->canKickBall()<<std::endl;
 		}

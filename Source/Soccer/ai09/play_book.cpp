@@ -31,6 +31,7 @@ void ai09::InitAIPlayBook ( void )
 	AIPlayBook["Stop_def"] = &ai09::Stop_def;
 	AIPlayBook["strategy_maker"] = &ai09::strategy_maker;
 	AIPlayBook["penalty_us_ghuz"] = &ai09::penalty_us_ghuz;
+	AIPlayBook["penalty_us_shootout"] = &ai09::penalty_us_shootout;
 	AIPlayBook["penalty_their_gool"] = &ai09::penalty_their_gool;
     AIPlayBook["penalty_their_simple"] = &ai09::penalty_their_simple;
     

@@ -90,7 +90,7 @@ int main ( )
             aii -> Process( state , settings );
 
             //TODO #3 comment the GRsim output
-//            grsim_fwd->SendData((reinterpret_cast<ai09*>(aii))->OwnRobot, Setting::kMaxOnFieldTeamRobots, settings->our_color);
+            grsim_fwd->SendData((reinterpret_cast<ai09*>(aii))->OwnRobot, Setting::kMaxOnFieldTeamRobots, settings->our_color);
 
             //The sending process
             senderBase->sendAll();
