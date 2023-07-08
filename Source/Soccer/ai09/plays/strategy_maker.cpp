@@ -86,6 +86,8 @@ void ai09::strategy_maker ( void )
 	if ( timer.time() < 1.0 )
 	{
 		for (int i = 0 ; i < Setting::kMaxOnFieldTeamRobots; i ++ ) {
+			// FOR NOW: advance to the last step
+			step[i] = strategy.role(i).path_size() - 2;
 			lastAdv[i] = timer.time();
 			//std::cout << "zeroed: " << i << std::endl;
 		}
