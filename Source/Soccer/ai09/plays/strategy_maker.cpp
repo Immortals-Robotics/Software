@@ -250,8 +250,8 @@ void ai09::strategy_maker ( void )
                 else
                     allafPos[*stm2AInum[i]] = Vec2( strategy.role(i).path(strategy.role(i).path_size()-1).x()*xSgn,strategy.role(i).path(strategy.role(i).path_size()-1).y()*ySgn );
                 
-                //if (step[i]!=strategy.role(i).path_size()-1)
-				if (i == dmf && remainingDis > 150)
+                if (step[i]!=strategy.role(i).path_size()-1)
+				//if (i == dmf && remainingDis > 150)
                     new_recievers_reached = false;
 				break;
 			case 2:
@@ -275,6 +275,6 @@ void ai09::strategy_maker ( void )
 		}
 	}
     
-    recievers_reached = new_recievers_reached;
+    recievers_reached = new_recievers_reached || timer.time() > 4.5;
 	
 }
