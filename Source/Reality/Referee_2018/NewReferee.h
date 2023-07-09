@@ -3,6 +3,7 @@
 #include "../../Network/Protobuf/referee2018.pb.h"
 #include "../../Common/GameSetting.h"
 #include "../../Common/network/udp_client.h"
+#include "../../Common/timer.h"
 
 class NewReferee
 {
@@ -16,6 +17,8 @@ private:
 
     TVec2 LastPlacedBall;
     int move_hys;//For isKicked
+
+	Timer timer;
 
 	int command_CNT;
 

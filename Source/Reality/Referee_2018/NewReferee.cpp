@@ -52,12 +52,14 @@ void NewReferee::process ()
 
         move_hys = 0;//TODO maybe it needs to be commented
 
+		timer.start();
+
 
 //		std::cout << "command: " << pSSLRef.command() << std::endl;
 //		std::cout << "command_CNT: " << pSSLRef.command_counter() << std::endl;
 	}
 
-    RefState->State->transition ( pSSLRef.command() , isKicked(ballData->Position) );
+    RefState->State->transition ( pSSLRef.command() , isKicked(ballData->Position) || timer.time() > 5 );
 //    if ( isKicked(ballData->Position) )
 //    	std::cout << "kicked" << std::endl;
 
