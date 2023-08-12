@@ -2,8 +2,8 @@
 
 void ai09::ERRTSetObstacles(int robot_num, bool bll, bool field, bool own, bool opp)
 {
-	static constexpr float ownRobotRadius = 100.0f;
-	static constexpr float oppRobotRadius = 200.0f;
+	static constexpr float ownRobotRadius = 90.0f;
+	static constexpr float oppRobotRadius = 150.0f;
 
 	static constexpr float ballAreaRadius = 550.0f;
 

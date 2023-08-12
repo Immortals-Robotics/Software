@@ -87,6 +87,9 @@ void Debug::drawRect(const TVec2& p, float w, float h, const std::string_view t_
 
 void Debug::drawCircle(const TVec2& center, float r, const std::string_view t_layer, const Color t_color) const
 {
+    if (std::isnan(center.X) || std::isnan(center.Y))
+        return;
+
     Debug_Circle *const circle = m_wrapper->mutable_dbg_draw()->add_circle();
 
     circle->set_x(center.X);

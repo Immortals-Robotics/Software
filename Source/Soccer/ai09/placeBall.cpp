@@ -566,7 +566,7 @@ void ai09::our_place_ball_shoot_V2(void) {
         OwnRobot[dmf].target.Angle = t_opp_ang;
         //OwnRobot[attack].face(ball.Position);
         TVec2 target1 = CircleAroundPoint(*targetBallPlacement, t_opp_ang, 550);
-        if(outOfField(target1)) {
+        if(false && outOfField(target1)) {
             Navigate2Point(attack, Vec2(0,0), 0, 20, &TEMP_VEL_PRO);
         }else {
             Navigate2Point(attack, target1, 0, 20, &TEMP_VEL_PRO);
@@ -574,7 +574,7 @@ void ai09::our_place_ball_shoot_V2(void) {
         //OwnRobot[dmf].face(ball.Position);
         TVec2 target2 = CircleAroundPoint(*targetBallPlacement, t_ang, 550);
 
-        if(outOfField(target1)) {
+        if(false && outOfField(target1)) {
             Navigate2Point(dmf, Vec2(0,0), 0, 20, &TEMP_VEL_PRO);
         }else {
             Navigate2Point(dmf, target2, 0, 20, &TEMP_VEL_PRO);
