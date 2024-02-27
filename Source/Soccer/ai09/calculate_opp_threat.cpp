@@ -8,18 +8,17 @@ float ai09::calculateOppThreat(int opp, bool restart)
 		return -1;
 
 	if ((DIS(OppRobot[opp].Position, ball.Position) < 400) &&
-		((DIS(OwnRobot[attack].State.Position, ball.Position) < 400) ||
-		(restart)))
+		((DIS(OwnRobot[attack].State.Position, ball.Position) < 400) || restart))
 		return -1;
 
-	if (OppRobot[opp].Position.X*side < -1500 && fabs(OppRobot[opp].Position.X - ball.Position.X) > 2000)
-		return 0;
+	if (OppRobot[opp].Position.X*side < 1000 && fabs(OppRobot[opp].Position.X - ball.Position.X) > 6000)
+		return -1;
 
 
 	float oppDisToGoal = DIS(OppRobot[opp].Position, Vec2(side*field_width, 0));
 
-	TVec2 t2 = Vec2(field_width*side, goal_width / 2.0);
-	TVec2 t1 = Vec2(field_width*side, -goal_width / 2.0);
+	TVec2 t2 = Vec2(field_width*side, goal_width / 2.0f);
+	TVec2 t1 = Vec2(field_width*side, -goal_width / 2.0f);
 	float t1Angel = atan2((t1.Y - OppRobot[opp].Position.Y), (t1.X - OppRobot[opp].Position.X));
 	float t2Angel = atan2((t2.Y - OppRobot[opp].Position.Y), (t2.X - OppRobot[opp].Position.X));
 	float oppOpenAngleToGoal = fabs(NormalizeAngle(t2Angel - t1Angel))*180.0f / 3.1415f;
@@ -31,10 +30,10 @@ float ai09::calculateOppThreat(int opp, bool restart)
 	auto ballToOppDis = DIS(ball.Position, OppRobot[opp].Position);
 
 	float score_goal_dis;
-	if (oppDisToGoal < 4000)
+	if (oppDisToGoal < 3000)
 		score_goal_dis = 1.0f;
 	else
-		score_goal_dis = 1.0f - pow(max(0.0f, (oppDisToGoal - 4000.0f) / 3000.0f), 0.5f);
+		score_goal_dis = 1.0f - pow(max(0.0f, (oppDisToGoal - 3000.0f) / 3000.0f), 0.5f);
 
 	float score_ball_dis;
 	if (ballToOppDis < 1500)

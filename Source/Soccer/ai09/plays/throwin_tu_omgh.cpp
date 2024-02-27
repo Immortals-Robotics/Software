@@ -35,11 +35,9 @@ void ai09::throwin_tu_omgh ( void )
 	if ( oneTouchDetector[rmf].IsArriving(70) )
 	{
 		WaitForOmghi ( rmf );
-		hys = 30;
 	}
 	else
 	{
-		hys = 0;
 		OwnRobot[rmf].face ( Vec2 ( -side*2995 , 0 ) );
 		ERRTSetObstacles ( rmf );
 		if ( timer.time() < 0.0 )

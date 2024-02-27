@@ -1,11 +1,24 @@
 #pragma once
-#include "../Reality/Vision/VisionSetting.h"
+//#include "../Reality/Vision/VisionSetting.h"
 
-enum Side { Right , Left };
+
+
+#include <iostream>
+#include <vector>
+
+#define COLOR_BLUE false
+#define COLOR_YELLOW true
+
+#define RIGHT_SIDE true
+#define LEFT_SIDE false
 
 struct GameSetting
 {
-	Side side;
+	bool our_color;
+	bool our_side;
 
-	VisionSetting * visionSetting;
+	std::string GUI_UDP_Address;
+	unsigned short GUIPort;
+
+	unsigned char rf_frq;
 };

@@ -1,0 +1,12 @@
+syntax = "proto2";
+
+import "data_plot.proto";
+import "visual_log.proto";
+import "text_log.proto";
+
+message Imm_DBG_wrapper {
+  optional raw_points DBG_raw_points = 1;
+  optional Debug_Draw DBG_draw = 2;
+  optional Text_Message DBG_text = 3;
+  required uint32     frame_id = 4;
+}

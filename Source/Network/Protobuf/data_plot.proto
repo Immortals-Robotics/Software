@@ -1,0 +1,31 @@
+syntax = "proto2";
+
+message point_2D {
+  optional string name = 1;
+  required float x = 2;
+  required float y = 3;
+}
+
+message function_2D {
+  optional string name = 1;
+  repeated point_2D points = 2;
+}
+
+message function_wrapper {
+  repeated function_2D funcArr = 1;
+}
+
+// This message gives all the points in one array, unseperatly
+message raw_points {
+  repeated point_2D allPoints = 1;
+}
+
+message data_flow {
+  optional string name = 1;
+  repeated float y = 2;
+}
+
+message data_gram {
+  repeated data_flow data_package = 1;
+}
+

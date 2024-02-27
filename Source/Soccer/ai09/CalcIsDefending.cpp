@@ -21,6 +21,4 @@ void ai09::CalcIsDefending ( void )
 		}
 
 	}
-    
-    //isDefending = false;
 }

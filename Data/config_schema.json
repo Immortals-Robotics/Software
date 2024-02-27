@@ -1,0 +1,197 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "common": {
+      "type": "object",
+      "properties": {
+        "our_color": {
+          "type": "integer"
+        },
+        "immortals_is_the_best_team": {
+          "type": "boolean"
+        },
+        "enable_debug": {
+          "type": "boolean"
+        },
+        "side_wall": {
+          "type": "boolean"
+        }
+      }
+    },
+    "vision": {
+      "type": "object",
+      "properties": {
+        "vision_frame_rate": {
+          "type": "number"
+        },
+        "max_ball_hist": {
+          "type": "integer"
+        },
+        "merge_distance": {
+          "type": "number"
+        },
+        "ball_merge_distance": {
+          "type": "number"
+        },
+        "max_ball_2_frame_dist": {
+          "type": "number"
+        },
+        "max_robot_frame_not_seen": {
+          "type": "integer"
+        },
+        "max_ball_frame_not_seen": {
+          "type": "integer"
+        },
+        "use_kalman_pos": {
+          "type": "boolean"
+        },
+        "use_kalman_ang": {
+          "type": "boolean"
+        },
+        "use_camera": {
+          "type": "array",
+          "items": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "soccer": {
+      "type": "object",
+      "properties": {
+        "our_side": {
+          "type": "integer"
+        },
+        "enable_simulation": {
+          "type": "boolean"
+        },
+        "command_opp_robots": {
+          "type": "boolean"
+        },
+        "field_width": {
+          "type": "integer"
+        },
+        "field_length": {
+          "type": "integer"
+        },
+        "goal_length": {
+          "type": "integer"
+        },
+        "init_gk_id": {
+          "type": "integer",
+        },
+        "robot_physical_status": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {"type": "integer"},
+              "has_dribbler": {"type": "boolean"},
+              "has_direct_kick": {"type": "boolean"},
+              "has_chip_kick": {"type": "boolean"},
+              "is_3D_printed": {"type": "boolean"}
+            }
+          },
+          "maxContains": 16
+        },
+        "robot_behavior_tree_config_filename": {
+          "type": "string"
+        }
+      }
+    },
+    "network": {
+      "type": "object",
+      "properties": {
+        "vision": {
+          "type": "object",
+          "properties": {
+            "ip": {
+              "type": "string"
+            },
+            "port": {
+              "type": "integer"
+            }
+          }
+        },
+        "tracker": {
+          "type": "object",
+          "properties": {
+            "ip": {
+              "type": "string"
+            },
+            "port": {
+              "type": "integer"
+            }
+          }
+        },
+        "referee": {
+          "type": "object",
+          "properties": {
+            "ip": {
+              "type": "string"
+            },
+            "port": {
+              "type": "integer"
+            }
+          }
+        },
+        "debug": {
+          "type": "object",
+          "properties": {
+            "ip": {
+              "type": "string"
+            },
+            "port": {
+              "type": "integer"
+            }
+          }
+        },
+        "control_simulation": {
+          "type": "object",
+          "properties": {
+            "ip": {
+              "type": "string"
+            },
+            "port": {
+              "type": "integer"
+            }
+          }
+        },
+        "blue_robot_simulation": {
+          "type": "object",
+          "properties": {
+            "ip": {
+              "type": "string"
+            },
+            "port": {
+              "type": "integer"
+            }
+          }
+        },
+        "yellow_robot_simulation": {
+          "type": "object",
+          "properties": {
+            "ip": {
+              "type": "string"
+            },
+            "port": {
+              "type": "integer"
+            }
+          }
+        },
+        "sender": {
+          "type": "object",
+          "properties": {
+            "ip": {
+              "type": "string"
+            },
+            "port": {
+              "type": "integer"
+            }
+          }
+        }
+      }
+    }
+  }
+}

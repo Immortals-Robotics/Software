@@ -2,18 +2,38 @@
 
 void ai09::Stop_def ( void )
 {
-	GKHi( gk , 1 , true );
-	DefHi(def,NULL, true);
+	for (std::map<int*, int>::const_iterator i = markMap.begin(); i != markMap.end(); ++i) {
+		markMap[i->first] = -1;
+	}
+
+	if (OwnRobot[attack].State.OutForSubsitute)
+	{
+		if (!OwnRobot[mid1].State.OutForSubsitute)
+		{
+			std::swap(attack, mid1);
+		}
+		else if (!OwnRobot[mid2].State.OutForSubsitute)
+		{
+			std::swap(attack, mid2);
+		}
+	}
+	if ( OwnRobot[mid1].State.Position.Y < OwnRobot[mid2].State.Position.Y )
+	{
+		std::swap(mid1, mid2);
+	}
+
+	GKHi( gk , true );
+	//DefHi(def,NULL, true);
+	DefMid(def, rw, lw, NULL, true);
 	
-	map<int,TVec2> static_pos;
-	static_pos[dmf] = Vec2(side*2300, -sgn(ball.Position.Y)*800);
-	static_pos[mid1] = Vec2(side*2000, 300);
-	static_pos[mid2] = Vec2(side*2000, 300);
+	std::map<int,TVec2> static_pos;
+	static_pos[dmf] = Vec2(side*4500, -sgn(ball.Position.Y)*3000);
+	static_pos[mid1] = Vec2(side*4200, 1000);
+	static_pos[mid2] = Vec2(side*4200, -1000);
 	
 	ERRTSetObstacles ( dmf , true , true , true , true );
 	OwnRobot[dmf].face(ball.Position);
 	ERRTNavigate2Point ( dmf , static_pos[dmf] ,0 , 40,&VELOCITY_PROFILE_AROOM);
-	
 	
 	ERRTSetObstacles ( mid1 , true , true , true , true );
 	OwnRobot[mid1].face(Vec2(ball.Position.X,ball.Position.Y));
@@ -26,5 +46,4 @@ void ai09::Stop_def ( void )
 	ERRTSetObstacles ( attack , true , true , true , true );
 	OwnRobot[attack].face(Vec2(ball.Position.X,ball.Position.Y));
 	ERRTNavigate2Point ( attack , CircleAroundPoint(Vec2(ball.Position.X,ball.Position.Y),NormalizeAngle(AngleWith(ball.Position , Vec2(side*field_width,0))),580) ,0 , 40,&VELOCITY_PROFILE_AROOM);
-	//side=-side;
 }

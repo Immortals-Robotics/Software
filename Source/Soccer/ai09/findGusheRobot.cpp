@@ -26,7 +26,7 @@ int ai09::findGusheRobot ( int mask )
 {
     float minDis = (field_width+field_height)*2.0;
     int ans = -1;
-	for ( int i = 0 ; i < 12 ; i ++ )
+	for ( int i = 0 ; i < Setting::kMaxRobots; i ++ )
 	{
 		if ( i == mask )
 			continue;

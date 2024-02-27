@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../Common/Vector.h"
-#include "../../Reality/Vision/WorldState.h"
+#include "../../Reality/WorldState.h"
 
 class TrapezoidPlanner
 {

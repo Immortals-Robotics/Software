@@ -88,7 +88,7 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 	if (gameRestart&&(chip>0)) {
 		chip_head = OwnRobot[robot_num].State.Angle;
 	}
-	
+
 	
 	
 	if (1)// ( fabs(NormalizeAngle(lastBallDirection-ball.velocity.direction) ) > 5 ) || ( fabs(lastBallMagnitude-ball.velocity.magnitude) > 80 ) || ( ball.velocity.magnitude < 100 ) || ( DIS(ball.Position, PredictedBall) < 150) )
@@ -204,7 +204,7 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 
 	if ( 0 )
 	{
-		ERRTSetObstacles ( robot_num , 0 , 0 , 1 , 1 , 0 );
+		ERRTSetObstacles ( robot_num , 0 , 0 , 1 , 1 );
 		planner[robot_num].init ( ball.Position , Vec2 ( -0 , 0 ) , 9 );
 		TVec2 wayp = planner[robot_num].Plan ( );
 
@@ -215,7 +215,7 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 
 	angle = NormalizeAngle ( angle );
 
-	//cout << "circle dadam";
+	//std::cout << "circle dadam";
 
 
 	
@@ -262,7 +262,7 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 	if ( needRRT )
     {
         needOppRRT = (OwnRobot[robot_num].State.velocity.magnitude > 600) && (DIS(OwnRobot[robot_num].State.Position,ball.Position)>300);
-		ERRTSetObstacles ( robot_num , false , true , true , needOppRRT , false , false );
+		ERRTSetObstacles ( robot_num , false , true , true , needOppRRT );
     }
 
 	else
@@ -279,7 +279,7 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
             
 			if ( circleReachedBehindBall )
 			{
-				//cout << "								reached	";
+				//std::cout << "								reached	";
 				TVec2 targetPoint;
 				if ( !gameRestart )
 				{
@@ -292,7 +292,7 @@ void ai09::tech_circle ( int robot_num , float angle , int kick , int chip , boo
 				//Circle newCircle ( VecPosition ( OwnRobot[robot_num].State.Position.X , OwnRobot[robot_num].State.Position.Y ) , DIS(targetPoint, OwnRobot.State.Position) * 2 );
 				if ( 1)//!gameRestart )
 				{
-					//cout << "elendil: " << elendil;
+					//std::cout << "elendil: " << elendil;
 					float hehe2 = AngleWith ( PredictedBall , OwnRobot[robot_num].State.Position );
 					hehe2 = NormalizeAngle ( angle - hehe2 );
 					bool el = ((hehe2<5)&&(DIS(ball.Position,OwnRobot[robot_num].State.Position)<100));

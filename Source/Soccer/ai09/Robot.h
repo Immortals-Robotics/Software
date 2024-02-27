@@ -4,8 +4,12 @@
 #include <math.h>
 #include <iostream>
 #include "../../Common/timer.h"
+#include "../../Reality/Sender/Protocol/writer.h"
 
-#define PREDICT_CMDS 7
+#define PREDICT_CMDS 6
+
+#ifndef ROBOT_H
+#define ROBOT_H
 
 class Robot
 {
@@ -15,16 +19,21 @@ class Robot
 
     float field_w;
     float field_h;
+
+	float shootMult = 1.0f;
     
 	bool oldRobot;
 	RobotState State;
 	RobotState target;
 	int shoot , chip , Break , dribbler;
 	int Motor[4];
-	unsigned char data[11];
+	unsigned char data[32];
+    struct  Vector2f_V2   velocity;
+    union FLOAT_32 target_orientation;
 	int serial_id,vision_id;
 	bool control_mode;
 	bool halted;
+	bool new_comm_ready;
 	
 	TVec3 lastCMDs[11];
 	int CMDindex;
@@ -55,11 +64,17 @@ class Robot
 	void face(TVec2 _target);
 	
 	TVec3 MotionPlan ( RobotState state , RobotState target , float speed , bool accurate , TVec3 * cmd , VelocityProfile * velocityProfile );
-	
+
 	void Move(bool accurate , float speed , VelocityProfile * velocityProfile );
-	
+
 	void MoveByMotion(TVec3 motion);
-	
+
+	TVec3 ComputeMotionCommand( bool accurate , float speed , VelocityProfile * velocityProfile );
+
+	TVec3 GetCurrentMotionCommand( void ) const;
+
 	void makeSendingDataReady ( void );
 	
 };
+
+#endif //ROBOT_H

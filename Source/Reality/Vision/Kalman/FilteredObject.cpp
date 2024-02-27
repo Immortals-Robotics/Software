@@ -7,7 +7,6 @@
 #include <fstream>
 
 #include <math.h>
-using namespace std;
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -40,7 +39,7 @@ FilteredObject::FilteredObject(float A[2][2], float B[2], float C[2][2], float D
 void FilteredObject::initialize(const char* filename1, const char* filename2)
 {
   // open the file 1
-  ifstream matFile(filename1);
+  std::ifstream matFile(filename1);
   if (matFile.is_open())
   {
     matFile>>Aimp[0][0];matFile>>Aimp[0][1];
@@ -67,11 +66,11 @@ void FilteredObject::initialize(const char* filename1, const char* filename2)
   }
   else
   {
-    cout<<"Invalid initialization file 1"<<endl;
+      std::cout<<"Invalid initialization file 1"<< std::endl;
   }
 
   // open the file 2
-  ifstream matFile2(filename2);
+  std::ifstream matFile2(filename2);
   if (matFile2.is_open())
   {
     matFile2>>AimpP[0][0];matFile2>>AimpP[0][1];
@@ -86,7 +85,7 @@ void FilteredObject::initialize(const char* filename1, const char* filename2)
   }
   else
   {
-    cout<<"Invalid initialization file 1"<<endl;
+      std::cout<<"Invalid initialization file 1"<< std::endl;
   }
 }
 
@@ -191,8 +190,3 @@ void FilteredObject::updatePosition(float z[2], float filtOut[2][2])
 
 
 }
-
-
-
-  
-	

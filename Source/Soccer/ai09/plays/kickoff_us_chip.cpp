@@ -4,7 +4,7 @@ void ai09::kickoff_us_chip ( void )
 {
 	bool canKickBall = bool(currentPlayParam);
 	GKHi ( gk );
-	DefHi ( def );
+	DefMid(def, rw, lw, NULL, false);
 	
 	ERRTSetObstacles ( dmf , true , true , true , true );
 	OwnRobot[dmf].face(ball.Position);
@@ -13,7 +13,7 @@ void ai09::kickoff_us_chip ( void )
 	if (timer.time()<0.5) {
 		if ( OwnRobot[mid1].State.Position.Y > OwnRobot[mid2].State.Position.Y )
 		{ 
-			swap(mid1, mid2);
+			std::swap(mid1, mid2);
 		}
 	}
 	
@@ -26,13 +26,14 @@ void ai09::kickoff_us_chip ( void )
 	TVec2 chip_target = Vec2(-side*2000, 0);
 	if ( canKickBall )
 	{
-		float chip_pow = 85;//DIS(chip_target, ball.Position)/11;
-		tech_circle(attack,AngleWith ( chip_target , ball.Position ), 0,chip_pow,0,1,0,1);
+		tech_circle(attack,AngleWith ( chip_target , ball.Position ), 0,80,0,1,0,1);
 		//circle_ball(attack, AngleWith ( chip_target , ball.Position ), 100, 0, 1.0f);
+		std::cout<<"IN THE IFFFFFFFF!!!"<<std::endl;
 	}
 	else
 	{
 		//tech_circle(attack,AngleWith ( chip_target , ball.Position ),0,0,0,1,0,1);
 		circle_ball(attack, AngleWith ( chip_target , ball.Position ), 0, 0, 1.0f);
+		std::cout<<"IN THE ELSE!!!"<<std::endl;
 	}
 }

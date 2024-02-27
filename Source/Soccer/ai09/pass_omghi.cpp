@@ -5,7 +5,7 @@ void ai09::WaitForOmghi ( int robot_num , bool chip )
 	Line ball_line = Line::makeLineFromPositionAndAngle ( VecPosition ( ball.Position.X , ball.Position.Y ) , ball.velocity.direction );
 	if (chip_head<180) {
 		ball_line = Line::makeLineFromPositionAndAngle ( VecPosition ( ball.Position.X , ball.Position.Y ) , chip_head );
-		cout << "	calcing with static head: " << chip_head << endl;
+		std::cout << "	calcing with static head: " << chip_head << std::endl;
 	}
 	Line to_goal_line = Line::makeLineFromTwoPoints(VecPosition(OwnRobot[robot_num].State.Position.X,OwnRobot[robot_num].State.Position.Y) , VecPosition(-side*field_width,0) );
 	
@@ -19,7 +19,7 @@ void ai09::WaitForOmghi ( int robot_num , bool chip )
 	//sBAR /= 10.0;
 	//sBAR /= 1500000;
 	
-	cout << "old sBAR:	" << sBAR << "	"
+	std::cout << "old sBAR:	" << sBAR << "	"
 	;
 	if ( sBAR < 5 )		sBAR = 5;
 	if ( sBAR > 70 )	sBAR = 70;
@@ -33,7 +33,7 @@ void ai09::WaitForOmghi ( int robot_num , bool chip )
 	
 	target = CalculatePassPos(robot_num,Vec2(-side*field_width, 0), OwnRobot[robot_num].State.Position, -200);
 	
-	cout << "sBAR:	" << sBAR << endl;
+	std::cout << "sBAR:	" << sBAR << std::endl;
 	ERRTNavigate2Point ( robot_num , target , 0 , sBAR , &VELOCITY_PROFILE_KHARAKI);
 	
 	OwnRobot[robot_num].Shoot( 100 );

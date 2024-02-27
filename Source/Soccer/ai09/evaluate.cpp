@@ -17,7 +17,7 @@ int obj_num = 0;
 void ai09::SetEvaulateOBJs ( int robot_num1 , int robot_num2 )
 {
 	obj_num = 0;
-	for ( int i = 0 ; i < 5 ; i ++ )
+	for ( int i = 0 ; i < Setting::kMaxOnFieldTeamRobots; i ++ )
 	{
 		if ( ( OwnRobot[i].State.seenState != CompletelyOut ) && ( i != robot_num1 ) && ( i != robot_num2 ) && ( OwnRobot[i].State.vision_id != OwnRobot[robot_num1].State.vision_id ) && ( OwnRobot[i].State.vision_id != OwnRobot[robot_num2].State.vision_id ) )
 		{

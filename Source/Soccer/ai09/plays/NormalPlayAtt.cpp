@@ -4,7 +4,7 @@ Timer activeShootTimer;
 
 void ai09::NormalPlayAtt ( void )
 {
-	ManageAttRoles ( );
+	ManageAttRoles ( );//sets the mid1, mid2, attack
 	
 	debugDraw=true;
 	recievePass(dmf,PointOnConnectingLine(ball.Position, Vec2(side*field_width, 0), 2500));
@@ -56,68 +56,76 @@ void ai09::NormalPlayAtt ( void )
                     mid1Suitable = false;
             }
 
-	if ( openAngle.Y < 2 && (mid1Suitable||mid2Suitable) && (findKickerOpp(-1)==-1) )//&& ( ball.Position.X * side < -2300 ) && ( fabs ( ball.Position.Y ) > 1800 ) )
-	{
-        
-		//float passAngle = AngleWith ( OwnRobot[randomParam<0.3?dmf:(randomParam<0.6?rmf:lmf)].State.Position , ball.Position );
-        float passAngle = AngleWith ( Vec2 ( -side*1700 , -sgn ( ball.Position.Y ) * 1700 ) , ball.Position );
-        float chip_pow = 40;
-        
-        if ( mid1Suitable )
-        {
-            passAngle = AngleWith ( OwnRobot[mid1].State.Position , ball.Position );
-            chip_pow = 50.0 * DIS(OwnRobot[mid1].State.Position, ball.Position) / 2000.0f;
-        }
-        else if ( mid2Suitable )
-        {
-            passAngle = AngleWith ( OwnRobot[mid2].State.Position , ball.Position );
-            chip_pow = 50.0 * DIS(OwnRobot[mid2].State.Position, ball.Position) / 2000.0f;
-        }
-        else
-        {
-            passAngle = AngleWith ( Vec2 ( -side*1700 , -sgn ( ball.Position.Y ) * 1700 ) , ball.Position );
-            chip_pow = 1;
-        }
-		tech_circle(attack, passAngle, 0, chip_pow, 1, 0, 0, 1);
-	}
-	else {
-        
-        float shootAngle;
-        if ( openAngle.Y > 10 )
-            shootAngle = NormalizeAngle( 180+openAngle.X);
-        else
-            shootAngle = AngleWith ( Vec2 ( -side*field_width , 0 ) , ball.Position );
-        
-		float shoot_pow = 80 - OwnRobot[attack].State.velocity.magnitude * 0.01;
+            if ( openAngle.Y < 2 && (mid1Suitable||mid2Suitable) && (findKickerOpp(-1)==-1) )//&& ( ball.Position.X * side < -2300 ) && ( fabs ( ball.Position.Y ) > 1800 ) )
+            {
 
+                //float passAngle = AngleWith ( OwnRobot[randomParam<0.3?dmf:(randomParam<0.6?rmf:lmf)].State.Position , ball.Position );
+                float passAngle = AngleWith ( Vec2 ( -side*1700 , -sgn ( ball.Position.Y ) * 1700 ) , ball.Position );
+                float chip_pow = 40;
 
-        //if ( openAngle.Y < 2 )
-        //    shoot_pow = 0;
-		if (DIS(OwnRobot[attack].State.Position,ball.Position) > 400 ) {
-			shoot_pow = 1;
-            activeShootTimer.start();
-		}
-		else if (goal_blocked(ball.Position, 200, 90)) {
-			shoot_pow = 1;
-		}
-        else
-        {
-            //if ( activeShootTimer.time()<0.3 )
-            //{
-            //    shoot_pow = 1;
-            //}
-        }
-		
-		//if (attackFuckingAngle()) {
-		//	shootAngle = AngleWith(ball.Position, Vec2(side*field_width, 0));
-		//	shoot_pow = 1;
-		//}
-		
-		debugDraw = true;
-		tech_circle(attack, shootAngle, shoot_pow, 0, 1, 0, 0, 0);
-		//circle_ball(attack, 90, 80, 0, 1.0f);
-		debugDraw = false;
-	}
+                if ( mid1Suitable )
+                {
+                    passAngle = AngleWith ( OwnRobot[mid1].State.Position , ball.Position );
+                    chip_pow = 50.f * DIS(OwnRobot[mid1].State.Position, ball.Position) / 4000.0f;
+                    chip_pow = min(50.f, chip_pow);
+                }
+                else if ( mid2Suitable )
+                {
+                    passAngle = AngleWith ( OwnRobot[mid2].State.Position , ball.Position );
+                    chip_pow = 50.f * DIS(OwnRobot[mid2].State.Position, ball.Position) / 4000.0f;
+                    chip_pow = min(50.f, chip_pow);
+                }
+                else
+                {
+                    passAngle = AngleWith ( Vec2 ( -side*1700 , -sgn ( ball.Position.Y ) * 1700 ) , ball.Position );
+                    chip_pow = 0;
+                }
+                //tech_circle(attack, passAngle, 0, chip_pow, 1, 0, 0, 1);
+                circle_ball(attack, passAngle, 0, chip_pow, 1);
+            }
+            else {
+
+                float shootAngle;
+                shootAngle = NormalizeAngle( 180+openAngle.X);
+
+                //ADDED by Dot_Blue:
+//                float shoot_pow;
+//                if(DIS(ball.Position,Vec2 ( -side*field_width , 0 )) < 2000) {
+//                    shoot_pow = 70 - OwnRobot[attack].State.velocity.magnitude * 0.01;
+//                } else {
+//                    shoot_pow = 50 - OwnRobot[attack].State.velocity.magnitude * 0.01;
+//                }
+
+//                float shoot_pow = 80 - OwnRobot[attack].State.velocity.magnitude * 0.01;
+                float shoot_pow = 50 - OwnRobot[attack].State.velocity.magnitude * 0.005;
+
+                //if ( openAngle.Y < 2 )
+                //    shoot_pow = 0;
+                if (DIS(OwnRobot[attack].State.Position,ball.Position) > 400 ) {
+                    shoot_pow = 1;
+                    activeShootTimer.start();
+                }
+                else if (goal_blocked(ball.Position, 200, 90)) {
+                    shoot_pow = 1;
+                }
+                else
+                {
+                    //if ( activeShootTimer.time()<0.3 )
+                    //{
+                    //    shoot_pow = 1;
+                    //}
+                }
+
+                //if (attackFuckingAngle()) {
+                //	shootAngle = AngleWith(ball.Position, Vec2(side*field_width, 0));
+                //	shoot_pow = 1;
+                //}
+
+                debugDraw = true;
+                tech_circle(attack, shootAngle, shoot_pow, 0, 1, 0, 0, 0);
+                //circle_ball(attack, 90, 80, 0, 1.0f);
+                debugDraw = false;
+            }
         
         }
         

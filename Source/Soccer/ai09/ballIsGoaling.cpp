@@ -19,8 +19,10 @@ bool ai09::ballIsGoaling ( void )
 	Line ball_line = Line::makeLineFromPositionAndAngle ( VecPosition ( ball.Position.X , ball.Position.Y ) , ball.velocity.direction );
 	Line targetLine = Line::makeLineFromTwoPoints ( VecPosition ( side * field_width , -100 ) , VecPosition ( side * field_width , 100 ) );
 	VecPosition ballInter = ball_line.getIntersection(targetLine);
-	
-	if (fabs(ballInter.getY())<(goal_width/2.0)+90)
+
+	debug().drawPoint(Vec2(ballInter.getX(), ballInter.getY()));
+
+	if (fabs(ballInter.getY())<(goal_width / 2) + 100.0)
 		return true;
 	
 	return false;
