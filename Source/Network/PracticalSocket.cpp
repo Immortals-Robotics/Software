@@ -35,6 +35,7 @@
 #endif
 #include <cstdlib>
 #include <errno.h>             // For errno
+#include <fcntl.h>
 
 #ifdef WIN32
 static bool initialized = false;
@@ -93,6 +94,28 @@ Socket::Socket(int type, int protocol) throw(SocketException) {
   // Make a new socket
   if ((sockDesc = socket(PF_INET, type, protocol)) < 0) {
     throw SocketException("Socket creation failed (socket())", true);
+  }
+
+  // set socket as non-blocking
+  int flags = fcntl(sockDesc, F_GETFL, 0);
+  if(flags < 0) flags = 0;
+  fcntl(sockDesc, F_SETFL, flags);
+
+  {
+    int reuse=1;
+    if(setsockopt(sockDesc, SOL_SOCKET, SO_REUSEADDR, (const char*)&reuse,sizeof(reuse))!=0) {
+      fprintf(stderr,"ERROR WHEN SETTING SO_REUSEADDR ON UDP SOCKET\n");
+      fflush(stderr);
+    }
+  }
+
+  {
+    int yes = 1;
+    // allow packets to be received on this host
+    if (setsockopt(sockDesc, IPPROTO_IP, IP_MULTICAST_LOOP, (const char*)&yes, sizeof(yes))!=0) {
+      fprintf(stderr,"ERROR WHEN SETTING IP_MULTICAST_LOOP ON UDP SOCKET\n");
+      fflush(stderr);
+    }
   }
 }
 
