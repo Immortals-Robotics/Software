@@ -47,7 +47,7 @@ void ai09::DefHi ( int robot_num , TVec2 * defendTarget , bool stop )
 	
 	oppGoalOpen = true;
 	Line ballGoalLine = Line::makeLineFromTwoPoints(VecPosition(-field_width*side,0),VecPosition(target.X,target.Y));
-	for (int i = 0; i < MAX_ROBOTS; i ++) {
+	for (int i = 0; i < Setting::kMaxRobots; i ++) {
 		if ( OppRobot[i].seenState == CompletelyOut )
 			continue;
 		if ( ( fabs ( OppRobot[i].Position.X ) > field_width ) ||
@@ -62,7 +62,7 @@ void ai09::DefHi ( int robot_num , TVec2 * defendTarget , bool stop )
 		}
 	}
 	if (oppGoalOpen) {
-		for (int i = 0; i < 6; i ++) {
+		for (int i = 0; i < Setting::kMaxOnFieldTeamRobots; i ++) {
 			if ( OwnRobot[i].State.seenState == CompletelyOut )
 				continue;
 			if ( ( fabs ( OwnRobot[i].State.Position.X ) > field_width ) ||
@@ -88,9 +88,15 @@ void ai09::DefHi ( int robot_num , TVec2 * defendTarget , bool stop )
 	ballIsToGoal = ballIsGoaling();
 	ballIsToGoal = false;
 	
-	cout << "DefHi:	" << ballAriving << "	" << oneTouchNear << "	" << assholeNear << "	" << assholeHasBall << "	" << ballMovingFast << "	" << ownAttackHasBall << "	" << ballIsToGoal << "	" << 
-	oppGoalOpen << endl;
-	
+//	std::cout << "interceptNear:	"<<interceptNear <<std::endl;
+//    std::cout << "assholeHasBall: " << assholeHasBall<<std::endl;
+//    std::cout << "ballMovingFast: " << ballMovingFast <<std::endl;
+//    std::cout<<"ownAttackHasBall: " << ownAttackHasBall<<std::endl;
+//    std::cout<< "ballMovingFast: " << ballMovingFast <<std::endl;
+//    std::cout<< "ownAttackHasBall: " << ownAttackHasBall <<std::endl;
+//    std::cout<< "ballIsToGoal: " << ballIsToGoal << std::endl;
+//    std::cout<<"gkIntercepting: "<< gkIntercepting << std::endl;
+
 	if ( 
 		( false ) &&
 		( ballAriving ) &&
@@ -114,14 +120,14 @@ void ai09::DefHi ( int robot_num , TVec2 * defendTarget , bool stop )
 			 ( !stop )
 			 )
 	{
-		ERRTSetObstacles ( robot_num , 0 , 1 , 1 , 0 , 0 );
+		ERRTSetObstacles ( robot_num , 0 , 1 , 1 , 0 );
 		//tech_circle(robot_num,sgn(ball.Position.Y)*side*60 ,0,15,false);
 		tech_circle(robot_num,AngleWith ( ball.Position , Vec2 ( side * (field_width+110) , 0 ) ) ,0,500,true,0,0,0);
 	}
 	else {
 		ERRTSetObstacles ( robot_num , stop , true , true , false );
 		OwnRobot[robot_num].face ( Vec2 ( (*defendTarget).X , (*defendTarget).Y ) );
-		ERRTNavigate2Point(robot_num, target, 0, 100, &VELOCITY_PROFILE_MAMOOLI);
+		ERRTNavigate2Point(robot_num, target, 0, 100, stop ? &VELOCITY_PROFILE_AROOM : &VELOCITY_PROFILE_MAMOOLI);
 	}
 	//side = -side;
 }

@@ -22,7 +22,10 @@ Node * Tree::AddNode( TVec2 & s , Node *p )
                         p->childs_num ++;
                 nodes_num ++;
         }
-
+        else
+        {
+            LOG_WARNING("Tree node limit of {} reached", MAX_NODES);
+        }
         return &(node[nodes_num-1]);
 }
 

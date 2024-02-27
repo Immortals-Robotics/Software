@@ -24,7 +24,7 @@ void ai09::corner_switch_pass ( void )
 		Halt(lmf);
 		
 		OwnRobot[dmf].face(Vec2(-side*3025, 0));
-		ERRTSetObstacles(dmf, 1, 1, 1, 1,0);
+		ERRTSetObstacles(dmf, 1, 1, 1, 1);
 		ERRTNavigate2Point(dmf, Vec2(side*800, sgn(ball.Position.Y)*1400), 0, 100);
 		
 		if ( timer.time() < 3.5 )
@@ -68,7 +68,6 @@ void ai09::corner_switch_pass ( void )
 	}
 	else
 	{
-		hys = 0;
 		OwnRobot[rmf].face ( Vec2 ( -side*2995 , 0 ) );
 		ERRTSetObstacles ( rmf );
 		if ( timer.time() < 1.5 )

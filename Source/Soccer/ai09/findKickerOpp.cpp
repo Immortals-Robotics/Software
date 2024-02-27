@@ -4,7 +4,7 @@ int ai09::findKickerOpp ( int mask )
 {
 	float mdis = 500;
 	int index = -1;
-	for ( int i = 0 ; i < 12 ; i ++ )
+	for ( int i = 0 ; i < Setting::kMaxRobots; i ++ )
 	{
 		if ( i == mask )
 			continue;

@@ -100,7 +100,7 @@ TVec2 ai09::DefGhuz ( TVec2 * defendTarget )
 	target.X += cosDeg(tetta) * R;
 	target.Y += sinDeg(tetta) * R;
 	
-	//cout << "	alpha: " << alpha << "	tetta: " << tetta << "		d: " << d << "	R: " << R << endl;
+	//std::cout << "	alpha: " << alpha << "	tetta: " << tetta << "		d: " << d << "	R: " << R << std::endl;
 	
 	if (side==1) {
 		ball.Position.X*=-1.0f;

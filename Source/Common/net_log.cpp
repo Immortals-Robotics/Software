@@ -7,7 +7,7 @@
 		// ensure NUL termination
 		//overflow(0);
 		//Send data
-		string data = str();
+        std::string data = str();
         printf("%s", data.c_str());
         //data.insert(0, frame_id_str);
 		//udpSock.sendTo(data.c_str(), data.length(), logger_ip, logger_port);
@@ -16,7 +16,7 @@
 		return std::stringbuf::sync();
     }
 	
-NetLogger::NetLogger ( const string _address , const short _port )
+NetLogger::NetLogger ( const std::string _address , const short _port )
 	:logger_ip(_address),logger_port(_port),frame_id(0){}
     
 void NetLogger::SetFrameID ( unsigned int id )

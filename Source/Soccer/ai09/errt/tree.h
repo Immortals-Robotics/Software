@@ -10,7 +10,7 @@ struct Node
 	TVec2 state;
 };
 
-#define MAX_NODES 600
+#define MAX_NODES 1000
 
 class Tree
 {

@@ -9,8 +9,8 @@ const float BALL_ERROR_VELOCITY_SQUARED   = 1960000.0f;
 const float OPPONENT_ERROR_VELOCITY_SQUARED = 200000.0f;
 
 #include <fstream>
-ofstream outfile ( "outf.txt" );
-ofstream delay_data ( "delay.txt" );
+std::ofstream outfile ( "outf.txt" );
+std::ofstream delay_data ( "delay.txt" );
 unsigned int fr_num = 0;
 
 void VisionModule::ProcessRobots ( WorldState * state )
@@ -25,7 +25,7 @@ void VisionModule::ProcessRobots ( WorldState * state )
 	robots_num = MergeRobots ( robots_num );
 	
 	//The most important part, The Kalman Filter!
-	FilterRobots ( robots_num , setting -> color );
+	FilterRobots ( robots_num , this -> our_color );
 	
 	//Yellow Robots
 	//First we have to extract the robots!
@@ -35,7 +35,7 @@ void VisionModule::ProcessRobots ( WorldState * state )
 	robots_num = MergeRobots ( robots_num );
 	
 	//The most important part, The Kalman Filter!
-	FilterRobots ( robots_num , ! ( setting -> color ) );
+	FilterRobots ( robots_num , !(this -> our_color));
 	
 	//We're almost done, only Prediction remains undone!
 	predictRobotsForward ( state );
@@ -48,17 +48,17 @@ void VisionModule::ProcessRobots ( WorldState * state )
 	SendStates ( state );
 	
 	//int cmdIndex = state->lastCMDS[6][10].X;
-	//delay_data << fr_num++ << "	" << state->OwnRobot[6].Position.X << "	" << state->OwnRobot[6].Position.Y << "	" << state->lastCMDS[6][cmdIndex].X << "	" << state->lastCMDS[6][cmdIndex].Y << endl;
+	//delay_data << fr_num++ << "	" << state->OwnRobot[6].Position.X << "	" << state->OwnRobot[6].Position.Y << "	" << state->lastCMDS[6][cmdIndex].X << "	" << state->lastCMDS[6][cmdIndex].Y << std::endl;
 	
 }
 int VisionModule::ExtractBlueRobots ( void )
 {
 	int ans = 0;
-	for ( int i = 0 ; i < CAM_COUNT ; i ++ )
+	for ( int i = 0 ; i < Setting::kCamCount ; i ++ )
 	{
-		if ( setting -> use_camera[i] )
+		if (setting().use_camera[i] )
 		{
-			for ( int j = 0 ; j < min ( MAX_ROBOTS , frame[i].robots_blue_size ( ) ) ; j ++ )
+			for ( int j = 0 ; j < std::min ( (int)Setting::kMaxRobots , frame[i].robots_blue_size ( ) ) ; j ++ )
 			{
 				robot[ans] = frame[i].robots_blue ( j );
 				ans ++;
@@ -71,11 +71,11 @@ int VisionModule::ExtractBlueRobots ( void )
 int VisionModule::ExtractYellowRobots ( void )
 {
 	int ans = 0;
-	for ( int i = 0 ; i < CAM_COUNT ; i ++ )
+	for ( int i = 0 ; i < Setting::kCamCount ; i ++ )
 	{
-		if ( setting -> use_camera[i] )
+		if (setting().use_camera[i] )
 		{
-			for ( int j = 0 ; j < min ( MAX_ROBOTS , frame[i].robots_yellow_size ( ) ) ; j ++ )
+			for ( int j = 0 ; j < std::min ((int)Setting::kMaxRobots , frame[i].robots_yellow_size ( ) ) ; j ++ )
 			{
 				robot[ans] = frame[i].robots_yellow ( j );
 				ans ++;
@@ -96,7 +96,6 @@ int VisionModule::MergeRobots ( int num )
 			{
 				robot[i].set_x ( ( robot[i].x ( ) + robot[j].x ( ) ) / (float)2.0 );
 				robot[i].set_y ( ( robot[i].y ( ) + robot[j].y ( ) ) / (float)2.0 );
-				
 				robot[j] = robot[num-1];
 				num --;
 				
@@ -114,7 +113,7 @@ void VisionModule::FilterRobots ( int num , bool own )
 	float filtout[2][2];
 	float filtpos[2];
 	
-	for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
+	for ( int i = 0 ; i < Setting::kMaxRobots ; i ++ )
 	{
 		bool found = false;
 		for ( int j = 0 ; j < num ; j ++ )
@@ -140,7 +139,7 @@ void VisionModule::FilterRobots ( int num , bool own )
 					//robot[j].set_orientation ( robot[j].orientation() + 0.135 );
 				
 				AngleFilter[own][i].AddData ( ( robot[j].orientation ( ) - rawAngles[own][i] ) * 61.0f );
-				rawAngles[0][i] = robot[j].orientation ( );
+				rawAngles[own][i] = robot[j].orientation ( );
 				//if ( fabs ( (AngleFilter[own][i].GetCurrent()*180.0f/3.1415f) - robotState[own][i].AngularVelocity ) > 30.0f )
 				//	AngleFilter[own][i].reset();
 				//else
@@ -150,7 +149,7 @@ void VisionModule::FilterRobots ( int num , bool own )
 				}
 				robotState[own][i].Angle = robot[j].orientation ( ) * 180.0f / 3.1415f;
 				//if ( robot[j].robot_id() == 1 )
-				//	cout << robotState[own][i].AngularVelocity << endl;
+				//	std::cout << robotState[own][i].AngularVelocity << std::endl;
 				
 				// Make sure our filtered velocities are reasonable
 				if ( fabs ( robotState[own][i].AngularVelocity ) < 20.0f )
@@ -226,7 +225,7 @@ void VisionModule::predictRobotsForward( WorldState * state )
 {  
 	for ( int own = 1 ; own < 2 ; own ++ )
 	{
-		for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
+		for ( int i = 0 ; i < Setting::kMaxRobots ; i ++ )
 		{
 			/*robotState[own][i].Position.X /= (float)(1000.0);
 			 robotState[own][i].Position.Y /= (float)(1000.0);
@@ -268,7 +267,7 @@ void VisionModule::predictRobotsForward( WorldState * state )
 		}
 	}
 	
-	for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
+	for ( int i = 0 ; i < Setting::kMaxRobots ; i ++ )
 	{
 		if (robotState[0][i].seenState != Seen) {
 			robotState[0][i].Position.X = robotState[0][i].Position.X + state -> lastCMDS[i][(int)state->lastCMDS[i][10].X].X / 1.2f;
@@ -288,14 +287,14 @@ void VisionModule::predictRobotsForward( WorldState * state )
 		if ( robotState[0][i].Angle < -180 )
 			robotState[0][i].Angle += 360.0f;
 	}
-	//outfile << robotState[0][1].AngularVelocity << endl;
+	//outfile << robotState[0][1].AngularVelocity << std::endl;
 	
 }
 
 void VisionModule::SendStates ( WorldState * state )
 {
 	state -> ownRobots_num = 0;
-	for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
+	for ( int i = 0 ; i < Setting::kMaxRobots ; i ++ )
 	{
 		robotState[0][i].vision_id = i;
 		
@@ -327,7 +326,7 @@ void VisionModule::SendStates ( WorldState * state )
 	}
 	
 	state -> oppRobots_num = 0;
-	for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
+	for ( int i = 0 ; i < Setting::kMaxRobots ; i ++ )
 	{
 		robotState[1][i].vision_id = i;
 		

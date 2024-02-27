@@ -4,7 +4,7 @@ void ai09::kickoff_their_one_wall ( void )
 {
 	//swap(dmf, lmf);
 	GKHi ( gk , 1 );
-	DefHi ( def );
+	DefMid(def, rw, lw, NULL, false);
 	
 	ERRTSetObstacles ( dmf , true , true , true , true );
 	OwnRobot[dmf].face(ball.Position);
@@ -13,9 +13,9 @@ void ai09::kickoff_their_one_wall ( void )
 	int indexP = -1;
 	int indexN = -1;
 	
-	for ( int i = 0 ; i < 12 ; i ++ )
+	for ( int i = 0 ; i < Setting::kMaxRobots ; i ++ )
 	{
-		if ( ( fabs ( OppRobot[i].Position.X ) < 600 ) && ( fabs ( OppRobot[i].Position.Y ) > 600 ) && ( OppRobot[i].seenState != CompletelyOut ) )
+		if ( ( fabs ( OppRobot[i].Position.X ) < 1500 ) && ( fabs ( OppRobot[i].Position.Y ) > 600 ) && ( OppRobot[i].seenState != CompletelyOut ) )
 		{
 			if ( OppRobot[i].Position.Y > 0 )
 				indexP = i;
@@ -24,7 +24,7 @@ void ai09::kickoff_their_one_wall ( void )
 		}
 	}
 	
-	cout << indexN << "	" << indexP << endl;
+	std::cout << indexN << "	" << indexP << std::endl;
 	
 	if ( indexN != -1 )
 	{

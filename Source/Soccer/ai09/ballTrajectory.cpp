@@ -1,7 +1,5 @@
 #include "ai09.h"
 
-using namespace std;
-
 void ai09::CalculateBallTrajectory ( void )
 {
 	if ( ball.velocity.magnitude == 0 )
@@ -19,8 +17,8 @@ void ai09::CalculateBallTrajectory ( void )
 	
 	bool isVertical = visionM.GetCurrent() > 1.0f;
 	
-	vector<float> ball_x;
-	vector<float> ball_y;
+	std::vector<float> ball_x;
+	std::vector<float> ball_y;
 	MedianFilter<float> dMedian(5);
 	
 	int i;

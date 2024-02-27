@@ -3,13 +3,9 @@
 #include <map>
 #include <string>
 #include "Vector.h"
-#include "../Reality/Vision/Protobuf/aidebug.pb.h"
-
-using namespace std;
 
 struct DataNode
 {
-	Data_Type tydpe;
 	union {
 		bool     _bool   ;
 		short    _short  ;
@@ -20,11 +16,11 @@ struct DataNode
 		TVec3    _TVec3  ;
 		char     c[12]   ;
 	};
-	string   _string ;
+	std::string   _string ;
 };
 
-typedef map<string,DataNode>		ParameterSet;
-typedef map<string,ParameterSet>	ParameterBook;
+typedef std::map<std::string,DataNode>		ParameterSet;
+typedef std::map<std::string,ParameterSet>	ParameterBook;
 
-void LoadParameters ( const string& add , ParameterBook& parameterBook );
-void ParseParameters ( const string& data , ParameterBook& parameterBook );
+void LoadParameters ( const std::string& add , ParameterBook& parameterBook );
+void ParseParameters ( const std::string& data , ParameterBook& parameterBook );

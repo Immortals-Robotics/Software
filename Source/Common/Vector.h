@@ -53,3 +53,5 @@ float Magnitude ( const TVec3& a );
 
 float Dot ( const TVec2& a , const TVec2& b );
 float Dot ( const TVec3& a , const TVec3& b );
+
+TVec2 Rotate( const TVec2& v, const double a);

@@ -4,21 +4,36 @@
 
 RectangleObstacle::RectangleObstacle ( float _x , float _y , float _w , float _h )
 {
-	x = _x;
-	y = _y;
-	w = _w;
-	h = _h;
+    if (_w < 0)
+    {
+        x = _x + _w;
+        w = -_w;
+    }
+    else
+    {
+	    x = _x;
+        w = _w;
+    }
+
+    if (_h < 0)
+    {
+        y = _y + _h;
+        h = _h;
+    }
+    else
+    {
+        y = _y;
+        h = _h;
+    }
 }
 
 bool RectangleObstacle::IsInObstacle ( float _x , float _y )
 {
-	if ( ( _x < x + w ) &&
-		 ( _x > x     ) &&
-		 ( _y < y + h ) &&
-		 ( _y > y     ) )
-		return true;
+    return (_x < x + w ) &&
+           ( _x > x     ) &&
+           ( _y < y + h ) &&
+           ( _y > y     );
 
-	return false;
 }
 
 float RectangleObstacle::NearestDistance ( float _x , float _y )

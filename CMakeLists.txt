@@ -1,9 +1,12 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.22)
+
+set(USE_FOLDERS ON)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
+
 project(immortalsssl)
-
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/CMake/")
-
-add_definitions(-DDATA_PATH="${CMAKE_CURRENT_SOURCE_DIR}/Data")
 
 if(MSVC)
   set(CompilerFlags
@@ -32,28 +35,10 @@ elseif(${CMAKE_GENERATOR} MATCHES "Unix Makefiles")
     message(STATUS "Added parallel build arguments to CMAKE_MAKE_PROGRAM")
 endif()
 
-message(${CMAKE_CXX_COMPILER_ID})
-message(${CMAKE_C_COMPILER_ID})
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
-    message(STATUS "Adding -std=c++11")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-endif()
-if(CMAKE_C_COMPILER_ID STREQUAL "GNU" OR CMAKE_C_COMPILER_ID STREQUAL "Clang" OR CMAKE_C_COMPILER_ID STREQUAL "AppleClang")
-    message(STATUS "Adding -std=c11")
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11")
-endif()
-
-
-if(MSVC)
-	set(PROTOBUF_SRC_ROOT_FOLDER "${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/protobuf")
-	set(ZeroMQ_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/zeromq")	
-endif()
-
-find_package(ZeroMQ REQUIRED)
-include_directories(${ZeroMQ_INCLUDE_DIR})
-
-find_package(Protobuf REQUIRED)
-include_directories(${PROTOBUF_INCLUDE_DIRS})
+find_package(asio CONFIG REQUIRED)
+find_package(Protobuf CONFIG REQUIRED)
+find_package(tomlplusplus CONFIG REQUIRED)
+find_package(quill CONFIG REQUIRED)
 
 file(GLOB_RECURSE GEN_PROTO_DEF "Source/*.proto")
 
@@ -93,7 +78,7 @@ set(SOURCE_FILES
     ${GEN_SOURCE_FILES}
     ${PROTO_SRCS})
 
-add_executable(immortalsssl ${SOURCE_FILES})
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 foreach(FILE ${SOURCE_FILES})
   get_filename_component(PARENT_DIR "${FILE}" DIRECTORY)
@@ -104,6 +89,32 @@ foreach(FILE ${SOURCE_FILES})
 endforeach()
 
 if(WIN32)
-  target_link_libraries(immortalsssl wsock32)
+  target_link_libraries(${PROJECT_NAME}  wsock32)
 endif()
-target_link_libraries(immortalsssl ${PROTOBUF_LIBRARIES} ${ZeroMQ_LIBRARIES})
+
+target_link_libraries(${PROJECT_NAME} 
+    protobuf::libprotobuf
+    asio::asio
+    tomlplusplus::tomlplusplus
+    quill::quill)
+
+target_compile_definitions(${PROJECT_NAME} PUBLIC TOML_EXCEPTIONS=0)
+if (WIN32)
+    target_compile_definitions(${PROJECT_NAME} PUBLIC _WIN32_WINNT=_WIN32_WINNT_WIN10)
+endif()
+
+target_compile_definitions(${PROJECT_NAME} PUBLIC QUILL_ROOT_LOGGER_ONLY)
+
+target_compile_definitions(${PROJECT_NAME} PUBLIC DATA_DIR="${CMAKE_SOURCE_DIR}/data")
+target_compile_definitions(${PROJECT_NAME} PUBLIC LOG_DIR="${CMAKE_SOURCE_DIR}/log")
+
+set(C_SOURCE_FILES
+    "Source/Reality/Sender/Protocol/half.c"
+    "Source/Reality/Sender/Protocol/reader.c"
+    "Source/Reality/Sender/Protocol/writer.c")
+
+set_source_files_properties(${C_SOURCE_FILES} PROPERTIES 
+    SKIP_PRECOMPILE_HEADERS TRUE
+    SKIP_UNITY_BUILD_INCLUSION TRUE)
+
+target_precompile_headers(${PROJECT_NAME} PUBLIC ${PROTO_HDRS} "Source/pch.h")

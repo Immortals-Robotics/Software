@@ -2,13 +2,11 @@
 #include <vector>
 #include <algorithm>
 
-using namespace std;
-
 template <class T>
 class MedianFilter
 {
-	vector<T> data;
-	vector<T> temp;
+	std::vector<T> data;
+	std::vector<T> temp;
 	bool index;
 	int size;
 
@@ -37,7 +35,7 @@ public:
 	T GetCurrent ( void )
 	{
 		temp = data;
-		sort ( temp.begin() , temp.end() );
+		std::sort ( temp.begin() , temp.end() );
 		if ( size%2 == 0 )
 			return ( temp.at(temp.size()/2) + temp.at(1+temp.size()/2) ) / 2;
 		return temp.at(temp.size()/2);

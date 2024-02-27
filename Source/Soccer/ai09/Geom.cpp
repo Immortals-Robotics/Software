@@ -513,7 +513,7 @@ bool VecPosition::operator ==( const double &d )
 
 /*! Overloaded version of the C++ output operator for
     VecPositions. This operator makes it possible to use VecPositions
-    in output statements (e.g.  cout << v). The x- and y-coordinates
+    in output statements (e.g.  std::cout << v). The x- and y-coordinates
     of the VecPosition are printed in the format (x,y).
 
     \param os output stream to which information should be written
@@ -532,19 +532,19 @@ bool VecPosition::operator ==( const double &d )
 /*void VecPosition::show( CoordSystemT cs )
 {
   if( cs == CARTESIAN )
-    cout << *this << endl;
+    std::cout << *this << std::endl;
   else
-    cout << "( r: " << getMagnitude( ) << ", phi: " << getDirection( ) << "  )";
+    std::cout << "( r: " << getMagnitude( ) << ", phi: " << getDirection( ) << "  )";
 }*/
 
-/*! This method writes the current VecPosition to a string. It can
+/*! This method writes the current VecPosition to a std::string. It can
     also write a polar representation of the current VecPosition.
 
     \param cs a CoordSystemtT indicating whether a POLAR or CARTESIAN
      representation of the current VecPosition should be written
-    \return a string containing a polar or Cartesian representation of the
+    \return a std::string containing a polar or Cartesian representation of the
     current VecPosition depending on the value of the boolean argument */
-/*string VecPosition::str( CoordSystemT cs )
+/*std::string VecPosition::str( CoordSystemT cs )
 {
   char buf[ 1024 ];
 
@@ -553,7 +553,7 @@ bool VecPosition::operator ==( const double &d )
   else
     sprintf( buf, "( r: %f, phi: %f )", getMagnitude( ), getDirection( ) );
 
-  string str( buf );
+  std::string str( buf );
   return ( str );
 }*/
 
@@ -1026,7 +1026,7 @@ AngDeg VecPosition::normalizeAngle( AngDeg angle )
 double Geometry::getLengthGeomSeries( double dFirst, double dRatio, double dSum )
 {
   //if( dRatio < 0 )
-    //cerr << "(Geometry:getLengthGeomSeries): negative ratio" << endl;
+    //cerr << "(Geometry:getLengthGeomSeries): negative ratio" << std::endl;
 
   // s = a + ar + ar^2 + .. + ar^n-1 and thus sr = ar + ar^2 + .. + ar^n
   // subtract: sr - s = - a + ar^n) =>  s(1-r)/a + 1 = r^n = temp
@@ -1067,7 +1067,7 @@ double Geometry::getSumGeomSeries( double dFirst, double dRatio, double dLength)
 double Geometry::getSumInfGeomSeries( double dFirst, double dRatio )
 {
   //if( dRatio > 1 )
-    //cerr << "(Geometry:CalcLengthGeomSeries): series does not converge" <<endl;
+    //cerr << "(Geometry:CalcLengthGeomSeries): series does not converge" <<std::endl;
 
   // s = a(1-r^n)/(1-r) with n->inf and 0<r<1 => r^n = 0
   return dFirst / ( 1 - dRatio );
@@ -1103,7 +1103,7 @@ double Geometry::getFirstGeomSeries( double dSum, double dRatio, double dLength)
 double Geometry::getFirstInfGeomSeries( double dSum, double dRatio )
 {
   //if( dRatio > 1 )
-    //cerr << "(Geometry:getFirstInfGeomSeries):series does not converge" <<endl;
+    //cerr << "(Geometry:getFirstInfGeomSeries):series does not converge" <<std::endl;
 
   // s = a(1-r^n)/(1-r) with r->inf and 0<r<1 => r^n = 0 => a = s ( 1 - r)
   return dSum * ( 1 - dRatio );
@@ -1549,7 +1549,7 @@ double Line::getYGivenX( double x )
  {
    //cerr << "(Line::getYGivenX) Cannot calculate Y coordinate: " ;
    //show( cerr );
-   //cerr << endl;
+   //cerr << std::endl;
    return 0;
  }
   // ay + bx + c = 0 ==> ay = -(b*x + c)/a
@@ -1732,7 +1732,7 @@ int main( void )
   Line l2(1,-0.2,10 );
  Line l3 = Line::makeLineFromTwoPoints( VecPosition(1,-1), VecPosition(2,-2) );
  l3.show();
- cout << endl;
+ std::cout << std::endl;
  l1.show();
  l2.show();
   l1.getIntersection( l2 ).show();
@@ -1747,13 +1747,13 @@ int main( void )
   printf( "number of solutions: %d\n", i );
   if( i == 2 )
   {
-    cout << s1 << " " << s2 ;
+    std::cout << s1 << " " << s2 ;
   }
   else if( i == 1 )
   {
-    cout << s1;
+    std::cout << s1;
   }
-  cout << "line: " << l;
+  std::cout << "line: " << l;
 }
 
 int main( void )
@@ -1765,16 +1765,16 @@ int main( void )
 
   VecPosition p1, p2;
 
-  cout << c11.getIntersectionArea( c21 ) << endl;
-  cout << c12.getIntersectionArea( c21 ) << endl;
-  cout << c22.getIntersectionArea( c11 ) << endl;
-  cout << c12.getIntersectionArea( c22 ) << endl;
+  std::cout << c11.getIntersectionArea( c21 ) << std::endl;
+  std::cout << c12.getIntersectionArea( c21 ) << std::endl;
+  std::cout << c22.getIntersectionArea( c11 ) << std::endl;
+  std::cout << c12.getIntersectionArea( c22 ) << std::endl;
   return 0;
 }
 
 int main( void )
 {
-  cout << getBisectorTwoAngles( -155.3, 179.0 ) << endl;
-  cout << getBisectorTwoAngles( -179.3, 179.0 ) << endl;
+  std::cout << getBisectorTwoAngles( -155.3, 179.0 ) << std::endl;
+  std::cout << getBisectorTwoAngles( -179.3, 179.0 ) << std::endl;
 }
 */

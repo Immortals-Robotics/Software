@@ -1,110 +1,94 @@
 #include "ai09.h"
 
-void ai09::ERRTSetObstacles ( int robot_num , bool bll , bool field , bool own , bool opp , bool dribble , bool bigPen )
+void ai09::ERRTSetObstacles(int robot_num, bool bll, bool field, bool own, bool opp)
 {
-	
-	robot_num = min(5,max(0,robot_num));
-	clear_map ( );
-	if ( own )
+	static constexpr float ownRobotRadius = 90.0f;
+	static constexpr float oppRobotRadius = 150.0f;
+
+	static constexpr float ballAreaRadius = 550.0f;
+
+	// We allow errt points to be 250 mm outside the field,
+	// so set this to some higher value
+	static constexpr float penaltyAreaExtensionBehindGoal = 300.0f;
+	static constexpr float bigPenaltyAddition = 300.0f;
+
+	const bool ourPenalty = field || (robot_num != gk && !REF_playState->ourPlaceBall());
+	const bool oppPenalty = field || !REF_playState->ourPlaceBall();
+
+	const bool oppPenaltyBig = REF_playState->freeKick() || REF_playState->stop();
+
+	clear_map();
+
+	if (own || !REF_playState->gameOn())
 	{
-		for ( int i = 0 ; i < 6 ; i ++ )
+		for (int i = 0; i < Setting::kMaxOnFieldTeamRobots; i++)
 		{
-			if ( ( OwnRobot[i].State.seenState != CompletelyOut ) && ( i != robot_num ) && ( OwnRobot[i].State.vision_id != OwnRobot[robot_num].State.vision_id ) )
+			if ((OwnRobot[i].State.seenState != CompletelyOut) && (i != robot_num) && (OwnRobot[i].State.vision_id != OwnRobot[robot_num].State.vision_id))
 			{
-				//obstacle[obs_num].circle.setCenter ( VecPosition ( OwnRobot[i].Position.X , OwnRobot[i].Position.Y ) );
-				//obstacle[obs_num].circle.setRadius ( 400 );
-				AddCircle ( OwnRobot[i].State.Position.X , OwnRobot[i].State.Position.Y , 90.0f + (!dribble)*90.0f );
+				AddCircle(OwnRobot[i].State.Position.X, OwnRobot[i].State.Position.Y, 2 * ownRobotRadius);
+				//AddDebugCircle(OwnRobot[i].State.Position,ownRobotRadius + (!dribble)*ownRobotRadius,Cyan);
 			}
 		}
 	}
 
-	if ( opp )
+	if (opp || !REF_playState->gameOn())
 	{
-		for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
+		for (int i = 0; i < Setting::kMaxRobots; i++)
 		{
-			if ( OppRobot[i].seenState != CompletelyOut )
+			if (OppRobot[i].seenState != CompletelyOut)
 			{
-				AddCircle ( OppRobot[i].Position.X , OppRobot[i].Position.Y , 90.0f + (!dribble)*90.0f );
-			}
-			//obstacle[obs_num].circle.setCenter ( VecPosition ( OppRobot[i].Position.X , OppRobot[i].Position.Y ) );
-			//obstacle[obs_num].circle.setRadius ( 400 );
-		}
-	}
+				float opp_radius = oppRobotRadius;
 
-	if ( bll )
-	{
-		AddCircle ( ball.Position.X , ball.Position.Y , 510.0f );
-	}
-
-	if ( field )
-	{
-        float penalty_circle_center_y = penalty_area_width/2.0;
-		AddCircle ( side*field_width , -penalty_circle_center_y , penalty_area_r + 100.0f );
-        AddCircle ( -side*field_width , -penalty_circle_center_y , penalty_area_r + 50.0f );
-		
-		/*Debug_Circle * dbgCircle = AIDebug.add_circle();
-		dbgCircle -> set_x(side*3020);
-		dbgCircle -> set_y(-170);
-		dbgCircle -> set_r(600);
-		color * col = dbgCircle -> mutable_col();
-		col -> set_r(255);
-		col -> set_g(0);
-		col -> set_b(0);*/
-		
-		AddCircle ( side*field_width , penalty_circle_center_y , penalty_area_r + 100.0f );
-        AddCircle ( -side*field_width , penalty_circle_center_y , penalty_area_r + 50.0f );
-
-		AddRectangle ( side*(field_width+85.0f) , -penalty_circle_center_y , 185.0+penalty_area_r , penalty_area_width );
-        AddRectangle ( -side*(field_width+85.0f) , -penalty_circle_center_y , 135.0+penalty_area_r , penalty_area_width );
-		
-		/*Debug_Rect * newDebugRect =  AIDebug.add_rect();
-		newDebugRect -> set_x(side*3110);
-		newDebugRect -> set_y(-170);
-		newDebugRect -> set_w(360);
-		newDebugRect -> set_h(690);*/
-	}
-	
-	if ( bigPen )
-	{
-		float big_penalty_area_r  = penalty_area_r + 240.0f;
-        float penalty_circle_center_y = penalty_area_width / 2.0f;
-        
-		AddCircle ( -side*field_width , -penalty_circle_center_y , big_penalty_area_r);
-		
-		AddCircle ( -side*field_width , penalty_circle_center_y , big_penalty_area_r);
-		
-		AddRectangle ( -side*(field_width+85.0f) , -penalty_circle_center_y , 85.0f+big_penalty_area_r , penalty_area_width );
-	}
-	
-	/*if (robot_num == 0) {
-		for ( int i = 1000 ; i < 3025 ; i += 10 )
-		{
-			for ( int j = -2025 ; j < 2025 ; j += 10 )
-			{
-				if ( IsInObstacle(Vec2(i,j)) )
+				const float opp_dis_to_ball = DIS(OppRobot[i].Position, ball.Position);
+				if (robot_num == attack && opp_dis_to_ball < oppRobotRadius)
 				{
-					Debug_Point * newDbgPoint = AIDebug.add_point();
-					newDbgPoint -> set_x(i);
-					newDbgPoint -> set_y(j);
+				    opp_radius = ownRobotRadius;
 				}
+
+				AddCircle(OppRobot[i].Position.X, OppRobot[i].Position.Y, opp_radius + ownRobotRadius);
+				//AddDebugCircle(OppRobot[i].Position,ownRobotRadius + (!dribble)*ownRobotRadius,Cyan);
 			}
 		}
-	}*/
+	}
 
-	//AddRectangle ( -3260 , -440 , 34 , 88 );
-	//AddRectangle ( 2940 , -440 , 34 , 88 );
+	if (bll || !REF_playState->allowedNearBall())
+	{
+		AddCircle(ball.Position.X, ball.Position.Y, ballAreaRadius + ownRobotRadius);
+	}
 
-	//AddRectangle ( 0 , 0 , 38 , 730 );
+	const float penalty_area_half_width = penalty_area_width / 2.0f;
 
-	//AddCircle ( world2mapX ( ball.Position.X ) , world2mapY ( ball.Position.Y ) , 7 );
-}
+	if (ourPenalty)
+	{
+		AddRectangle(side * (field_width + penaltyAreaExtensionBehindGoal), -(penalty_area_half_width + ownRobotRadius), -side * (penaltyAreaExtensionBehindGoal + ownRobotRadius + penalty_area_r), penalty_area_width + 2 * ownRobotRadius);
+	}
 
-void ai09::AddOppObs ( int mask1, int mask2 )
-{
-    for ( int i = 0 ; i < MAX_ROBOTS ; i ++ )
-    {
-        if ( OppRobot[i].seenState == CompletelyOut || i == mask1 || i == mask2 )
-            continue;
-        AddCircle ( OppRobot[i].Position.X , OppRobot[i].Position.Y , 180.0f );
-    }
+	if (oppPenalty)
+	{
+		AddRectangle(-side * (field_width + penaltyAreaExtensionBehindGoal), -(penalty_area_half_width + ownRobotRadius), side * (penaltyAreaExtensionBehindGoal + ownRobotRadius + penalty_area_r), penalty_area_width + 2 * ownRobotRadius);
+	}
+
+	if (oppPenaltyBig)
+	{
+		const float big_penalty_area_r = penalty_area_r + bigPenaltyAddition;
+		const float big_penalty_area_w = penalty_area_width + bigPenaltyAddition;
+		const float penalty_area_half_width = big_penalty_area_w / 2.0f;
+
+		AddRectangle(-side * (field_width + penaltyAreaExtensionBehindGoal), -(penalty_area_half_width + ownRobotRadius), side * (penaltyAreaExtensionBehindGoal + ownRobotRadius + big_penalty_area_r), big_penalty_area_w + 2 * ownRobotRadius);
+		//		AddDebugRect( Vec2(-side*(field_width+185.0f) , -penalty_circle_center_y - 200) , side*(385.0f+big_penalty_area_r) , penalty_area_width + 400,Purple );
+	}
+
+	// avoid the line between the ball and the placement point
+	if (REF_playState->theirPlaceBall())
+	{
+		const TVec2 ball_line = *targetBallPlacement - ball.Position;
+		const int ball_obs_count = std::ceil(Magnitude(ball_line) / (ballAreaRadius + ownRobotRadius));
+		
+		for (int i = 0; i < ball_obs_count; i++)
+		{
+		    const float t = (float)i / (float)ball_obs_count;
+            const TVec2 ball_obs = ball.Position + ball_line * t;
+            AddCircle(ball_obs.X, ball_obs.Y, ballAreaRadius + ownRobotRadius);
+        }
+	}
 }

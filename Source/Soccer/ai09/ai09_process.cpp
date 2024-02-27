@@ -1,100 +1,107 @@
 #include "ai09.h"
 
-void ai09::Process ( WorldState * worldState , GameSetting * setting , char * commands )
+void ai09::Process ( WorldState * worldState , GameSetting * setting )
 {
-	AIDebug.Clear();
+    static int PRCS_CNT = 0;
+
 	debugDraw = false;
 	
 	internalProcessData(worldState, setting);
 	
 	debugDraw = true;
 	AddDebugCircle(ball.Position,40,Red);
+//	AddDebugLine(ball.Position,Vec2(ball.velocity.x,ball.velocity.y) + ball.Position, Black);
+
+//    TVec2 spd_v= worldState->ball.path_dir;
+//    AddDebugLine(ball.Position,spd_v + ball.Position, Yellow);
+//    AddDebugLine(ball.Position,Vec2(ball.velocity.x,ball.velocity.y) + ball.Position, Yellow);
 	debugDraw = false;
-		
-	if ( 0 )
-		currentPlay = "tech_cmu";
-	
-	else if ( worldState ->refereeState.State )
+
+
+	if ( REF_playState )
 	{
-		if ( lastReferee != worldState ->refereeState.State->get() )
+		if ( lastReferee != REF_playState->get() )
 		{
 			timer.start();
-			lastReferee = worldState ->refereeState.State->get();
+			lastReferee = REF_playState->get();
 			randomParam = random.get();
 			target_str = strategy_weight();
+			FUNC_state = 0;
+			FUNC_CNT = 0;
 		}
 		
-		if ( worldState ->refereeState.State->get() == GameState::GAME_OFF )
+		if ( REF_playState->stop() )
 		{
+			FUNC_state = 0;
+
 			oppRestarted = false;
-			if (side*ball.Position.X>3000) {
+			if (side * ball.Position.X > field_width * 0.7f ) {
 				currentPlay = "Stop_def";
 			}
 			else {
 				currentPlay = "Stop";
 			}
 		}
-		else if ( worldState ->refereeState.State->get() == GameState::GAME_ON )
+		else if ( REF_playState->gameOn())
 		{
-			// Nik Uncomment
-			
-			//currentPlay = "strategy_maker";
-			//currentPlayParam = playBook->strategy_size()-1;
-			
-			//   
-			
-			//currentPlay = "NewNormalPlay";
-			currentPlay = "tech_mexico";
-			//currentPlay = "tech_motion_ann";
-			//if ( timer.time() > 30.0 || ball.seenState == CompletelyOut )
-			//	currentPlay = "sharifcup_post_play";
+			currentPlay = "NewNormalPlay";
+//			currentPlay = "penalty_our_Shoot_Out";
 		}
-		else if ( worldState ->refereeState.State->ourKickoff ( ) )
+		else if ( REF_playState->ourKickoff ( ) )
 		{
 			currentPlay = "kickoff_us_chip";
 			//currentPlay = "kickoff_us_farar";
 			//currentPlay = "kickoff_us_pass";
 			
-			currentPlayParam = worldState ->refereeState.State->canKickBall();
+			currentPlayParam = static_cast<uint32_t>(worldState ->refereeState -> State->canKickBall());
 		}
-		else if ( ( worldState ->refereeState.State->ourDirectKick ( ) ) || ( worldState ->refereeState.State->ourIndirectKick ( ) ) )
+		else if ( ( REF_playState->ourDirectKick ( ) ) || ( REF_playState->ourIndirectKick ( ) ) )
 		{
-			if (target_str!=-1) {
-				currentPlay = "strategy_maker";
-				currentPlayParam = target_str;
-			}
-			else {
-                //if (side*ball.Position.X<800)
-                //    currentPlay = "throwin_us_outgir";
-                //else
-                    currentPlay = "throwin_chip_shoot";
-			}
+            if (target_str != -1) {
+                currentPlay = "strategy_maker";
+                currentPlayParam = static_cast<uint32_t>(target_str);
+
+            } else {
+//                if (side*ball.Position.X<800)
+//                    currentPlay = "throwin_us_outgir";
+//                else
+                currentPlay = "throwin_chip_shoot";
+            }
+			std::cout<<currentPlay<< std::endl;
 		}
-		
-		
-		else if ( worldState ->refereeState.State->ourPenaltyKick ( ) )
+		else if ( REF_playState->ourPenaltyKick ( ) )
 		{
-			currentPlay = "penalty_us_ghuz";
-			currentPlayParam = worldState ->refereeState.State->canKickBall();
+//			currentPlay = "penalty_us_ghuz";
+			currentPlay = "penalty_us_shootout";
+			currentPlayParam = static_cast<uint32_t>(worldState ->refereeState -> State->canKickBall());
+//			std::cout << "IN_PENALTY..."<<worldState ->refereeState -> State->canKickBall()<<std::endl;
 		}
-		
-		else if ( worldState ->refereeState.State->theirFreeKick() )
+        else if(REF_playState->ourPlaceBall())
+        {
+//            targetBallPlacement->X = -2500;
+//            targetBallPlacement->Y = -1500;
+            currentPlay = "our_place_ball_shoot";
+            currentPlay = "our_place_ball_shoot_V2";//COMMENT this if it's not working...
+//			currentPlay = "our_place_ball_shoot_taki";
+        }
+		else if ( REF_playState->theirFreeKick() )
 		{
 			//currentPlay = "corner_their_mrl";
 			currentPlay = "corner_their_global";
-			//currentPlay = "Stop";
 		}
-		
-		else if ( worldState ->refereeState.State->theirKickoff() )
+		else if ( REF_playState->theirKickoff() )
 		{
 			currentPlay = "kickoff_their_one_wall";
 		}
-		
-		else if ( worldState ->refereeState.State->theirPenaltyKick() )
+		else if ( REF_playState->theirPenaltyKick() )
 		{
 			currentPlay = "penalty_their_simple";
 		}
-		else if( worldState ->refereeState.State->get() == GameState::HALTED )
+        else if(REF_playState->theirPlaceBall())
+        {
+            currentPlay = "their_place_ball";
+        }
+		else if( REF_playState->get() == GameState::HALTED )
 		{
 			currentPlay = "HaltAll";
 		}
@@ -103,7 +110,7 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
 			currentPlay = "Stop";
 		}
 		
-		if ( worldState->refereeState.State->theirRestart() )
+		if ( REF_playState->theirRestart() )
 		{
 			oppRestarted = true;
 		}
@@ -113,21 +120,25 @@ void ai09::Process ( WorldState * worldState , GameSetting * setting , char * co
         currentPlay = "Stop";
 		//currentPlay = "HaltAll";
 	}
-	
+//	currentPlay = "my_test"; // TODO comment this in the game
+//	currentPlay = "penalty_our_Shoot_Out";
+//	currentPlay = "NewNormalPlay";
 	
 	if ( AIPlayBook.find(currentPlay) != AIPlayBook.end() )
 		(this->*AIPlayBook[currentPlay])();
-	else
-		HaltAll();
+	else {
+        HaltAll();
+        //std::cout<<"Oh NO!!!"<<std::endl;
+    }
 	
 	
-	for ( int i = 0 ; i < 6 ; i ++ )
+	for ( int i = 0 ; i < Setting::kMaxOnFieldTeamRobots; i ++ )
 	{
 		if ( ( OwnRobot[i].State.seenState == CompletelyOut ) || ( !navigated[i] ) )
 		{
 			Halt ( i );
 		}
 	}
-	
-	internalFinalize(worldState, setting, commands);
+
+	internalFinalize(worldState, setting);
 }

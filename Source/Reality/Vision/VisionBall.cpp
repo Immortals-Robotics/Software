@@ -1,5 +1,7 @@
 #include "Vision.h"
-#define MAX_BALL_2FRAMES_DISTANCE 450000.0f
+#include "../../Soccer/ai09/helpers.h"
+
+#define MAX_BALL_2FRAMES_DISTANCE 1450000.0f
 
 void VisionModule::ProcessBalls ( WorldState * state )
 {
@@ -18,16 +20,18 @@ void VisionModule::ProcessBalls ( WorldState * state )
 	predictBallForward ( state );
 
 }
+
 int VisionModule::ExtractBalls ( void )
 {
 	int ans = 0;
-	for ( int i = 0 ; i < CAM_COUNT ; i ++ )
+	for ( int i = 0 ; i < Setting::kCamCount ; i ++ )
 	{
-		if ( setting -> use_camera[i] )
+		if (setting().use_camera[i] )
 		{
 			for ( int j = 0 ; j < frame[i].balls_size ( ) ; j ++ )
 			{
 				d_ball[ans] = frame[i].balls ( j );
+//                t_capture_buff[ans] = frame[i].t_capture();
 
 				ans ++;
 			}
@@ -49,7 +53,10 @@ int VisionModule::MergeBalls ( int num )
 				if ( d_ball[i].has_z ( ) )
 					d_ball[i].set_z ( ( d_ball[i].z ( ) + d_ball[j].z ( ) ) / (float)2.0 );
 
+//                t_capture_buff[i] = (t_capture_buff[i]+t_capture_buff[j]) / (float)2.0;
+
 				d_ball[j] = d_ball[num-1];
+//                t_capture_buff[j] = t_capture_buff[num-1];
 				num --;
 
 				j --;
@@ -73,6 +80,8 @@ void VisionModule::FilterBalls ( int num , WorldState * state )
 			id = i;
 		}
 	}
+//	std::cout << d_ball[id].x() <<std::endl
+//		 << d_ball[id].y() <<std::endl;
 
 	if ( dis < MAX_BALL_2FRAMES_DISTANCE )
 	{
@@ -108,7 +117,7 @@ void VisionModule::FilterBalls ( int num , WorldState * state )
 				float filtout[2][2];
 				float filtpos[2] = { d_ball[id].x() / (float)10.0 , d_ball[id].y() / (float)10.0 };
 				lastRawBall.CopyFrom ( d_ball[id] );
-				ball_kalman.initializePos ( filtpos );
+                ball_kalman.initializePos ( filtpos );
 				
 				ball_kalman.updatePosition ( filtpos , filtout );
 
@@ -117,10 +126,12 @@ void VisionModule::FilterBalls ( int num , WorldState * state )
 				state -> ball.velocity.x = filtout[0][1];
 				state -> ball.velocity.y = filtout[1][1];
 
-				ball_not_seen = 0;
+
+                ball_not_seen = 0;
 				state -> has_ball = true;
 				state -> ball.seenState = Seen;
-			}
+
+            }
 			else
 			{
 				state -> ball.velocity.x = 0;
@@ -159,13 +170,13 @@ void VisionModule::predictBallForward( WorldState * state )
 	float k = 0.25f; //velocity derate every sec(units (m/s)/s)
 	float frame_rate = 61.0f;
 	float tsample = (float)1.0f/(float)frame_rate;
-  
+
 	float vx_vision = state -> ball.velocity.x; 
 	float vy_vision = state -> ball.velocity.y;
-  
+
 	float xpos_vision = state -> ball.Position.X;
 	float ypos_vision = state -> ball.Position.Y;
-  
+
 	float vball_vision = float(sqrt(vx_vision*vx_vision + vy_vision*vy_vision));
   
 	float t;
@@ -214,7 +225,49 @@ void VisionModule::predictBallForward( WorldState * state )
 	while(state -> ball.velocity.direction<-180)
 		state -> ball.velocity.direction+=360;
 	state -> ball.velocity.magnitude = sqrt ( ( state -> ball.velocity.x * state -> ball.velocity.x ) + ( state -> ball.velocity.y * state -> ball.velocity.y ) );
-	
+
+
+//    static int CNT = 0;
+//    CNT++;
+//    if(CNT%20 == 0) {
+//        ball_dir_buff.push_back(state->ball.Position);
+//        CNT = 0;
+//    }
+//
+//    float tempAng,lastAng;
+//    if(ball_dir_buff.size()) {
+//        deque<TVec2>::iterator delete_until_here = ball_dir_buff.begin();
+//        for (deque<TVec2>::iterator it = ball_dir_buff.begin(), it2 = ball_dir_buff.begin() + 1;
+//             it2 != ball_dir_buff.end(); ++it, ++it2) {
+//            tempAng = Angle(*it2 - *it);
+//            if (it != ball_dir_buff.begin() && fabs(tempAng - lastAng) > 5) {
+//                delete_until_here = it;
+//            }
+//            lastAng = tempAng;
+//        }
+//
+//        while (delete_until_here != ball_dir_buff.begin())
+//            ball_dir_buff.pop_front();
+//		if(ball_dir_buff.size() >=2)
+//        	state->ball.path_dir = ( ball_dir_buff.back() - ball_dir_buff.front());
+//    }
+
+//    float tempAngdelta = NormalizeAngle(Angle(state->ball.path_dir) - state -> ball.velocity.direction);
+//    if(tempAngdelta != tempAngdelta)//tempAngdelta is NaN (Don't erase it)
+//        tempAngdelta = 0.0;
+//    if(fabs(tempAngdelta) > 15){
+//        std::cout<<"NEW ANGLE____________"<<tempAngdelta<<std::endl;
+//    }
+//
+//    if(state -> ball.velocity.magnitude > 10 && state -> ball.seenState == Seen && fabs(tempAngdelta) <= 15) {
+//        state->ball.path_dir = (ball_dir_buff.front() - ball_dir_buff.back());
+//        std::cout<<"we got here"<<std::endl;
+//
+//    }else if(state -> ball.seenState != TemprolilyOut){
+//        state->ball.First_Pos_when_shooted = state->ball.Position;
+//        std::cout<<"SEE: "<<fabs(tempAngdelta)<<std::endl;
+//    }
+
 }
 
 void VisionModule::calculateBallHeight ( void )

@@ -52,10 +52,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _GEOMETRY_
 
 #include <math.h>       // needed for M_PI constant
-//#include <string>       // needed for string
+//#include <string>       // needed for std::string
 //#include <iostream>
 
-//using namespace std;
 typedef double AngRad;  /*!< Type definition for angles in degrees. */
 typedef double AngDeg;  /*!< Type definition for angles in radians. */
 
@@ -149,7 +148,7 @@ public:
   /*friend ostream&    operator <<            ( ostream           &os,
                                               VecPosition       p            );
   void               show                   ( CoordSystemT      cs =CARTESIAN);
-  string             str                    ( CoordSystemT      cs =CARTESIAN);
+  std::string             str                    ( CoordSystemT      cs =CARTESIAN);
 */
   // set- and get methods for private member variables
   bool               setX                   ( double            dX           );
@@ -240,7 +239,7 @@ public:
     Circle( );
     Circle( VecPosition pos, double dR );
 
-    //void        show                  ( ostream& os = cout );
+    //void        show                  ( ostream& os = std::cout );
 
     // get and set methods
     bool        setCircle             ( VecPosition pos,
@@ -280,7 +279,7 @@ public:
   Line( double a, double b, double c );
 
   // print methods
-  /*void        show( ostream& os = cout );
+  /*void        show( ostream& os = std::cout );
   friend      ostream& operator << (ostream & os, Line l);*/
 
   // get intersection points with this line
@@ -330,7 +329,7 @@ class Rect
 public:
   Rect                          ( VecPosition pos, VecPosition pos2 );
 
-  //void        show              ( ostream& os = cout                );
+  //void        show              ( ostream& os = std::cout                );
 
   // checks whether point lies inside the rectangle
   bool        isInside          ( VecPosition pos                   );
